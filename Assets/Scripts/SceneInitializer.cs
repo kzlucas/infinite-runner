@@ -2,14 +2,26 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
-public class SceneInitializer : MonoBehaviour
+
+/// <summary>
+/// SceneInitializer is responsible for initializing all IInitializable objects in the scene
+/// in the correct order based on their dependencies.
+/// </summary>
+public class SceneInitializer : Singleton<SceneInitializer>
 {
-    private void Awake()
+    public override void Awake()
     {
-        _ = InitializeSceneAsync();
+        base.Awake();
+        SceneLoader.Instance.OnSceneLoaded += () => _ = InitializeSceneAsync();
     }
 
+
+
+    /// <summary>
+    /// Initialize all IInitializable objects in the scene
+    /// </summary>
     private async Task InitializeSceneAsync()
     {
         // Collect all IInitializable
@@ -29,6 +41,9 @@ public class SceneInitializer : MonoBehaviour
         Debug.Log("[SceneInitializer] 🎉 All initializables are ready!");
     }
 
+    /// <summary>
+    /// Resolve initialization order based on dependencies using Topological Sort
+    /// </summary>
     private List<IInitializable> ResolveInitializationOrder(List<IInitializable> items)
     {
         var result = new List<IInitializable>();
@@ -43,6 +58,10 @@ public class SceneInitializer : MonoBehaviour
         return result.OrderBy(i => i.Priority).ToList();
     }
 
+
+    /// <summary>
+    /// Depth-First Search to visit dependencies
+    /// </summary>
     private void Visit(
         IInitializable item,
         HashSet<IInitializable> visited,

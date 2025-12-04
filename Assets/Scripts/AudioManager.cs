@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class AudioManager : Singleton<AudioManager>, IInitializable
 {
@@ -28,9 +29,8 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
     // IInitializable implementation
     public int Priority => 0;
     public System.Type[] Dependencies => null;
-    public async System.Threading.Tasks.Task InitializeAsync()
+    public Task InitializeAsync()
     {
-        Debug.Log("[AudioManager] init start...");
 
         // Initialize audio mapping
         foreach (var pair in sceneMusicPairs)
@@ -67,10 +67,8 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
         var sceneName = SceneManager.GetActiveScene().name;
         PlayMusicForScene(sceneName);
 
-        // // Add a small delay to keep the async pattern
-        // await System.Threading.Tasks.Task.Delay(1);
-
-        Debug.Log("[AudioManager] init finished!");
+        
+        return Task.CompletedTask;
     }
 
 
@@ -121,7 +119,7 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
             musicSource.Stop();
             musicSource.clip = null;
 
-            Debug.LogError($"[AudioManager] No music assigned for scene: {sceneName}");
+            Debug.LogWarning($"[AudioManager] No music assigned for scene: {sceneName}");
         }
     }
 
