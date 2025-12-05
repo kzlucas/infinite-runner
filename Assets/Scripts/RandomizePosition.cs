@@ -11,11 +11,11 @@ public class RandomizePosition : MonoBehaviour
         Vector3 newPosition = transform.localPosition;
 
         if (randomizedAxis.x != 0)
-            newPosition.x = Random.Range(-randomizedAxis.x, randomizedAxis.x);
+            newPosition.x = Random.Range(-randomizedAxis.x, randomizedAxis.x) * 2;
         if (randomizedAxis.y != 0)
-            newPosition.y = Random.Range(-randomizedAxis.y, randomizedAxis.y);
+            newPosition.y = Random.Range(-randomizedAxis.y, randomizedAxis.y) * 2;
         if (randomizedAxis.z != 0)
-            newPosition.z = Random.Range(-randomizedAxis.z, randomizedAxis.z);
+            newPosition.z = Random.Range(-randomizedAxis.z, randomizedAxis.z) * 2;
 
         transform.localPosition = newPosition;
     }
