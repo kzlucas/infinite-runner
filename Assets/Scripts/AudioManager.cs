@@ -129,6 +129,10 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
         {
             sfxSource.PlayOneShot(clip);
         }
+        else
+        {
+            Debug.LogWarning($"[AudioManager] No sound effect found for label: {label}");
+        }
     }
 
 

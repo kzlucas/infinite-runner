@@ -25,6 +25,9 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <summary>Segment prefab to instantiate</summary>
     public GameObject segmentPrefab; 
 
+    /// <summary>Number of segments to generate in front of the player</summary>
+    public int generateCountInFront = 10;
+
 
     /// <summary> Gernerate segments</summary>
     [ContextMenu("Generate Segments")]
@@ -67,9 +70,9 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             new Vector3(
                 playerTransform.position.x
                 , playerTransform.position.y
-                , playerTransform.position.z + 25f
+                , playerTransform.position.z + (generateCountInFront / 2f * 10f)
             ),
-            new Vector3(10f, 0f, 50f)
+            new Vector3(10f, 0f, generateCountInFront * 10f)
         );
 
         // Generate new segments if needed
