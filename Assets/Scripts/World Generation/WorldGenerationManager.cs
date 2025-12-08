@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class WorldGenerationManager : MonoBehaviour, IInitializable
@@ -85,9 +86,13 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             if (!segmentExists)
             {
                 // Create new segment
-                var segmentObj = Instantiate(segmentPrefab, new Vector3(0f, 0f, z), Quaternion.identity);
+                var segmentObj = Instantiate(segmentPrefab, new Vector3(0f, 0, z), Quaternion.identity);
                 segmentObj.transform.parent = transform;
                 segments.Add(new WorldSegment() { position = new Vector3(0f, 0f, z), segmentObj = segmentObj });
+
+
+                // Update colliders
+                SquareCollidersMerger.Instance.GenerateSquareColliders();
             }
         }
 

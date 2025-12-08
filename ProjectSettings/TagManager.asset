@@ -6,6 +6,7 @@ TagManager:
   tags:
   - World Segment
   - Obstacle
+  - Composite Square Collider
   layers:
   - Default
   - TransparentFX

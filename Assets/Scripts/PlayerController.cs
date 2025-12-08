@@ -10,13 +10,17 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
+    private Rigidbody rb;
+
     [Header("X Movement Settings")]
 
-    /// <summary> Movement speed of the player</summary>
-    public float moveSpeed = 15f;
+    public int targetXPosition = 0;
 
-    /// <summary> Current target X position to move toward</summary>
-    private int currentX = 0;
+    /// <summary> X movement speed of the player</summary>
+    public float xMoveSpeed = 15f;
+
+    /// <summary> Forward movement speed of the player</summary>
+    public float zMoveSpeed = 15f;
 
     /// <summary> Maximum allowed X position</summary>
     private int maxX = 4;
@@ -24,35 +28,14 @@ public class PlayerController : MonoBehaviour
     /// <summary> Minimum allowed X position</summary>
     private int minX = -4;
 
-    /// <summary> Acceleration factor based on input</summary>
-    private float moveAcceleration = 1f;
-
-    /// <summary> Acceleration factor when input is up</summary>
-    public float moveAccelerationUpFactor = 2f;
-
-    /// <summary> Deceleration factor when input is down</summary>
-    public float moveAccelerationDownFactor = 0.5f;
-
 
     [Header("Jump Settings")]
 
     /// <summary> Is the player currently jumping</summary>
-    public bool isJumping = false;
+    public bool isGrounded = false;
 
     /// <summary> Height of the jump</summary>
     public float jumpHeight = 2f;
-
-    /// <summary> Duration of the jump ascent</summary>
-    public float jumpAscentDuration = 0.5f;
-
-    /// <summary> Duration of the jump descent</summary>
-    public float jumpDescentDuration = 0.25f;
-
-    /// <summary> Easing curve for jump ascent</summary>
-    public AnimationCurve jumpAscendEasingCurve;
-
-    /// <summary> Easing curve for jump descent</summary>
-    public AnimationCurve jumpDescendEasingCurve;
 
 
     [Header("Input Action References")]
@@ -69,6 +52,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+
         // Subscribe to move input events
         InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: OnMoveUpdate);
         InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: OnJumpTrigger);
@@ -76,10 +61,11 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// Contiusously translate on Z
+    /// Contiusously push rigidbody toward Z
     private void Update()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed * moveAcceleration);
+        // Apply constant forward movement
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y , zMoveSpeed);
     }
 
 
@@ -89,55 +75,47 @@ public class PlayerController : MonoBehaviour
     /// <param name="direction"></param>
     private void OnMoveUpdate(Vector2 direction)
     {
-        // When input up or down, update acceleration factor
-        if (direction.y > 0)
-        {
-            moveAcceleration = moveAccelerationUpFactor;
-        }
-        else if (direction.y < 0)
-        {
-            moveAcceleration = moveAccelerationDownFactor;
-        }
-        else
-        {
-            moveAcceleration = 1f;
-        }
-
-        // Move the player towards the target X position
-        Vector3 targetPosition = new Vector3(currentX, transform.position.y, transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
-
 
         // Do not process new input until the player reaches the target X position
-        if (Math.Abs(transform.position.x - currentX) > 0.1f)
+        if (Math.Abs(transform.position.x - targetXPosition) > 0.05f)
         {
             return;
         }
 
         // Update target X position based on input direction
-        if (direction.x > 0)
+        if (direction.x > 0 || (direction.x < 0))
         {
-            // Move right
-            if (currentX < maxX)
-            {
-                currentX++;
-                currentX++;
-            }
+            var dirX = direction.x > 0 ? 1 : -1;
+            targetXPosition =  (int)Mathf.Round(transform.position.x + (dirX * 2f));
+            targetXPosition = Mathf.Clamp(targetXPosition, minX, maxX);
+            StartCoroutine(GoToLaneRoutine(dirX));
         }
-        else if (direction.x < 0)
+
+    }
+
+    /// <summary>
+    /// Move the player to the target lane smoothly
+    /// </summary>
+    /// <param name="dirX"></param>
+    /// <returns></returns>
+    private IEnumerator GoToLaneRoutine(int dirX)
+    {
+        float initialDistance = Math.Abs(targetXPosition - transform.position.x);
+        while (Math.Abs(targetXPosition - transform.position.x) > 0.05f)
         {
-            // Move left
-            if (currentX > minX)
-            {
-                currentX--;
-                currentX--;
-            }
+            float currentDistance = Math.Abs(targetXPosition - transform.position.x);
+            float easeMoveSpeed =  xMoveSpeed * currentDistance / initialDistance; 
+            easeMoveSpeed = Mathf.Max(easeMoveSpeed, 1f); // minimum speed
+            rb.linearVelocity = new Vector3(dirX * easeMoveSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
+            yield return null;
         }
+        rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
+        rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
     }
 
     private void OnJumpTrigger()
     {
-        if (isJumping)
+        if (!isGrounded)
             return;
         else
             StartCoroutine(JumpRoutine());
@@ -145,42 +123,16 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator JumpRoutine()
     {
-        isJumping = true;
+        isGrounded = false;
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
-        float targetY = transform.position.y + jumpHeight;
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);
 
-        // Ascend
-        float elapsedTime = 0f;
-        while (transform.position.y < targetY)
-        {
-            float factor = jumpAscendEasingCurve.Evaluate(elapsedTime / jumpAscentDuration);
-            transform.position = new Vector3(
-                transform.position.x
-                , Mathf.Lerp(0, targetY, factor)
-                , transform.position.z
-            );
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
 
-        // Descend
-        elapsedTime = 0f;
-        while (transform.position.y > 0f)
-        {
-            var factor = jumpDescendEasingCurve.Evaluate(elapsedTime / jumpDescentDuration);
-            transform.position = new Vector3(
-                transform.position.x
-                , Mathf.Lerp(jumpHeight, 0f, factor)
-                , transform.position.z
-            );
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure exact ground position
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        yield return new WaitUntil(() => rb.linearVelocity.y <= 0f);
+        yield return new WaitUntil(() => isGrounded);
 
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", false);
-        isJumping = false;
+
+        yield break;
     }
 }

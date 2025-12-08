@@ -1,9 +1,20 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager>
 {
+
+
+    public InputActionReference reloadSceneActionRef;
+    private void Start()
+    {
+        InputHandlersManager.Instance.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
+        {
+            SceneLoader.Instance?.ReloadCurrentScene();
+        });
+    }
 
 
     /// <summary>
