@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class CameraBehaviors : MonoBehaviour
 {
+    public void FreezeCamera()
+    {
+        Camera.main.transform.SetParent(null, true);
+        StopAllCoroutines();
+        ShakeCamera(.2f, .5f);
+    }
 
 
     /// <summary>

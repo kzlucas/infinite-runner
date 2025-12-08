@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    /// <summary> Indicates whether player control has been released (e.g., after a crash)</summary>
+    [HideInInspector] public bool controlReleased = false;
 
     private Rigidbody rb;
 
@@ -59,11 +61,37 @@ public class PlayerController : MonoBehaviour
         InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: OnJumpTrigger);
     }
 
+    /// <summary>
+    ///  Called when the player crashes
+    /// </summary>
+    public void OnCrash()
+    {
+        controlReleased = true;
+
+        // freeze camera
+        Camera.main.GetComponent<CameraBehaviors>().FreezeCamera();
+
+        // unfreeze rotation
+        rb.freezeRotation = false;
+
+        // Apply random torque on crash
+        float crashNgFactor = 10f;
+        rb.angularVelocity = new Vector3(UnityEngine.Random.Range(-crashNgFactor, crashNgFactor), UnityEngine.Random.Range(-crashNgFactor, crashNgFactor), UnityEngine.Random.Range(-crashNgFactor, crashNgFactor));
+
+        // Apply an upward force on crash
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 5f, 5f);
+
+        // Stop animations
+        transform.Find("Renderer").GetComponent<Animator>().enabled = false;
+    }
+
 
     /// <summary>
     /// Contiusously push rigidbody toward Z
     private void Update()
     {
+        if(controlReleased) return;
+
         // Apply constant forward movement
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y , zMoveSpeed);
     }
@@ -75,6 +103,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="direction"></param>
     private void OnMoveUpdate(Vector2 direction)
     {
+        if(controlReleased) return;
 
         // Do not process new input until the player reaches the target X position
         if (Math.Abs(transform.position.x - targetXPosition) > 0.05f)
@@ -103,18 +132,22 @@ public class PlayerController : MonoBehaviour
         float initialDistance = Math.Abs(targetXPosition - transform.position.x);
         while (Math.Abs(targetXPosition - transform.position.x) > 0.05f)
         {
+            if(controlReleased) yield break;
+
             float currentDistance = Math.Abs(targetXPosition - transform.position.x);
             float easeMoveSpeed =  xMoveSpeed * currentDistance / initialDistance; 
             easeMoveSpeed = Mathf.Max(easeMoveSpeed, 1f); // minimum speed
             rb.linearVelocity = new Vector3(dirX * easeMoveSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
             yield return null;
         }
+        if(controlReleased) yield break;
         rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
         rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
     }
 
     private void OnJumpTrigger()
     {
+        if(controlReleased) return;
         if (!isGrounded)
             return;
         else
@@ -127,8 +160,9 @@ public class PlayerController : MonoBehaviour
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);
 
-
+        if(controlReleased) yield break;
         yield return new WaitUntil(() => rb.linearVelocity.y <= 0f);
+        if(controlReleased) yield break;
         yield return new WaitUntil(() => isGrounded);
 
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", false);
