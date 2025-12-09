@@ -12,4 +12,7 @@ public class ColliderType : MonoBehaviour
     }
 
     public Type colliderType = Type.None;
+
+    public string soundToPlayOnCollision = "";
+
 }

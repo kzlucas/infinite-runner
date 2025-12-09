@@ -1,7 +1,10 @@
 using UnityEngine;
 
+
+[System.Serializable]
 public class WorldSegment
 {
-    public Vector3 position;
-    public GameObject segmentObj;
+    public string name;
+    public GameObject prefab;
+    [HideInInspector] public Vector3 position;
 }

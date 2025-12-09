@@ -87,7 +87,9 @@ public class PlayerController : MonoBehaviour
 
 
     /// <summary>
-    /// Contiusously push rigidbody toward Z
+    /// - Contiusously push rigidbody toward Z
+    /// - Check grounded state
+    /// </summary>
     private void Update()
     {
         if(controlReleased) return;
@@ -148,15 +150,12 @@ public class PlayerController : MonoBehaviour
     private void OnJumpTrigger()
     {
         if(controlReleased) return;
-        if (!isGrounded)
-            return;
-        else
-            StartCoroutine(JumpRoutine());
+        if (!isGrounded) return;
+        else StartCoroutine(JumpRoutine());
     }
 
     private IEnumerator JumpRoutine()
     {
-        isGrounded = false;
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);
 

@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 3
   tags:
   - World Segment
-  - Obstacle
   - Composite Square Collider
   layers:
   - Default

@@ -10,32 +10,42 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     public int Priority => 0;
     public Type[] Dependencies => null;
 
+    /// <summary>Segment prefab to instantiate</summary>
+    public List<WorldSegment> segmentPrefabs; 
 
-    /// <summary>Reference to the player transform for generation tracking</summary>
-    public Transform playerTransform;
 
     /// <summary>Current world segments</summary>
-    public List<WorldSegment> segments = new List<WorldSegment>();
+    private List<WorldSegment> currentWorldSegments = new List<WorldSegment>();
 
     /// <summary>Represent the area in which world segment has to be spawn on game Update</summary>
     private Bounds generationBoundary;
 
     /// <summary>Size of each generated segment grid (in world units)</summary>
-    public int segmentGridSize = 10;
+    private int segmentGridSize = 10;
     
-    /// <summary>Segment prefab to instantiate</summary>
-    public GameObject segmentPrefab; 
+    /// <summary>Reference to the player transform for generation tracking</summary>
+    private Transform playerTransform;
 
     /// <summary>Number of segments to generate in front of the player</summary>
     public int generateCountInFront = 10;
 
+    /// <summary> Index for generated segments</summary>
+    private int generatedIndex = 0;
 
-    /// <summary> Gernerate segments</summary>
-    [ContextMenu("Generate Segments")]
+
     private void Start()
     {
+        // Initial generation
+        GenerateSegments();
+    }
+
+    /// <summary> Generate segments</summary>
+    public void GenerateSegments()
+    {
+        generatedIndex = 0;
+        
         // destroy existing segments
-        segments.Clear();
+        currentWorldSegments.Clear();
         foreach(var seg in GameObject.FindGameObjectsWithTag("World Segment"))
             DestroyImmediate(seg);
             
@@ -63,10 +73,26 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
 
     /// <summary>
+    /// Pick a world segment prefab to instantiate
+    /// </summary>
+    private WorldSegment pickWorldSegmentPrefab()
+    {
+        if(generatedIndex <= 1)
+            return segmentPrefabs.Find(s => s.name == "Straight Segment");
+
+        else 
+            return segmentPrefabs.Find(s => s.name == "Random Obstacles");
+    }
+
+
+    /// <summary>
     /// Check if we need to generate or rm segments and do it
     /// </summary>
     private void Update()
     {
+        if(playerTransform == null)
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
         generationBoundary = new Bounds(
             new Vector3(
                 playerTransform.position.x
@@ -82,13 +108,16 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         for (int z = pz; z < mz; z += segmentGridSize)
         {
             // Check if segment at this z already exists
-            bool segmentExists = segments.Exists(s => s.position.z == z);
+            bool segmentExists = currentWorldSegments.Exists(s => s.position.z == z);
             if (!segmentExists)
             {
+                var segmentPrefab = pickWorldSegmentPrefab().prefab;
+
                 // Create new segment
+                generatedIndex++;
                 var segmentObj = Instantiate(segmentPrefab, new Vector3(0f, 0, z), Quaternion.identity);
                 segmentObj.transform.parent = transform;
-                segments.Add(new WorldSegment() { position = new Vector3(0f, 0f, z), segmentObj = segmentObj });
+                currentWorldSegments.Add(new WorldSegment() { position = new Vector3(0f, 0f, z), prefab = segmentObj });
 
 
                 // Update colliders
@@ -97,11 +126,11 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         }
 
         // Remove all segments that are behind the player
-        segments.RemoveAll(s =>
+        currentWorldSegments.RemoveAll(s =>
         {
             if (s.position.z < playerTransform.position.z - segmentGridSize)
             {
-                Destroy(s.segmentObj);
+                Destroy(s.prefab);
                 return true;
             }
             return false;
