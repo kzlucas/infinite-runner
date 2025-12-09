@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour
     /// <summary> Height of the jump</summary>
     public float jumpHeight = 2f;
 
+    /// <summary> Particle system for jump effect</summary>
+    public ParticleSystem jumpParticles;
+
 
     [Header("Input Action References")]
 
@@ -147,6 +150,10 @@ public class PlayerController : MonoBehaviour
         rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
     }
 
+
+    /// <summary>
+    ///  Handle player jump input
+    /// </summary>
     private void OnJumpTrigger()
     {
         if(controlReleased) return;
@@ -154,16 +161,30 @@ public class PlayerController : MonoBehaviour
         else StartCoroutine(JumpRoutine());
     }
 
+
+    /// <summary>
+    ///  Handle the jump action
+    /// </summary>
     private IEnumerator JumpRoutine()
     {
+        // Start jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
+        
+        // Apply jump velocity
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);
+        
+        // Play jump particles
+        jumpParticles.transform.position = transform.position + Vector3.up * 0.3f; // slightly above ground
+        jumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, rb.linearVelocity.z);
+        jumpParticles.Play();
 
+        // Wait until the player is back on the ground
         if(controlReleased) yield break;
         yield return new WaitUntil(() => rb.linearVelocity.y <= 0f);
         if(controlReleased) yield break;
         yield return new WaitUntil(() => isGrounded);
 
+        // Reset jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", false);
 
         yield break;
