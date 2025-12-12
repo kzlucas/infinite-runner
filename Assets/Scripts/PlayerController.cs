@@ -46,6 +46,19 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem jumpParticles;
 
 
+    [Header("Slide Settings")]
+
+    /// <summary> Is the player currently sliding</summary>
+    public bool isSliding = false;
+
+    /// <summary> Duration of the slide action</summary>
+    public float slideDuration = 1f;
+
+    public ParticleSystem slideParticles;
+
+
+
+
     [Header("Input Action References")]
 
     /// <summary> Reference to the input action for movements</summary>
@@ -53,6 +66,9 @@ public class PlayerController : MonoBehaviour
 
     /// <summary> Reference to the input action for jump</summary>
     public InputActionReference jumpActionRef;
+
+    /// <summary> Reference to the input action for slide</summary>
+    public InputActionReference slideActionRef;
 
 
     #endregion
@@ -63,11 +79,17 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // do not play particles at start
+        jumpParticles.Stop();
+        slideParticles.Stop();
+
+        // attach rigidbody
         rb = gameObject.GetOrAddComponent<Rigidbody>();
 
         // Subscribe to move input events
         InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: OnMoveUpdate);
         InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: OnJumpTrigger);
+        InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: OnSlideTrigger);
     }
 
     /// <summary>
@@ -164,6 +186,7 @@ public class PlayerController : MonoBehaviour
     {
         if(controlReleased) return;
         if (!isGrounded) return;
+        if (isSliding) return;
         else StartCoroutine(JumpRoutine());
     }
 
@@ -173,6 +196,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private IEnumerator JumpRoutine()
     {
+        AudioManager.Instance.PlaySound("jump");
+
         // Start jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
         
@@ -180,6 +205,7 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);
         
         // Play jump particles
+        jumpParticles.transform.parent = null; // detach from player
         jumpParticles.transform.position = transform.position + Vector3.up * 0.3f; // slightly above ground
         jumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, rb.linearVelocity.z);
         jumpParticles.Play();
@@ -193,6 +219,57 @@ public class PlayerController : MonoBehaviour
         // Reset jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", false);
 
+        // reattach ps to player to clean up hierarchy
+        jumpParticles.transform.parent = transform; 
+
         yield break;
+    }
+
+
+    /// <summary>
+    ///  Handle player slide input
+    /// </summary>
+    private void OnSlideTrigger()
+    {
+        if(controlReleased) return;
+        if (isSliding) return;
+        if (!isGrounded) return;
+        StartCoroutine(SlideRoutine());
+    }
+
+    /// <summary>
+    ///  Handle the slide action
+    /// </summary>
+    private IEnumerator SlideRoutine()
+    {
+        AudioManager.Instance.PlaySound("slide");
+
+        isSliding = true;
+        transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", true);
+
+        // Play slide particles
+        slideParticles.Play();
+
+        // update collider size
+        var collider = GetComponent<CapsuleCollider>();
+        float originalHeight = collider.height;
+        float originalCenterY = collider.center.y;
+        collider.height = originalHeight / 2f;  // ~0.5
+        collider.center = new Vector3(collider.center.x, collider.center.y - originalHeight / 4f, collider.center.z); // ~0.3
+
+        // wait for slide duration
+        yield return new WaitForSeconds(slideDuration);
+
+        // stop slide
+        isSliding = false;
+        transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", false);
+
+        // restore collider size
+        collider.height = originalHeight;
+        collider.center = new Vector3(collider.center.x, originalCenterY, collider.center.z);
+
+        // disable slide particles
+        slideParticles.Stop();
+
     }
 }

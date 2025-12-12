@@ -10,10 +10,12 @@ public class GameManager : Singleton<GameManager>
     public InputActionReference reloadSceneActionRef;
     private void Start()
     {
+        #if UNITY_EDITOR
         InputHandlersManager.Instance.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
         {
             SceneLoader.Instance?.ReloadCurrentScene();
         });
+        #endif
     }
 
 
