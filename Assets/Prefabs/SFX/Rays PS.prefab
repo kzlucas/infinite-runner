@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4050049842329371585}
   - component: {fileID: 5353492825604688754}
   m_Layer: 0
-  m_Name: 'Player Slide PS '
+  m_Name: Rays PS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

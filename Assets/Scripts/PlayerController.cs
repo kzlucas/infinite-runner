@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem jumpParticles;
 
 
+
     [Header("Slide Settings")]
 
     /// <summary> Is the player currently sliding</summary>
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     /// <summary> Duration of the slide action</summary>
     public float slideDuration = 1f;
 
+    /// <summary> Particle system for slide effect</summary>
     public ParticleSystem slideParticles;
 
 
@@ -71,6 +73,29 @@ public class PlayerController : MonoBehaviour
     public InputActionReference slideActionRef;
 
 
+
+
+    [Header("Crash Settings")]
+
+    /// <summary> Particle system for crash effect</summary>
+    public ParticleSystem crashParticules;
+
+
+
+    [Header("Collider")]
+
+    /// <summary> Reference to the player's collider</summary>
+    public CapsuleCollider capsuleCollider;
+
+    /// <summary> Reference to the player's collider normal dimensions: height</summary>
+    public float originalColliderHeight;
+
+    /// <summary> Reference to the player's collider normal dimensions: center Y position</summary>
+    public float originalColliderCenterY;
+
+
+
+
     #endregion
     
 
@@ -82,6 +107,12 @@ public class PlayerController : MonoBehaviour
         // do not play particles at start
         jumpParticles.Stop();
         slideParticles.Stop();
+        crashParticules.Stop();
+
+        // store original collider size
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        originalColliderHeight = capsuleCollider.height;
+        originalColliderCenterY = capsuleCollider.center.y;
 
         // attach rigidbody
         rb = gameObject.GetOrAddComponent<Rigidbody>();
@@ -97,6 +128,15 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnCrash()
     {
+        // Play crash effects
+        jumpParticles.Stop();
+        slideParticles.Stop();
+        crashParticules.transform.parent = null;
+        crashParticules.transform.position = transform.position + Vector3.up * 0.5f;
+        crashParticules.Play();
+        AudioManager.Instance.PlaySound("crash");
+
+        // release control
         controlReleased = true;
 
         // freeze camera
@@ -246,16 +286,10 @@ public class PlayerController : MonoBehaviour
 
         isSliding = true;
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", true);
+        SetColliderToSlidingPosition();
 
         // Play slide particles
         slideParticles.Play();
-
-        // update collider size
-        var collider = GetComponent<CapsuleCollider>();
-        float originalHeight = collider.height;
-        float originalCenterY = collider.center.y;
-        collider.height = originalHeight / 2f;  // ~0.5
-        collider.center = new Vector3(collider.center.x, collider.center.y - originalHeight / 4f, collider.center.z); // ~0.3
 
         // wait for slide duration
         yield return new WaitForSeconds(slideDuration);
@@ -263,13 +297,30 @@ public class PlayerController : MonoBehaviour
         // stop slide
         isSliding = false;
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", false);
-
-        // restore collider size
-        collider.height = originalHeight;
-        collider.center = new Vector3(collider.center.x, originalCenterY, collider.center.z);
+        SetColliderToNormalPosition();
 
         // disable slide particles
         slideParticles.Stop();
+    }
 
+
+
+    /// <summary>
+    /// Set the player's collider to the sliding position
+    /// </summary>
+    private void SetColliderToSlidingPosition()
+    {
+        capsuleCollider.height = originalColliderHeight / 2f;  // ~0.5
+        capsuleCollider.center = new Vector3(capsuleCollider.center.x, capsuleCollider.center.y - originalColliderHeight / 4f, capsuleCollider.center.z); // ~0.3
+     }
+
+
+    /// <summary>
+    /// Set the player's collider back to the normal position
+    /// </summary>
+    private void SetColliderToNormalPosition()
+    {
+        capsuleCollider.height = originalColliderHeight;
+        capsuleCollider.center = new Vector3(capsuleCollider.center.x, originalColliderCenterY, capsuleCollider.center.z);
     }
 }
