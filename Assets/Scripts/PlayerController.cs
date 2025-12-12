@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,8 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    #region Fields
+
     /// <summary> Indicates whether player control has been released (e.g., after a crash)</summary>
     [HideInInspector] public bool controlReleased = false;
 
@@ -52,12 +55,15 @@ public class PlayerController : MonoBehaviour
     public InputActionReference jumpActionRef;
 
 
+    #endregion
+    
+
     /// <summary>
     ///   Subscribe to input events
     /// </summary>
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = gameObject.GetOrAddComponent<Rigidbody>();
 
         // Subscribe to move input events
         InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: OnMoveUpdate);
