@@ -3,10 +3,9 @@
     --font-size-medium: 32px;
     --font-size-small: 26px;
     font-size: var(--font-size-medium);
-    /* -unity-font-definition: url("project://database/Assets/Resources/Fonts/ZenDots-Regular.ttf?fileID=12800000&guid=5afb4e9955554253fb193152c2cd2869&type=3#ZenDots-Regular"); */
-    /* -unity-font: resource('Fonts/ZenDots-Regular'); */
     --color-primary: rgb(0, 255, 48);
     color: var(--color-primary);
+    -unity-font-definition: resource('Fonts/Outfit/Outfit-SemiBold');
 }
 
 .popin {
@@ -22,19 +21,25 @@
     justify-content: center;
 }
 
-.popin.open {
+.popin.animate.open {
     transition-timing-function: ease-in-out;
     transition-property: background-color;
     transition-duration: 0.25s;
     transition-delay: 0.01s;
+}
+
+.popin.open {
     background-color: rgba(0, 32, 6, 0.98);
 }
 
-.popin.close {
+.popin.animate.close {
     transition-timing-function: ease-in-out;
     transition-property: background-color;
     transition-duration: 0.25s;
     transition-delay: 0.01s;
+}
+
+.popin.close {
     background-color: rgba(0, 0, 0, 0);
 }
 
@@ -59,19 +64,25 @@
     border-bottom-color: var(--color-primary);
 }
 
-.popin.open .popin-inner {
+.popin.animate.open .popin-inner {
     transition-timing-function: ease-in-out;
     transition-property: scale;
     transition-duration: 0.25s;
     transition-delay: 0.01s;
+}
+
+.popin.open .popin-inner {
     scale: 1 1;
 }
 
-.popin.close .popin-inner {
+.popin.animate.close .popin-inner {
     transition-timing-function: ease-in-out;
     transition-property: scale;
     transition-duration: 0.25s;
     transition-delay: 0.01s;
+}
+
+.popin.close .popin-inner {
     scale: 0 0;
 }
 
@@ -148,7 +159,7 @@
 
 .unity-scroller--vertical .unity-base-slider__dragger {
     align-self: center;
-    background-color:rgba(100, 255, 131, 1);
+    background-color: rgb(100, 255, 131);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     border-top-left-radius: 8px;

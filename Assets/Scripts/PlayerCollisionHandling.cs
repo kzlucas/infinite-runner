@@ -83,7 +83,6 @@ public class PlayerCollisionHandling : MonoBehaviour
                 break;
 
             case ColliderType.Type.Ground:
-                Debug.Log("[PlayerCollisionHandling] Collided with ground: " + other.name);
                 playerController.isGrounded = true;
                 break;
 

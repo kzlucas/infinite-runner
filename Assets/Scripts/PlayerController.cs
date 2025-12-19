@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
 
         isSliding = true;
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", true);
-        SetColliderToSlidingPosition();
+        SetColliderToSlidingPosition(); // @improve: match the real mesh dimension accross frames to avoid pass through obstacle colliders during animation transition
 
         // Play slide particles
         slideParticles.Play();

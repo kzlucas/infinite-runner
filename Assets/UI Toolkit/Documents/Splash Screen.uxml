@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/main.uss?fileID=7433441132597879392&amp;guid=563c666c9d9d0e307a2f416a110b8ac6&amp;type=3#main" />
+    <ui:VisualElement name="screen" class="screen" style="flex-grow: 1; background-color: rgb(0, 0, 0); align-items: center; justify-content: center;">
+        <ui:VisualElement name="screen-inner" style="flex-grow: 0; height: 600px; width: 600px;">
+            <ui:Label text="Chromadventure" style="-unity-text-align: upper-center; font-size: 57px;" />
+            <ui:VisualElement name="ButtonsContainer" style="flex-grow: 1; justify-content: flex-end;">
+                <ui:Button text="Exit" name="btn--exit" style="margin-top: 10px;" />
+                <ui:Button text="Start" name="btn--start" style="margin-top: 10px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

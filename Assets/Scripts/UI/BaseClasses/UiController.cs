@@ -1,20 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
-public class UiController : MonoBehaviour
+public class UiController : MonoBehaviour, IInitializable
 {
+    public int initPriority => 0;
+    public System.Type[] initDependencies => null;
+
     protected VisualElement root;
     private PanelSettings panelSettings;
     public UIDocument uiDoc;
     [HideInInspector] public bool docReady = false;
 
-    protected void OnEnable()
+
+    public Task InitializeAsync()
     {
         StartCoroutine(AttachDocument());
+        return Task.Run(() => { while (!docReady){ }});
     }
+
+    public virtual void OnDocReady(){}
+
 
     /// <summary>
     ///    Attaches the UIDocument and initializes UI elements.
@@ -62,12 +71,17 @@ public class UiController : MonoBehaviour
                     if(actionName == "splash")
                     {
                         Debug.Log("[UiController] splash screen button clicked.");
-                        SceneLoader.Instance.Load("SplashScreen");
+                        SceneLoader.Instance.Load("Splash Screen");
                     }
                     else if(actionName == "exit")
                     {
                         Debug.Log("[UiController] exit button clicked.");
                         Application.Quit();
+                    }
+                    else if(actionName == "start")
+                    {
+                        Debug.Log("[UiController] start button clicked.");
+                        SceneLoader.Instance.LoadGame();
                     }
                     else if(actionName == "restart")
                     {
@@ -77,32 +91,12 @@ public class UiController : MonoBehaviour
                     else if(actionName == "resume")
                     {
                         Debug.Log("[UiController] resume button clicked.");
-                        // GameManager.Instance.uiPauseMenu.ClosePauseMenu();
+                        UiManager.Instance.pauseMenu.Close();
                     }
                     else if(actionName == "pause")
                     {
                         Debug.Log("[UiController] pause button clicked.");
-                        // GameManager.Instance.uiPauseMenu.OpenPauseMenu();   
-                    }
-                    else if(actionName == "next")
-                    {
-                        // Debug.Log("[UiController] next button clicked.");
-                        // int levelNumber = SceneLoader.Instance.GetCurrentLevelIndex();
-                        // if(SceneLoader.Instance.SceneExists("Level " + (levelNumber + 1)))
-                        //     SceneLoader.Instance.Load("Level " + (levelNumber + 1));
-                        // else
-                        //     SceneLoader.Instance.Load("SelectLevel");
-                    }
-                    else if(actionName == "select-level")
-                    {
-                        Debug.Log("[UiController] level-select button clicked.");
-                        SceneLoader.Instance.Load("SelectLevel");
-                    }
-                    else if(actionName.StartsWith("level-"))
-                    {
-                        string levelNumberStr = actionName.Split("-")[1];
-                        Debug.Log("[UiController] level button clicked: " + levelNumberStr);
-                        SceneLoader.Instance.Load("Level " + levelNumberStr);
+                        UiManager.Instance.pauseMenu.Open();   
                     }
                     else
                     {
@@ -117,6 +111,7 @@ public class UiController : MonoBehaviour
 
 
         docReady = true;
+        OnDocReady();
     }
 
     public void _AttachDocument()

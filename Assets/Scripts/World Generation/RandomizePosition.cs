@@ -52,6 +52,7 @@ public class RandomizePosition : MonoBehaviour
         {
             // prevent infinite loops 
             // (if too many siblings, should not happen)
+            Debug.LogError("[RandomizePosition] Too many randomization attempts, giving up to prevent infinite loop.");
             Destroy(this);
             return; 
         }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,14 +6,25 @@ public class GameManager : Singleton<GameManager>
 
 
     public InputActionReference reloadSceneActionRef;
+    public InputActionReference pauseGameActionRef;
+
+
     private void Start()
     {
+
+
         #if UNITY_EDITOR
         InputHandlersManager.Instance.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
         {
             SceneLoader.Instance?.ReloadCurrentScene();
         });
         #endif
+
+        InputHandlersManager.Instance.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
+        {
+            UiManager.Instance.pauseMenu.Toggle();
+        });
+
     }
 
 

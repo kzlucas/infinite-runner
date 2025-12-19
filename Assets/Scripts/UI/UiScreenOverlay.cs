@@ -41,7 +41,6 @@ public class UiScreenOverlay : UiController, IOpenable
 
     public void Open()
     {
-        Debug.Log("[UiScreenOverlay] Opening overlay.");
         var screen = root.Q<VisualElement>("screen");
         screen.AddToClassList(colorString);
         screen.AddToClassList("fade-in");
@@ -51,7 +50,6 @@ public class UiScreenOverlay : UiController, IOpenable
 
     public void Close()
     {
-        Debug.Log("[UiScreenOverlay] Closing overlay.");
         var screen = root.Q<VisualElement>("screen");
         screen.AddToClassList(colorString);
         screen.AddToClassList("fade-out");

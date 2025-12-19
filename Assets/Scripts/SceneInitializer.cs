@@ -55,7 +55,7 @@ public class SceneInitializer : Singleton<SceneInitializer>
         }
 
         // At last, sort by Priority
-        return result.OrderBy(i => i.Priority).ToList();
+        return result.OrderBy(i => i.initPriority).ToList();
     }
 
 
@@ -73,9 +73,9 @@ public class SceneInitializer : Singleton<SceneInitializer>
 
         visited.Add(item);
 
-        if (item.Dependencies != null)
+        if (item.initDependencies != null)
         {
-            foreach (var depType in item.Dependencies)
+            foreach (var depType in item.initDependencies)
             {
                 var dep = allItems.FirstOrDefault(i => i.GetType() == depType);
 

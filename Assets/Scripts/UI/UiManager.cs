@@ -1,20 +1,22 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
 ///  Manages all UI elements references in the game.
 /// </summary>
-public class UiManager : Singleton<UiManager>
+public class UiManager : Singleton<UiManager>, IInitializable
 {
+    public int initPriority => 0;
+    public System.Type[] initDependencies => null;
 
 
     [Header("UI Controllers")]
     public UiController screenOverlay;
+    public UiPopin pauseMenu;
 
 
-
-    public override void Awake()
+    public Task InitializeAsync()
     {
-        base.Awake();
 
         if(screenOverlay == null)
         {   
@@ -24,5 +26,16 @@ public class UiManager : Singleton<UiManager>
                 Debug.LogError("[UiManager] Screen Overlay is missing!");            
         }
 
+        if(pauseMenu == null)
+        {   
+            pauseMenu = transform.Find("Pause Menu").GetComponent<UiPopin>();
+            
+            if(pauseMenu == null)
+                Debug.LogError("[UiManager] Pause Menu is missing!");            
+        }
+
+        return Task.CompletedTask;
+
     }
+
 }

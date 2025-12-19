@@ -27,8 +27,8 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
 
 
     // IInitializable implementation
-    public int Priority => 0;
-    public System.Type[] Dependencies => null;
+    public int initPriority => 0;
+    public System.Type[] initDependencies => null;
     public Task InitializeAsync()
     {
 

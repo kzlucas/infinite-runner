@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class WorldGenerationManager : MonoBehaviour, IInitializable
 {
     
-    public int Priority => 0;
-    public Type[] Dependencies => null;
+    public int initPriority => 0;
+    public Type[] initDependencies => null;
 
     /// <summary>Segment prefab to instantiate</summary>
     public List<WorldSegment> segmentPrefabs; 
@@ -39,6 +38,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         GenerateSegments();
     }
 
+
     /// <summary> Generate segments</summary>
     public void GenerateSegments()
     {
@@ -67,6 +67,10 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             if (playerTransform == null)
                 Debug.LogError("[WorldGenerationManager] Player object with tag 'Player' not found in the scene.");
         }
+
+        // Initial generation
+        GenerateSegments();
+
         return Task.CompletedTask;
     }
 
