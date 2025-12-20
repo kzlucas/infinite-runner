@@ -93,8 +93,7 @@ public class PlayerController : MonoBehaviour
     /// <summary> Reference to the player's collider normal dimensions: center Y position</summary>
     public float originalColliderCenterY;
 
-
-
+public string guid;
 
     #endregion
     
@@ -102,13 +101,13 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     ///   Subscribe to input events
     /// </summary>
-    private void Start()
+    private IEnumerator Start()
     {
         // do not play particles at start
         jumpParticles.Stop();
         slideParticles.Stop();
         crashParticules.Stop();
-
+        
         // store original collider size
         capsuleCollider = GetComponent<CapsuleCollider>();
         originalColliderHeight = capsuleCollider.height;
@@ -121,6 +120,12 @@ public class PlayerController : MonoBehaviour
         InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: OnMoveUpdate);
         InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: OnJumpTrigger);
         InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: OnSlideTrigger);
+    
+    
+        // freeze position during game initialization then unfreeze
+        rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized == true);
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     /// <summary>

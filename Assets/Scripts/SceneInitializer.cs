@@ -11,18 +11,28 @@ using System;
 /// </summary>
 public class SceneInitializer : Singleton<SceneInitializer>
 {
+    /// <summary>
+    /// This flag indicates whether the scene has been initialized
+    /// </summary>
+    public bool isInitialized = false;
+
+
+    /// <summary>
+    ///  Called when entering Play mode.
+    /// - Unregister handlers so it doesn't affect the next Play mode run
+    /// This is needed when domain reloading is disabled in Unity Editor.
+    /// @see https://docs.unity3d.com/6000.2/Documentation/Manual/domain-reloading.html
+    /// </summary>
     [RuntimeInitializeOnLoadMethod] 
     static void OnEnteringPlayMode()
     {
-        Debug.Log("[SceneInitializer] OnEnteringPlayMode - Unregistering OnSceneLoaded handler.");
-
-        // Unregister the handler so it doesn't affect the next Play mode run
         SceneLoader.Instance.OnSceneLoaded -= () => _ = Instance.InitializeSceneAsync();
+        Instance.isInitialized = false;
     }
 
     private void Start()
     {
-        Debug.Log("[SceneInitializer] Start - Registering OnSceneLoaded handler.");
+        // Register to scene loaded event
         SceneLoader.Instance.OnSceneLoaded += () => _ = InitializeSceneAsync();
     }
 
@@ -33,21 +43,24 @@ public class SceneInitializer : Singleton<SceneInitializer>
     /// </summary>
     private async Task InitializeSceneAsync()
     {
+        isInitialized = false;
+        
         // Collect all IInitializable
         List<IInitializable> initializables = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
             .OfType<IInitializable>()
             .ToList();
 
-        // Résoudre l'ordre en fonction des dépendances
+        // resolve order
         List<IInitializable> ordered = ResolveInitializationOrder(initializables);
 
-        // Exécuter dans l'ordre
+        // execute initialization in order
         foreach (var obj in ordered)
         {
             await obj.InitializeAsync();
         }
 
         Debug.Log("[SceneInitializer] 🎉 All initializables are ready!");
+        Instance.isInitialized = true;
     }
 
     /// <summary>

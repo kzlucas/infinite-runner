@@ -9,19 +9,17 @@ public class SceneLoader : Singleton<SceneLoader>
     private bool isTriggered = false;
 
 
-
     /// <summary>
     ///  Called when entering Play mode.
     /// - Unregister handlers so it doesn't affect the next Play mode run
     /// This is needed when domain reloading is disabled in Unity Editor.
-    /// @see 
+    /// @see https://docs.unity3d.com/6000.2/Documentation/Manual/domain-reloading.html
     /// </summary>
     [RuntimeInitializeOnLoadMethod] 
     static void OnEnteringPlayMode()
     {
         Instance.OnSceneLoaded = null;
     }
-
 
 
     /// <summary>
