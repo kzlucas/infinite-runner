@@ -11,9 +11,18 @@ using System;
 /// </summary>
 public class SceneInitializer : Singleton<SceneInitializer>
 {
-    public override void Awake()
+    [RuntimeInitializeOnLoadMethod] 
+    static void OnEnteringPlayMode()
     {
-        base.Awake();
+        Debug.Log("[SceneInitializer] OnEnteringPlayMode - Unregistering OnSceneLoaded handler.");
+
+        // Unregister the handler so it doesn't affect the next Play mode run
+        SceneLoader.Instance.OnSceneLoaded -= () => _ = Instance.InitializeSceneAsync();
+    }
+
+    private void Start()
+    {
+        Debug.Log("[SceneInitializer] Start - Registering OnSceneLoaded handler.");
         SceneLoader.Instance.OnSceneLoaded += () => _ = InitializeSceneAsync();
     }
 

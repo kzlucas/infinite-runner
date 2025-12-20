@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,16 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
 {
     public Vector2 mousePosition = Vector2.zero;
     [SerializeField] public List<InputHandler> inputHandlers = new List<InputHandler>();
+
+
+
+    [RuntimeInitializeOnLoadMethod] 
+    static void OnEnteringPlayMode()
+    {
+        // Unregister handlers so it doesn't affect the next Play mode run
+        Instance.ClearAllHandlers();
+    }
+
 
     public void Register(
         string label
@@ -46,12 +57,17 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
 
     void OnDestroy()
     {
+        ClearAllHandlers();
+    }
+
+    void ClearAllHandlers()
+    {
         foreach (InputHandler ih in inputHandlers)
         {
             ih.ClearSubscriptions();
         }
+        inputHandlers.Clear();
     }
-
 
     void FixedUpdate()
     {
@@ -92,6 +108,7 @@ public class InputHandler
 
     // Invoked when basic button pressed
     public Action OnTrigger;
+
 
 
     public void Init(

@@ -7,38 +7,30 @@ public class UiPopin : UiController, IOpenable
 {
     public bool isOpen { get; set; } = false;
     public bool openOnSceneLoad = false;
-    private VisualElement popin;
-
-
-
-    private void Start()
-    {
-        Debug.Log("[UiPopin] Start..");
-        SceneLoader.Instance.OnSceneLoaded += () => _ = StartCoroutine(OnSceneLoaded());
-    }
+    [HideInInspector] public VisualElement popin;
 
     public override void OnDocReady()
     {
-        Debug.Log("[UiPopin] Document is ready.");
-        StartCoroutine(OnSceneLoaded());
+        StartCoroutine(_OnDocReady());
     }
 
-    private IEnumerator OnSceneLoaded()
+    private IEnumerator _OnDocReady()
     {
-        Debug.Log("[UiPopin] OnSceneLoaded..");
+
+        // Wait until doc is ready and get ref
         yield return new WaitUntil(() => docReady);
         popin = root.Q<VisualElement>("popin");
 
-        if (openOnSceneLoad)
-            Open();
+        // don't animate open/close on scene load
+        popin.RemoveFromClassList("animate");
+        yield return new WaitForEndOfFrame(); 
 
-        else
-            Close();
-
+        // Set initial state
+        if (openOnSceneLoad) Open();
+        else Close();
 
         // Wait frames to ensure open/close classes are applied before adding animate class, 
         yield return new WaitForEndOfFrame(); 
-        
         popin.AddToClassList("animate");
     }
 
@@ -46,21 +38,29 @@ public class UiPopin : UiController, IOpenable
 
     public void Open()
     {
-        Debug.Log("[UiPopin] Opening popin.");
+        Debug.Log("[UiPopin] (" + gameObject.name + ") -> Opening popin.");
         popin.AddToClassList("open");
         popin.RemoveFromClassList("close");
+        popin.pickingMode = PickingMode.Position;
         isOpen = true;
+        OnOpen();
     }
+
+    public virtual void OnOpen() { }
 
     public void Close()
     {
-        Debug.Log("[UiPopin] Closing popin.");
+        Debug.Log("[UiPopin] (" + gameObject.name + ") -> Closing popin.");
         popin.AddToClassList("close");
         popin.RemoveFromClassList("open");
+        popin.pickingMode = PickingMode.Ignore;
         isOpen = false;
+        OnClose();
     }
 
-    public void Toggle()
+    public virtual void OnClose() { }
+
+    public virtual void Toggle()
     {
         if (isOpen)
             Close();

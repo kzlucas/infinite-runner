@@ -176,6 +176,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="direction"></param>
     private void OnMoveUpdate(Vector2 direction)
     {
+        if(this == null) return;
         if(controlReleased) return;
 
         // Do not process new input until the player reaches the target X position

@@ -9,7 +9,6 @@ public class UiScreenOverlay : UiController, IOpenable
     public bool isOpen { get; set; } = true;
     public bool fadeOutOnStart = true;
 
-
     private IEnumerator Start()
     {
         
