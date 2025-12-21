@@ -87,7 +87,6 @@ public class PlayerCollisionHandling : MonoBehaviour
                 break;
 
             case ColliderType.Type.Collectible:
-                Debug.Log("[PlayerCollisionHandling] Collided with collectible: " + other.name);
                 other.GetComponent<Animator>().SetTrigger("OnCollide");
                 break;
 

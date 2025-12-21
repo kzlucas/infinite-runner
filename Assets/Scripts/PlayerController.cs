@@ -242,6 +242,7 @@ public string guid;
     /// </summary>
     private IEnumerator JumpRoutine()
     {
+        // Play jump sound
         AudioManager.Instance.PlaySound("jump");
 
         // Start jump animation
@@ -261,6 +262,9 @@ public string guid;
         yield return new WaitUntil(() => rb.linearVelocity.y <= 0f);
         if(controlReleased) yield break;
         yield return new WaitUntil(() => isGrounded);
+
+        // Play land sound
+        AudioManager.Instance.PlaySound("land");
 
         // Reset jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", false);
