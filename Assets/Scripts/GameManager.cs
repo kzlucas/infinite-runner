@@ -33,7 +33,6 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public void PauseGame()
     {
-        Debug.Log("[GameManager] Game Paused");
         Time.timeScale = 0f;
     }
 
@@ -42,7 +41,6 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public void ResumeGame()
     {
-        Debug.Log("[GameManager] Game Resumed");
         Time.timeScale = 1f;
     }
 

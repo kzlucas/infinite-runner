@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -44,6 +45,15 @@ public class PlayerController : MonoBehaviour
 
     /// <summary> Particle system for jump effect</summary>
     public ParticleSystem jumpParticles;
+
+    /// <summary> Reference to the jump coroutine</summary>
+    private IEnumerator jumpRoutine;
+
+    /// <summary> Maximum number of consecutive jumps allowed between landings (2 basicly means double jump allowed, set to 1 for disabling))</summary>
+    public int maxJumpCount = 2;
+
+    /// <summary> Current number of consecutive jumps performed without touching ground</summary>
+    [HideInInspector] public int currentJumpCount = 0;
 
 
 
@@ -93,13 +103,13 @@ public class PlayerController : MonoBehaviour
     /// <summary> Reference to the player's collider normal dimensions: center Y position</summary>
     public float originalColliderCenterY;
 
-public string guid;
+    public string guid;
 
     #endregion
-    
+
 
     /// <summary>
-    ///   Subscribe to input events
+    ///   Init component and Subscribe to input events
     /// </summary>
     private IEnumerator Start()
     {
@@ -107,7 +117,7 @@ public string guid;
         jumpParticles.Stop();
         slideParticles.Stop();
         crashParticules.Stop();
-        
+
         // store original collider size
         capsuleCollider = GetComponent<CapsuleCollider>();
         originalColliderHeight = capsuleCollider.height;
@@ -120,8 +130,7 @@ public string guid;
         InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: OnMoveUpdate);
         InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: OnJumpTrigger);
         InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: OnSlideTrigger);
-    
-    
+
         // freeze position during game initialization then unfreeze
         rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
         yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized == true);
@@ -168,10 +177,10 @@ public string guid;
     /// </summary>
     private void Update()
     {
-        if(controlReleased) return;
+        if (controlReleased) return;
 
         // Apply constant forward movement
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y , zMoveSpeed);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, zMoveSpeed);
     }
 
 
@@ -181,8 +190,8 @@ public string guid;
     /// <param name="direction"></param>
     private void OnMoveUpdate(Vector2 direction)
     {
-        if(this == null) return;
-        if(controlReleased) return;
+        if (this == null) return;
+        if (controlReleased) return;
 
         // Do not process new input until the player reaches the target X position
         if (Math.Abs(transform.position.x - targetXPosition) > 0.05f)
@@ -194,7 +203,7 @@ public string guid;
         if (direction.x > 0 || (direction.x < 0))
         {
             var dirX = direction.x > 0 ? 1 : -1;
-            targetXPosition =  (int)Mathf.Round(transform.position.x + (dirX * 2f));
+            targetXPosition = (int)Mathf.Round(transform.position.x + (dirX * 2f));
             targetXPosition = Mathf.Clamp(targetXPosition, minX, maxX);
             StartCoroutine(GoToLaneRoutine(dirX));
         }
@@ -211,15 +220,15 @@ public string guid;
         float initialDistance = Math.Abs(targetXPosition - transform.position.x);
         while (Math.Abs(targetXPosition - transform.position.x) > 0.05f)
         {
-            if(controlReleased) yield break;
+            if (controlReleased) yield break;
 
             float currentDistance = Math.Abs(targetXPosition - transform.position.x);
-            float easeMoveSpeed =  xMoveSpeed * currentDistance / initialDistance; 
+            float easeMoveSpeed = xMoveSpeed * currentDistance / initialDistance;
             easeMoveSpeed = Mathf.Max(easeMoveSpeed, 1f); // minimum speed
             rb.linearVelocity = new Vector3(dirX * easeMoveSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
             yield return null;
         }
-        if(controlReleased) yield break;
+        if (controlReleased) yield break;
         rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
         rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
     }
@@ -230,10 +239,15 @@ public string guid;
     /// </summary>
     private void OnJumpTrigger()
     {
-        if(controlReleased) return;
-        if (!isGrounded) return;
+        if (controlReleased) return;
         if (isSliding) return;
-        else StartCoroutine(JumpRoutine());
+        if (currentJumpCount >= maxJumpCount) return;
+
+        // start new jump routine                
+        if (jumpRoutine != null) StopCoroutine(jumpRoutine);
+        jumpRoutine = JumpRoutine();
+        StartCoroutine(jumpRoutine);
+
     }
 
 
@@ -242,25 +256,32 @@ public string guid;
     /// </summary>
     private IEnumerator JumpRoutine()
     {
+        void PlayJumpParticules(float zOffset = 0f)
+        {
+            jumpParticles.transform.parent = null; // detach from player
+            jumpParticles.transform.position = transform.position + Vector3.up * zOffset; // slightly above ground
+            jumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, rb.linearVelocity.z);
+            jumpParticles.Play();
+        }
+
+        currentJumpCount++;
+
         // Play jump sound
         AudioManager.Instance.PlaySound("jump");
 
         // Start jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
-        
+
         // Apply jump velocity
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);
-        
+
         // Play jump particles
-        jumpParticles.transform.parent = null; // detach from player
-        jumpParticles.transform.position = transform.position + Vector3.up * 0.3f; // slightly above ground
-        jumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, rb.linearVelocity.z);
-        jumpParticles.Play();
+        PlayJumpParticules(0.3f);
 
         // Wait until the player is back on the ground
-        if(controlReleased) yield break;
+        if (controlReleased) yield break;
         yield return new WaitUntil(() => rb.linearVelocity.y <= 0f);
-        if(controlReleased) yield break;
+        if (controlReleased) yield break;
         yield return new WaitUntil(() => isGrounded);
 
         // Play land sound
@@ -269,8 +290,14 @@ public string guid;
         // Reset jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", false);
 
+        // Play again jump particles on landing
+        PlayJumpParticules();
+
         // reattach ps to player to clean up hierarchy
-        jumpParticles.transform.parent = transform; 
+        jumpParticles.transform.parent = transform;
+
+        // Reset jump count when landing
+        currentJumpCount = 0;
 
         yield break;
     }
@@ -281,7 +308,7 @@ public string guid;
     /// </summary>
     private void OnSlideTrigger()
     {
-        if(controlReleased) return;
+        if (controlReleased) return;
         if (isSliding) return;
         if (!isGrounded) return;
         StartCoroutine(SlideRoutine());
@@ -322,7 +349,7 @@ public string guid;
     {
         capsuleCollider.height = originalColliderHeight / 2f;  // ~0.5
         capsuleCollider.center = new Vector3(capsuleCollider.center.x, capsuleCollider.center.y - originalColliderHeight / 4f, capsuleCollider.center.z); // ~0.3
-     }
+    }
 
 
     /// <summary>

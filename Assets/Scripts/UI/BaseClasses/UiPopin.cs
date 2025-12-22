@@ -38,7 +38,6 @@ public class UiPopin : UiController, IOpenable
 
     public void Open()
     {
-        Debug.Log("[UiPopin] (" + gameObject.name + ") -> Opening popin.");
         popin.AddToClassList("open");
         popin.RemoveFromClassList("close");
         popin.pickingMode = PickingMode.Position;
@@ -50,7 +49,6 @@ public class UiPopin : UiController, IOpenable
 
     public void Close()
     {
-        Debug.Log("[UiPopin] (" + gameObject.name + ") -> Closing popin.");
         popin.AddToClassList("close");
         popin.RemoveFromClassList("open");
         popin.pickingMode = PickingMode.Ignore;
