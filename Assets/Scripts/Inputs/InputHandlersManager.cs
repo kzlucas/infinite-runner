@@ -15,11 +15,17 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
 
 
 
-    [RuntimeInitializeOnLoadMethod] 
+    [RuntimeInitializeOnLoadMethod]
     static void OnEnteringPlayMode()
     {
         // Unregister handlers so it doesn't affect the next Play mode run
         Instance.ClearAllHandlers();
+    }
+
+    private void Start()
+    {
+        // Clear all handlers on scene exit
+        SceneLoader.Instance.OnSceneExit += ClearAllHandlers;
     }
 
 
@@ -55,13 +61,9 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
     }
 
 
-    void OnDestroy()
-    {
-        ClearAllHandlers();
-    }
-
     void ClearAllHandlers()
     {
+        Debug.Log("[InputHandlersManager] Clearing all input handlers");
         foreach (InputHandler ih in inputHandlers)
         {
             ih.ClearSubscriptions();

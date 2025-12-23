@@ -11,26 +11,30 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        SceneLoader.Instance.OnSceneLoaded += RegisterHandlers;
+    }
 
 
-        #if UNITY_EDITOR
+    private void RegisterHandlers()
+    {
+        Debug.Log("[GameManager] Registering input handlers");
+#if UNITY_EDITOR
         InputHandlersManager.Instance.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
         {
             SceneLoader.Instance?.ReloadCurrentScene();
         });
-        #endif
+#endif
 
         InputHandlersManager.Instance.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
         {
             UiManager.Instance.pauseMenu.Toggle();
         });
-
     }
 
 
     /// <summary>
     ///     Pauses the game by setting time scale to zero.
-    /// </summary>
+    /// </summary>  
     public void PauseGame()
     {
         Time.timeScale = 0f;

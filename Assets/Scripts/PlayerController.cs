@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     /// <summary> Minimum allowed X position</summary>
     private int minX = -4;
 
+    /// <summary> Reference to the lane change coroutine</summary>
+    private IEnumerator goToLaneRoutine;
+
 
     [Header("Jump Settings")]
 
@@ -106,6 +109,7 @@ public class PlayerController : MonoBehaviour
     public string guid;
 
     #endregion
+
 
 
     /// <summary>
@@ -193,8 +197,9 @@ public class PlayerController : MonoBehaviour
         if (this == null) return;
         if (controlReleased) return;
 
-        // Do not process new input until the player reaches the target X position
-        if (Math.Abs(transform.position.x - targetXPosition) > 0.05f)
+        // Do not process new input until reaching target position 
+        // (0.1 tolerance to prevent input spam)
+        if (Math.Abs(transform.position.x - targetXPosition) > 0.1f)
         {
             return;
         }
@@ -205,7 +210,10 @@ public class PlayerController : MonoBehaviour
             var dirX = direction.x > 0 ? 1 : -1;
             targetXPosition = (int)Mathf.Round(transform.position.x + (dirX * 2f));
             targetXPosition = Mathf.Clamp(targetXPosition, minX, maxX);
-            StartCoroutine(GoToLaneRoutine(dirX));
+
+            if (goToLaneRoutine != null) StopCoroutine(goToLaneRoutine);
+            goToLaneRoutine = GoToLaneRoutine();
+            StartCoroutine(goToLaneRoutine);
         }
 
     }
@@ -213,22 +221,46 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Move the player to the target lane smoothly
     /// </summary>
-    /// <param name="dirX"></param>
     /// <returns></returns>
-    private IEnumerator GoToLaneRoutine(int dirX)
+    private IEnumerator GoToLaneRoutine()
     {
         float initialDistance = Math.Abs(targetXPosition - transform.position.x);
+        
+        // Handle case where player is already very close to target
+        if (initialDistance < 0.1f)
+        {
+            rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
+            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
+            yield break;
+        }
+        
         while (Math.Abs(targetXPosition - transform.position.x) > 0.05f)
         {
             if (controlReleased) yield break;
-
+            
             float currentDistance = Math.Abs(targetXPosition - transform.position.x);
-            float easeMoveSpeed = xMoveSpeed * currentDistance / initialDistance;
-            easeMoveSpeed = Mathf.Max(easeMoveSpeed, 1f); // minimum speed
-            rb.linearVelocity = new Vector3(dirX * easeMoveSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
+            float direction = targetXPosition - transform.position.x > 0 ? 1 : -1;
+            
+            // Ease-out movement: faster when far, slower when close
+            float easeMultiplier = currentDistance / initialDistance;
+            easeMultiplier = Mathf.Clamp(easeMultiplier, 0.3f, 1f); // minimum 30% speed to avoid getting stuck
+            
+            float targetSpeed = direction * easeMultiplier * xMoveSpeed;
+            
+            // Prevent overshooting by capping speed when very close
+            if (currentDistance < 0.5f)
+            {
+                float maxSpeedForDistance = currentDistance * 10f; // max speed based on distance
+                targetSpeed = Mathf.Clamp(targetSpeed, -maxSpeedForDistance, maxSpeedForDistance);
+            }
+            
+            rb.linearVelocity = new Vector3(targetSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
             yield return null;
         }
+        
         if (controlReleased) yield break;
+        
+        // Snap to exact position and stop horizontal movement
         rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
         rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
     }
@@ -242,6 +274,7 @@ public class PlayerController : MonoBehaviour
         if (controlReleased) return;
         if (isSliding) return;
         if (currentJumpCount >= maxJumpCount) return;
+
 
         // start new jump routine                
         if (jumpRoutine != null) StopCoroutine(jumpRoutine);

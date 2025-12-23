@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : Singleton<SceneLoader>
 {
     public event Action OnSceneLoaded;
+    public event Action OnSceneExit;
     private bool isTriggered = false;
 
 
@@ -25,8 +26,10 @@ public class SceneLoader : Singleton<SceneLoader>
     /// <summary>
     ///   Called when the script instance is being loaded.
     /// </summary>
-    private void Start()
+    private IEnumerator Start()
     {
+        // Make sur other components have put their OnSceneLoaded subscriptions before first invocation
+        yield return new WaitForEndOfFrame();
         OnSceneLoaded?.Invoke();
     }
     
@@ -83,6 +86,8 @@ public class SceneLoader : Singleton<SceneLoader>
     {
 
         Debug.Log("[SceneLoader] Loading scene: " + name);
+
+        OnSceneExit?.Invoke();
 
         // Run scene exit animation and wait for it to finish
         yield return FadeToBlack();
