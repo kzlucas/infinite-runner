@@ -9,6 +9,7 @@ public class UiPopin : UiController, IOpenable
     public bool openOnSceneLoad = false;
     [HideInInspector] public VisualElement popin;
 
+
     public override void OnDocReady()
     {
         StartCoroutine(_OnDocReady());
@@ -38,6 +39,7 @@ public class UiPopin : UiController, IOpenable
 
     public void Open()
     {
+        Debug.Log("[UiPopin] Open popin: " + gameObject.name);
         popin.AddToClassList("open");
         popin.RemoveFromClassList("close");
         popin.pickingMode = PickingMode.Position;
@@ -49,6 +51,7 @@ public class UiPopin : UiController, IOpenable
 
     public void Close()
     {
+        Debug.Log("[UiPopin] Close popin: " +  gameObject.name);
         popin.AddToClassList("close");
         popin.RemoveFromClassList("open");
         popin.pickingMode = PickingMode.Ignore;

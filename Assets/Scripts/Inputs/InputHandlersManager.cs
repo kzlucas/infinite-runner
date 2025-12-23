@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 
 /// <summary>
@@ -15,7 +18,7 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
 
 
 
-    [RuntimeInitializeOnLoadMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void OnEnteringPlayMode()
     {
         // Unregister handlers so it doesn't affect the next Play mode run
@@ -26,8 +29,21 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
     {
         // Clear all handlers on scene exit
         SceneLoader.Instance.OnSceneExit += ClearAllHandlers;
-    }
 
+#if UNITY_EDITOR
+        EditorApplication.playModeStateChanged += OnExitPlayMode;
+#endif
+    }
+    
+#if UNITY_EDITOR
+    private static void OnExitPlayMode(PlayModeStateChange state)
+    {
+        if(state == PlayModeStateChange.ExitingPlayMode)
+        {
+            Instance.ClearAllHandlers();
+        }
+    }
+#endif
 
     public void Register(
         string label

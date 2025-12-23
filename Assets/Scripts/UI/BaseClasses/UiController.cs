@@ -153,12 +153,10 @@ public class UiController : MonoBehaviour, IInitializable
 
         if(actionName == "music")
         {
-            Debug.Log("[UiController] Music toggle changed: " + newValue);
             AudioManager.Instance.MusicOn = newValue;
         }
         else if(actionName == "sfx")
         {
-            Debug.Log("[UiController] SFX toggle changed: " + newValue);
             AudioManager.Instance.SfxOn = newValue;
         }
         else

@@ -4,9 +4,7 @@ using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager>
 {
-
     public InputActionReference reloadSceneActionRef;
-    public InputActionReference pauseGameActionRef;
 
 
     private void OnDisable() => StopAllCoroutines();
@@ -16,14 +14,14 @@ public class GameManager : Singleton<GameManager>
         SceneLoader.Instance.OnSceneLoaded += () =>
         {
             StopAllCoroutines();
-            StartCoroutine(RegisterHandlers());
+            RegisterHandlers();
         };
     }
 
 
-    private IEnumerator RegisterHandlers()
+    private void RegisterHandlers()
     {
-        yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized);
+        Debug.Log("[GameManager] Registering GameManager Input Handlers");
 
 #if UNITY_EDITOR
         InputHandlersManager.Instance.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
@@ -31,11 +29,6 @@ public class GameManager : Singleton<GameManager>
             SceneLoader.Instance?.ReloadCurrentScene();
         });
 #endif
-
-        InputHandlersManager.Instance.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
-        {
-            UiManager.Instance.pauseMenu.Toggle();
-        });
     }
 
 
