@@ -13,10 +13,21 @@ public class PlayerController : MonoBehaviour
 {
     #region Fields
 
+
+    [Header("References")]
+
+    /// <summary> Reference to the collision handling component</summary>
+    public PlayerCollisionHandling collisionHandler;
+    private Rigidbody rb;
+
+
+
+    [Header("Flags")]
+
     /// <summary> Indicates whether player control has been released (e.g., after a crash)</summary>
     [HideInInspector] public bool controlReleased = false;
 
-    private Rigidbody rb;
+
 
     [Header("X Movement Settings")]
 
@@ -136,6 +147,7 @@ public class PlayerController : MonoBehaviour
         InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: OnMoveUpdate);
         InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: OnJumpTrigger);
         InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: OnSlideTrigger, OnRelease: OnSlideRelease);
+        collisionHandler.OnLanded += OnLandedHandler;
 
         // freeze position during game initialization then unfreeze
         rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
@@ -225,7 +237,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator GoToLaneRoutine()
     {
         float initialDistance = Math.Abs(targetXPosition - transform.position.x);
-        
+
         // Handle case where player is already very close to target
         if (initialDistance < 0.1f)
         {
@@ -233,33 +245,33 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
             yield break;
         }
-        
+
         while (Math.Abs(targetXPosition - transform.position.x) > 0.05f)
         {
             if (controlReleased) yield break;
-            
+
             float currentDistance = Math.Abs(targetXPosition - transform.position.x);
             float direction = targetXPosition - transform.position.x > 0 ? 1 : -1;
-            
+
             // Ease-out movement: faster when far, slower when close
             float easeMultiplier = currentDistance / initialDistance;
             easeMultiplier = Mathf.Clamp(easeMultiplier, 0.3f, 1f); // minimum 30% speed to avoid getting stuck
-            
+
             float targetSpeed = direction * easeMultiplier * xMoveSpeed;
-            
+
             // Prevent overshooting by capping speed when very close
             if (currentDistance < 0.5f)
             {
                 float maxSpeedForDistance = currentDistance * 10f; // max speed based on distance
                 targetSpeed = Mathf.Clamp(targetSpeed, -maxSpeedForDistance, maxSpeedForDistance);
             }
-            
+
             rb.linearVelocity = new Vector3(targetSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
             yield return null;
         }
-        
+
         if (controlReleased) yield break;
-        
+
         // Snap to exact position and stop horizontal movement
         rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
         rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
@@ -282,18 +294,24 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    ///  Play jump particules at specified offset
+    /// </summary>
+    private void PlayJumpParticules(float zOffset = 0f)
+    {
+        jumpParticles.transform.parent = null; // detach from player
+        jumpParticles.transform.position = transform.position + Vector3.up * zOffset; // slightly above ground
+        jumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, rb.linearVelocity.z);
+        jumpParticles.Play();
+    }
+
+
     /// <summary>
     ///  Handle the jump action
     /// </summary>
     private IEnumerator JumpRoutine()
     {
-        void PlayJumpParticules(float zOffset = 0f)
-        {
-            jumpParticles.transform.parent = null; // detach from player
-            jumpParticles.transform.position = transform.position + Vector3.up * zOffset; // slightly above ground
-            jumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, rb.linearVelocity.z);
-            jumpParticles.Play();
-        }
 
         currentJumpCount++;
 
@@ -308,12 +326,18 @@ public class PlayerController : MonoBehaviour
 
         // Play jump particles
         PlayJumpParticules(0.3f);
+        
+        yield break;
+    }
 
-        // Wait until the player is back on the ground
-        if (controlReleased) yield break;
-        yield return new WaitUntil(() => rb.linearVelocity.y <= 0f);
-        if (controlReleased) yield break;
-        yield return new WaitUntil(() => isGrounded);
+
+
+    /// <summary>
+    ///  Handle actions to perform when the player lands
+    /// </summary>
+    private void OnLandedHandler()
+    {
+        if (this == null) return;
 
         // Play land sound
         AudioManager.Instance.PlaySound("land");
@@ -329,9 +353,9 @@ public class PlayerController : MonoBehaviour
 
         // Reset jump count when landing
         currentJumpCount = 0;
-
-        yield break;
     }
+
+
 
 
     /// <summary>

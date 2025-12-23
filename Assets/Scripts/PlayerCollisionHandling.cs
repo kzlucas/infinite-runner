@@ -1,3 +1,4 @@
+using System;
 using System.Xml.Schema;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class PlayerCollisionHandling : MonoBehaviour
 {
+    public Action OnLanded;
     private PlayerController playerController;
 
 
@@ -33,12 +35,30 @@ public class PlayerCollisionHandling : MonoBehaviour
     {
         // Send a raycast down to check if grounded
         RaycastHit hit;
-        Physics.Raycast(transform.position + (Vector3.up * .5f), Vector3.down, out hit, 10f);
-        Debug.DrawRay(transform.position + (Vector3.up * .5f), Vector3.down * 10f, Color.blue);
-        playerController.isGrounded = hit.collider != null 
-                && null != hit.collider.GetComponent<ColliderType>() 
-                && ColliderType.Type.Ground == hit.collider.GetComponent<ColliderType>().colliderType 
-                && hit.distance <= .5f;
+        Vector3 rayStart = transform.position + (Vector3.up * 0.1f);
+        float rayDistance = .2f;
+        bool raycastHit = Physics.Raycast(rayStart, Vector3.down, out hit, rayDistance);
+        bool previouslyGrounded = playerController.isGrounded;
+        
+        // Grounded detection
+        bool isCurrentlyGrounded = false;
+        if (raycastHit)
+        {
+            var colliderType = hit.collider.GetComponent<ColliderType>();
+            if (colliderType != null && colliderType.colliderType == ColliderType.Type.Ground)
+            {
+                isCurrentlyGrounded = hit.distance <= .2f;
+            }
+        }
+        
+        // Update grounded state
+        playerController.isGrounded = isCurrentlyGrounded;
+
+        // If just landed, invoke the OnLanded event
+        if (!previouslyGrounded && playerController.isGrounded)
+        {
+            OnLanded?.Invoke();
+        }
     }
 
 
