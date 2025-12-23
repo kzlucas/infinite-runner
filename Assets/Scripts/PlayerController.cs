@@ -65,11 +65,11 @@ public class PlayerController : MonoBehaviour
     /// <summary> Is the player currently sliding</summary>
     public bool isSliding = false;
 
-    /// <summary> Duration of the slide action</summary>
-    public float slideDuration = 1f;
-
     /// <summary> Particle system for slide effect</summary>
     public ParticleSystem slideParticles;
+
+    /// <summary> Slide coroutine</summary>
+    private IEnumerator slideRoutine;
 
 
 
@@ -111,6 +111,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
+    private void OnDisable() => StopAllCoroutines();
+
 
     /// <summary>
     ///   Init component and Subscribe to input events
@@ -133,7 +135,7 @@ public class PlayerController : MonoBehaviour
         // Subscribe to move input events
         InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: OnMoveUpdate);
         InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: OnJumpTrigger);
-        InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: OnSlideTrigger);
+        InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: OnSlideTrigger, OnRelease: OnSlideRelease);
 
         // freeze position during game initialization then unfreeze
         rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
@@ -211,9 +213,7 @@ public class PlayerController : MonoBehaviour
             targetXPosition = (int)Mathf.Round(transform.position.x + (dirX * 2f));
             targetXPosition = Mathf.Clamp(targetXPosition, minX, maxX);
 
-            if (goToLaneRoutine != null) StopCoroutine(goToLaneRoutine);
-            goToLaneRoutine = GoToLaneRoutine();
-            StartCoroutine(goToLaneRoutine);
+            goToLaneRoutine.Replace(GoToLaneRoutine());
         }
 
     }
@@ -271,16 +271,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void OnJumpTrigger()
     {
+        if (this == null) return;
         if (controlReleased) return;
         if (isSliding) return;
         if (currentJumpCount >= maxJumpCount) return;
 
 
         // start new jump routine                
-        if (jumpRoutine != null) StopCoroutine(jumpRoutine);
-        jumpRoutine = JumpRoutine();
-        StartCoroutine(jumpRoutine);
-
+        jumpRoutine.Replace(JumpRoutine());
     }
 
 
@@ -341,10 +339,30 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void OnSlideTrigger()
     {
+        if (this == null) return;
         if (controlReleased) return;
         if (isSliding) return;
         if (!isGrounded) return;
-        StartCoroutine(SlideRoutine());
+
+        slideRoutine.Replace(SlideRoutine());
+    }
+
+    /// <summary>
+    ///  Handle player slide release input
+    /// </summary>
+    private void OnSlideRelease()
+    {
+        if (this == null) return;
+        if (controlReleased) return;
+        if (!isSliding) return;
+
+        // stop slide
+        isSliding = false;
+        transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", false);
+        SetColliderToNormalPosition();
+
+        // disable slide particles
+        slideParticles.Stop();
     }
 
     /// <summary>
@@ -361,16 +379,7 @@ public class PlayerController : MonoBehaviour
         // Play slide particles
         slideParticles.Play();
 
-        // wait for slide duration
-        yield return new WaitForSeconds(slideDuration);
-
-        // stop slide
-        isSliding = false;
-        transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", false);
-        SetColliderToNormalPosition();
-
-        // disable slide particles
-        slideParticles.Stop();
+        yield break;
     }
 
 

@@ -87,6 +87,7 @@ public class SceneLoader : Singleton<SceneLoader>
 
         Debug.Log("[SceneLoader] Loading scene: " + name);
 
+        SceneInitializer.Instance.isInitialized = false;
         OnSceneExit?.Invoke();
 
         // Run scene exit animation and wait for it to finish

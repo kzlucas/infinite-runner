@@ -35,6 +35,7 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
         , Action<Vector2> OnInput = null
         , Action<Vector2> OnUpdate = null
         , Action OnTrigger = null
+        , Action OnRelease = null
     )
     {
         if (inputHandlers.Exists(ih => ih.label == label))
@@ -45,7 +46,7 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
 
         // create new handler
         InputHandler newInputHandler = new InputHandler();
-        newInputHandler.Init(label, actionRef, OnInput, OnUpdate, OnTrigger);
+        newInputHandler.Init(label, actionRef, OnInput, OnUpdate, OnTrigger, OnRelease);
         inputHandlers.Add(newInputHandler);
     }
 
@@ -111,6 +112,8 @@ public class InputHandler
     // Invoked when basic button pressed
     public Action OnTrigger;
 
+    // Invoked when basic button released
+    public Action OnRelease;
 
 
     public void Init(
@@ -119,6 +122,7 @@ public class InputHandler
         , Action<Vector2> _OnInput = null
         , Action<Vector2> _OnUpdate = null
         , Action _OnTrigger = null
+        , Action _OnRelease = null
     )
     {
         label = _label;
@@ -126,6 +130,7 @@ public class InputHandler
         OnInput = _OnInput;
         OnUpdate = _OnUpdate;
         OnTrigger = _OnTrigger;
+        OnRelease = _OnRelease;
 
         actionRef.action.performed += OnPerformed;
         actionRef.action.canceled += OnCanceled;
@@ -138,12 +143,15 @@ public class InputHandler
             v2input = actionRef.action.ReadValue<Vector2>();
 
         if (actionRef.action.type.ToString() == "Button")
-            OnTrigger.Invoke();
+            OnTrigger?.Invoke();
     }
 
     void OnCanceled(InputAction.CallbackContext context)
     {
         v2input = Vector2.zero;
+        
+        if (actionRef.action.type.ToString() == "Button")
+            OnRelease?.Invoke();
     }
 
     public void ClearSubscriptions()
@@ -151,6 +159,7 @@ public class InputHandler
         OnInput = null;
         OnUpdate = null;
         OnTrigger = null;
+        OnRelease = null;
 
         if (actionRef == null) return;
 

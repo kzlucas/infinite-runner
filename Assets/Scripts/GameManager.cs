@@ -1,23 +1,30 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager>
 {
 
-
     public InputActionReference reloadSceneActionRef;
     public InputActionReference pauseGameActionRef;
 
 
+    private void OnDisable() => StopAllCoroutines();
+
     private void Start()
     {
-        SceneLoader.Instance.OnSceneLoaded += RegisterHandlers;
+        SceneLoader.Instance.OnSceneLoaded += () =>
+        {
+            StopAllCoroutines();
+            StartCoroutine(RegisterHandlers());
+        };
     }
 
 
-    private void RegisterHandlers()
+    private IEnumerator RegisterHandlers()
     {
-        Debug.Log("[GameManager] Registering input handlers");
+        yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized);
+
 #if UNITY_EDITOR
         InputHandlersManager.Instance.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
         {
