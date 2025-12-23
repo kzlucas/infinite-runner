@@ -1,12 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
 
 public class AudioManager : Singleton<AudioManager>, IInitializable
 {
 
+    [Header("Settings")]
+    private bool _musicOn = true;
+    public bool MusicOn
+    {
+        get => _musicOn;
+        set
+        {
+            _musicOn = value;
+            UserData.Instance.Save("music", _musicOn.ToString());
+            if (!_musicOn)
+            {
+                musicSource.mute = true;
+                musicSource.Pause();
+            }
+            else
+            {
+                musicSource.mute = false;
+                musicSource.UnPause();
+            }
+        }
+    }
+    private bool _sfxOn = true;
+    public bool SfxOn
+    {
+        get => _sfxOn;
+        set
+        {
+            _sfxOn = value;
+            UserData.Instance.Save("sfx", _sfxOn.ToString());
+            if (!_sfxOn)
+            {
+                sfxSource.mute = true;
+                sfxSource.Pause();
+            }
+            else
+            {
+                sfxSource.mute = false;
+                sfxSource.UnPause();
+            }
+        }
+    }
 
     [Header("Background Music")]
     [SerializeField] private List<SceneMusicPair> sceneMusicPairs = new List<SceneMusicPair>();
@@ -31,6 +72,7 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
     public System.Type[] initDependencies => null;
     public Task InitializeAsync()
     {
+
 
         // Initialize audio mapping
         foreach (var pair in sceneMusicPairs)
@@ -64,11 +106,25 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
             sfxSource.loop = false;
         }
 
+        // Play music for the current scene
         var sceneName = SceneManager.GetActiveScene().name;
         PlayMusicForScene(sceneName);
 
-        
+        // Apply user settings
+        ApplyUserSettings();
+
         return Task.CompletedTask;
+    }
+
+
+
+    /// <summary>
+    ///   Apply user audio settings from saved data.
+    /// </summary>
+    private void ApplyUserSettings()
+    {
+        MusicOn = UserData.Instance.Load("music") != "False";
+        SfxOn = UserData.Instance.Load("sfx") != "False";
     }
 
 
@@ -180,6 +236,9 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
         audioSource.clip = clip;
         StartCoroutine(FadeIn(audioSource, fadeTime));
     }
+
+
+
 }
 
 [System.Serializable]

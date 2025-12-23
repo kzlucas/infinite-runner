@@ -8,14 +8,15 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class UiController : MonoBehaviour, IInitializable
 {
-    public int initPriority => 0;
+    public int initPriority => 1;
     public System.Type[] initDependencies => null;
 
     protected VisualElement root;
     private PanelSettings panelSettings;
     public UIDocument uiDoc;
     [HideInInspector] public bool docReady = false;
-    List<Button> buttons = null;
+    private List<Button> buttons = null;
+    private List<Toggle> toggles = null;
 
 
 
@@ -49,20 +50,42 @@ public class UiController : MonoBehaviour, IInitializable
             yield return null;
         }
 
-        buttons = new List<Button>();
-        root.Query<Button>(className: "unity-button").ToList(buttons);
+
 
         /*
          *
          * Buttons click actions 
          */
-        
+
+        buttons = new List<Button>();
+        root.Query<Button>(className: "unity-button").ToList(buttons);
         foreach (Button button in buttons)
         {
             button.clickable = null; // clear existing handlers
-            
             button.clicked += () => OnButtonClicked(button);
         }
+
+        /*
+         *
+         * Toggles change actions 
+         */
+
+        toggles = new List<Toggle>();
+        root.Query<Toggle>(className: "unity-toggle").ToList(toggles);
+        foreach (Toggle toggle in toggles)
+        {
+            // Register handler
+            toggle.RegisterValueChangedCallback((evt) => OnToggleChanged(toggle, evt.newValue));
+
+            // Initialize toggle states from UserData
+            if (toggle.name == "settings--music")
+                toggle.value = AudioManager.Instance.MusicOn;
+            if (toggle.name == "settings--sfx")
+                toggle.value = AudioManager.Instance.SfxOn;
+        }
+        
+
+
         docReady = true;
         OnDocReady();
     }
@@ -115,6 +138,37 @@ public class UiController : MonoBehaviour, IInitializable
 
         AudioManager.Instance.PlaySound("button-click");
     }
+
+
+
+    private void OnToggleChanged(Toggle toggle, bool newValue)
+    {
+        // Assumes button names are in the format "btn--ActionName"
+        if (!toggle.name.Contains("--"))
+        {
+            Debug.LogError("[UiController] Toggle name does not contain '--': " + toggle.name);
+            return;
+        }
+        string actionName = toggle.name.ToString().Split("--")[1]; 
+
+        if(actionName == "music")
+        {
+            Debug.Log("[UiController] Music toggle changed: " + newValue);
+            AudioManager.Instance.MusicOn = newValue;
+        }
+        else if(actionName == "sfx")
+        {
+            Debug.Log("[UiController] SFX toggle changed: " + newValue);
+            AudioManager.Instance.SfxOn = newValue;
+        }
+        else
+        {
+            Debug.LogError("[UiController] Unhandled toggle action: " + actionName);
+        }
+
+        AudioManager.Instance.PlaySound("button-click");
+    }
+
 
     public void _AttachDocument()
     {

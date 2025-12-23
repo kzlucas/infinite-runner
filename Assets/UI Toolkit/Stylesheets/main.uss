@@ -135,6 +135,22 @@
     background-color: rgb(32, 91, 47);
 }
 
+.unity-toggle {
+
+}
+
+.unity-toggle__input {
+
+}
+
+.unity-toggle__checkmark {
+    background-color: rgb(100, 255, 131);
+    border-radius: 3px;
+    width: 30px;
+    height: 30px;
+}
+
+
 .unity-scroller__low-button {
     display: none;
 }

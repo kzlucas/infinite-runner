@@ -3,7 +3,11 @@
     <ui:VisualElement name="popin" class="popin" style="flex-grow: 1;">
         <ui:VisualElement name="popin-inner" class="popin-inner" style="flex-grow: 1; justify-content: space-between;">
             <ui:Label text="Pause" style="-unity-text-align: upper-center; font-size: 44px;" />
-            <ui:VisualElement name="buttons" style="flex-grow: 1; justify-content: flex-end;">
+            <ui:VisualElement name="sound-settings" style="flex-grow: 1; justify-content: flex-end; align-items: center; padding-bottom: 20px;">
+                <ui:Toggle label="Music" name="settings--music" />
+                <ui:Toggle label="Sounds" name="settings--sfx" />
+            </ui:VisualElement>
+            <ui:VisualElement name="buttons" style="flex-grow: 0; justify-content: flex-end;">
                 <ui:Button text="Main Menu" name="btn--splash" style="margin-top: 10px;" />
                 <ui:Button text="Restart" name="btn--restart" style="margin-top: 10px;" />
                 <ui:Button text="Resume" name="btn--resume" style="margin-top: 10px;" />
