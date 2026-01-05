@@ -1,6 +1,4 @@
 using System;
-using System.Xml.Schema;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]

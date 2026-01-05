@@ -11,10 +11,14 @@ public class UiPauseMenu : UiPopin
 
     private void Start()
     {
-        InputHandlersManager.Instance.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
+        SceneLoader.Instance.OnSceneLoaded += () =>
         {
-            UiManager.Instance.pauseMenu.Toggle();
-        });
+            InputHandlersManager.Instance.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
+            {
+                Debug.Log("[UiPauseMenu] Toggling Pause Menu");
+                UiManager.Instance.pauseMenu.Toggle();
+            });
+        };
     }
 
     public override void OnOpen()

@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
     private void OnDisable() => StopAllCoroutines();
 
 
+
     /// <summary>
     ///   Init component and Subscribe to input events
     /// </summary>
@@ -147,7 +148,10 @@ public class PlayerController : MonoBehaviour
         InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: OnMoveUpdate);
         InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: OnJumpTrigger);
         InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: OnSlideTrigger, OnRelease: OnSlideRelease);
+        
+        // Subscribe/unsub to landing event
         collisionHandler.OnLanded += OnLandedHandler;
+        SceneLoader.Instance.OnSceneExit += () => collisionHandler.OnLanded -= OnLandedHandler;
 
         // freeze position during game initialization then unfreeze
         rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
