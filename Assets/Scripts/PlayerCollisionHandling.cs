@@ -22,7 +22,8 @@ public class PlayerCollisionHandling : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        CheckIfGrounded();
+        if(SceneInitializer.Instance.isInitialized)
+            CheckIfGrounded();
     }
 
 

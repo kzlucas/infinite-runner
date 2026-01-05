@@ -292,7 +292,6 @@ public class PlayerController : MonoBehaviour
         if (isSliding) return;
         if (currentJumpCount >= maxJumpCount) return;
 
-
         // start new jump routine                
         jumpRoutine.Replace(JumpRoutine());
     }

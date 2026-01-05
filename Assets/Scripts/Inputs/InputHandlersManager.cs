@@ -18,18 +18,8 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
 
 
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void OnEnteringPlayMode()
-    {
-        // Unregister handlers so it doesn't affect the next Play mode run
-        Instance.ClearAllHandlers();
-    }
-
     private void Start()
     {
-        // Clear all handlers on scene exit
-        SceneLoader.Instance.OnSceneExit += ClearAllHandlers;
-
 #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += OnExitPlayMode;
 #endif
@@ -41,6 +31,7 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
         if(state == PlayModeStateChange.ExitingPlayMode)
         {
             Instance.ClearAllHandlers();
+            EditorApplication.playModeStateChanged -= OnExitPlayMode;
         }
     }
 #endif

@@ -20,6 +20,7 @@ public class SceneLoader : Singleton<SceneLoader>
     static void OnEnteringPlayMode()
     {
         Instance.OnSceneLoaded = null;
+        Instance.OnSceneExit = null;
     }
 
 
