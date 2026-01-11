@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager>
 {
+    private bool isPaused = false;
+    private float gameCurrentTimeScale = 1f; 
+    private float gameMaxTimeScale = 2f; 
+    private float timeElapsedSinceStart = 0f;
     public InputActionReference reloadSceneActionRef;
 
 
@@ -13,9 +17,21 @@ public class GameManager : Singleton<GameManager>
     {
         SceneLoader.Instance.OnSceneLoaded += () =>
         {
+            timeElapsedSinceStart = 0f;
             StopAllCoroutines();
             RegisterHandlers();
         };
+    }
+
+    private void Update()
+    {
+        if (isPaused) return;
+        
+        // gradually increase time scale over time. 100 seconds to reach 2x speed
+        timeElapsedSinceStart += Time.unscaledDeltaTime;
+        gameCurrentTimeScale = 1f + (timeElapsedSinceStart / 100f); 
+        gameCurrentTimeScale = Mathf.Clamp(gameCurrentTimeScale, 0f, gameMaxTimeScale);
+        Time.timeScale = gameCurrentTimeScale;
     }
 
 
@@ -37,6 +53,7 @@ public class GameManager : Singleton<GameManager>
     /// </summary>  
     public void PauseGame()
     {
+        isPaused = true;
         Time.timeScale = 0f;
     }
 
@@ -45,7 +62,8 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public void ResumeGame()
     {
-        Time.timeScale = 1f;
+        isPaused = false;
+        Time.timeScale = gameCurrentTimeScale;
     }
 
 
