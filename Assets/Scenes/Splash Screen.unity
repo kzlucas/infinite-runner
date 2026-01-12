@@ -374,7 +374,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: f6c0014b27343004fb08284e5820c25f, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: b99228a5e4a23dd478ce9a6c9f655a35, type: 3}
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_Position: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
@@ -472,7 +472,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   reloadSceneActionRef: {fileID: 6367371887947306774, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  pauseGameActionRef: {fileID: 2422228956939261538, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!4 &893359846
 Transform:
   m_ObjectHideFlags: 0
