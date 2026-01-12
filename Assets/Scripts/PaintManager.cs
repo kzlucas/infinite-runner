@@ -6,6 +6,11 @@ public static class PaintManager
 {
     public static float bucketFillPct = 0f;
 
+
+    /// <summary>
+    ///   Add paint to the bucket
+    /// </summary>
+    /// <param name="amount">Amount to add in pct</param>
     public static void AddPaint(float amount)
     {
         bucketFillPct += amount;
@@ -15,11 +20,23 @@ public static class PaintManager
         if(bucketFillPct >= 1f)
         {   
             // Change to next biome
+            ClearBucket();
             BiomesData.Instance.SetNext();
-            bucketFillPct = 0f;
+            AudioManager.Instance.PlaySound("biome-change");
         }
 
         // Update HUD
+        UiManager.Instance.hud.UpdatePaintBucket(bucketFillPct);
+    }
+
+
+    /// <summary>
+    ///  Clear paint bucket
+    /// </summary>
+    public static void ClearBucket()
+    {
+        Debug.Log("[PaintManager] Clearing paint bucket.");
+        bucketFillPct = 0f;
         UiManager.Instance.hud.UpdatePaintBucket(bucketFillPct);
     }
 

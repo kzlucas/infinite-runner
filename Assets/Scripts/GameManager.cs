@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
             timeElapsedSinceStart = 0f;
             StopAllCoroutines();
             RegisterHandlers();
+            PaintManager.ClearBucket();
         };
     }
 

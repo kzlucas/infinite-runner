@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BiomesData : Singleton<BiomesData>, IInitializable
 {
+
+    [Header("References")]
     private IEnumerator lerpBiomeColorCoroutineInstance;
+    public WorldGenerationManager worldGenerationManager;
+
 
     [Header("Initialization")]
     public int initPriority => 0;
@@ -16,6 +19,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     [Header("Biome Data")]
     public List<BiomeData> items = new List<BiomeData>();
     public BiomeData current = null;
+
 
 
     /// <summary>
@@ -29,12 +33,18 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         else
             Debug.LogError("[BiomesData] No biome data found!");
 
+
+        worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
+        if (worldGenerationManager == null)
+        {
+            Debug.LogError("[BiomesData] WorldGenerationManager not found in scene!");
+        }
+
         return Task.CompletedTask;
     }
 
     /// <summary>
     ///   Get next biome data based on current biome.
-    ///   Loop back to first biome if at the end.
     /// </summary>
     /// <returns></returns>
     public BiomeData SetNext()
@@ -49,8 +59,18 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         {
             currentIndex = 0;
         }
-        int nextIndex = (currentIndex + 1) % items.Count;
-        ApplyDataAtIndex(nextIndex);
+
+        // Set next biome data. If at end of list, stay at current biome.
+        if((currentIndex + 1) < items.Count)
+        {
+            int nextIndex = currentIndex + 1;
+            ApplyDataAtIndex(nextIndex);
+
+            
+            // Clear world segments to force regeneration with new biome
+            worldGenerationManager.ClearNextSegments();
+        }
+        
         return current;
     }
 
@@ -61,7 +81,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     /// </summary>
     /// <param name="index"></param>
     private void ApplyDataAtIndex(int index)
-    {
+    {            
         if (index < 0 || index >= items.Count)
         {
             Debug.LogError("[BiomesData] Index out of range when applying biome data!");

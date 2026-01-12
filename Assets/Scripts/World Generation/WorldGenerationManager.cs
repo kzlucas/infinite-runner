@@ -73,7 +73,6 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     }
 
 
-
     /// <summary>
     /// Pick a world segment prefab to instantiate
     /// </summary>
@@ -133,6 +132,28 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         currentWorldSegments.RemoveAll(s =>
         {
             if (s.position.z < playerTransform.position.z - segmentGridSize)
+            {
+                Destroy(s.prefab);
+                return true;
+            }
+            return false;
+        });
+    }
+
+
+
+
+    /// <summary>
+    ///   Remove future world segments after provided offser
+    ///   (e.g. after biome change)
+    /// </summary>
+    /// <param name="offset"></param>
+    public void ClearNextSegments(int offset = 4)
+    {
+        // Remove all segments after 2 segments in front of the player
+        currentWorldSegments.RemoveAll(s =>
+        {
+            if (s.position.z > playerTransform.position.z + (offset * segmentGridSize))
             {
                 Destroy(s.prefab);
                 return true;
