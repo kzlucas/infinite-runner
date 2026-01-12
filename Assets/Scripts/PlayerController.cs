@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
     /// <summary> Reference to the lane change coroutine</summary>
     private IEnumerator goToLaneRoutine;
 
+    /// <summary> Particle system effect run when changing lane</summary>
+    public ParticleSystem laneChangeParticles;
+
+
 
     [Header("Jump Settings")]
 
@@ -135,6 +139,7 @@ public class PlayerController : MonoBehaviour
         jumpParticles.Stop();
         slideParticles.Stop();
         crashParticules.Stop();
+        laneChangeParticles.Stop();
 
         // store original collider size
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -243,9 +248,15 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator GoToLaneRoutine()
     {
-        float initialDistance = Math.Abs(targetXPosition - transform.position.x);
+        // Play lane change sfx effect
+        var sign = targetXPosition - transform.position.x > 0 ? 1 : -1;
+        if(sign > 0) laneChangeParticles.transform.rotation = Quaternion.Euler(-90, 0, 80);
+        else laneChangeParticles.transform.rotation = Quaternion.Euler(-90, 0, -80);
+        laneChangeParticles.Play();
+
 
         // Handle case where player is already very close to target
+        float initialDistance = Math.Abs(targetXPosition - transform.position.x);
         if (initialDistance < 0.1f)
         {
             rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
@@ -256,6 +267,10 @@ public class PlayerController : MonoBehaviour
         while (Math.Abs(targetXPosition - transform.position.x) > 0.05f)
         {
             if (controlReleased) yield break;
+            
+            // Stop particles when close enough
+            if (Math.Abs(targetXPosition - transform.position.x) < 0.5f) 
+                laneChangeParticles.Stop();
 
             float currentDistance = Math.Abs(targetXPosition - transform.position.x);
             float direction = targetXPosition - transform.position.x > 0 ? 1 : -1;
@@ -282,6 +297,7 @@ public class PlayerController : MonoBehaviour
         // Snap to exact position and stop horizontal movement
         rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
         rb.position = new Vector3(targetXPosition, rb.position.y, rb.position.z);
+
     }
 
 
