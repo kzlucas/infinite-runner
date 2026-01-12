@@ -6,11 +6,9 @@ using UnityEngine;
 public class WorldGenerationManager : MonoBehaviour, IInitializable
 {
     
-    public int initPriority => 0;
-    public Type[] initDependencies => null;
+    public int initPriority => 1;
+    public Type[] initDependencies => new Type[] { typeof(BiomesData) };
 
-    /// <summary>Segment prefab to instantiate</summary>
-    public List<WorldSegment> segmentPrefabs; 
 
 
     /// <summary>Current world segments</summary>
@@ -82,10 +80,12 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     private WorldSegment pickWorldSegmentPrefab()
     {
         if(generatedIndex <= 1)
-            return segmentPrefabs.Find(s => s.name == "Straight Segment");
+            return BiomesData.Instance.current
+                    .segments.Find(s => s.name == "Straight Segment");
 
         else 
-            return segmentPrefabs.Find(s => s.name == "Random Obstacles");
+            return BiomesData.Instance.current
+                    .segments.Find(s => s.name == "Random Obstacles");
     }
 
 

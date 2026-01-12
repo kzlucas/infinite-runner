@@ -24,7 +24,6 @@ public static class MainExtensionMethods
         // Restart the coroutine
         routineInstance = routineModel; 
         GameManager.Instance.StartCoroutine(routineInstance);
-
         return routineInstance;
     }
 
