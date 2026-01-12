@@ -17,52 +17,6 @@ public class PlayerCollisionHandling : MonoBehaviour
         playerController = GetComponent<PlayerController>();
     }
 
-
-    /// <summary>
-    ///  Check grounded state each frame
-    /// </summary>
-    private void Update()
-    {
-        if(SceneInitializer.Instance.isInitialized)
-            CheckIfGrounded();
-    }
-
-
-    /// <summary>
-    ///   Check if the player is grounded using a raycast.
-    /// </summary>
-    private void CheckIfGrounded()
-    {
-        // Send a raycast down to check if grounded
-        RaycastHit hit;
-        Vector3 rayStart = transform.position + (Vector3.up * 0.1f);
-        float rayDistance = .2f;
-        bool raycastHit = Physics.Raycast(rayStart, Vector3.down, out hit, rayDistance);
-        
-        // Grounded detection
-        bool isCurrentlyGrounded = false;
-        if (raycastHit)
-        {
-            var colliderType = hit.collider.GetComponent<ColliderType>();
-            if (colliderType != null && colliderType.colliderType == ColliderType.Type.Ground)
-            {
-                isCurrentlyGrounded = hit.distance <= .2f;
-            }
-        }
-        
-        // Update grounded state
-        playerController.isGrounded = isCurrentlyGrounded;
-
-        // If just landed, invoke the OnLanded event
-        if (!previouslyGrounded && playerController.isGrounded)
-        {
-            OnLanded?.Invoke();
-        }
-
-        previouslyGrounded = playerController.isGrounded;
-    }
-
-
     /// <summary>
     ///   Handles trigger events with other objects with isTrigger enabled.
     /// </summary>
@@ -116,4 +70,51 @@ public class PlayerCollisionHandling : MonoBehaviour
                 break;
         }
     }
+
+
+
+    /// <summary>
+    ///  Check grounded state each frame
+    /// </summary>
+    private void Update()
+    {
+        if(SceneInitializer.Instance.isInitialized)
+            CheckIfGrounded();
+    }
+
+
+    /// <summary>
+    ///   Check if the player is grounded using a raycast.
+    /// </summary>
+    private void CheckIfGrounded()
+    {
+        // Send a raycast down to check if grounded
+        RaycastHit hit;
+        Vector3 rayStart = transform.position + (Vector3.up * 0.1f);
+        float rayDistance = .2f;
+        bool raycastHit = Physics.Raycast(rayStart, Vector3.down, out hit, rayDistance);
+        
+        // Grounded detection
+        bool isCurrentlyGrounded = false;
+        if (raycastHit)
+        {
+            var colliderType = hit.collider.GetComponent<ColliderType>();
+            if (colliderType != null && colliderType.colliderType == ColliderType.Type.Ground)
+            {
+                isCurrentlyGrounded = hit.distance <= .2f;
+            }
+        }
+        
+        // Update grounded state
+        playerController.isGrounded = isCurrentlyGrounded;
+
+        // If just landed, invoke the OnLanded event
+        if (!previouslyGrounded && playerController.isGrounded)
+        {
+            OnLanded?.Invoke();
+        }
+
+        previouslyGrounded = playerController.isGrounded;
+    }
+
 }

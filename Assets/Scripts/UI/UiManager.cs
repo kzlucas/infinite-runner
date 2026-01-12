@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
-///  Manages all UI elements references in the game.
+///  Manages UI elements references in the game.
 /// </summary>
 public class UiManager : Singleton<UiManager>, IInitializable
 {
@@ -13,6 +13,7 @@ public class UiManager : Singleton<UiManager>, IInitializable
     [Header("UI Controllers")]
     public UiController screenOverlay;
     public UiPopin pauseMenu;
+    public UiHud hud;
 
 
     public Task InitializeAsync()
@@ -32,6 +33,14 @@ public class UiManager : Singleton<UiManager>, IInitializable
             
             if(pauseMenu == null)
                 Debug.LogError("[UiManager] Pause Menu is missing!");            
+        }
+
+        if(hud == null)
+        {   
+            hud = transform.Find("HUD").GetComponent<UiHud>();
+            
+            if(hud == null)
+                Debug.LogError("[UiManager] HUD is missing!");            
         }
 
         return Task.CompletedTask;
