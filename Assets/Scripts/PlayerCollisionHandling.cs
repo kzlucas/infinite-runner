@@ -6,6 +6,7 @@ public class PlayerCollisionHandling : MonoBehaviour
 {
     public Action OnLanded;
     private PlayerController playerController;
+    private bool previouslyGrounded = true;
 
 
     /// <summary>
@@ -37,7 +38,6 @@ public class PlayerCollisionHandling : MonoBehaviour
         Vector3 rayStart = transform.position + (Vector3.up * 0.1f);
         float rayDistance = .2f;
         bool raycastHit = Physics.Raycast(rayStart, Vector3.down, out hit, rayDistance);
-        bool previouslyGrounded = playerController.isGrounded;
         
         // Grounded detection
         bool isCurrentlyGrounded = false;
@@ -58,6 +58,8 @@ public class PlayerCollisionHandling : MonoBehaviour
         {
             OnLanded?.Invoke();
         }
+
+        previouslyGrounded = playerController.isGrounded;
     }
 
 

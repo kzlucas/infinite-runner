@@ -201,8 +201,11 @@ public class PlayerController : MonoBehaviour
     {
         if (controlReleased) return;
 
+        // Slight downward force to stay grounded
+        var gravityModifier = rb.linearVelocity.y - .2f; 
+        
         // Apply constant forward movement
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, zMoveSpeed);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, gravityModifier, zMoveSpeed);
     }
 
 
