@@ -1,5 +1,6 @@
 
 
+using NUnit.Framework;
 using UnityEngine;
 
 public static class PaintManager
@@ -20,8 +21,8 @@ public static class PaintManager
         if(bucketFillPct >= 1f)
         {   
             // Change to next biome
-            ClearBucket();
-            BiomesData.Instance.SetNext();
+            var isLast = !BiomesData.Instance.SetNext();
+            if(!isLast) ClearBucket();
             AudioManager.Instance.PlaySound("biome-change");
         }
 

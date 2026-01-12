@@ -46,13 +46,13 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     /// <summary>
     ///   Get next biome data based on current biome.
     /// </summary>
-    /// <returns></returns>
-    public BiomeData SetNext()
+    /// <returns>Returns true if biome was changed, false if already at last biome.</returns>
+    public bool SetNext()
     {
         if (current == null)
         {
             Debug.LogError("[BiomesData] Current biome is null!");
-            return null;
+            return false;
         }
         int currentIndex = items.IndexOf(current);
         if (currentIndex == -1)
@@ -65,13 +65,13 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         {
             int nextIndex = currentIndex + 1;
             ApplyDataAtIndex(nextIndex);
-
             
             // Clear world segments to force regeneration with new biome
             worldGenerationManager.ClearNextSegments();
+            return true;
         }
         
-        return current;
+        return false;
     }
 
 
