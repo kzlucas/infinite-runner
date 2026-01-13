@@ -63,7 +63,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// </summary>
     private WorldSegment pickWorldSegmentPrefab()
     {
-        if(generatedIndex <= 1)
+        if(generatedIndex <= 2)
             return BiomesData.Instance.current
                     .segments.Find(s => s.name == "Straight Segment");
 
