@@ -365,9 +365,6 @@ public class PlayerController : MonoBehaviour
         // Play land sound
         AudioManager.Instance.PlaySound("land");
 
-        // Reset jump animation
-        transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", false);
-
         // Play again jump particles on landing
         PlayJumpParticules();
 

@@ -108,6 +108,9 @@ public class PlayerCollisionHandling : MonoBehaviour
         // Update grounded state
         playerController.isGrounded = isCurrentlyGrounded;
 
+        // Set jump animation state ~
+        playerController.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", !playerController.isGrounded );
+
         // If just landed, invoke the OnLanded event
         if (!previouslyGrounded && playerController.isGrounded)
         {

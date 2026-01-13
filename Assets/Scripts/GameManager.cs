@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class GameManager : Singleton<GameManager>
 {
     private bool isPaused = false;
