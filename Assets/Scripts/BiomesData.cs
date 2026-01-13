@@ -67,7 +67,8 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             ApplyDataAtIndex(nextIndex);
             
             // Clear world segments to force regeneration with new biome
-            worldGenerationManager.ClearNextSegments();
+            if (worldGenerationManager == null) worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
+            worldGenerationManager.ClearSegmentsInFrontPlayer(30);
             return true;
         }
         

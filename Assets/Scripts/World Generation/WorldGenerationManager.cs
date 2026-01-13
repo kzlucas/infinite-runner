@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -16,30 +17,35 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
     /// <summary>Represent the area in which world segment has to be spawn on game Update</summary>
     private Bounds generationBoundary;
-
-    /// <summary>Size of each generated segment grid (in world units)</summary>
-    private int segmentGridSize = 10;
     
     /// <summary>Reference to the player transform for generation tracking</summary>
-    private Transform playerTransform;
+    public Transform playerTransform;
 
     /// <summary>Number of segments to generate in front of the player</summary>
-    public int generateCountInFront = 10;
+    public int frontGenerationWindowSize = 100;
 
     /// <summary> Index for generated segments</summary>
     private int generatedIndex = 0;
 
 
-    private void Start()
+
+    /// <summary>
+    /// Get the needed references and setup for world generation
+    /// </summary>
+    /// <returns></returns>
+    public Task InitializeAsync()
     {
         // Initial generation
         GenerateSegments();
+
+        return Task.CompletedTask;
     }
+
 
 
     /// <summary> Generate segments</summary>
     public void GenerateSegments()
-    {
+    {   
         generatedIndex = 0;
         
         // destroy existing segments
@@ -49,27 +55,6 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             
         // generate
         Update();
-    }
-
-
-    /// <summary>
-    /// Get the needed references and setup for world generation
-    /// </summary>
-    /// <returns></returns>
-    public Task InitializeAsync()
-    {
-        // Get player position reference
-        if(playerTransform == null)
-        {
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-            if (playerTransform == null)
-                Debug.LogError("[WorldGenerationManager] Player object with tag 'Player' not found in the scene.");
-        }
-
-        // Initial generation
-        GenerateSegments();
-
-        return Task.CompletedTask;
     }
 
 
@@ -93,45 +78,61 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// </summary>
     private void Update()
     {
-        if(playerTransform == null)
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-
-        generationBoundary = new Bounds(
-            new Vector3(
-                playerTransform.position.x
-                , playerTransform.position.y
-                , playerTransform.position.z + (generateCountInFront / 2f * 10f)
-            ),
-            new Vector3(10f, 0f, generateCountInFront * 10f)
-        );
-
+        
         // Generate new segments if needed
-        int pz = (int)(Math.Ceiling(playerTransform.position.z / segmentGridSize) * segmentGridSize);
-        float mz = (int)(Math.Ceiling(generationBoundary.max.z / segmentGridSize) * segmentGridSize);
-        for (int z = pz; z < mz; z += segmentGridSize)
+        int cursor = (int)playerTransform.position.z;
+        int maxZ = cursor + frontGenerationWindowSize;
+        while (cursor  < maxZ)
         {
             // Check if segment at this z already exists
-            bool segmentExists = currentWorldSegments.Exists(s => s.position.z == z);
+            var worldSegment = currentWorldSegments.Find(s => s.IsPositionInsideSegment(cursor));
+            bool segmentExists = worldSegment != null;
             if (!segmentExists)
             {
-                var segmentPrefab = pickWorldSegmentPrefab().prefab;
-
                 // Create new segment
                 generatedIndex++;
-                var segmentObj = Instantiate(segmentPrefab, new Vector3(0f, 0, z), Quaternion.identity);
-                segmentObj.transform.parent = transform;
-                currentWorldSegments.Add(new WorldSegment() { position = new Vector3(0f, 0f, z), prefab = segmentObj });
-
-
-                // Update colliders
-                SquareCollidersMerger.Instance.GenerateSquareColliders();
+                var lastSegment = currentWorldSegments.LastOrDefault();
+                var zTarget = cursor; 
+                if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
+                var segmentPrefab = pickWorldSegmentPrefab().prefab;
+                var segmentInstance = Instantiate(segmentPrefab, new Vector3(0f, 0, zTarget), Quaternion.identity);
+                segmentInstance.transform.parent = transform;
+                worldSegment = new WorldSegment() {position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };
+                worldSegment.CalcInstanceData(segmentInstance);
+                currentWorldSegments.Add(worldSegment);
             }
+
+            if(worldSegment == null)
+            {
+                Debug.LogError("[WorldGenerationManager] World segment is null after instantiation!");
+                break;
+            }
+            if(worldSegment.sizeZ <= 0)
+            {
+                Debug.LogError("[WorldGenerationManager] World segment sizeZ is invalid after calculation!");
+                break;
+            }
+
+            cursor += worldSegment.sizeZ;
         }
 
         // Remove all segments that are behind the player
+        ClearSegmentsBehindPlayer();
+
+        // Update colliders
+        SquareCollidersMerger.Instance.GenerateSquareColliders();
+    }
+
+
+
+    /// <summary>
+    ///   Remove world segments that are behind the player
+    /// </summary>
+    public void ClearSegmentsBehindPlayer()
+    {
         currentWorldSegments.RemoveAll(s =>
         {
-            if (s.position.z < playerTransform.position.z - segmentGridSize)
+            if ((s.position.z + s.sizeZ) < playerTransform.position.z )
             {
                 Destroy(s.prefab);
                 return true;
@@ -140,20 +141,16 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         });
     }
 
-
-
-
     /// <summary>
-    ///   Remove future world segments after provided offser
-    ///   (e.g. after biome change)
+    ///     Remove world segments that are in front of the player up to given distance
     /// </summary>
-    /// <param name="offset"></param>
-    public void ClearNextSegments(int offset = 4)
+    /// <param name="distanceAhead"> Offset distance ahead of player to clear segments from.
+    /// This params means: Preserve segments if they are close enough to player </param>
+    public void ClearSegmentsInFrontPlayer(int distanceAhead)
     {
-        // Remove all segments after 2 segments in front of the player
         currentWorldSegments.RemoveAll(s =>
         {
-            if (s.position.z > playerTransform.position.z + (offset * segmentGridSize))
+            if (s.position.z > (playerTransform.position.z + distanceAhead))
             {
                 Destroy(s.prefab);
                 return true;

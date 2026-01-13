@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -26,6 +27,12 @@ public class UiHud : UiController
     /// <param name="fillPct"></param>
     public void UpdatePaintBucket(float fillPct)
     {
+        StartCoroutine(_UpdatePaintBucket(fillPct));
+    }
+
+    private IEnumerator _UpdatePaintBucket(float fillPct)
+    {
+        yield return new WaitUntil(() => docReady && bucket != null);
         bucket.style.width = Length.Percent(fillPct * 100f);
     }
 }
