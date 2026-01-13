@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,6 +28,12 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <summary> Index for generated segments</summary>
     private int generatedIndex = 0;
 
+    /// <summary> Coroutine reference for world generation</summary>
+    private IEnumerator generationCoroutine;
+
+
+    private void OnDisable() => StopAllCoroutines();
+
 
 
     /// <summary>
@@ -35,7 +42,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <returns></returns>
     public Task InitializeAsync()
     {
-        // Initial generation
+        // Start generation thread
         GenerateSegments();
 
         return Task.CompletedTask;
@@ -44,17 +51,22 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
 
     /// <summary> Generate segments</summary>
-    public void GenerateSegments()
+    public void GenerateSegments(bool clearExisting = true)
     {   
-        generatedIndex = 0;
-        
-        // destroy existing segments
-        currentWorldSegments.Clear();
-        foreach(var seg in GameObject.FindGameObjectsWithTag("World Segment"))
-            DestroyImmediate(seg);
+        if(clearExisting)
+        {
+            generatedIndex = 0;
             
-        // generate
-        Update();
+            // destroy existing segments
+            currentWorldSegments.Clear();
+            foreach(var seg in GameObject.FindGameObjectsWithTag("World Segment"))
+                DestroyImmediate(seg);
+        }
+            
+        // (re)Start generation thread
+        if (generationCoroutine != null) StopCoroutine(generationCoroutine);
+        generationCoroutine = GenerationRoutine();
+        StartCoroutine(generationCoroutine);
     }
 
 
@@ -76,8 +88,10 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <summary>
     /// Check if we need to generate or rm segments and do it
     /// </summary>
-    private void Update()
+    private IEnumerator GenerationRoutine()
     {
+Debug.Log($"[WorldGenerationManager] Coroutine tick at player z: {playerTransform.position.z}");
+
         
         // Generate new segments if needed
         int cursor = (int)playerTransform.position.z;
@@ -100,6 +114,9 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                 worldSegment = new WorldSegment() {position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };
                 worldSegment.CalcInstanceData(segmentInstance);
                 currentWorldSegments.Add(worldSegment);
+
+                // no need to block frame, each segment can be created in its own frame
+                yield return null; 
             }
 
             if(worldSegment == null)
@@ -112,7 +129,6 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                 Debug.LogError("[WorldGenerationManager] World segment sizeZ is invalid after calculation!");
                 break;
             }
-
             cursor += worldSegment.sizeZ;
         }
 
@@ -121,6 +137,10 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
         // Update colliders
         SquareCollidersMerger.Instance.GenerateSquareColliders();
+
+        // Restart coroutine
+        yield return new WaitForEndOfFrame();
+        GenerateSegments(clearExisting: false);
     }
 
 
@@ -132,9 +152,16 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     {
         currentWorldSegments.RemoveAll(s =>
         {
-            if ((s.position.z + s.sizeZ) < playerTransform.position.z )
+            if ((s.position.z + s.sizeZ) < playerTransform.position.z - 10) // 10u offset to avoid removing too early
             {
+#if UNITY_EDITOR
+                if(Application.isPlaying) 
+                    Destroy(s.prefab);
+                else 
+                    DestroyImmediate(s.prefab);
+#else
                 Destroy(s.prefab);
+#endif
                 return true;
             }
             return false;
@@ -152,7 +179,14 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         {
             if (s.position.z > (playerTransform.position.z + distanceAhead))
             {
+#if UNITY_EDITOR
+                if(Application.isPlaying) 
+                    Destroy(s.prefab);
+                else 
+                    DestroyImmediate(s.prefab);
+#else
                 Destroy(s.prefab);
+#endif
                 return true;
             }
             return false;

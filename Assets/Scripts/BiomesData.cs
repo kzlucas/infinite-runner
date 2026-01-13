@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -60,18 +61,24 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             currentIndex = 0;
         }
 
-        // Set next biome data. If at end of list, stay at current biome.
+        // Set next biome data. If at end of list, stay at current biome. (In editor mode, loop back to start)
+#if !UNITY_EDITOR
         if((currentIndex + 1) < items.Count)
         {
+#endif
             int nextIndex = currentIndex + 1;
+            if (nextIndex >= items.Count) nextIndex = 0;
             ApplyDataAtIndex(nextIndex);
             
             // Clear world segments to force regeneration with new biome
             if (worldGenerationManager == null) worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
             worldGenerationManager.ClearSegmentsInFrontPlayer(30);
+
             return true;
+
+#if !UNITY_EDITOR
         }
-        
+#endif
         return false;
     }
 
