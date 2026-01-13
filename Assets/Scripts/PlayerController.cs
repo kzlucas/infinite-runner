@@ -172,6 +172,7 @@ public class PlayerController : MonoBehaviour
         // Play crash effects
         jumpParticles.Stop();
         slideParticles.Stop();
+        laneChangeParticles.Stop();
         crashParticules.transform.parent = null;
         crashParticules.transform.position = transform.position + Vector3.up * 0.5f;
         crashParticules.Play();

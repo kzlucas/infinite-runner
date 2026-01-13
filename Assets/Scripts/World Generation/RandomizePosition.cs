@@ -4,6 +4,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class RandomizePosition : MonoBehaviour
 {
+    public bool staticPosition = false;
     public Vector3Int randomizeAxisMin;
     public Vector3Int randomizeAxisMax;
     public Vector3Int randomizeAxisStep = new Vector3Int(2, 2, 2);
@@ -18,6 +19,7 @@ public class RandomizePosition : MonoBehaviour
 
     private void StartRandomization()
     {
+        if(staticPosition || isRandomized) return;
         attempts++;
         Vector3 newPosition = new Vector3(0, 0, 0);
 

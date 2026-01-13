@@ -90,9 +90,6 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// </summary>
     private IEnumerator GenerationRoutine()
     {
-Debug.Log($"[WorldGenerationManager] Coroutine tick at player z: {playerTransform.position.z}");
-
-        
         // Generate new segments if needed
         int cursor = (int)playerTransform.position.z;
         int maxZ = cursor + frontGenerationWindowSize;
@@ -116,8 +113,10 @@ Debug.Log($"[WorldGenerationManager] Coroutine tick at player z: {playerTransfor
                 currentWorldSegments.Add(worldSegment);
 
                 // no need to block frame, each segment can be created in its own frame
-                yield return null; 
-            }
+                #if !UNITY_EDITOR
+                yield return null;
+                #endif 
+            } 
 
             if(worldSegment == null)
             {
@@ -154,14 +153,11 @@ Debug.Log($"[WorldGenerationManager] Coroutine tick at player z: {playerTransfor
         {
             if ((s.position.z + s.sizeZ) < playerTransform.position.z - 10) // 10u offset to avoid removing too early
             {
-#if UNITY_EDITOR
-                if(Application.isPlaying) 
-                    Destroy(s.prefab);
-                else 
+                if (Application.isEditor && !Application.isPlaying)
                     DestroyImmediate(s.prefab);
-#else
-                Destroy(s.prefab);
-#endif
+                else
+                    Destroy(s.prefab);
+
                 return true;
             }
             return false;
@@ -179,14 +175,11 @@ Debug.Log($"[WorldGenerationManager] Coroutine tick at player z: {playerTransfor
         {
             if (s.position.z > (playerTransform.position.z + distanceAhead))
             {
-#if UNITY_EDITOR
-                if(Application.isPlaying) 
-                    Destroy(s.prefab);
-                else 
+                if (Application.isEditor && !Application.isPlaying)
                     DestroyImmediate(s.prefab);
-#else
-                Destroy(s.prefab);
-#endif
+                else
+                    Destroy(s.prefab);
+                    
                 return true;
             }
             return false;
