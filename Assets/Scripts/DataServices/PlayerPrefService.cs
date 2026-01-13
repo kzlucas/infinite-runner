@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Save User progress and settings
 /// </summary>
-public class UserData : Singleton<UserData>
+public class PlayerPrefService : Singleton<PlayerPrefService>
 {
 
 

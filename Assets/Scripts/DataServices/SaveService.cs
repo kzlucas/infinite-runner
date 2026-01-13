@@ -4,17 +4,6 @@ using UnityEngine;
 /// <summary>
 ///  Service for saving and loading data
 /// </summary>
-/// 
-/// // Example usage:
-///    // To save data:
-///    SaveService.Save(yourSerializableDataObject);
-///    // To load data:
-///    if(SaveService.TryLoad<YourDataType>(out var data))
-///    {
-///        // Use loaded data
-///    }
-/// //
-/// 
 public static class SaveService
 {
     private static readonly string saveFileName = "save.json";
@@ -35,25 +24,23 @@ public static class SaveService
     ///   Load data
     /// </summary>
     /// <returns>The loaded data</returns>
-    public static T TryLoad<T>(out T data) where T : Object
+    public static SaveData Load()
     {
         string path = GetSaveFilePath();
         if (!File.Exists(path))
         {
             Debug.LogWarning("[SaveService] No save file found at " + path);
-            data = null;
             return null;
         }
         try
         {
             string json = File.ReadAllText(path);
-            data = JsonUtility.FromJson<T>(json);
+            var data = JsonUtility.FromJson<SaveData>(json);
             return data;
         }
         catch (System.Exception e)
         {
             Debug.LogError("[SaveService] Failed to load save file: " + e.Message);
-            data = null;
             return null;
         }
     }

@@ -69,13 +69,6 @@ public class SceneLoader : Singleton<SceneLoader>
     }
 
 
-    /// <summary>
-    ///    Loads the main game scene.
-    /// </summary>
-    public void LoadGame()
-    {
-        Load("Game");
-    }
 
 
     /// <summary>

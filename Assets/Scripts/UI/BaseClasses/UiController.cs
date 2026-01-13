@@ -77,7 +77,7 @@ public class UiController : MonoBehaviour, IInitializable
             // Register handler
             toggle.RegisterValueChangedCallback((evt) => OnToggleChanged(toggle, evt.newValue));
 
-            // Initialize toggle states from UserData
+            // Initialize toggle states from PlayerPrefService
             if (toggle.name == "settings--music")
                 toggle.value = AudioManager.Instance.MusicOn;
             if (toggle.name == "settings--sfx")
@@ -114,7 +114,7 @@ public class UiController : MonoBehaviour, IInitializable
         else if(actionName == "start")
         {
             Debug.Log("[UiController] start button clicked.");
-            SceneLoader.Instance.LoadGame();
+            SceneLoader.Instance.Load("Game");
         }
         else if(actionName == "restart")
         {
