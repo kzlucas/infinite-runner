@@ -31,6 +31,11 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <summary> Coroutine reference for world generation</summary>
     private IEnumerator generationCoroutine;
 
+    /// <summary> Last instantiated biome name to track biome changes </summary>
+    private string lastInstantiatedBiomeName = "";
+
+
+    
 
     private void OnDisable() => StopAllCoroutines();
 
@@ -100,7 +105,11 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             bool segmentExists = worldSegment != null;
             if (!segmentExists)
             {
-                // Create new segment
+                /*
+                 *
+                 * Create new segment 
+                 */
+                
                 generatedIndex++;
                 var lastSegment = currentWorldSegments.LastOrDefault();
                 var zTarget = cursor; 
@@ -112,11 +121,30 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                 segmentInstance.transform.parent = transform;
                 worldSegment = new WorldSegment() {position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };
                 worldSegment.CalcInstanceData(segmentInstance);
-                currentWorldSegments.Add(worldSegment);
+
+                /*
+                 *
+                 * Add biome change overlay if biome changed 
+                 */
+                
+                var segBiomeName = BiomesData.Instance.current.name;
+                var lastSeg = currentWorldSegments.LastOrDefault();
+                if(lastSeg != null && (segBiomeName != lastInstantiatedBiomeName))
+                {
+                    WorldStartOverlay.Instance.Set(
+                        lastSeg.position + new Vector3(0, 0, lastSeg.sizeZ)
+                        , BiomesData.Instance.current.colorSkyGround
+                    );
+                }
+                lastInstantiatedBiomeName = segBiomeName;
+
 
                 // no need to block frame, each segment can be created in its own frame
                 if(Application.isPlaying)
                     yield return null;
+
+
+                currentWorldSegments.Add(worldSegment);
             } 
 
             if(worldSegment == null)

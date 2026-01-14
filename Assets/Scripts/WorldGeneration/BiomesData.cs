@@ -81,12 +81,9 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
 
     private IEnumerator FlashAndRegenWorld()
     {
-        // GameManager.Instance.PauseGame();
-        if(Application.isPlaying)
-            UiManager.Instance.screenFader.FlashWhite();
+        if(Application.isPlaying) UiManager.Instance.screenFader.FlashWhite();
         yield return new WaitForSecondsRealtime(0.1f);
         worldGenerationManager.ClearSegmentsInFrontPlayer(30);
-        // GameManager.Instance.ResumeGame();
     }
 
 
@@ -106,7 +103,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         Debug.Log("[BiomesData] Changing to biome: " + current.name);
 
         // Update "sky color of RenderSettings.skybox to match biome color
-        float lerpDuration = 1f;
+        float lerpDuration = .5f;
         lerpBiomeColorCoroutineInstance = LerpBiomeColors(current.colorSky, current.colorSkyHorizon, current.colorSkyGround, lerpDuration);
         
         // Update last biome reached in stats recorder
