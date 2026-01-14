@@ -8,6 +8,12 @@ public class EndGameManager : Singleton<EndGameManager>
     public Action OnEndGame;
 
 
+    private void Start()
+    {
+        SceneLoader.Instance.OnSceneLoaded += () => StopAllCoroutines();
+    }
+
+
     public void TriggerEndGame()
     {
         OnEndGame?.Invoke();

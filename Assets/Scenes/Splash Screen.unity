@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 1346035397708223894, guid: e8ece263baee6020fb86cdb1c964a97a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2439332743015564608, guid: e8ece263baee6020fb86cdb1c964a97a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -33.39739
@@ -269,7 +273,7 @@ Camera:
   m_GameObject: {fileID: 626718056}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.15853062, g: 0.3537736, b: 0.34219632, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2

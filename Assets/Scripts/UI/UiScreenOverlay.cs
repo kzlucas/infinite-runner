@@ -17,6 +17,9 @@ public class UiScreenOverlay : UiController, IOpenable
         OnSceneLoaded();
     }
 
+    private void OnDestroy() => StopAllCoroutines();
+
+
 
     /// <summary>
     ///   When a new scene has been loaded, initialize the fade screen to default state then close it.
@@ -31,6 +34,7 @@ public class UiScreenOverlay : UiController, IOpenable
         yield return new WaitUntil(() => docReady);
         var screen = root.Q<VisualElement>("screen");
         screen.AddToClassList(colorString);
+        screen.RemoveFromClassList("white");
         screen.RemoveFromClassList("fade-out");
         screen.RemoveFromClassList("fade-in");
         screen.MarkDirtyRepaint();
@@ -56,4 +60,23 @@ public class UiScreenOverlay : UiController, IOpenable
         isOpen = false;
     }
 
+
+    public void FlashWhite(float duration = 0.1f)
+    {
+        StartCoroutine(_FlashWhite(duration));
+    }
+    private IEnumerator _FlashWhite(float fadesDuration = .1f, float pauseDuration = 0f)
+    {
+        var screen = root.Q<VisualElement>("screen");
+        screen.RemoveFromClassList(colorString); 
+        screen.AddToClassList("white");
+        screen.AddToClassList("fade-in-fast");
+        screen.RemoveFromClassList("fade-out-fast");
+        yield return new WaitForSeconds(fadesDuration + pauseDuration);
+        screen.AddToClassList("fade-out-fast");
+        screen.RemoveFromClassList("fade-in-fast");
+        yield return new WaitForSeconds(fadesDuration);
+        screen.RemoveFromClassList("white");
+        screen.AddToClassList(colorString);
+    }
 }

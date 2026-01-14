@@ -344,8 +344,9 @@ public class PlayerController : MonoBehaviour
         // Start jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
 
-        // Apply jump velocity
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpHeight, rb.linearVelocity.z);
+        // Calculate the required velocity to reach the desired jump height
+        float jumpVelocity = Mathf.Sqrt(2f * jumpHeight * Mathf.Abs(Physics.gravity.y));
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpVelocity, rb.linearVelocity.z);
 
         // Play jump particles
         PlayJumpParticules(0.3f);

@@ -15,6 +15,7 @@ public class UiManager : Singleton<UiManager>, IInitializable
     public UiPopin pauseMenu;
     public UiHud hud;
     public UiEndGame endGameScreen;
+    public UiScreenOverlay screenFader;
 
 
     public Task InitializeAsync()
@@ -50,6 +51,14 @@ public class UiManager : Singleton<UiManager>, IInitializable
             
             if(endGameScreen == null)
                 Debug.LogError("[UiManager] End Game Screen is missing!");            
+        }
+
+        if(screenFader == null)
+        {   
+            screenFader = transform.Find("Screen Overlay").GetComponent<UiScreenOverlay>();
+            
+            if(screenFader == null)
+                Debug.LogError("[UiManager] Screen Fader is missing!");            
         }
 
         return Task.CompletedTask;

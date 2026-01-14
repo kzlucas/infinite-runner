@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BiomesData : Singleton<BiomesData>, IInitializable
 {
@@ -66,7 +67,8 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             // Clear world segments to force regeneration with new biome
             if (worldGenerationManager == null) 
                 worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
-            worldGenerationManager.ClearSegmentsInFrontPlayer(30);
+
+            StartCoroutine(FlashAndRegenWorld());
 
             return true;
 
@@ -76,6 +78,15 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         return false;
     }
 
+
+    private IEnumerator FlashAndRegenWorld()
+    {
+        // GameManager.Instance.PauseGame();
+        UiManager.Instance.screenFader.FlashWhite();
+        yield return new WaitForSecondsRealtime(0.1f);
+        worldGenerationManager.ClearSegmentsInFrontPlayer(30);
+        // GameManager.Instance.ResumeGame();
+    }
 
 
     /// <summary>
@@ -109,6 +120,10 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     ///  </summary>
     private IEnumerator LerpBiomeColors(Color targetSky, Color targetHorizon, Color targetGround, float duration)
     {
+
+        if(SceneLoader.Instance.currentSceneName != "Game")
+            yield break;
+
         Color initialSky = RenderSettings.skybox.GetColor("_SkyColor");
         Color initialHorizon = RenderSettings.skybox.GetColor("_HorizonColor");
         Color initialGround = RenderSettings.skybox.GetColor("_GroundColor");

@@ -8,6 +8,7 @@ public class SceneLoader : Singleton<SceneLoader>
     public event Action OnSceneLoaded;
     public event Action OnSceneExit;
     private bool isTriggered = false;
+    public string currentSceneName => SceneManager.GetActiveScene().name;
 
 
     /// <summary>
