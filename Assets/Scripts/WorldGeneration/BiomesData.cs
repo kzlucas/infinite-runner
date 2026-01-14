@@ -82,7 +82,8 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     private IEnumerator FlashAndRegenWorld()
     {
         // GameManager.Instance.PauseGame();
-        UiManager.Instance.screenFader.FlashWhite();
+        if(Application.isPlaying)
+            UiManager.Instance.screenFader.FlashWhite();
         yield return new WaitForSecondsRealtime(0.1f);
         worldGenerationManager.ClearSegmentsInFrontPlayer(30);
         // GameManager.Instance.ResumeGame();

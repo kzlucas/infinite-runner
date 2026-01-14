@@ -6,6 +6,7 @@ TagManager:
   tags:
   - World Segment
   - Composite Square Collider
+  - Slot
   layers:
   - Default
   - TransparentFX

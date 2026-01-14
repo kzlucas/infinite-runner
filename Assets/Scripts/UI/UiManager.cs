@@ -17,10 +17,14 @@ public class UiManager : Singleton<UiManager>, IInitializable
     public UiEndGame endGameScreen;
     public UiScreenOverlay screenFader;
 
-
     public Task InitializeAsync()
     {
+        GetReferences();
+        return Task.CompletedTask;
+    }
 
+    private void GetReferences()
+    {
         if(screenOverlay == null)
         {   
             screenOverlay = transform.Find("Screen Overlay").GetComponent<UiController>();
@@ -60,9 +64,7 @@ public class UiManager : Singleton<UiManager>, IInitializable
             if(screenFader == null)
                 Debug.LogError("[UiManager] Screen Fader is missing!");            
         }
-
-        return Task.CompletedTask;
-
+   
     }
 
 }

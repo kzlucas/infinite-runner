@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
-[ExecuteInEditMode]
+
 public class SidewalkGenerator : MonoBehaviour
 {
     /// <summary>
@@ -30,7 +30,6 @@ public class SidewalkGenerator : MonoBehaviour
     /// </summary>
     public void Generate()
     {
-
         // clear previous items if any (append in edit mode)
         foreach (Transform child in itemsContainer.transform)
         {
@@ -38,13 +37,12 @@ public class SidewalkGenerator : MonoBehaviour
         }
 
         // get random prefab and instantiate at each slot
-        foreach (var slot in slotsContainer.transform.GetComponentsInChildren<Transform>())
+        foreach (GameObject slot in slotsContainer.FindChildWithTag("Slot"))
         {
-            if (slot == slotsContainer.transform) continue; // skip container itself
             var prefab = prefabs[Random.Range(0, prefabs.Count)];
-            var instance = Instantiate(prefab, slot.position, Quaternion.identity, transform);
+            var instance = Instantiate(prefab, slot.transform.position, Quaternion.identity, transform);
             instance.transform.SetParent(itemsContainer.transform);
-            instance.transform.rotation = slot.rotation;
+            instance.transform.rotation = slot.transform.rotation;
         }
 
     }
