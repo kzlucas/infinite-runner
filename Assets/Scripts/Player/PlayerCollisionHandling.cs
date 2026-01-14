@@ -55,6 +55,7 @@ public class PlayerCollisionHandling : MonoBehaviour
             case ColliderType.Type.Wall:
                 Debug.Log("[PlayerCollisionHandling] Collided with obstacle: " + other.name);
                 playerController.OnCrash();
+                EndGameManager.Instance.TriggerEndGame();
                 break;
 
             case ColliderType.Type.Ground:

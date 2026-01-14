@@ -8,6 +8,6 @@ public class AnimationEvent__CoinCaught : MonoBehaviour
     /// </summary>
     public void Do()
     {
-        PaintManager.AddPaint(.1f);
+        PaintManager.AddPaint(1);
     }
 }

@@ -1,6 +1,7 @@
 
 
 using NUnit.Framework;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public static class PaintManager
@@ -11,10 +12,10 @@ public static class PaintManager
     /// <summary>
     ///   Add paint to the bucket
     /// </summary>
-    /// <param name="amount">Amount to add in pct</param>
-    public static void AddPaint(float amount)
+    /// <param name="amount">Amount to add (usually 1)</param>
+    public static void AddPaint(int amount)
     {
-        bucketFillPct += amount;
+        bucketFillPct += amount / 10f;
         bucketFillPct = Mathf.Clamp01(bucketFillPct);
 
         // Check if bucket is full
@@ -28,6 +29,8 @@ public static class PaintManager
 
         // Update HUD
         UiManager.Instance.hud.UpdatePaintBucket(bucketFillPct);
+
+        StatsRecorder.Instance.IncrementPaintCollected(amount);
     }
 
 

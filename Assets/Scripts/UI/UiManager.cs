@@ -14,6 +14,7 @@ public class UiManager : Singleton<UiManager>, IInitializable
     public UiController screenOverlay;
     public UiPopin pauseMenu;
     public UiHud hud;
+    public UiEndGame endGameScreen;
 
 
     public Task InitializeAsync()
@@ -41,6 +42,14 @@ public class UiManager : Singleton<UiManager>, IInitializable
             
             if(hud == null)
                 Debug.LogError("[UiManager] HUD is missing!");            
+        }
+
+        if(endGameScreen == null)
+        {   
+            endGameScreen = transform.Find("End Game Screen").GetComponent<UiEndGame>();
+            
+            if(endGameScreen == null)
+                Debug.LogError("[UiManager] End Game Screen is missing!");            
         }
 
         return Task.CompletedTask;

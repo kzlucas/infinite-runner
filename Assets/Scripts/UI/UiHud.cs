@@ -16,9 +16,8 @@ public class UiHud : UiController
 
     private IEnumerator _OnDocReady()
     {
-        // Wait until doc is ready and get ref
-        yield return new WaitUntil(() => docReady);
         bucket = root.Q<VisualElement>("bucket");
+        yield return null;
     }
 
     /// <summary>

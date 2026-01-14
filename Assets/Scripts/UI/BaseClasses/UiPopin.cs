@@ -17,9 +17,7 @@ public class UiPopin : UiController, IOpenable
 
     private IEnumerator _OnDocReady()
     {
-
         // Wait until doc is ready and get ref
-        yield return new WaitUntil(() => docReady);
         popin = root.Q<VisualElement>("popin");
 
         // don't animate open/close on scene load
@@ -29,6 +27,9 @@ public class UiPopin : UiController, IOpenable
         // Set initial state
         if (openOnSceneLoad) Open();
         else Close();
+
+        Debug.Log("[UiPopin] Popin initialized: " + gameObject.name);
+        Debug.Log("[UiPopin] Initial state: " + (isOpen ? "Open" : "Closed"));
 
         // Wait frames to ensure open/close classes are applied before adding animate class, 
         yield return new WaitForEndOfFrame(); 

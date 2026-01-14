@@ -34,13 +34,6 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         else
             Debug.LogError("[BiomesData] No biome data found!");
 
-
-        worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
-        if (worldGenerationManager == null)
-        {
-            Debug.LogError("[BiomesData] WorldGenerationManager not found in scene!");
-        }
-
         return Task.CompletedTask;
     }
 
@@ -71,7 +64,8 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             ApplyDataAtIndex(nextIndex);
             
             // Clear world segments to force regeneration with new biome
-            if (worldGenerationManager == null) worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
+            if (worldGenerationManager == null) 
+                worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
             worldGenerationManager.ClearSegmentsInFrontPlayer(30);
 
             return true;
@@ -102,6 +96,10 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         // Update "sky color of RenderSettings.skybox to match biome color
         float lerpDuration = 1f;
         lerpBiomeColorCoroutineInstance = LerpBiomeColors(current.colorSky, current.colorSkyHorizon, current.colorSkyGround, lerpDuration);
+        
+        // Update last biome reached in stats recorder
+        StatsRecorder.Instance.UpdateLastBiomeReached(current.name);
+        
         StartCoroutine(lerpBiomeColorCoroutineInstance);
     }
 
