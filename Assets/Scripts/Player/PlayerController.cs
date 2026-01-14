@@ -64,9 +64,6 @@ public class PlayerController : MonoBehaviour
     /// <summary> Particle system for jump effect</summary>
     public ParticleSystem jumpParticles;
 
-    /// <summary> Reference to the jump coroutine</summary>
-    private IEnumerator jumpRoutine;
-
     /// <summary> Maximum number of consecutive jumps allowed between landings (2 basicly means double jump allowed, set to 1 for disabling))</summary>
     public int maxJumpCount = 2;
 
@@ -203,7 +200,7 @@ public class PlayerController : MonoBehaviour
     /// - Contiusously push rigidbody toward Z
     /// - Check grounded state
     /// </summary>
-    private void Update()
+    private void FixedUpdate()
     {
         if (controlReleased) return;
 
@@ -313,7 +310,7 @@ public class PlayerController : MonoBehaviour
         if (currentJumpCount >= maxJumpCount) return;
 
         // start new jump routine                
-        jumpRoutine.Replace(JumpRoutine());
+        Jump();
     }
 
 
@@ -333,9 +330,8 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     ///  Handle the jump action
     /// </summary>
-    private IEnumerator JumpRoutine()
+    private void Jump()
     {
-
         currentJumpCount++;
 
         // Play jump sound
@@ -344,14 +340,12 @@ public class PlayerController : MonoBehaviour
         // Start jump animation
         transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
 
-        // Calculate the required velocity to reach the desired jump height
-        float jumpVelocity = Mathf.Sqrt(2f * jumpHeight * Mathf.Abs(Physics.gravity.y));
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpVelocity, rb.linearVelocity.z);
+        // Physic jump
+        rb.linearVelocity = Vector3.zero;
+        rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
 
         // Play jump particles
         PlayJumpParticules(0.3f);
-        
-        yield break;
     }
 
 
