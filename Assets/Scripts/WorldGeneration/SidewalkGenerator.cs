@@ -20,11 +20,6 @@ public class SidewalkGenerator : MonoBehaviour
     public List<GameObject> prefabs;
 
 
-    private void Start()
-    {
-        Generate();
-    }
-
     /// <summary>
     /// Generate items on sidewalk
     /// </summary>

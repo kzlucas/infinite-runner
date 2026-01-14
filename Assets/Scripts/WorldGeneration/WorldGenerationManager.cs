@@ -107,15 +107,16 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                 if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
                 var segmentPrefab = pickWorldSegmentPrefab().prefab;
                 var segmentInstance = Instantiate(segmentPrefab, new Vector3(0f, 0, zTarget), Quaternion.identity);
+                var sidewalkGenerators = segmentInstance.GetComponentsInChildren<SidewalkGenerator>();
+                foreach(var sidewalkGenerator in sidewalkGenerators) sidewalkGenerator.Generate();
                 segmentInstance.transform.parent = transform;
                 worldSegment = new WorldSegment() {position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };
                 worldSegment.CalcInstanceData(segmentInstance);
                 currentWorldSegments.Add(worldSegment);
 
                 // no need to block frame, each segment can be created in its own frame
-                #if !UNITY_EDITOR
-                yield return null;
-                #endif 
+                if(Application.isPlaying)
+                    yield return null;
             } 
 
             if(worldSegment == null)

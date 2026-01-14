@@ -11,6 +11,8 @@ public class StatsRecorder : Singleton<StatsRecorder>
 
     private void Start()
     {
+        paintCollected = 0;
+        
         GetSaveData();
         IncrementRunsCount();
         EndGameManager.Instance.OnEndGame += OnGameEnd;

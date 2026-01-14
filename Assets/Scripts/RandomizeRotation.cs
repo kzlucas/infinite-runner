@@ -1,6 +1,3 @@
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 
 
@@ -19,12 +16,8 @@ public class RandomizeRotation : MonoBehaviour
 
     public void Randomize()
     {
-#if UNITY_EDITOR
-        bool isPrefabInstance = PrefabUtility.IsPartOfPrefabInstance(gameObject);
-        if (isPrefabInstance) return;
-#endif
 
-        Vector3 newRotation = transform.rotation.eulerAngles;
+        Vector3 newRotation = transform.localRotation.eulerAngles;
 
         if (randomizeX)
         {
@@ -39,6 +32,6 @@ public class RandomizeRotation : MonoBehaviour
             newRotation.z = Random.Range(0f, 360f);
         }
 
-        transform.rotation = Quaternion.Euler(newRotation);
+        transform.localRotation = Quaternion.Euler(newRotation);
     }
 }
