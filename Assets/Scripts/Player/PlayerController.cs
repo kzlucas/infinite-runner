@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
     [Header("Collider")]
 
     /// <summary> Reference to the player's collider</summary>
-    public CapsuleCollider capsuleCollider;
+    public BoxCollider bcollider;
 
     /// <summary> Reference to the player's collider normal dimensions: height</summary>
     public float originalColliderHeight;
@@ -139,9 +139,9 @@ public class PlayerController : MonoBehaviour
         laneChangeParticles.Stop();
 
         // store original collider size
-        capsuleCollider = GetComponent<CapsuleCollider>();
-        originalColliderHeight = capsuleCollider.height;
-        originalColliderCenterY = capsuleCollider.center.y;
+        bcollider = GetComponent<BoxCollider>();
+        originalColliderHeight = bcollider.size.y;
+        originalColliderCenterY = bcollider.center.y;
 
         // attach rigidbody
         rb = gameObject.GetOrAddComponent<Rigidbody>();
@@ -428,8 +428,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void SetColliderToSlidingPosition()
     {
-        capsuleCollider.height = originalColliderHeight / 2f;  // ~0.5
-        capsuleCollider.center = new Vector3(capsuleCollider.center.x, capsuleCollider.center.y - originalColliderHeight / 4f, capsuleCollider.center.z); // ~0.3
+        bcollider.size = new Vector3(bcollider.size.x, originalColliderHeight / 2f, bcollider.size.z); // ~0.5
+        bcollider.center = new Vector3(bcollider.center.x, bcollider.center.y - originalColliderHeight / 4f, bcollider.center.z); // ~0.3
     }
 
 
@@ -438,7 +438,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void SetColliderToNormalPosition()
     {
-        capsuleCollider.height = originalColliderHeight;
-        capsuleCollider.center = new Vector3(capsuleCollider.center.x, originalColliderCenterY, capsuleCollider.center.z);
+        bcollider.size = new Vector3(bcollider.size.x, originalColliderHeight, bcollider.size.z);
+        bcollider.center = new Vector3(bcollider.center.x, originalColliderCenterY, bcollider.center.z);
     }
 }
