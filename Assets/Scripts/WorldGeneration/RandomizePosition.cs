@@ -1,5 +1,7 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 [ExecuteInEditMode]
 public class RandomizePosition : MonoBehaviour
@@ -8,9 +10,16 @@ public class RandomizePosition : MonoBehaviour
     public Vector3Int randomizeAxisMin;
     public Vector3Int randomizeAxisMax;
     public Vector3Int randomizeAxisStep = new Vector3Int(2, 2, 2);
-    private int attempts = 0;
     private bool isRandomized = false;
 
+
+    private void Awake()
+    {
+        if(staticPosition)
+        {
+            isRandomized = true;
+        }
+    }
 
     private void Start()
     {
@@ -19,14 +28,55 @@ public class RandomizePosition : MonoBehaviour
 
     private void StartRandomization()
     {
-        if(staticPosition || isRandomized) return;
-        attempts++;
+        if(isRandomized)
+        {
+            return;
+        }
+
+        /*
+         *
+         * Get possible slots on X axis 
+         */
+        
+        List<int> slotX = new List<int>();
+        for (int x = randomizeAxisMin.x; x <= randomizeAxisMax.x; x += randomizeAxisStep.x)
+        {
+            slotX.Add(x);
+        }
+
+        /*
+         *
+         * Ensure no siblings have the same X position 
+         */
+        
+        var containerWorldSegment = transform.parent;
+        List<RandomizePosition> randomizePositionnedSiblings = containerWorldSegment.GetComponentsInChildren<RandomizePosition>()
+            .ToList()
+            .FindAll(rp => rp.isRandomized && rp != this);
+
+        foreach (var sibling in randomizePositionnedSiblings)
+        {
+            int siblingX = (int)sibling.transform.localPosition.x;
+            if (slotX.Contains(siblingX))
+            {
+                slotX.Remove(siblingX);
+            }
+        }
+
+        if(slotX.Count == 0)
+        {
+            Debug.LogWarning($"[RandomizePosition] No available X slot for {gameObject.name} in {containerWorldSegment.name}");
+            return;
+        }
+
+        /*
+         *
+         * Randomize position 
+         */
+        
         Vector3 newPosition = new Vector3(0, 0, 0);
 
-        int randomX = Random.Range(
-            (int)(randomizeAxisMin.x / randomizeAxisStep.x),
-            (int)(randomizeAxisMax.x / randomizeAxisStep.x) + 1
-        ) * randomizeAxisStep.x;
+        int randomX = slotX[Random.Range(0, slotX.Count)];
 
         int randomY = Random.Range(
             (int)(randomizeAxisMin.y / randomizeAxisStep.y),
@@ -43,32 +93,6 @@ public class RandomizePosition : MonoBehaviour
         newPosition.z += randomZ;
 
         transform.localPosition = newPosition;
-
-        /*
-         *
-         * Ensure no siblings have the same position
-         * If so, re-randomize 
-         */
-        
-        if (attempts > 10)
-        {
-            // prevent infinite loops 
-            // (if too many siblings, should not happen)
-            Debug.LogError("[RandomizePosition] Too many randomization attempts, giving up to prevent infinite loop.");
-            Destroy(this);
-            return; 
-        }
-        var containerWorldSegment = transform.parent;
-        var randomizePositionnedSiblings = containerWorldSegment.GetComponentsInChildren<RandomizePosition>();
-        foreach (var sibling in randomizePositionnedSiblings)
-        {
-            if (sibling != this && sibling.transform.localPosition == transform.localPosition && sibling.isRandomized)
-            {
-                // re-randomize
-                StartRandomization();
-                break;
-            }
-        }
 
         isRandomized = true;
     }
