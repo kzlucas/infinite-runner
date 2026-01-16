@@ -3,14 +3,17 @@
     --font-size-medium: 32px;
     --font-size-small: 26px;
     font-size: var(--font-size-medium);
-    --color-primary: rgb(0, 255, 48);
+    --color-primary: rgb(255, 255, 255);
+    --color-primary-dark: rgb(69, 66, 66);
+    --color-primary-darker: rgb(34, 32, 32);
+    --color-primary-darker-alpha: rgba(34, 32, 32, 0.9);
     color: var(--color-primary);
     -unity-font-definition: resource('Fonts/Outfit/Outfit-SemiBold');
 }
 
 .popin {
     flex-grow: 1;
-    background-color: rgba(0, 32, 6, 0.98);
+    background-color: var(--color-primary-darker-alpha);
     padding-top: 20px;
     padding-right: 20px;
     padding-bottom: 20px;
@@ -29,7 +32,7 @@
 }
 
 .popin.open {
-    background-color: rgba(0, 32, 6, 0.98);
+    background-color: var(--color-primary-darker-alpha);
 }
 
 .popin.animate.close {
@@ -58,10 +61,10 @@
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
-    border-left-color: var(--color-primary);
-    border-right-color: var(--color-primary);
-    border-top-color: var(--color-primary);
-    border-bottom-color: var(--color-primary);
+    border-left-color: var(--color-primary-dark);
+    border-right-color: var(--color-primary-dark);
+    border-top-color: var(--color-primary-dark);
+    border-bottom-color: var(--color-primary-dark);
 }
 
 .popin.animate.open .popin-inner {
@@ -148,7 +151,7 @@
 .unity-button {
     height: 50px;
     font-size: var(--font-size-small);
-    background-color: rgb(33, 70, 42);
+    background-color: var(--color-primary-dark);
     border-top-width: 1px;
     border-right-width: 1px;
     border-bottom-width: 1px;
@@ -160,19 +163,30 @@
 }
 
 .unity-button:hover {
-    background-color: rgb(32, 91, 47);
+    background-color: var(--color-primary-darker);
 }
 
-.unity-toggle {
 
+.unity-toggle {
+    width: 100%;
+}
+
+.unity-toggle .unity-label {
+    flex-grow: 1;
 }
 
 .unity-toggle__input {
+    flex-grow: 0;
+    min-width: 60px;
+    justify-content: flex-end;
+}
 
+.unity-base-field__label{
+    color: var(--color-primary);
 }
 
 .unity-toggle__checkmark {
-    background-color: rgb(100, 255, 131);
+    background-color: var(--color-primary);
     border-radius: 3px;
     width: 30px;
     height: 30px;
@@ -203,7 +217,7 @@
 
 .unity-scroller--vertical .unity-base-slider__dragger {
     align-self: center;
-    background-color: rgb(100, 255, 131);
+    background-color: var(--color-primary);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     border-top-left-radius: 8px;
