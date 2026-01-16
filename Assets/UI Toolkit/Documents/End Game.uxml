@@ -7,10 +7,12 @@
                 <ui:VisualElement name="left" style="flex-grow: 1; align-items: flex-start;">
                     <ui:Label text="Collected Paint Count" name="label--heading--paint-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />
                     <ui:Label text="End World Name" name="label--heading--last-biome-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="Distance reached" name="label--heading--distance-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="right" style="flex-grow: 1; align-items: flex-end;">
                     <ui:Label text="0" name="label--paint-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />
                     <ui:Label text="0" name="label--last-biome-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="0" name="label--distance-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="buttons" style="flex-grow: 0; justify-content: flex-end;">

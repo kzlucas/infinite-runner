@@ -209,6 +209,8 @@ public class PlayerController : MonoBehaviour
         
         // Apply constant forward movement
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, gravityModifier, zMoveSpeed);
+
+        StatsRecorder.Instance.SetMaxDistanceReached((int)transform.position.z);
     }
 
 

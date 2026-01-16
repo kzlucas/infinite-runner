@@ -6,13 +6,12 @@ using UnityEngine;
 public class StatsRecorder : Singleton<StatsRecorder>
 {
     private SaveData saveData;
-    public int paintCollected = 0;
     public string lastBiomeReached = "None";
+    public int currentRunDistanceReached = 0;
+    public int currentRunCoinsCollected = 0;
 
     private void Start()
     {
-        paintCollected = 0;
-        
         GetSaveData();
         IncrementRunsCount();
         EndGameManager.Instance.OnEndGame += OnGameEnd;
@@ -22,10 +21,8 @@ public class StatsRecorder : Singleton<StatsRecorder>
 
     private void OnGameEnd()
     {
-        saveData.MaxPaintCollectedInRun = Mathf.Max(saveData.MaxPaintCollectedInRun, paintCollected);
         SaveService.Save(saveData);      
     }
-
 
     private void GetSaveData()
     {
@@ -36,19 +33,25 @@ public class StatsRecorder : Singleton<StatsRecorder>
         }
     }
 
-
     private void IncrementRunsCount()
     {
         saveData.RunsCount += 1;
     }
 
-    public void IncrementPaintCollected(int amount)
-    {
-        paintCollected += amount;
-    }
-
     public void UpdateLastBiomeReached(string biomeName)
     {
         lastBiomeReached = biomeName;
+    }
+
+    public void SetMaxDistanceReached(int distance)
+    {
+        currentRunDistanceReached = distance;
+        saveData.MaxDistanceReached = Mathf.Max(saveData.MaxDistanceReached, distance);
+    }
+
+    public void SetMaxCoinsCollected(int paintCollected)
+    {
+        currentRunCoinsCollected = paintCollected;
+        saveData.MaxPaintCollectedInRun = Mathf.Max(saveData.MaxPaintCollectedInRun, paintCollected);
     }
 }

@@ -7,4 +7,6 @@ public class SaveData
     public int CoinsCollected = 0;
     public int RunsCount = 0;
     public int MaxPaintCollectedInRun = 0;
+    public int MaxDistanceReached = 0;
+
 }

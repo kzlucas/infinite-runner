@@ -4,7 +4,14 @@ using UnityEngine;
 
 public static class PaintManager
 {
+    public static int paintCollected = 0;
     public static float bucketFillPct = 0f;
+
+    public static void Reset()
+    {
+        paintCollected = 0;
+        ClearBucket();
+    }
 
 
     /// <summary>
@@ -28,14 +35,15 @@ public static class PaintManager
         // Update HUD
         UiManager.Instance.hud.UpdatePaintBucket(bucketFillPct);
 
-        StatsRecorder.Instance.IncrementPaintCollected(amount);
+        paintCollected += amount;
+        StatsRecorder.Instance.SetMaxCoinsCollected(paintCollected);
     }
 
 
     /// <summary>
     ///  Clear paint bucket
     /// </summary>
-    public static void ClearBucket()
+    private static void ClearBucket()
     {
         Debug.Log("[PaintManager] Clearing paint bucket.");
         bucketFillPct = 0f;
