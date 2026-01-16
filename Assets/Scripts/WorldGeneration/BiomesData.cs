@@ -49,7 +49,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             Debug.LogError("[BiomesData] Current biome is null!");
             return false;
         }
-        int currentIndex = items.IndexOf(current);
+        int currentIndex = items.FindIndex(b => b.name == current.name);
         if (currentIndex == -1)
         {
             currentIndex = 0;
@@ -99,7 +99,8 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             return;
         }
 
-        current = items[index];
+        current = new BiomeData(items[index]); // Create a copy of the biome data to avoid reference issues
+        
         Debug.Log("[BiomesData] Changing to biome: " + current.name);
 
         // Update "sky color of RenderSettings.skybox to match biome color

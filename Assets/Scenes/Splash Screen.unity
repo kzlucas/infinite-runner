@@ -449,183 +449,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1457568179
-GameObject:
+--- !u!1001 &1977666452
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1457568185}
-  - component: {fileID: 1457568184}
-  - component: {fileID: 1457568183}
-  - component: {fileID: 1457568182}
-  - component: {fileID: 1457568181}
-  - component: {fileID: 1457568180}
-  - component: {fileID: 1457568186}
-  m_Layer: 0
-  m_Name: Game Core
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1457568180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457568179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 841feab77dcb69d459bc33f90c06b10d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BiomesData
-  worldGenerationManager: {fileID: 0}
-  items:
-  - name: 'World 1 - White '
-    segments:
-    - name: Straight Segment
-      prefab: {fileID: 5740427710291029939, guid: 8a203937f790bf9dd8d19a680e1a2f4f, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    - name: Random Obstacles
-      prefab: {fileID: 5740427710291029939, guid: 91ca558998faa53008028742c70c25eb, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    colorSky: {r: 1, g: 1, b: 1, a: 1}
-    colorSkyHorizon: {r: 0.67501783, g: 0.69920474, b: 0.7264151, a: 1}
-    colorSkyGround: {r: 0.23113209, g: 0.23113209, b: 0.23113209, a: 1}
-  - name: World 2 - Red
-    segments:
-    - name: Straight Segment
-      prefab: {fileID: 5740427710291029939, guid: 8a203937f790bf9dd8d19a680e1a2f4f, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    - name: Random Obstacles
-      prefab: {fileID: 5740427710291029939, guid: 76f584a79cd0c6034b069410a5b10b57, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    colorSky: {r: 1, g: 0.14150941, b: 0.14150941, a: 1}
-    colorSkyHorizon: {r: 0.7924528, g: 0.24843222, b: 0.14951938, a: 1}
-    colorSkyGround: {r: 0.4339623, g: 0.116678536, b: 0.116678536, a: 1}
-  current:
-    name: World 2 - Red
-    segments:
-    - name: Straight Segment
-      prefab: {fileID: 5740427710291029939, guid: 8a203937f790bf9dd8d19a680e1a2f4f, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    - name: Random Obstacles
-      prefab: {fileID: 5740427710291029939, guid: 76f584a79cd0c6034b069410a5b10b57, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    colorSky: {r: 1, g: 0.14150941, b: 0.14150941, a: 1}
-    colorSkyHorizon: {r: 0.7924528, g: 0.24843222, b: 0.14951938, a: 1}
-    colorSkyGround: {r: 0.4339623, g: 0.116678536, b: 0.116678536, a: 1}
---- !u!114 &1457568181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457568179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4231a0a7ecad2f0a49a83cacad2af0e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  sceneMusicPairs:
-  - sceneName: Splah Screen
-    musicClip: {fileID: 8300000, guid: 2475b49e149f5d22294e5f1e18752f18, type: 3}
-  - sceneName: Game
-    musicClip: {fileID: 8300000, guid: 2475b49e149f5d22294e5f1e18752f18, type: 3}
-  sfxSoundsPairs:
-  - sceneName: coin
-    musicClip: {fileID: 8300000, guid: f6bc8e2008f73c8eea80938e8295fd39, type: 3}
-  - sceneName: jump
-    musicClip: {fileID: 8300000, guid: f87f293181483afb3991f4d15a230da8, type: 3}
-  - sceneName: land
-    musicClip: {fileID: 8300000, guid: c7558289904adb14bbc1daacf78dbc9c, type: 3}
-  - sceneName: slide
-    musicClip: {fileID: 8300000, guid: a8edbdda3ff6a9721853040a5076621d, type: 3}
-  - sceneName: crash
-    musicClip: {fileID: 8300000, guid: b73e51789b4ff8866becb0fb27745ab9, type: 3}
-  musicSource: {fileID: 0}
-  sfxSource: {fileID: 0}
---- !u!114 &1457568182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457568179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fdfe89802d9d8ef79192021d52b3da7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneInitializer
-  isInitialized: 0
---- !u!114 &1457568183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457568179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf6c16f028c4fdfcb9e75460426ec85a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
---- !u!114 &1457568184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457568179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6793d6a230cd0ebd8abe1efc845412e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  reloadSceneActionRef: {fileID: 6367371887947306774, guid: 052faaac586de48259a63d0c4782560b, type: 3}
---- !u!4 &1457568185
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457568179}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10542, y: 1.91754, z: -0.25409}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1457568186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457568179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf2e41794ebcb7a4f9aab98d4a00fab4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EndGameManager
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.57632
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -11.81139
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 41.43589
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799616701710053423, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9050897395116239076, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
+      propertyPath: m_Name
+      value: 'Game Core '
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0e6b03633eb58c85b9a7bd0712061e89, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1457568185}
   - {fileID: 1120471260}
   - {fileID: 626718061}
   - {fileID: 668635315}
   - {fileID: 427791345}
+  - {fileID: 1977666452}
