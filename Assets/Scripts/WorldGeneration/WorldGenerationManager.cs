@@ -79,7 +79,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <summary>
     /// Pick a world segment prefab to instantiate
     /// </summary>
-    private WorldSegment pickWorldSegmentPrefab()
+    private WorldSegment PickWorldSegmentPrefab()
     {
         if(generatedIndex <= 2)
             return BiomesData.Instance.current
@@ -133,7 +133,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                 var lastSegment = currentWorldSegments.LastOrDefault();
                 var zTarget = cursor; 
                 if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
-                var segmentPrefab = pickWorldSegmentPrefab().prefab;
+                var segmentPrefab = PickWorldSegmentPrefab().prefab;
                 var segmentInstance = Instantiate(segmentPrefab, new Vector3(0f, 0, zTarget), Quaternion.identity);
                 var sidewalkGenerators = segmentInstance.GetComponentsInChildren<SidewalkGenerator>();
                 segmentInstance.name += $"| {generatedIndex} - {BiomesData.Instance.current.name}";
@@ -228,6 +228,36 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(generationBoundary.center, generationBoundary.size);            
+        }
+    }
+
+
+    /// <summary>
+    ///   Remove all coins that belong to given biome name
+    /// </summary>
+    /// <param name="biomeName"></param>
+    public void RemoveBiomeCoins(string biomeName)
+    {
+        var toDestroy = new List<GameObject>();
+        var biomeSegments = BiomesData.Instance.items
+                                .Find(b => b.name == biomeName)
+                                .segments;
+                                
+        foreach(var segment in biomeSegments)
+        {
+            Transform[] allChildren = GetComponentsInChildren<Transform>(true); 
+            foreach (Transform child in allChildren)
+            {
+                if (child.CompareTag("Coin"))
+                {
+                    toDestroy.Add(child.gameObject);
+                }
+            }
+        }
+
+        foreach(var obj in toDestroy)
+        {
+            Destroy(obj);
         }
     }
 }

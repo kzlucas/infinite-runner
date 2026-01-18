@@ -82,6 +82,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     {
         if(Application.isPlaying) UiManager.Instance.screenFader.FlashWhite();
         yield return new WaitForSecondsRealtime(0.1f);
+        worldGenerationManager.RemoveBiomeCoins(current.name);
         worldGenerationManager.ClearSegmentsInFrontPlayer(30);
     }
 
