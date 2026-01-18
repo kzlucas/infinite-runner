@@ -47,6 +47,8 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <returns></returns>
     public Task InitializeAsync()
     {
+        generatedIndex = 0;
+     
         // Start generation thread
         GenerateSegments();
 
@@ -60,9 +62,8 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     {   
         if(clearExisting)
         {
-            generatedIndex = 0;
-            
             // destroy existing segments
+            generatedIndex = 0;
             currentWorldSegments.Clear();
             foreach(var seg in GameObject.FindGameObjectsWithTag("World Segment"))
                 DestroyImmediate(seg);
@@ -105,22 +106,6 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             bool segmentExists = worldSegment != null;
             if (!segmentExists)
             {
-                /*
-                 *
-                 * Create new segment 
-                 */
-                
-                generatedIndex++;
-                var lastSegment = currentWorldSegments.LastOrDefault();
-                var zTarget = cursor; 
-                if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
-                var segmentPrefab = pickWorldSegmentPrefab().prefab;
-                var segmentInstance = Instantiate(segmentPrefab, new Vector3(0f, 0, zTarget), Quaternion.identity);
-                var sidewalkGenerators = segmentInstance.GetComponentsInChildren<SidewalkGenerator>();
-                foreach(var sidewalkGenerator in sidewalkGenerators) sidewalkGenerator.Generate();
-                segmentInstance.transform.parent = transform;
-                worldSegment = new WorldSegment() {position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };
-                worldSegment.CalcInstanceData(segmentInstance);
 
                 /*
                  *
@@ -135,14 +120,32 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                         lastSeg.position + new Vector3(0, 0, lastSeg.sizeZ)
                         , BiomesData.Instance.current.colorSkyGround
                     );
+                    generatedIndex = 0; // reset index on biome change
                 }
                 lastInstantiatedBiomeName = segBiomeName;
+
+                /*
+                 *
+                 * Create new segment 
+                 */
+                
+                generatedIndex++;
+                var lastSegment = currentWorldSegments.LastOrDefault();
+                var zTarget = cursor; 
+                if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
+                var segmentPrefab = pickWorldSegmentPrefab().prefab;
+                var segmentInstance = Instantiate(segmentPrefab, new Vector3(0f, 0, zTarget), Quaternion.identity);
+                var sidewalkGenerators = segmentInstance.GetComponentsInChildren<SidewalkGenerator>();
+                segmentInstance.name += $"| {generatedIndex} - {BiomesData.Instance.current.name}";
+                foreach(var sidewalkGenerator in sidewalkGenerators) sidewalkGenerator.Generate();
+                segmentInstance.transform.parent = transform;
+                worldSegment = new WorldSegment() {position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };
+                worldSegment.CalcInstanceData(segmentInstance);
 
 
                 // no need to block frame, each segment can be created in its own frame
                 if(Application.isPlaying)
                     yield return null;
-
 
                 currentWorldSegments.Add(worldSegment);
             } 
