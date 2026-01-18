@@ -119,20 +119,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BiomesData
   worldGenerationManager: {fileID: 0}
   items:
-  - name: World 3 - Green
-    segments:
-    - name: Straight Segment
-      prefab: {fileID: 5740427710291029939, guid: 1f4bdba30f9f9581280a1a533681d193, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    - name: Random Obstacles
-      prefab: {fileID: 5740427710291029939, guid: c5e19244fdb1b9a139a62e036bf92a3a, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    colorPaint: {r: 1, g: 0.7936915, b: 0.11764705, a: 1}
-    colorSky: {r: 0.29309213, g: 0.6556604, b: 0.05257655, a: 1}
-    colorSkyHorizon: {r: 0.31192178, g: 0.5566038, b: 0.07351372, a: 1}
-    colorSkyGround: {r: 0, g: 0.3160377, b: 0.062444042, a: 1}
   - name: World 1 - Gray
     segments:
     - name: Straight Segment
@@ -161,8 +147,22 @@ MonoBehaviour:
     colorSky: {r: 1, g: 0.14150941, b: 0.14150941, a: 1}
     colorSkyHorizon: {r: 0.7924528, g: 0.24843222, b: 0.14951938, a: 1}
     colorSkyGround: {r: 0.4339623, g: 0.116678536, b: 0.116678536, a: 1}
+  - name: World 3 - Green
+    segments:
+    - name: Straight Segment
+      prefab: {fileID: 5740427710291029939, guid: 1f4bdba30f9f9581280a1a533681d193, type: 3}
+      position: {x: 0, y: 0, z: 0}
+      sizeZ: 0
+    - name: Random Obstacles
+      prefab: {fileID: 5740427710291029939, guid: c5e19244fdb1b9a139a62e036bf92a3a, type: 3}
+      position: {x: 0, y: 0, z: 0}
+      sizeZ: 0
+    colorPaint: {r: 1, g: 0.7936915, b: 0.11764705, a: 1}
+    colorSky: {r: 0.29309213, g: 0.6556604, b: 0.05257655, a: 1}
+    colorSkyHorizon: {r: 0.31192178, g: 0.5566038, b: 0.07351372, a: 1}
+    colorSkyGround: {r: 0, g: 0.3160377, b: 0.062444042, a: 1}
   current:
-    name: World 2 - Red
+    name: World 3 - Green
     segments:
     - name: Straight Segment
       prefab: {fileID: 5740427710291029939, guid: 27477a886e4ece9a5a3db30b7973ff8e, type: 3}
@@ -172,10 +172,10 @@ MonoBehaviour:
       prefab: {fileID: 5740427710291029939, guid: ac7643724e7a34f039b0ccacdb164114, type: 3}
       position: {x: 0, y: 0, z: 0}
       sizeZ: 0
-    colorPaint: {r: 0.24431765, g: 0.9386792, b: 0.08412689, a: 1}
-    colorSky: {r: 1, g: 0.14150941, b: 0.14150941, a: 1}
-    colorSkyHorizon: {r: 0.7924528, g: 0.24843222, b: 0.14951938, a: 1}
-    colorSkyGround: {r: 0.4339623, g: 0.116678536, b: 0.116678536, a: 1}
+    colorPaint: {r: 1, g: 0.7936915, b: 0.11764705, a: 1}
+    colorSky: {r: 0.29309213, g: 0.6556604, b: 0.05257655, a: 1}
+    colorSkyHorizon: {r: 0.31192178, g: 0.5566038, b: 0.07351372, a: 1}
+    colorSkyGround: {r: 0, g: 0.3160377, b: 0.062444042, a: 1}
 --- !u!114 &5993463896143259542
 MonoBehaviour:
   m_ObjectHideFlags: 0
