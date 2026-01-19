@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -5,6 +6,7 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class UiPopin : UiController, IOpenable
 {
+    private Action WhenReady { get; set; }
     public bool isOpen { get; set; } = false;
     public bool openOnSceneLoad = false;
     [HideInInspector] public VisualElement popin;
@@ -34,12 +36,21 @@ public class UiPopin : UiController, IOpenable
         // Wait frames to ensure open/close classes are applied before adding animate class, 
         yield return new WaitForEndOfFrame(); 
         popin.AddToClassList("animate");
+
+        // Callback
+        WhenReady?.Invoke();
     }
 
 
 
     public void Open()
     {
+        if(popin == null)
+        {
+            WhenReady += () => { Open(); };
+            return;
+        }
+
         Debug.Log("[UiPopin] Open popin: " + gameObject.name);
         popin.AddToClassList("open");
         popin.RemoveFromClassList("close");
@@ -52,6 +63,12 @@ public class UiPopin : UiController, IOpenable
 
     public void Close()
     {
+        if(popin == null)
+        {
+            WhenReady += () => { Close(); };
+            return;
+        }
+
         Debug.Log("[UiPopin] Close popin: " +  gameObject.name);
         popin.AddToClassList("close");
         popin.RemoveFromClassList("open");

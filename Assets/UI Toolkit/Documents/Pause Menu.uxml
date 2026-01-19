@@ -10,9 +10,9 @@
                 <ui:Toggle label="Sounds" name="settings--sfx" style="flex-grow: 0; width: 100%;" />
             </ui:VisualElement>
             <ui:VisualElement name="buttons" style="flex-grow: 0; justify-content: flex-end;">
-                <ui:Button text="Main Menu" name="btn--splash" style="margin-top: 10px;" />
-                <ui:Button text="Restart" name="btn--restart" style="margin-top: 10px;" />
-                <ui:Button text="Resume" name="btn--resume" style="margin-top: 10px;" />
+                <ui:Button text="Main Menu" name="btn--splash" class="action-button" style="margin-top: 10px;" />
+                <ui:Button text="Restart" name="btn--restart" class="action-button" style="margin-top: 10px;" />
+                <ui:Button text="Resume" name="btn--resume" class="action-button" style="margin-top: 10px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

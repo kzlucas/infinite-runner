@@ -3,22 +3,8 @@ using UnityEngine;
 
 public class WorldStartOverlay : Singleton<WorldStartOverlay>
 {
-    private GameObject playerObject;
     public GameObject overlayObject;
 
-
-    /// <summary>
-    /// Initialize references after scene load
-    /// and hide overlay
-    /// </summary>
-    private void Start()
-    {
-        SceneLoader.Instance.OnSceneLoaded += () =>
-        {
-            playerObject = GameObject.FindWithTag("Player");
-            Hide();
-        };
-    }
 
     /// <summary>
     /// Set overlay position and color
@@ -29,20 +15,8 @@ public class WorldStartOverlay : Singleton<WorldStartOverlay>
     {
         overlayObject.GetComponent<MeshRenderer>().sharedMaterial.color = color;
         transform.position = position;
-        Show();
         StartCoroutine(LerpAlpha());
     }
-
-    public void Show()
-    {
-        overlayObject.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        overlayObject.SetActive(false);
-    }
-
 
 
     /// <summary>
@@ -51,7 +25,7 @@ public class WorldStartOverlay : Singleton<WorldStartOverlay>
     /// <returns></returns>
     private IEnumerator LerpAlpha()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
 
         Material mat = overlayObject.GetComponent<MeshRenderer>().sharedMaterial;
         Color color = mat.color;
@@ -70,7 +44,6 @@ public class WorldStartOverlay : Singleton<WorldStartOverlay>
         }
 
         mat.color = new Color(color.r, color.g, color.b, targetAlpha);
-        Hide();
     }
 
 }

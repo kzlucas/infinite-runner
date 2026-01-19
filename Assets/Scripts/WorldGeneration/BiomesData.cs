@@ -107,9 +107,6 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         float lerpDuration = .5f;
         lerpBiomeColorCoroutineInstance = LerpBiomeColors(current.colorSky, current.colorSkyHorizon, current.colorSkyGround, lerpDuration);
         
-        // Update last biome reached in stats recorder
-        StatsRecorder.Instance.UpdateLastBiomeReached(current.name);
-        
         StartCoroutine(lerpBiomeColorCoroutineInstance);
     }
 

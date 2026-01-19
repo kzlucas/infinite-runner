@@ -8,6 +8,7 @@ public class ColliderType : MonoBehaviour
         Obstacle,
         Collectible,
         Wall,
+        ZoneChange,
         None,
     }
 

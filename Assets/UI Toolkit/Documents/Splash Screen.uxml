@@ -4,8 +4,8 @@
         <ui:VisualElement name="screen-inner" style="flex-grow: 0; height: 600px; width: 600px;">
             <ui:Label text="Chromadventure" style="-unity-text-align: upper-center; font-size: 57px;" />
             <ui:VisualElement name="ButtonsContainer" style="flex-grow: 1; justify-content: flex-end;">
-                <ui:Button text="Exit" name="btn--exit" style="margin-top: 10px;" />
-                <ui:Button text="Start" name="btn--start" style="margin-top: 10px;" />
+                <ui:Button text="Exit" name="btn--exit" class="action-button" style="margin-top: 10px;" />
+                <ui:Button text="Start" name="btn--start" class="action-button" style="margin-top: 10px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

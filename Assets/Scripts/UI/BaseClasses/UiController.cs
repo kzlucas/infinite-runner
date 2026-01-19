@@ -58,7 +58,7 @@ public class UiController : MonoBehaviour, IInitializable
          */
 
         buttons = new List<Button>();
-        root.Query<Button>(className: "unity-button").ToList(buttons);
+        root.Query<Button>(className: "action-button").ToList(buttons);
         foreach (Button button in buttons)
         {
             button.clickable = null; // clear existing handlers
@@ -100,7 +100,6 @@ public class UiController : MonoBehaviour, IInitializable
         }
         string actionName = button.name.ToString().Split("--")[1]; 
 
-        Debug.Log("[UiController] Button pressed: " + actionName);
         if(actionName == "splash")
         {
             Debug.Log("[UiController] splash screen button clicked.");

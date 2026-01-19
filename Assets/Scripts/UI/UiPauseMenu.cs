@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class UiPauseMenu : UiPopin
 {
-
+    public bool isLocked = false;
     public InputActionReference pauseGameActionRef;
 
 
@@ -15,6 +15,7 @@ public class UiPauseMenu : UiPopin
         {
             InputHandlersManager.Instance.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
             {
+                if(isLocked) return;
                 Debug.Log("[UiPauseMenu] Toggling Pause Menu");
                 UiManager.Instance.pauseMenu.Toggle();
             });

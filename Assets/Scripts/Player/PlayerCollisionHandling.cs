@@ -66,6 +66,12 @@ public class PlayerCollisionHandling : MonoBehaviour
                 other.GetComponent<Animator>().SetTrigger("OnCollide");
                 break;
 
+            case ColliderType.Type.ZoneChange:
+                Debug.Log($"[PlayerCollisionHandling] Collided with zone change / Current world: {BiomesData.Instance.current.name}");
+                StatsRecorder.Instance.UpdateLastBiomeReached(BiomesData.Instance.current.name);
+                TutorialManager.Instance.Play(BiomesData.Instance.current.name);
+                break;
+
             default:
                 Debug.Log("[PlayerCollisionHandling] Collided with: " + other.name);
                 break;
@@ -117,7 +123,6 @@ public class PlayerCollisionHandling : MonoBehaviour
         {
             OnLanded?.Invoke();
         }
-
         previouslyGrounded = playerController.isGrounded;
     }
 

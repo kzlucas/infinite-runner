@@ -12,7 +12,7 @@ public class UiManager : Singleton<UiManager>, IInitializable
 
     [Header("UI Controllers")]
     public UiController screenOverlay;
-    public UiPopin pauseMenu;
+    public UiPauseMenu pauseMenu;
     public UiHud hud;
     public UiEndGame endGameScreen;
     public UiScreenOverlay screenFader;
@@ -35,7 +35,7 @@ public class UiManager : Singleton<UiManager>, IInitializable
 
         if(pauseMenu == null)
         {   
-            pauseMenu = transform.Find("Pause Menu").GetComponent<UiPopin>();
+            pauseMenu = transform.Find("Pause Menu").GetComponent<UiPauseMenu>();
             
             if(pauseMenu == null)
                 Debug.LogError("[UiManager] Pause Menu is missing!");            

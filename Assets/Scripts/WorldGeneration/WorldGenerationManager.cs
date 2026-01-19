@@ -15,9 +15,6 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
     /// <summary>Current world segments</summary>
     private List<WorldSegment> currentWorldSegments = new List<WorldSegment>();
-
-    /// <summary>Represent the area in which world segment has to be spawn on game Update</summary>
-    private Bounds generationBoundary;
     
     /// <summary>Reference to the player transform for generation tracking</summary>
     public Transform playerTransform;
@@ -60,9 +57,9 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <summary> Generate segments</summary>
     public void GenerateSegments(bool clearExisting = true)
     {   
+        // destroy existing segments
         if(clearExisting)
         {
-            // destroy existing segments
             generatedIndex = 0;
             currentWorldSegments.Clear();
             foreach(var seg in GameObject.FindGameObjectsWithTag("World Segment"))
@@ -216,19 +213,6 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             }
             return false;
         });
-    }
-
-
-    /// <summary>
-    /// Draw generation boundaries to visualize generation area
-    /// </summary>
-    private void OnDrawGizmos()
-    {
-        if (playerTransform != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(generationBoundary.center, generationBoundary.size);            
-        }
     }
 
 

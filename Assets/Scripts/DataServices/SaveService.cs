@@ -30,7 +30,7 @@ public static class SaveService
         if (!File.Exists(path))
         {
             Debug.LogWarning("[SaveService] No save file found at " + path);
-            return null;
+            return new SaveData();
         }
         try
         {
