@@ -80,7 +80,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
 
     private IEnumerator FlashAndRegenWorld()
     {
-        if(Application.isPlaying) UiManager.Instance.screenFader.FlashWhite();
+        if(Application.isPlaying) UiManager.Instance.screenOverlay.FlashWhite();
         yield return new WaitForSecondsRealtime(0.1f);
         worldGenerationManager.RemoveBiomeCoins(current.name);
         worldGenerationManager.ClearSegmentsInFrontPlayer(30);

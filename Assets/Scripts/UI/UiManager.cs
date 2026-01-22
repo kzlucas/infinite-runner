@@ -11,11 +11,10 @@ public class UiManager : Singleton<UiManager>, IInitializable
 
 
     [Header("UI Controllers")]
-    public UiController screenOverlay;
+    public UiScreenOverlay screenOverlay;
     public UiPauseMenu pauseMenu;
     public UiHud hud;
     public UiEndGame endGameScreen;
-    public UiScreenOverlay screenFader;
 
     public Task InitializeAsync()
     {
@@ -27,7 +26,7 @@ public class UiManager : Singleton<UiManager>, IInitializable
     {
         if(screenOverlay == null)
         {   
-            screenOverlay = transform.Find("Screen Overlay").GetComponent<UiController>();
+            screenOverlay = transform.Find("Screen Overlay").GetComponent<UiScreenOverlay>();
             
             if(screenOverlay == null)
                 Debug.LogError("[UiManager] Screen Overlay is missing!");            
@@ -55,14 +54,6 @@ public class UiManager : Singleton<UiManager>, IInitializable
             
             if(endGameScreen == null)
                 Debug.LogError("[UiManager] End Game Screen is missing!");            
-        }
-
-        if(screenFader == null)
-        {   
-            screenFader = transform.Find("Screen Overlay").GetComponent<UiScreenOverlay>();
-            
-            if(screenFader == null)
-                Debug.LogError("[UiManager] Screen Fader is missing!");            
         }
    
     }

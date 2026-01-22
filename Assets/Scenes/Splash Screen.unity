@@ -395,9 +395,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 668635314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 792596a0ec68bf81492758bf5b62c556, type: 3}
+  m_Script: {fileID: 11500000, guid: b4d2cbd360acb62ae8ed4cd3ff9da6aa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UiController
+  m_EditorClassIdentifier: Assembly-CSharp::UiSplahScreen
   uiDoc: {fileID: 668635316}
   docReady: 0
 --- !u!1 &1015022645
