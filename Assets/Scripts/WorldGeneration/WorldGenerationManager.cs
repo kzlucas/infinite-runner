@@ -80,11 +80,11 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     {
         if(generatedIndex <= 2)
             return BiomesData.Instance.current
-                    .segments.Find(s => s.name == "Straight Segment");
+                    .Segments.Find(s => s.name == "Straight Segment");
 
         else 
             return BiomesData.Instance.current
-                    .segments.Find(s => s.name == "Random Obstacles");
+                    .Segments.Find(s => s.name == "Random Obstacles");
     }
 
 
@@ -115,7 +115,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                 {
                     WorldStartOverlay.Instance.Set(
                         lastSeg.position + new Vector3(0, 0, lastSeg.sizeZ)
-                        , BiomesData.Instance.current.colorSkyGround
+                        , BiomesData.Instance.current.ColorSkyGround
                     );
                     generatedIndex = 0; // reset index on biome change
                 }
@@ -225,7 +225,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         var toDestroy = new List<GameObject>();
         var biomeSegments = BiomesData.Instance.items
                                 .Find(b => b.name == biomeName)
-                                .segments;
+                                .Segments;
                                 
         foreach(var segment in biomeSegments)
         {

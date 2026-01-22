@@ -18,8 +18,8 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
 
 
     [Header("Biome Data")]
-    public List<BiomeData> items = new List<BiomeData>();
-    public BiomeData current = null;
+    public List<SO_BiomeData> items = new List<SO_BiomeData>();
+    public SO_BiomeData current = null;
 
 
 
@@ -99,13 +99,12 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             return;
         }
 
-        current = new BiomeData(items[index]); // Create a copy of the biome data to avoid reference issues
-        
+        current = items[index];        
         Debug.Log("[BiomesData] Changing to biome: " + current.name);
 
         // Update "sky color of RenderSettings.skybox to match biome color
         float lerpDuration = .5f;
-        lerpBiomeColorCoroutineInstance = LerpBiomeColors(current.colorSky, current.colorSkyHorizon, current.colorSkyGround, lerpDuration);
+        lerpBiomeColorCoroutineInstance = LerpBiomeColors(current.ColorSky, current.ColorSkyHorizon, current.ColorSkyGround, lerpDuration);
         
         StartCoroutine(lerpBiomeColorCoroutineInstance);
     }

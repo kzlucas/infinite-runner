@@ -119,63 +119,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BiomesData
   worldGenerationManager: {fileID: 0}
   items:
-  - name: World 1 - Gray
-    segments:
-    - name: Straight Segment
-      prefab: {fileID: 5740427710291029939, guid: 8a203937f790bf9dd8d19a680e1a2f4f, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    - name: Random Obstacles
-      prefab: {fileID: 5740427710291029939, guid: 91ca558998faa53008028742c70c25eb, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    colorPaint: {r: 1, g: 0.21432094, b: 0.15595633, a: 1}
-    colorSky: {r: 1, g: 1, b: 1, a: 1}
-    colorSkyHorizon: {r: 1, g: 1, b: 1, a: 1}
-    colorSkyGround: {r: 0.70632416, g: 0.70632416, b: 0.70632416, a: 1}
-  - name: World 2 - Red
-    segments:
-    - name: Straight Segment
-      prefab: {fileID: 5740427710291029939, guid: 27477a886e4ece9a5a3db30b7973ff8e, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    - name: Random Obstacles
-      prefab: {fileID: 5740427710291029939, guid: ac7643724e7a34f039b0ccacdb164114, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    colorPaint: {r: 0.24431765, g: 0.9386792, b: 0.08412689, a: 1}
-    colorSky: {r: 1, g: 0.14150941, b: 0.14150941, a: 1}
-    colorSkyHorizon: {r: 0.7924528, g: 0.24843222, b: 0.14951938, a: 1}
-    colorSkyGround: {r: 0.4339623, g: 0.116678536, b: 0.116678536, a: 1}
-  - name: World 3 - Green
-    segments:
-    - name: Straight Segment
-      prefab: {fileID: 5740427710291029939, guid: 1f4bdba30f9f9581280a1a533681d193, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    - name: Random Obstacles
-      prefab: {fileID: 5740427710291029939, guid: c5e19244fdb1b9a139a62e036bf92a3a, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    colorPaint: {r: 1, g: 0.7936915, b: 0.11764705, a: 1}
-    colorSky: {r: 0.29309213, g: 0.6556604, b: 0.05257655, a: 1}
-    colorSkyHorizon: {r: 0.31192178, g: 0.5566038, b: 0.07351372, a: 1}
-    colorSkyGround: {r: 0, g: 0.3160377, b: 0.062444042, a: 1}
-  current:
-    name: World 3 - Green
-    segments:
-    - name: Straight Segment
-      prefab: {fileID: 5740427710291029939, guid: 27477a886e4ece9a5a3db30b7973ff8e, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    - name: Random Obstacles
-      prefab: {fileID: 5740427710291029939, guid: ac7643724e7a34f039b0ccacdb164114, type: 3}
-      position: {x: 0, y: 0, z: 0}
-      sizeZ: 0
-    colorPaint: {r: 1, g: 0.7936915, b: 0.11764705, a: 1}
-    colorSky: {r: 0.29309213, g: 0.6556604, b: 0.05257655, a: 1}
-    colorSkyHorizon: {r: 0.31192178, g: 0.5566038, b: 0.07351372, a: 1}
-    colorSkyGround: {r: 0, g: 0.3160377, b: 0.062444042, a: 1}
+  - {fileID: 11400000, guid: 3ae65fefb752a7456a69b81b954ad109, type: 2}
+  - {fileID: 11400000, guid: fdc6ee33fb84882919ebce57eec2981e, type: 2}
+  - {fileID: 11400000, guid: 78afe4175697c599aa5492bd3fa7ed8c, type: 2}
+  current: {fileID: 11400000, guid: 3ae65fefb752a7456a69b81b954ad109, type: 2}
 --- !u!114 &5993463896143259542
 MonoBehaviour:
   m_ObjectHideFlags: 0

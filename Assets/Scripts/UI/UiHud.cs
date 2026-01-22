@@ -33,6 +33,6 @@ public class UiHud : UiController
     {
         yield return new WaitUntil(() => docReady && bucket != null);
         bucket.style.width = Length.Percent(fillPct * 100f);
-        bucket.style.backgroundColor = BiomesData.Instance.current.colorPaint;
+        bucket.style.backgroundColor = BiomesData.Instance.current.ColorPaint;
     }
 }
