@@ -39,7 +39,7 @@ namespace Player.States
         }
 
 
-        public override void OnExit()
+        public void OnRelease()
         {
             if ((player == null)
                 || (player.controlReleased)

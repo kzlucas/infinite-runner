@@ -51,6 +51,19 @@ public class UiController : MonoBehaviour, IInitializable
         }
 
 
+        /*
+         *
+         * Remove Exit app button on WebGL
+         */
+
+        #if UNITY_WEBGL
+        Button exitButton = root.Q<Button>("btn--exit");
+        if(exitButton != null)
+        {
+            exitButton.RemoveFromHierarchy();
+        }
+        #endif
+
 
         /*
          *
@@ -85,7 +98,7 @@ public class UiController : MonoBehaviour, IInitializable
         }
         
 
-
+        root.Focus(); // needed to ensure input works in WebGL builds
         docReady = true;
         OnDocReady();
     }

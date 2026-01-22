@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
+using Player.States;
+using StateMachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using StateMachine;
-using Player.States;
 
 
 /// <summary>
@@ -141,7 +141,7 @@ namespace Player
              *
              * Build States Machine 
              */
-            
+
             // Register states
             sm.RegisterState(new IdleState(StateMachine, this));
             sm.RegisterState(new MoveState(StateMachine, this));
@@ -149,7 +149,7 @@ namespace Player
             sm.RegisterState(new SlideState(StateMachine, this));
             sm.RegisterState(new CrashState(StateMachine, this));
             sm.RegisterState(new LandState(StateMachine, this));
-            
+
             // Start with idle
             sm.Start<IdleState>();
 
@@ -158,19 +158,26 @@ namespace Player
              *
              * Subscribe to input events 
              */
-            
-            InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: () => {
-                if(CanJump()) sm.TransitionTo<JumpState>();
+
+            InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: () =>
+            {
+                if (CanJump()) sm.TransitionTo<JumpState>();
             });
 
-            InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: (v2) => {
+            InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: (v2) =>
+            {
                 inputMoveDir = v2;
-                if(CanMove(v2)) sm.TransitionTo<MoveState>();
+                if (CanMove(v2)) sm.TransitionTo<MoveState>();
             });
 
-            InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: () => {
-                if(CanSlide()) sm.TransitionTo<SlideState>(); 
-            }, OnRelease: sm.TransitionTo<IdleState>);
+            InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: () =>
+            {
+                if (CanSlide()) sm.TransitionTo<SlideState>();
+            },
+            OnRelease: () =>
+            {
+                sm.GetState<SlideState>().OnRelease();
+            });
 
 
             /*
@@ -208,10 +215,10 @@ namespace Player
         {
             return !(
                 (this == null)
-                ||(controlReleased)
-                ||(Time.timeScale == 0f)
-                ||(isSliding)
-                ||(currentJumpCount >= maxJumpCount)
+                || (controlReleased)
+                || (Time.timeScale == 0f)
+                || (isSliding)
+                || (currentJumpCount >= maxJumpCount)
             );
         }
 
@@ -223,9 +230,9 @@ namespace Player
         {
             return !(
                 (this == null)
-                ||(controlReleased)
-                ||(Time.timeScale == 0f)
-                ||(dir.x == 0)
+                || (controlReleased)
+                || (Time.timeScale == 0f)
+                || (dir.x == 0)
             );
         }
 
@@ -237,9 +244,9 @@ namespace Player
         {
             return !(
                 (this == null)
-                ||(controlReleased)
-                ||(isSliding)
-                ||(!isGrounded)
+                || (controlReleased)
+                || (isSliding)
+                || (!isGrounded)
             );
         }
 

@@ -87,22 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4231a0a7ecad2f0a49a83cacad2af0e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  sceneMusicPairs:
-  - sceneName: Splah Screen
-    musicClip: {fileID: 8300000, guid: 2475b49e149f5d22294e5f1e18752f18, type: 3}
-  - sceneName: Game
-    musicClip: {fileID: 8300000, guid: 2475b49e149f5d22294e5f1e18752f18, type: 3}
-  sfxSoundsPairs:
-  - sceneName: coin
-    musicClip: {fileID: 8300000, guid: f6bc8e2008f73c8eea80938e8295fd39, type: 3}
-  - sceneName: jump
-    musicClip: {fileID: 8300000, guid: f87f293181483afb3991f4d15a230da8, type: 3}
-  - sceneName: land
-    musicClip: {fileID: 8300000, guid: c7558289904adb14bbc1daacf78dbc9c, type: 3}
-  - sceneName: slide
-    musicClip: {fileID: 8300000, guid: a8edbdda3ff6a9721853040a5076621d, type: 3}
-  - sceneName: crash
-    musicClip: {fileID: 8300000, guid: b73e51789b4ff8866becb0fb27745ab9, type: 3}
+  audioConfig: {fileID: 11400000, guid: 8ec149006c6f6a385ad4d8ab5a9d1719, type: 2}
   musicSource: {fileID: 0}
   sfxSource: {fileID: 0}
 --- !u!114 &1528715817263589116

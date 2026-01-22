@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 public class AudioManager : Singleton<AudioManager>, IInitializable
 {
 
+    [Header("Config")]
+    public SO_AudioConfig audioConfig;
+
+
     [Header("Settings")]
     private bool _musicOn = true;
     public bool MusicOn
@@ -49,14 +53,6 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
         }
     }
 
-    [Header("Background Music")]
-    [SerializeField] private List<SceneMusicPair> sceneMusicPairs = new List<SceneMusicPair>();
-    private Dictionary<string, AudioClip> sceneMusicMap = new Dictionary<string, AudioClip>();
-
-
-    [Header("Sound Effects")]
-    [SerializeField] private List<SceneMusicPair> sfxSoundsPairs = new List<SceneMusicPair>();
-    private Dictionary<string, AudioClip> sfxSoundsMap = new Dictionary<string, AudioClip>();
 
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
@@ -75,18 +71,18 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
 
 
         // Initialize audio mapping
-        foreach (var pair in sceneMusicPairs)
+        foreach (var pair in audioConfig.SceneMusicPairs)
         {
             if (!string.IsNullOrEmpty(pair.sceneName) && pair.musicClip != null)
             {
-                sceneMusicMap[pair.sceneName] = pair.musicClip;
+                audioConfig.SceneMusicMap[pair.sceneName] = pair.musicClip;
             }
         }
-        foreach (var pair in sfxSoundsPairs)
+        foreach (var pair in audioConfig.SfxSoundsPairs)
         {
             if (!string.IsNullOrEmpty(pair.sceneName) && pair.musicClip != null)
             {
-                sfxSoundsMap[pair.sceneName] = pair.musicClip;
+                audioConfig.SfxSoundsMap[pair.sceneName] = pair.musicClip;
             }
         }
 
@@ -152,7 +148,7 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
     private void PlayMusicForScene(string sceneName)
     {
         // Check for exact scene match
-        if (sceneMusicMap.TryGetValue(sceneName, out AudioClip musicClip))
+        if (audioConfig.SceneMusicMap.TryGetValue(sceneName, out AudioClip musicClip))
         {
             if (musicSource.clip != musicClip)
             {
@@ -163,7 +159,7 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
         // If scene name starts with "Level", play level music
         else if (sceneName.StartsWith("Level"))
         {
-            if (sceneMusicMap.TryGetValue("Level", out AudioClip levelMusicClip))
+            if (audioConfig.SceneMusicMap.TryGetValue("Level", out AudioClip levelMusicClip))
             {
                 StartCoroutine(FadeTo(musicSource, levelMusicClip, .5f));
             }
@@ -181,7 +177,7 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
 
     public void PlaySound(string label)
     {
-        if (sfxSoundsMap.TryGetValue(label, out AudioClip clip))
+        if (audioConfig.SfxSoundsMap.TryGetValue(label, out AudioClip clip))
         {
             sfxSource.PlayOneShot(clip);
         }
