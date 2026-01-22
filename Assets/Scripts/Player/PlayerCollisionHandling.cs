@@ -1,129 +1,132 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-public class PlayerCollisionHandling : MonoBehaviour
+namespace Player
 {
-    public Action OnLanded;
-    private PlayerController playerController;
-    private bool previouslyGrounded = true;
-
-
-    /// <summary>
-    ///   Initialize references
-    /// </summary>
-    private void Start()
+    [RequireComponent(typeof(Collider))]
+    public class CollisionHandling : MonoBehaviour
     {
-        playerController = GetComponent<PlayerController>();
-    }
-
-    /// <summary>
-    ///   Handles trigger events with other objects with isTrigger enabled.
-    /// </summary>
-    private void OnTriggerEnter(Collider other)
-    {
-        HandleCollision(other);
-    }
+        public Action OnLanded;
+        private Controller player;
+        private bool previouslyGrounded = true;
 
 
-    /// <summary>
-    ///   Handles collision events with other objects without isTrigger enabled.
-    /// </summary>
-    private void OnCollisionEnter(Collision collision)
-    {
-        HandleCollision(collision.collider);
-    }
-    
-
-    /// <summary>
-    ///   Processes the collision with the specified collider.
-    /// </summary>
-    /// <param name="other">The collider of the object collided with.</param>
-    private void HandleCollision(Collider other)
-    {
-
-        if (playerController.controlReleased) return;
-        var colliderType = other.GetComponent<ColliderType>();
-        if (colliderType == null) return;
-        var t = colliderType.colliderType;
-        var sound = colliderType.soundToPlayOnCollision;
-        if (sound != "") AudioManager.Instance?.PlaySound(sound);
-
-        switch (t)
+        /// <summary>
+        ///   Initialize references
+        /// </summary>
+        private void Start()
         {
-            case ColliderType.Type.Obstacle:
-            case ColliderType.Type.Wall:
-                Debug.Log("[PlayerCollisionHandling] Collided with obstacle: " + other.name);
-                playerController.OnCrash();
-                EndGameManager.Instance.TriggerEndGame();
-                break;
-
-            case ColliderType.Type.Ground:
-                playerController.isGrounded = true;
-                break;
-
-            case ColliderType.Type.Collectible:
-                other.GetComponent<Animator>().SetTrigger("OnCollide");
-                break;
-
-            case ColliderType.Type.ZoneChange:
-                Debug.Log($"[PlayerCollisionHandling] Collided with zone change / Current world: {BiomesData.Instance.current.name}");
-                StatsRecorder.Instance.UpdateLastBiomeReached(BiomesData.Instance.current.name);
-                TutorialManager.Instance.Play(BiomesData.Instance.current.name);
-                break;
-
-            default:
-                Debug.Log("[PlayerCollisionHandling] Collided with: " + other.name);
-                break;
+            player = GetComponent<Controller>();
         }
-    }
 
-
-
-    /// <summary>
-    ///  Check grounded state each frame
-    /// </summary>
-    private void Update()
-    {
-        if(SceneInitializer.Instance.isInitialized)
-            CheckIfGrounded();
-    }
-
-
-    /// <summary>
-    ///   Check if the player is grounded using a raycast.
-    /// </summary>
-    private void CheckIfGrounded()
-    {
-        // Send a raycast down to check if grounded
-        RaycastHit hit;
-        Vector3 rayStart = transform.position + (Vector3.up * 0.1f);
-        float rayDistance = .2f;
-        bool raycastHit = Physics.Raycast(rayStart, Vector3.down, out hit, rayDistance);
-        
-        // Grounded detection
-        bool isCurrentlyGrounded = false;
-        if (raycastHit)
+        /// <summary>
+        ///   Handles trigger events with other objects with isTrigger enabled.
+        /// </summary>
+        private void OnTriggerEnter(Collider other)
         {
-            var colliderType = hit.collider.GetComponent<ColliderType>();
-            if (colliderType != null && colliderType.colliderType == ColliderType.Type.Ground)
+            HandleCollision(other);
+        }
+
+
+        /// <summary>
+        ///   Handles collision events with other objects without isTrigger enabled.
+        /// </summary>
+        private void OnCollisionEnter(Collision collision)
+        {
+            HandleCollision(collision.collider);
+        }
+
+
+        /// <summary>
+        ///   Processes the collision with the specified collider.
+        /// </summary>
+        /// <param name="other">The collider of the object collided with.</param>
+        private void HandleCollision(Collider other)
+        {
+
+            if (player.controlReleased) return;
+            var colliderType = other.GetComponent<ColliderType>();
+            if (colliderType == null) return;
+            var t = colliderType.colliderType;
+            var sound = colliderType.soundToPlayOnCollision;
+            if (sound != "") AudioManager.Instance?.PlaySound(sound);
+
+            switch (t)
             {
-                isCurrentlyGrounded = hit.distance <= .2f;
+                case ColliderType.Type.Obstacle:
+                case ColliderType.Type.Wall:
+                    Debug.Log("[PlayerCollisionHandling] Collided with obstacle: " + other.name);
+                    player.TriggerCrashEvent();
+                    EndGameManager.Instance.TriggerEndGame();
+                    break;
+
+                case ColliderType.Type.Ground:
+                    player.isGrounded = true;
+                    break;
+
+                case ColliderType.Type.Collectible:
+                    other.GetComponent<Animator>().SetTrigger("OnCollide");
+                    break;
+
+                case ColliderType.Type.ZoneChange:
+                    Debug.Log($"[PlayerCollisionHandling] Collided with zone change / Current world: {BiomesData.Instance.current.name}");
+                    StatsRecorder.Instance.UpdateLastBiomeReached(BiomesData.Instance.current.name);
+                    TutorialManager.Instance.Play(BiomesData.Instance.current.name);
+                    break;
+
+                default:
+                    Debug.Log("[PlayerCollisionHandling] Collided with: " + other.name);
+                    break;
             }
         }
-        
-        // Update grounded state
-        playerController.isGrounded = isCurrentlyGrounded;
 
-        // Set jump animation state ~
-        playerController.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", !playerController.isGrounded );
 
-        // If just landed, invoke the OnLanded event
-        if (!previouslyGrounded && playerController.isGrounded)
+
+        /// <summary>
+        ///  Check grounded state each frame
+        /// </summary>
+        private void Update()
         {
-            OnLanded?.Invoke();
+            if (SceneInitializer.Instance.isInitialized)
+                CheckIfGrounded();
         }
-        previouslyGrounded = playerController.isGrounded;
-    }
 
+
+        /// <summary>
+        ///   Check if the player is grounded using a raycast.
+        /// </summary>
+        private void CheckIfGrounded()
+        {
+            // Send a raycast down to check if grounded
+            RaycastHit hit;
+            Vector3 rayStart = transform.position + (Vector3.up * 0.1f);
+            float rayDistance = .2f;
+            bool raycastHit = Physics.Raycast(rayStart, Vector3.down, out hit, rayDistance);
+
+            // Grounded detection
+            bool isCurrentlyGrounded = false;
+            if (raycastHit)
+            {
+                var colliderType = hit.collider.GetComponent<ColliderType>();
+                if (colliderType != null && colliderType.colliderType == ColliderType.Type.Ground)
+                {
+                    isCurrentlyGrounded = hit.distance <= .2f;
+                }
+            }
+
+            // Update grounded state
+            player.isGrounded = isCurrentlyGrounded;
+
+            // Set jump animation state ~
+            player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", !player.isGrounded);
+
+            // If just landed, invoke the OnLanded event
+            if (!previouslyGrounded && player.isGrounded)
+            {
+                OnLanded?.Invoke();
+            }
+            previouslyGrounded = player.isGrounded;
+        }
+
+    }
 }

@@ -153,7 +153,7 @@ namespace StateMachine
             // Trigger transition event
             OnStateTransition?.Invoke(previousState, currentState);
             
-            Debug.Log($"State transition: {GetStateName(previousState)} -> {GetStateName(currentState)}");
+            // Debug.Log($"State transition: {GetStateName(previousState)} -> {GetStateName(currentState)}");
         }
         
         /// <summary>
