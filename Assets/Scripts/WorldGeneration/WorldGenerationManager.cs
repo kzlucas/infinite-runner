@@ -109,7 +109,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                  * Add biome change overlay if biome changed 
                  */
                 
-                var segBiomeName = BiomesData.Instance.current.name;
+                var segBiomeName = BiomesData.Instance.current.BiomeName;
                 var lastSeg = currentWorldSegments.LastOrDefault();
                 if(lastSeg != null && (segBiomeName != lastInstantiatedBiomeName))
                 {
@@ -133,7 +133,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                 var segmentPrefab = PickWorldSegmentPrefab().prefab;
                 var segmentInstance = Instantiate(segmentPrefab, new Vector3(0f, 0, zTarget), Quaternion.identity);
                 var sidewalkGenerators = segmentInstance.GetComponentsInChildren<SidewalkGenerator>();
-                segmentInstance.name += $"| {generatedIndex} - {BiomesData.Instance.current.name}";
+                segmentInstance.name += $"| {generatedIndex} - {BiomesData.Instance.current.BiomeName}";
                 foreach(var sidewalkGenerator in sidewalkGenerators) sidewalkGenerator.Generate();
                 segmentInstance.transform.parent = transform;
                 worldSegment = new WorldSegment() {position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };

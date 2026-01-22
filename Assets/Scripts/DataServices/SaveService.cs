@@ -29,8 +29,10 @@ public static class SaveService
         string path = GetSaveFilePath();
         if (!File.Exists(path))
         {
-            Debug.LogWarning("[SaveService] No save file found at " + path);
-            return new SaveData();
+            Debug.Log("[SaveService] No save file found at " + path + ". Creating new save file.");
+            var data = new SaveData();
+            Save(data);
+            return data;
         }
         try
         {
@@ -42,6 +44,22 @@ public static class SaveService
         {
             Debug.LogError("[SaveService] Failed to load save file: " + e.Message);
             return null;
+        }
+    }
+
+
+    /// <summary>
+    ///  Delete save file
+    /// </summary>
+#if UNITY_EDITOR
+    [UnityEditor.MenuItem("Tools/Delete Save File")]
+#endif
+    public static void DeleteSave()
+    {
+        string path = GetSaveFilePath();
+        if (File.Exists(path))
+        {
+            File.Delete(path);
         }
     }
 

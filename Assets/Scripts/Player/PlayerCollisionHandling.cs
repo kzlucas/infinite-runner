@@ -69,9 +69,9 @@ namespace Player
                     break;
 
                 case ColliderType.Type.ZoneChange:
-                    Debug.Log($"[PlayerCollisionHandling] Collided with zone change / Current world: {BiomesData.Instance.current.name}");
-                    StatsRecorder.Instance.UpdateLastBiomeReached(BiomesData.Instance.current.name);
-                    TutorialManager.Instance.Play(BiomesData.Instance.current.name);
+                    Debug.Log($"[PlayerCollisionHandling] Collided with zone change / Current world: {BiomesData.Instance.current.BiomeName}");
+                    StatsRecorder.Instance.UpdateLastBiomeReached(BiomesData.Instance.current.BiomeName);
+                    TutorialManager.Instance.Play(BiomesData.Instance.current.BiomeName);
                     break;
 
                 default:
