@@ -222,6 +222,7 @@ public class PlayerController : MonoBehaviour
     {
         if (this == null) return;
         if (controlReleased) return;
+        if (Time.timeScale == 0f) return;
 
         // Do not process new input until reaching target position 
         // (0.1 tolerance to prevent input spam)
@@ -308,6 +309,7 @@ public class PlayerController : MonoBehaviour
     {
         if (this == null) return;
         if (controlReleased) return;
+        if (Time.timeScale == 0f) return;
         if (isSliding) return;
         if (currentJumpCount >= maxJumpCount) return;
 
