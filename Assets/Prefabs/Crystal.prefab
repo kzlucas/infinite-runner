@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8655938183973116621}
   - component: {fileID: 3855728851669252144}
   m_Layer: 0
-  m_Name: 'Coin '
+  m_Name: Crystal
   m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,15 +145,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6ed868c19279fff814f7de44685347, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6ed868c19279fff814f7de44685347, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6ed868c19279fff814f7de44685347, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6ed868c19279fff814f7de44685347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -167,14 +167,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: da6ed868c19279fff814f7de44685347, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: da6ed868c19279fff814f7de44685347, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: cfc5b6c3f8446b7c5b05871cb513b931, type: 2}
     - target: {fileID: 919132149155446097, guid: da6ed868c19279fff814f7de44685347, type: 3}
       propertyPath: m_Name
       value: Renderer
