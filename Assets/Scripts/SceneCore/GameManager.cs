@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager>
             timeElapsedSinceStart = 0f;
             StopAllCoroutines();
             RegisterHandlers();
-            PaintManager.Reset();
+            if(SceneLoader.Instance.IsGameScene()) PaintManager.Reset();
         };
     }
 

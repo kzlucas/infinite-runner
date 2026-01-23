@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -6,8 +7,9 @@ using UnityEngine;
 /// </summary>
 public class UiManager : Singleton<UiManager>, IInitializable
 {
-    public int initPriority => 0;
+    public int initPriority => 1;
     public System.Type[] initDependencies => null;
+    public bool isReady { get; private set; } = false;
 
 
     [Header("UI Controllers")]
@@ -15,11 +17,26 @@ public class UiManager : Singleton<UiManager>, IInitializable
     public UiPauseMenu pauseMenu;
     public UiHud hud;
     public UiEndGame endGameScreen;
+    public UiSplashScreen splashScreen;
 
-    public Task InitializeAsync()
-    {
+    public async Task InitializeAsync()
+    {       
+        // Wait for all controllers to be ready
         GetReferences();
-        return Task.CompletedTask;
+        var initializationTasks = new List<Task>();
+        foreach (var uiController in new UiController[]
+                 {
+                     screenOverlay,
+                     pauseMenu,
+                     hud,
+                     endGameScreen,
+                     splashScreen
+                 })
+        {
+            initializationTasks.Add(uiController.InitializeAsync());
+        }
+        await Task.WhenAll(initializationTasks);
+        isReady = true;
     }
 
     private void GetReferences()
@@ -56,6 +73,13 @@ public class UiManager : Singleton<UiManager>, IInitializable
                 Debug.LogError("[UiManager] End Game Screen is missing!");            
         }
    
+        if(splashScreen == null)
+        {   
+            splashScreen = transform.Find("Splash Screen").GetComponent<UiSplashScreen>();
+            
+            if(splashScreen == null)
+                Debug.LogError("[UiManager] Splash Screen is missing!");            
+        }
     }
 
 }

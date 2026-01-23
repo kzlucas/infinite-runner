@@ -30,6 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1721523311911600571}
   - {fileID: 3754167093138737511}
   - {fileID: 6138119311973440143}
   - {fileID: 6566463851783577572}
@@ -123,6 +124,76 @@ MonoBehaviour:
   uiDoc: {fileID: 5144216983025208215}
   docReady: 0
   openOnSceneLoad: 0
+--- !u!1 &2624922349072805479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1721523311911600571}
+  - component: {fileID: 1110537507356915878}
+  - component: {fileID: 1490795097295229770}
+  m_Layer: 0
+  m_Name: Splash Screen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1721523311911600571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624922349072805479}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 30.927628, y: -8.72476, z: 1030.9728}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2439332743015564608}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1110537507356915878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624922349072805479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: f6c0014b27343004fb08284e5820c25f, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: b99228a5e4a23dd478ce9a6c9f655a35, type: 3}
+  m_SortingOrder: 99
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!114 &1490795097295229770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624922349072805479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4d2cbd360acb62ae8ed4cd3ff9da6aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UiSplahScreen
+  uiDoc: {fileID: 1110537507356915878}
+  docReady: 0
 --- !u!1 &3603787125247540302
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +337,7 @@ MonoBehaviour:
   uiDoc: {fileID: 2485610362209029224}
   docReady: 0
   openOnSceneLoad: 0
+  isLocked: 0
   pauseGameActionRef: {fileID: 2422228956939261538, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &6947547403639974775
 GameObject:

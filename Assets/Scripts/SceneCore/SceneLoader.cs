@@ -102,7 +102,8 @@ public class SceneLoader : Singleton<SceneLoader>
 
     public IEnumerator FadeToBlack()
     {
-        (UiManager.Instance.screenOverlay as IOpenable).Open();
+        yield return new WaitUntil(() => UiManager.Instance.isReady);
+        UiManager.Instance.screenOverlay.Open();
         yield return new WaitForSecondsRealtime(.15f);
     }
     
@@ -112,4 +113,5 @@ public class SceneLoader : Singleton<SceneLoader>
         string currentSceneName = SceneManager.GetActiveScene().name;
         return currentSceneName;    
     }
+
 }

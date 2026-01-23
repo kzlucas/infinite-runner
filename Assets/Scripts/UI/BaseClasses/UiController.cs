@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,10 +19,14 @@ public class UiController : MonoBehaviour, IInitializable
 
 
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
         StartCoroutine(AttachDocument());
-        return Task.Run(() => { while (!docReady){ }});
+    
+        while (!docReady)
+        {
+            await Task.Yield(); 
+        }
     }
 
     public virtual void OnDocReady(){}
@@ -49,7 +52,6 @@ public class UiController : MonoBehaviour, IInitializable
             _AttachDocument();
             yield return null;
         }
-
 
         /*
          *
@@ -97,8 +99,7 @@ public class UiController : MonoBehaviour, IInitializable
                 toggle.value = AudioManager.Instance.SfxOn;
         }
         
-
-        root.Focus(); // needed to ensure input works in WebGL builds
+        // root.Focus(); // needed to ensure input works in WebGL builds
         docReady = true;
         OnDocReady();
     }
