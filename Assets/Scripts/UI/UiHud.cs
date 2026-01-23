@@ -5,7 +5,10 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class UiHud : UiController
 {
-    [HideInInspector] public VisualElement bucket;
+    [HideInInspector] public VisualElement bucketContainer;
+    [HideInInspector] public VisualElement bucketFill;
+    [HideInInspector] public Label bucketCounter;
+    private int bucketFullPxWidth = 334;
 
 
     public override void OnDocReady()
@@ -15,12 +18,18 @@ public class UiHud : UiController
 
     private IEnumerator _OnDocReady()
     {
-        bucket = root.Q<VisualElement>("bucket");
+        bucketContainer = root.Q<VisualElement>("bucket-container");
+        bucketFill = root.Q<VisualElement>("bucket");
+        bucketCounter = root.Q<Label>("bucket-counter");
+
+        if (bucketFill.resolvedStyle.width != 0)
+            bucketFullPxWidth = (int)bucketFill.resolvedStyle.width;
+
         yield return null;
     }
 
     /// <summary>
-    /// Updates the paint bucket UI fill percentage.
+    /// Updates the paint bucket UI fill percentage. 
     /// </summary>
     /// <param name="fillPct"></param>
     public void UpdatePaintBucket(float fillPct)
@@ -30,8 +39,14 @@ public class UiHud : UiController
 
     private IEnumerator _UpdatePaintBucket(float fillPct)
     {
-        yield return new WaitUntil(() => docReady && bucket != null);
-        bucket.style.width = Length.Percent(fillPct * 100f);
-        bucket.style.backgroundColor = BiomesData.Instance.current.ColorPaint;
+        yield return new WaitUntil(() => docReady && bucketFill != null);
+        bucketFill.style.width = fillPct * (float)bucketFullPxWidth;
+        bucketCounter.text = Mathf.RoundToInt(fillPct * 100f).ToString() + "%";
+    }
+
+    public void SetPaintBucketColor(Color color, Sprite gaugeImage)
+    {
+        bucketFill.style.unityBackgroundImageTintColor = color;
+        bucketContainer.style.backgroundImage = new StyleBackground(gaugeImage);
     }
 }

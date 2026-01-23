@@ -23,4 +23,7 @@ public class SO_BiomeData : ScriptableObject
     [SerializeField] private Color _colorSkyGround = new Color(0f, 0f, .5f);
     public Color ColorSkyGround => _colorSkyGround;
 
+    [SerializeField] private Sprite _gaugeImage;
+    public Sprite GaugeImage => _gaugeImage;
+
 }

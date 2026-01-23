@@ -48,6 +48,10 @@ public static class PaintManager
         Debug.Log("[PaintManager] Clearing paint bucket.");
         bucketFillPct = 0f;
         UiManager.Instance.hud.UpdatePaintBucket(bucketFillPct);
+        UiManager.Instance.hud.SetPaintBucketColor(
+            BiomesData.Instance.current.ColorPaint,
+            BiomesData.Instance.current.GaugeImage
+        );
     }
 
 

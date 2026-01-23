@@ -2,11 +2,11 @@
     <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/main.uss?fileID=7433441132597879392&amp;guid=563c666c9d9d0e307a2f416a110b8ac6&amp;type=3#main" />
     <ui:VisualElement name="VisualElement" style="flex-grow: 1; align-items: flex-start; flex-direction: column;">
         <ui:VisualElement name="top-bar" style="flex-grow: 0; flex-direction: row; flex-shrink: 1; justify-content: space-between; width: 100%; height: auto;">
-            <ui:VisualElement name="bucket-container" picking-mode="Ignore" style="flex-grow: 1; height: 52px; width: 200px; background-color: rgb(0, 0, 0); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;">
-                <ui:VisualElement name="bucket" style="background-color: rgb(255, 255, 255); flex-grow: 1; width: 0%;" />
+            <ui:VisualElement name="bucket-container" picking-mode="Ignore" class="bucket-container">
+                <ui:Label text="0001" name="bucket-counter" style="position: absolute; top: 24px; left: 601px; width: 144px; color: rgb(255, 255, 255); font-size: 37px;" />
+                <ui:VisualElement name="bucket" picking-mode="Ignore" style="flex-grow: 1; width: 334px; background-image: url(&quot;project://database/Assets/Graphics/crystal-gauge-fill.png?fileID=2800000&amp;guid=048ce8f537da7d69abff46acef04fd00&amp;type=3#crystal-gauge-fill&quot;); flex-shrink: 0; position: absolute; height: 55px; top: 23px; left: 177px; -unity-background-image-tint-color: rgb(255, 0, 0); background-size: 334px 100%;" />
             </ui:VisualElement>
-            <ui:Button text="Pause" name="btn--pause" class="action-button" />
+            <ui:Button text="Pause" name="btn--pause" class="action-button" style="height: 90px; width: 222px;" />
         </ui:VisualElement>
-        <ui:VisualElement name="empty" picking-mode="Ignore" style="flex-grow: 1; width: 100%;" />
     </ui:VisualElement>
 </ui:UXML>

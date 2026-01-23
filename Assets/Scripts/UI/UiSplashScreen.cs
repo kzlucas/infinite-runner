@@ -16,8 +16,8 @@ public class UiSplashScreen : UiController
         {
             await InitializeAsync();
             root.style.display = SceneLoader.Instance.GetSceneName() == "Splash Screen" 
-                    ? DisplayStyle.None 
-                    : DisplayStyle.Flex;
+                    ? DisplayStyle.Flex 
+                    : DisplayStyle.None;
         };
     }
 

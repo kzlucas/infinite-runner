@@ -3,12 +3,12 @@
     --font-size-medium: 32px;
     --font-size-small: 26px;
     font-size: var(--font-size-medium);
-    --color-primary: rgb(255, 255, 255);
-    --color-primary-dark: rgb(69, 66, 66);
-    --color-primary-darker: rgb(34, 32, 32);
-    --color-primary-darker-alpha: rgba(34, 32, 32, 0.9);
+    --color-primary: rgb(56, 143, 196);
+    --color-primary-dark: rgb(218, 240, 255);
+    --color-primary-darker: rgb(194, 230, 255);
+    --color-primary-darker-alpha: rgba(194, 230, 255, 0.72);
     color: var(--color-primary);
-    -unity-font-definition: resource('Fonts/Outfit/Outfit-SemiBold');
+    -unity-font-definition: resource('Fonts/ChangaOne/ChangaOne-Regular');
 }
 
 .popin {
@@ -47,24 +47,38 @@
 }
 
 .popin-inner {
-    flex-grow: 1;
+    flex-grow: 0;
     width: 600px;
     min-width: initial;
     max-width: 100%;
     max-height: 700px;
-    background-color: rgb(0, 0, 0);
-    padding-top: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-left-color: var(--color-primary-dark);
-    border-right-color: var(--color-primary-dark);
-    border-top-color: var(--color-primary-dark);
-    border-bottom-color: var(--color-primary-dark);
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+    background-color: rgb(197, 229, 255);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 10px;
+    border-left-color: rgb(141, 210, 255);
+    border-right-color: rgb(141, 210, 255);
+    border-top-color: rgb(141, 210, 255);
+    border-bottom-color: rgb(141, 210, 255);
+}
+
+.popin-inner .unity-button {
+    height: 70px;
+    font-size: 32px;
+    -unity-slice-scale: 0.1px;
+    background-image: none;
+    background-color: var(--color-primary);
+    border-radius: 20px;
+    padding-bottom: 15px;
 }
 
 .popin.animate.open .popin-inner {
@@ -94,7 +108,6 @@
     height: 100%;
 }
 
-
 .screen.fade-in {
     transition-timing-function: ease-in-out;
     transition-property: background-color;
@@ -116,7 +129,6 @@
 .screen.fade-in.black {
     background-color: rgb(0, 0, 0);
 }
-
 
 .screen.fade-out.black {
     background-color: rgba(0, 0, 0, 0);
@@ -149,23 +161,29 @@
 }
 
 .unity-button {
-    height: 50px;
-    font-size: var(--font-size-small);
-    background-color: var(--color-primary-dark);
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-left-color: var(--color-primary);
-    border-right-color: var(--color-primary);
-    border-top-color: var(--color-primary);
-    border-bottom-color: var(--color-primary);
+    background-color: transparent;
+    border-width: 0;
+    margin-top: 10px;
+    display: flex;
+    background-image: url("project://database/Assets/Graphics/buttons-bg.psd?fileID=2800000&guid=949e16fe2da18c988af484d9b1ea6c94&type=3#buttons-bg");
+    height: 114px;
+    font-size: 40px;
+    color: rgb(248, 252, 255);
+    text-shadow: 0 20px 0 rgb(25, 65, 113);
+    letter-spacing: 5px;
+    padding-bottom: 24px;
+    -unity-slice-left: 1000;
+    -unity-slice-top: 600;
+    -unity-slice-right: 1000;
+    -unity-slice-bottom: 600;
+    -unity-slice-type: sliced;
+    -unity-slice-scale: 0.2px;
 }
 
 .unity-button:hover {
-    background-color: var(--color-primary-darker);
+    -unity-background-image-tint-color: rgb(208, 223, 229);
+    color: rgb(224, 235, 234);
 }
-
 
 .unity-toggle {
     width: 100%;
@@ -181,17 +199,17 @@
     justify-content: flex-end;
 }
 
-.unity-base-field__label{
+.unity-base-field__label {
     color: var(--color-primary);
 }
 
 .unity-toggle__checkmark {
     background-color: var(--color-primary);
+    -unity-background-image-tint-color: rgb(208, 223, 229);
     border-radius: 3px;
     width: 30px;
     height: 30px;
 }
-
 
 .unity-scroller__low-button {
     display: none;
@@ -223,4 +241,47 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     width: 45%;
+}
+
+.bucket-container {
+    flex-grow: 0;
+    height: 132px;
+    width: 760px;
+    background-image: url("project://database/Assets/Graphics/crystal-gauge.psd?fileID=2800000&guid=8551fd3740261b99caf6a8e681a9517b&type=3#crystal-gauge");
+    -unity-background-scale-mode: scale-to-fit;
+    background-position-x: left 0;
+    background-position-y: top 0;
+    flex-shrink: 0;
+}
+
+.bucket-container-red {
+    background-image: url("project://database/Assets/Graphics/crystal-gauge.psd?fileID=21300000&guid=8551fd3740261b99caf6a8e681a9517b&type=3#crystal-gauge");
+}
+
+.bucket-container-blue {
+    background-image: url("project://database/Assets/Graphics/crystal-gauge-blue.psd?fileID=21300000&guid=ce53fd995b6eabb3786b01174b81c3a4&type=3#crystal-gauge-blue");
+}
+
+.bucket-container-green {
+    background-image: url("project://database/Assets/Graphics/crystal-gauge-green.psd?fileID=21300000&guid=a443c2a24f0ff46c4b6cb123bf188489&type=3#crystal-gauge-green");
+}
+
+.bucket-container-yellow {
+    background-image: url("project://database/Assets/Graphics/crystal-gauge-yellow.psd?fileID=21300000&guid=cd87d83d90afcfa648fbe3681e1b5aa5&type=3#crystal-gauge-yellow");
+}
+
+.aaaaaaaa {
+    flex-grow: 0;
+    justify-content: flex-start;
+    -unity-slice-scale: 0.1px;
+    border-top-left-radius: 23px;
+    border-top-right-radius: 23px;
+    border-bottom-right-radius: 23px;
+    border-bottom-left-radius: 23px;
+    background-color: rgb(192, 224, 255);
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+    max-height: 900px;
 }
