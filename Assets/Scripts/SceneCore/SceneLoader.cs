@@ -114,4 +114,8 @@ public class SceneLoader : Singleton<SceneLoader>
         return currentSceneName;    
     }
 
+    public bool IsGameScene()
+    {
+        return currentSceneName == "Game";
+    }
 }
