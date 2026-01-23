@@ -39,9 +39,6 @@ namespace Player
         /// <summary> Input direction for movement along X axis (-1 left, 1 right)</summary>
         public Vector2 inputMoveDir = Vector2.zero;
 
-        /// <summary> Target X position for lane changes</summary>
-        public int targetXPosition = 0;
-
         /// <summary> X movement speed of the player</summary>
         public float xMoveSpeed = 15f;
 
@@ -156,7 +153,7 @@ namespace Player
 
             /*
              *
-             * Subscribe to input events 
+             * Map input events to state transitions 
              */
 
             InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: () =>
@@ -164,18 +161,18 @@ namespace Player
                 if (CanJump()) sm.TransitionTo<JumpState>();
             });
 
-            InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: (v2) =>
-            {
+            InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: (v2) => {
                 inputMoveDir = v2;
-                if (CanMove(v2)) sm.TransitionTo<MoveState>();
+                if (CanMove(v2)) sm.TransitionTo<MoveState>();            
+            },
+            OnRelease: () => {
+                sm.GetState<MoveState>().OnRelease();
             });
 
-            InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: () =>
-            {
+            InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: () => {
                 if (CanSlide()) sm.TransitionTo<SlideState>();
             },
-            OnRelease: () =>
-            {
+            OnRelease: () => {
                 sm.GetState<SlideState>().OnRelease();
             });
 

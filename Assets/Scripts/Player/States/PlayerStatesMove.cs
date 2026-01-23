@@ -1,7 +1,7 @@
-using UnityEngine;
-using StateMachine;
 using System;
 using System.Collections;
+using StateMachine;
+using UnityEngine;
 
 namespace Player.States
 {
@@ -9,40 +9,39 @@ namespace Player.States
     {
         private Controller player;
 
+        private bool hasReleasedKey = true;
+
+        private int targetXPosition = 0;
+
 
         /// <summary> Reference to the lane change coroutine</summary>
         private IEnumerator goToLaneRoutine;
 
 
-        public MoveState(StateMachine.StateMachine stateMachine, Controller player) 
+        public MoveState(StateMachine.StateMachine stateMachine, Controller player)
             : base(stateMachine, "Move")
         {
             this.player = player;
         }
 
 
-
         public override void OnEnter()
         {
-            Vector2 direction = player.inputMoveDir;
-
-            // Do not process new input until reaching target position 
-            // (0.1 tolerance to prevent input spam)
-            if (Math.Abs(player.transform.position.x - player.targetXPosition) > 0.1f)
-            {
-                return;
-            }
+            if (player.inputMoveDir.x == 0) return;
 
             // Update target X position based on input direction
-            if (direction.x > 0 || (direction.x < 0))
+            if (hasReleasedKey && player.inputMoveDir.x != 0)
             {
-                var dirX = direction.x > 0 ? 1 : -1;
-                player.targetXPosition = (int)Mathf.Round(player.transform.position.x + (dirX * 2f));
-                player.targetXPosition = Mathf.Clamp(player.targetXPosition, player.minX, player.maxX);
-
+                hasReleasedKey = false; // force player to release key before next input
+                var reqTargetXPosition = targetXPosition + (player.inputMoveDir.x > 0 ? 2 : -2); 
+                targetXPosition = Mathf.Clamp(reqTargetXPosition, player.minX, player.maxX);
                 goToLaneRoutine.Replace(GoToLaneRoutine());
             }
+        }
 
+        public void OnRelease()
+        {
+            hasReleasedKey = true;
         }
 
 
@@ -53,31 +52,31 @@ namespace Player.States
         private IEnumerator GoToLaneRoutine()
         {
             // Play lane change sfx effect
-            var sign = player.targetXPosition - player.transform.position.x > 0 ? 1 : -1;
+            var sign = targetXPosition - player.transform.position.x > 0 ? 1 : -1;
             if (sign > 0) player.laneChangeParticles.transform.rotation = Quaternion.Euler(-90, 0, 80);
             else player.laneChangeParticles.transform.rotation = Quaternion.Euler(-90, 0, -80);
             player.laneChangeParticles.Play();
 
 
             // Handle case where player is already very close to target
-            float initialDistance = Math.Abs(player.targetXPosition - player.transform.position.x);
+            float initialDistance = Math.Abs(targetXPosition - player.transform.position.x);
             if (initialDistance < 0.1f)
             {
-                player.rb.position = new Vector3(player.targetXPosition, player.rb.position.y, player.rb.position.z);
+                player.rb.position = new Vector3(targetXPosition, player.rb.position.y, player.rb.position.z);
                 player.rb.linearVelocity = new Vector3(0f, player.rb.linearVelocity.y, player.rb.linearVelocity.z);
                 yield break;
             }
 
-            while (Math.Abs(player.targetXPosition - player.transform.position.x) > 0.05f)
+            while (Math.Abs(targetXPosition - player.transform.position.x) > 0.05f)
             {
                 if (player.controlReleased) yield break;
 
                 // Stop particles when close enough
-                if (Math.Abs(player.targetXPosition - player.transform.position.x) < 0.5f)
+                if (Math.Abs(targetXPosition - player.transform.position.x) < 0.5f)
                     player.laneChangeParticles.Stop();
 
-                float currentDistance = Math.Abs(player.targetXPosition - player.transform.position.x);
-                float direction = player.targetXPosition - player.transform.position.x > 0 ? 1 : -1;
+                float currentDistance = Math.Abs(targetXPosition - player.transform.position.x);
+                float direction = targetXPosition - player.transform.position.x > 0 ? 1 : -1;
 
                 // Ease-out movement: faster when far, slower when close
                 float easeMultiplier = currentDistance / initialDistance;
@@ -100,11 +99,8 @@ namespace Player.States
 
             // Snap to exact position and stop horizontal movement
             player.rb.linearVelocity = new Vector3(0f, player.rb.linearVelocity.y, player.rb.linearVelocity.z);
-            player.rb.position = new Vector3(player.targetXPosition, player.rb.position.y, player.rb.position.z);
-
+            player.rb.position = new Vector3(targetXPosition, player.rb.position.y, player.rb.position.z);
         }
 
-
     }
-    
 }
