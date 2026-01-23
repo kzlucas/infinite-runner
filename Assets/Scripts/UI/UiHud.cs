@@ -22,9 +22,6 @@ public class UiHud : UiController
         bucketFill = root.Q<VisualElement>("bucket");
         bucketCounter = root.Q<Label>("bucket-counter");
 
-        if (bucketFill.resolvedStyle.width != 0)
-            bucketFullPxWidth = (int)bucketFill.resolvedStyle.width;
-
         yield return null;
     }
 
@@ -44,8 +41,19 @@ public class UiHud : UiController
         bucketCounter.text = Mathf.RoundToInt(fillPct * 100f).ToString() + "%";
     }
 
+    /// <summary>
+    /// Sets the paint bucket color and gauge image.
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="gaugeImage"></param>
+
     public void SetPaintBucketColor(Color color, Sprite gaugeImage)
     {
+        StartCoroutine(_SetPaintBucketColor(color, gaugeImage));
+    }
+    private IEnumerator _SetPaintBucketColor(Color color, Sprite gaugeImage)
+    {
+        yield return new WaitUntil(() => docReady && bucketFill != null && bucketContainer != null);
         bucketFill.style.unityBackgroundImageTintColor = color;
         bucketContainer.style.backgroundImage = new StyleBackground(gaugeImage);
     }

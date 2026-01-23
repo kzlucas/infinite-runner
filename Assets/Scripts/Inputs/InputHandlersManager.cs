@@ -156,9 +156,7 @@ public class InputHandler
     void OnCanceled(InputAction.CallbackContext context)
     {
         v2input = Vector2.zero;
-        
-        if (actionRef.action.type.ToString() == "Button")
-            OnRelease?.Invoke();
+        OnRelease?.Invoke();
     }
 
     public void ClearSubscriptions()
