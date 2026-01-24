@@ -26,4 +26,5 @@ MonoBehaviour:
   _colorSky: {r: 0.5892806, g: 0.8854586, b: 0.6520996, a: 1}
   _colorSkyHorizon: {r: 0, g: 0.7374613, b: 0.19227797, a: 1}
   _colorSkyGround: {r: 0, g: 0.2700777, b: 0.029425453, a: 1}
+  _crystalColor: {r: 0.98765564, g: 1, b: 0, a: 1}
   _gaugeImage: {fileID: 21300000, guid: cd87d83d90afcfa648fbe3681e1b5aa5, type: 3}

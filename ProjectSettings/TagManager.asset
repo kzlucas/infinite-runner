@@ -8,6 +8,7 @@ TagManager:
   - Composite Square Collider
   - Slot
   - Coin
+  - Crystal
   layers:
   - Default
   - TransparentFX

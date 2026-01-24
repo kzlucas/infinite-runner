@@ -232,7 +232,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             Transform[] allChildren = GetComponentsInChildren<Transform>(true); 
             foreach (Transform child in allChildren)
             {
-                if (child.CompareTag("Coin"))
+                if (child.CompareTag("Crystal"))
                 {
                     toDestroy.Add(child.gameObject);
                 }

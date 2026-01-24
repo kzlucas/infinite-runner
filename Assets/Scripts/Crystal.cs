@@ -1,0 +1,19 @@
+using System.Linq;
+using UnityEngine;
+
+
+
+public class Crystal : MonoBehaviour
+{
+    private void Start()
+    {
+        
+        // Set material color based on biome
+        var color = BiomesData.Instance.current.crystalColor;
+        var materials = GetComponentsInChildren<Renderer>().SelectMany(r => r.materials);
+        foreach (var mat in materials)
+        {
+            mat.SetColor("_BaseColor", color);
+        }
+    }
+}

@@ -1219,10 +1219,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5180788355770409000}
     m_Modifications:
-    - target: {fileID: 3127743837188129554, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8abe9c73d5f8f48ee88c53a514429e30, type: 2}
     - target: {fileID: 3766592420759533768, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1267,14 +1263,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin  (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 5200056686928846985, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6987302752369493732, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8abe9c73d5f8f48ee88c53a514429e30, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1367,10 +1355,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5180788355770409000}
     m_Modifications:
-    - target: {fileID: 3127743837188129554, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8abe9c73d5f8f48ee88c53a514429e30, type: 2}
     - target: {fileID: 3766592420759533768, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1415,14 +1399,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin  (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 5200056686928846985, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6987302752369493732, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8abe9c73d5f8f48ee88c53a514429e30, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1441,10 +1417,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5180788355770409000}
     m_Modifications:
-    - target: {fileID: 3127743837188129554, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8abe9c73d5f8f48ee88c53a514429e30, type: 2}
     - target: {fileID: 3766592420759533768, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1489,14 +1461,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin  (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 5200056686928846985, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6987302752369493732, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8abe9c73d5f8f48ee88c53a514429e30, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1581,10 +1545,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5180788355770409000}
     m_Modifications:
-    - target: {fileID: 3127743837188129554, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8abe9c73d5f8f48ee88c53a514429e30, type: 2}
     - target: {fileID: 3766592420759533768, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1629,10 +1589,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'Coin '
       objectReference: {fileID: 0}
-    - target: {fileID: 6987302752369493732, guid: 41ed56232480a8cb4a63db8f39c2487f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8abe9c73d5f8f48ee88c53a514429e30, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1875,7 +1831,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 26ff135f5e3b9e7f1a827d04a1444149, type: 2}
     - target: {fileID: 8183910583042886736, guid: c04f0b5c5485083358d612d94f02fc34, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8183910583042886736, guid: c04f0b5c5485083358d612d94f02fc34, type: 3}
       propertyPath: m_LocalPosition.y
