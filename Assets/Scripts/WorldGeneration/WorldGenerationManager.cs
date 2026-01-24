@@ -84,32 +84,32 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
 
                 if (generatedIndex <= 3)
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Straight Segment");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Straight Segment");
 
                 else if (generatedIndex <= 10)
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Change Lane");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Change Lane");
 
                 else if (generatedIndex <= 12)
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Straight Segment");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Straight Segment");
 
                 else if (generatedIndex <= 16)
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Jump");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Jump");
 
                 else if (generatedIndex <= 18)
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Straight Segment");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Straight Segment");
 
                 else if (generatedIndex <= 22)
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Slide");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Slide");
 
                 else if (generatedIndex <= 24)
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Straight Segment");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Straight Segment");
 
                 else
                 {
@@ -118,16 +118,27 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                 }
 
 
+            case "World 1 - Gray":
+
+
+                if (generatedIndex <= 3)
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Straight Segment");
+
+                else
+                    return BiomesData.Instance.current.Segments
+                        .FindAll(s => s.name != "Straight Segment")
+                        .PickRandom();
+
             default:
 
                 if (generatedIndex <= 3)
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Straight Segment");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Straight Segment");
 
                 else
-
-                    return BiomesData.Instance.current
-                            .Segments.Find(s => s.name == "Random Obstacles");
+                    return BiomesData.Instance.current.Segments
+                        .Find(s => s.name == "Random Obstacles");
 
         }
 

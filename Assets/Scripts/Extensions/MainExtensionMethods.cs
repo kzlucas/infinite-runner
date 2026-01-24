@@ -4,10 +4,6 @@ using UnityEngine;
 
 public static class MainExtensionMethods
 {
-
-
-
-
     /// <summary>
     /// Replace a coroutine with a new instance, stopping the old one if it's running.
     /// </summary>
@@ -46,4 +42,26 @@ public static class MainExtensionMethods
         }
         return matchedChildren;
     }
+
+
+    /// <summary>
+    /// Pick a random element from a list.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The list to pick from.</param>
+    /// <returns>A random element from the list.</returns>
+    public static T PickRandom<T>(this List<T> list)
+    {
+        if (list == null || list.Count == 0)
+        {
+            Debug.LogError("Cannot pick a random element from an empty or null list.");
+            return default(T);
+        }
+        int randomIndex = Random.Range(0, list.Count);
+        return list[randomIndex];
+    }
+
+
+
+
 }
