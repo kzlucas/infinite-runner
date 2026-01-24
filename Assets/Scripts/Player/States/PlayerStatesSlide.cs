@@ -17,9 +17,7 @@ namespace Player.States
         public override void OnEnter()
         {
             player.slideRoutine.Replace(SlideRoutine());
-
         }
-
 
         /// <summary>
         ///  Handle the slide action

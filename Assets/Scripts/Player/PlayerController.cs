@@ -228,6 +228,7 @@ namespace Player
             return !(
                 (this == null)
                 || (controlReleased)
+                || (isSliding)
                 || (Time.timeScale == 0f)
                 || (dir.x == 0)
             );

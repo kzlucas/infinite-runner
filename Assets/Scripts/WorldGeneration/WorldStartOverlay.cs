@@ -25,14 +25,15 @@ public class WorldStartOverlay : Singleton<WorldStartOverlay>
     /// <returns></returns>
     private IEnumerator LerpAlpha()
     {
-        yield return new WaitForSeconds(0.4f);
-
         Material mat = overlayObject.GetComponent<MeshRenderer>().sharedMaterial;
         Color color = mat.color;
         float duration = .5f;
         float elapsed = 0f;
-        float startAlpha = 1f;
+        float startAlpha = .8f;
         float targetAlpha = 0f;
+
+        mat.color = new Color(color.r, color.g, color.b, startAlpha);
+        yield return new WaitForSeconds(0.4f);
 
         while (elapsed < duration)
         {
