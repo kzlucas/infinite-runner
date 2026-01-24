@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class WorldGenerationManager : MonoBehaviour, IInitializable
 {
-    
+
     public int initPriority => 1;
     public Type[] initDependencies => new Type[] { typeof(BiomesData) };
 
@@ -15,7 +15,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
     /// <summary>Current world segments</summary>
     private List<WorldSegment> currentWorldSegments = new List<WorldSegment>();
-    
+
     /// <summary>Reference to the player transform for generation tracking</summary>
     public Transform playerTransform;
 
@@ -32,7 +32,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     private string lastInstantiatedBiomeName = "";
 
 
-    
+
 
     private void OnDisable() => StopAllCoroutines();
 
@@ -45,7 +45,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     public Task InitializeAsync()
     {
         generatedIndex = 0;
-     
+
         // Start generation thread
         GenerateSegments();
 
@@ -56,16 +56,16 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
     /// <summary> Generate segments</summary>
     public void GenerateSegments(bool clearExisting = true)
-    {   
+    {
         // destroy existing segments
-        if(clearExisting)
+        if (clearExisting)
         {
             generatedIndex = 0;
             currentWorldSegments.Clear();
-            foreach(var seg in GameObject.FindGameObjectsWithTag("World Segment"))
+            foreach (var seg in GameObject.FindGameObjectsWithTag("World Segment"))
                 DestroyImmediate(seg);
         }
-            
+
         // (re)Start generation thread
         if (generationCoroutine != null) StopCoroutine(generationCoroutine);
         generationCoroutine = GenerationRoutine();
@@ -78,13 +78,64 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// </summary>
     private WorldSegment PickWorldSegmentPrefab()
     {
-        if(generatedIndex <= 2)
-            return BiomesData.Instance.current
-                    .Segments.Find(s => s.name == "Straight Segment");
+        switch (BiomesData.Instance.current.BiomeName)
+        {
+            case "Tutorial":
 
-        else 
-            return BiomesData.Instance.current
-                    .Segments.Find(s => s.name == "Random Obstacles");
+
+                if (generatedIndex <= 3)
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Straight Segment");
+
+                else if (generatedIndex <= 10)
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Change Lane");
+
+                else if (generatedIndex <= 12)
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Straight Segment");
+
+                else if (generatedIndex <= 16)
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Jump");
+
+                else if (generatedIndex <= 18)
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Straight Segment");
+
+                else if (generatedIndex <= 22)
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Slide");
+
+                else if (generatedIndex <= 24)
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Straight Segment");
+
+                else
+                {
+                    int randIndex = UnityEngine.Random.Range(0, BiomesData.Instance.current.Segments.Count);
+                    return BiomesData.Instance.current.Segments[randIndex];
+                }
+
+
+            default:
+
+                if (generatedIndex <= 2)
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Straight Segment");
+
+                else
+
+                    return BiomesData.Instance.current
+                            .Segments.Find(s => s.name == "Random Obstacles");
+
+        }
+
+
+
+
+
+
     }
 
 
@@ -96,7 +147,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
         // Generate new segments if needed
         int cursor = (int)playerTransform.position.z;
         int maxZ = cursor + frontGenerationWindowSize;
-        while (cursor  < maxZ)
+        while (cursor < maxZ)
         {
             // Check if segment at this z already exists
             var worldSegment = currentWorldSegments.Find(s => s.IsPositionInsideSegment(cursor));
@@ -108,10 +159,10 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                  *
                  * Add biome change overlay if biome changed 
                  */
-                
+
                 var segBiomeName = BiomesData.Instance.current.BiomeName;
                 var lastSeg = currentWorldSegments.LastOrDefault();
-                if(lastSeg != null && (segBiomeName != lastInstantiatedBiomeName))
+                if (lastSeg != null && (segBiomeName != lastInstantiatedBiomeName))
                 {
                     WorldStartOverlay.Instance.Set(
                         lastSeg.position + new Vector3(0, 0, lastSeg.sizeZ)
@@ -125,34 +176,55 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                  *
                  * Create new segment 
                  */
-                
+
                 generatedIndex++;
                 var lastSegment = currentWorldSegments.LastOrDefault();
-                var zTarget = cursor; 
+                var zTarget = cursor;
                 if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
                 var segmentPrefab = PickWorldSegmentPrefab().prefab;
                 var segmentInstance = Instantiate(segmentPrefab, new Vector3(0f, 0, zTarget), Quaternion.identity);
                 var sidewalkGenerators = segmentInstance.GetComponentsInChildren<SidewalkGenerator>();
                 segmentInstance.name += $"| {generatedIndex} - {BiomesData.Instance.current.BiomeName}";
-                foreach(var sidewalkGenerator in sidewalkGenerators) sidewalkGenerator.Generate();
+                foreach (var sidewalkGenerator in sidewalkGenerators) sidewalkGenerator.Generate();
                 segmentInstance.transform.parent = transform;
-                worldSegment = new WorldSegment() {position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };
+                worldSegment = new WorldSegment() { position = new Vector3(0f, 0f, zTarget), prefab = segmentInstance };
                 worldSegment.CalcInstanceData(segmentInstance);
 
+                /*
+                 *
+                 * Special case: Remove crystals in tutorial biome segments until certain index
+                 */
 
-                // no need to block frame, each segment can be created in its own frame
-                if(Application.isPlaying)
+                if ((BiomesData.Instance.current.BiomeName == "Tutorial")
+                && (generatedIndex <= 24))
+                {
+                    RemoveBiomeCrystals("Biome Data - World 0 - Tuto");
+                }
+
+
+                /*
+                 *
+                 * no need to block frame, each segment can be created in its own frame 
+                 */
+                
+                if (Application.isPlaying)
                     yield return null;
 
-                currentWorldSegments.Add(worldSegment);
-            } 
 
-            if(worldSegment == null)
+                /*
+                *
+                * Finalize segment addition 
+                */
+
+                currentWorldSegments.Add(worldSegment);
+            }
+
+            if (worldSegment == null)
             {
                 Debug.LogError("[WorldGenerationManager] World segment is null after instantiation!");
                 break;
             }
-            if(worldSegment.sizeZ <= 0)
+            if (worldSegment.sizeZ <= 0)
             {
                 Debug.LogError("[WorldGenerationManager] World segment sizeZ is invalid after calculation!");
                 break;
@@ -208,7 +280,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
                     DestroyImmediate(s.prefab);
                 else
                     Destroy(s.prefab);
-                    
+
                 return true;
             }
             return false;
@@ -220,16 +292,16 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     ///   Remove all coins that belong to given biome name
     /// </summary>
     /// <param name="biomeName"></param>
-    public void RemoveBiomeCoins(string biomeName)
+    public void RemoveBiomeCrystals(string biomeName)
     {
         var toDestroy = new List<GameObject>();
         var biomeSegments = BiomesData.Instance.items
                                 .Find(b => b.name == biomeName)
                                 .Segments;
-                                
-        foreach(var segment in biomeSegments)
+
+        foreach (var segment in biomeSegments)
         {
-            Transform[] allChildren = GetComponentsInChildren<Transform>(true); 
+            Transform[] allChildren = GetComponentsInChildren<Transform>(true);
             foreach (Transform child in allChildren)
             {
                 if (child.CompareTag("Crystal"))
@@ -239,9 +311,9 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
             }
         }
 
-        foreach(var obj in toDestroy)
-        {
-            Destroy(obj);
+        foreach (var obj in toDestroy)
+            {
+                Destroy(obj);
         }
     }
 }

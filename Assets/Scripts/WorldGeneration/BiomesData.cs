@@ -29,10 +29,10 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     /// <returns></returns>
     public Task InitializeAsync()
     {
-        if (items.Count > 0)
+        if(!TutorialManager.Instance.TutorialsCompleted())
             ApplyDataAtIndex(0);
         else
-            Debug.LogError("[BiomesData] No biome data found!");
+            ApplyDataAtIndex(1);
 
         return Task.CompletedTask;
     }
@@ -82,7 +82,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     {
         if(Application.isPlaying) UiManager.Instance.screenOverlay.FlashWhite();
         yield return new WaitForSecondsRealtime(0.1f);
-        worldGenerationManager.RemoveBiomeCoins(current.name);
+        worldGenerationManager.RemoveBiomeCrystals(current.name);
         worldGenerationManager.ClearSegmentsInFrontPlayer(30);
     }
 

@@ -23,8 +23,8 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   _colorPaint: {r: 1, g: 0, b: 0, a: 1}
+  _crystalColor: {r: 1, g: 0, b: 0, a: 1}
   _colorSky: {r: 1, g: 1, b: 1, a: 1}
   _colorSkyHorizon: {r: 0.77977395, g: 0.77977395, b: 0.77977395, a: 1}
   _colorSkyGround: {r: 0.3665982, g: 0.3665982, b: 0.3665982, a: 1}
-  _crystalColor: {r: 1, g: 0, b: 0, a: 1}
-  _gaugeImage: {fileID: 21300000, guid: 8551fd3740261b99caf6a8e681a9517b, type: 3}
+  _gaugeImage: {fileID: 21300000, guid: ff93bf1d19b752584b0693566e55463e, type: 3}

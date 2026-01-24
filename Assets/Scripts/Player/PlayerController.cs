@@ -216,7 +216,7 @@ namespace Player
                 || (Time.timeScale == 0f)
                 || (isSliding)
                 || (currentJumpCount >= maxJumpCount)
-            );
+            ) && TutorialManager.Instance.TutorialCompleted("Jump");
         }
 
 
@@ -244,7 +244,7 @@ namespace Player
                 || (controlReleased)
                 || (isSliding)
                 || (!isGrounded)
-            );
+            ) && TutorialManager.Instance.TutorialCompleted("Slide");
         }
 
 
