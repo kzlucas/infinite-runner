@@ -15,5 +15,12 @@ public class Crystal : MonoBehaviour
         {
             mat.SetColor("_BaseColor", color);
         }
+
+        // Set light emission color based on biome
+        var light = GetComponentInChildren<Light>();
+        if (light != null)
+        {
+            light.color = color;
+        }
     }
 }
