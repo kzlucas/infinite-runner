@@ -7,7 +7,7 @@ public class UiEndGame : UiPopin
 {
 
     [HideInInspector] public Label label_distanceReached;
-    [HideInInspector] public Label label_paintCollectedCount;
+    [HideInInspector] public Label label_crystalsCollectedCount;
     [HideInInspector] public Label label_lastBiomeReached;
 
     private void Start()
@@ -19,7 +19,7 @@ public class UiEndGame : UiPopin
     {
         yield return new WaitUntil(() => docReady);
 
-        label_paintCollectedCount = root.Q<Label>("label--paint-collected-count");
+        label_crystalsCollectedCount = root.Q<Label>("label--paint-collected-count");
         label_lastBiomeReached = root.Q<Label>("label--last-biome-reached");
         label_distanceReached = root.Q<Label>("label--distance-reached");
     }
@@ -28,7 +28,7 @@ public class UiEndGame : UiPopin
     {
         GameManager.Instance.PauseGame();
 
-        label_paintCollectedCount.text = StatsRecorder.Instance.currentRunCoinsCollected.ToString();
+        label_crystalsCollectedCount.text = StatsRecorder.Instance.currentRunCoinsCollected.ToString();
         label_lastBiomeReached.text = StatsRecorder.Instance.lastBiomeReached;
         label_distanceReached.text = StatsRecorder.Instance.currentRunDistanceReached.ToString();
     }

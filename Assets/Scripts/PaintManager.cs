@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class PaintManager
 {
-    public static int paintCollected = 0;
+    public static int crystalsCollected = 0;
     public static int amountInBucket = 0;
     public static float bucketFillPct = 0f;
 
@@ -12,7 +12,7 @@ public static class PaintManager
 
     public static void Reset()
     {
-        paintCollected = 0;
+        crystalsCollected = 0;
         amountInBucket = 0;
         ClearBucket();
     }
@@ -39,8 +39,8 @@ public static class PaintManager
 
         // Update HUD
         UiManager.Instance.hud.UpdatePaintBucket(bucketFillPct);
-        paintCollected += amount;
-        StatsRecorder.Instance.SetMaxCoinsCollected(paintCollected);
+        crystalsCollected += amount;
+        StatsRecorder.Instance.SetMaxCoinsCollected(crystalsCollected);
     }
 
 

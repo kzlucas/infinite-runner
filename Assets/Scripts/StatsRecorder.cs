@@ -49,9 +49,9 @@ public class StatsRecorder : Singleton<StatsRecorder>
         saveData.MaxDistanceReached = Mathf.Max(saveData.MaxDistanceReached, distance);
     }
 
-    public void SetMaxCoinsCollected(int paintCollected)
+    public void SetMaxCoinsCollected(int crystalsCollected)
     {
-        currentRunCoinsCollected = paintCollected;
-        saveData.MaxPaintCollectedInRun = Mathf.Max(saveData.MaxPaintCollectedInRun, paintCollected);
+        currentRunCoinsCollected = crystalsCollected;
+        saveData.MaxCrystalsCollectedInRun = Mathf.Max(saveData.MaxCrystalsCollectedInRun, crystalsCollected);
     }
 }
