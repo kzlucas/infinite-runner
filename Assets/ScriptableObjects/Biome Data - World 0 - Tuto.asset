@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Biome Data - World 0 - Tuto
   m_EditorClassIdentifier: Assembly-CSharp::SO_BiomeData
   _biomeName: Tutorial
+  _crystalsNeeded: 10
   _segments:
   - name: Straight Segment
     prefab: {fileID: 5740427710291029939, guid: 72a83ad715b4a8162beb56a876128047, type: 3}

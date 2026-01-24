@@ -28,9 +28,9 @@ public class GameManager : Singleton<GameManager>
     {
         if (isPaused) return;
         
-        // gradually increase time scale over time. 100 seconds to reach 2x speed
+        // gradually increase time scale over time. 400 seconds to reach 2x speed
         timeElapsedSinceStart += Time.unscaledDeltaTime;
-        gameCurrentTimeScale = 1f + (timeElapsedSinceStart / 100f); 
+        gameCurrentTimeScale = 1f + (timeElapsedSinceStart / 400f); 
         gameCurrentTimeScale = Mathf.Clamp(gameCurrentTimeScale, 0f, gameMaxTimeScale);
         Time.timeScale = gameCurrentTimeScale;
     }

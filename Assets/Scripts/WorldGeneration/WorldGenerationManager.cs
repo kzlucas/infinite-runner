@@ -120,7 +120,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
             default:
 
-                if (generatedIndex <= 2)
+                if (generatedIndex <= 3)
                     return BiomesData.Instance.current
                             .Segments.Find(s => s.name == "Straight Segment");
 

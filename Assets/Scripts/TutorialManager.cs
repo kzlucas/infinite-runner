@@ -70,7 +70,6 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
             && !TutorialCompleted("Crystal"))
         {
             Play("Crystal");
-            tutorialsCompleted = true;
         }
     }
 

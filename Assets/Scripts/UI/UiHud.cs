@@ -8,7 +8,7 @@ public class UiHud : UiController
     [HideInInspector] public VisualElement bucketContainer;
     [HideInInspector] public VisualElement bucketFill;
     [HideInInspector] public Label bucketCounter;
-    private int bucketFullPxWidth = 334;
+    private int bucketFullPxWidth = 239;
 
 
     public override void OnDocReady()
@@ -21,7 +21,6 @@ public class UiHud : UiController
         bucketContainer = root.Q<VisualElement>("bucket-container");
         bucketFill = root.Q<VisualElement>("bucket");
         bucketCounter = root.Q<Label>("bucket-counter");
-
         yield return null;
     }
 
@@ -39,6 +38,11 @@ public class UiHud : UiController
         yield return new WaitUntil(() => docReady && bucketFill != null);
         bucketFill.style.width = fillPct * (float)bucketFullPxWidth;
         bucketCounter.text = Mathf.RoundToInt(fillPct * 100f).ToString() + "%";
+
+        SetPaintBucketColor(
+            BiomesData.Instance.current.ColorPaint,
+            BiomesData.Instance.current.GaugeImage
+        );
     }
 
     /// <summary>
@@ -47,7 +51,7 @@ public class UiHud : UiController
     /// <param name="color"></param>
     /// <param name="gaugeImage"></param>
 
-    public void SetPaintBucketColor(Color color, Sprite gaugeImage)
+    private void SetPaintBucketColor(Color color, Sprite gaugeImage)
     {
         StartCoroutine(_SetPaintBucketColor(color, gaugeImage));
     }
@@ -56,5 +60,6 @@ public class UiHud : UiController
         yield return new WaitUntil(() => docReady && bucketFill != null && bucketContainer != null);
         bucketFill.style.unityBackgroundImageTintColor = color;
         bucketContainer.style.backgroundImage = new StyleBackground(gaugeImage);
+
     }
 }

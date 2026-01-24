@@ -49,6 +49,11 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             return false;
         }
         int currentIndex = items.FindIndex(b => b.name == current.name);
+        if (currentIndex == 0)
+        {
+            TutorialManager.Instance.Play("Completed");
+            TutorialManager.Instance.tutorialsCompleted = true;
+        }
         if (currentIndex == -1)
         {
             currentIndex = 0;
@@ -99,7 +104,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             return;
         }
 
-        current = items[index];        
+        current = items[index];
         Debug.Log("[BiomesData] Changing to biome: " + current.name);
 
         // Update "sky color of RenderSettings.skybox to match biome color

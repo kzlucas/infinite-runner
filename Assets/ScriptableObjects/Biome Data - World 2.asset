@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Biome Data - World 2
   m_EditorClassIdentifier: Assembly-CSharp::SO_BiomeData
   _biomeName: World 2 - Red
+  _crystalsNeeded: 100
   _segments:
   - name: Straight Segment
     prefab: {fileID: 5740427710291029939, guid: 27477a886e4ece9a5a3db30b7973ff8e, type: 3}
@@ -23,8 +24,8 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   _colorPaint: {r: 0.21016175, g: 0.76426554, b: 0.27473277, a: 1}
+  _crystalColor: {r: 0, g: 1, b: 0.16732669, a: 1}
   _colorSky: {r: 0.80853844, g: 0.4291105, b: 0.3921321, a: 1}
   _colorSkyHorizon: {r: 0.6875933, g: 0.084048815, b: 0.03819743, a: 1}
   _colorSkyGround: {r: 0.38311708, g: 0.006445907, b: 0, a: 1}
-  _crystalColor: {r: 0, g: 1, b: 0.16732669, a: 1}
   _gaugeImage: {fileID: 21300000, guid: a443c2a24f0ff46c4b6cb123bf188489, type: 3}

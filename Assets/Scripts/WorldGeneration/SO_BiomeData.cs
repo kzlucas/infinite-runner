@@ -9,6 +9,9 @@ public class SO_BiomeData : ScriptableObject
     [SerializeField] private string _biomeName;
     public string BiomeName => _biomeName;
 
+    [SerializeField] private int _crystalsNeeded = 100;
+    public int CrystalsNeeded => _crystalsNeeded;
+
 
     [SerializeField] private List<WorldSegment> _segments;
     public List<WorldSegment> Segments => _segments;

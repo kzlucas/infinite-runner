@@ -5,11 +5,15 @@ using UnityEngine;
 public static class PaintManager
 {
     public static int paintCollected = 0;
+    public static int amountInBucket = 0;
     public static float bucketFillPct = 0f;
+
+
 
     public static void Reset()
     {
         paintCollected = 0;
+        amountInBucket = 0;
         ClearBucket();
     }
 
@@ -20,7 +24,8 @@ public static class PaintManager
     /// <param name="amount">Amount to add (usually 1)</param>
     public static void AddPaint(int amount)
     {
-        bucketFillPct += amount / 10f;
+        amountInBucket += amount  * 10;
+        bucketFillPct = amountInBucket / (float)BiomesData.Instance.current.CrystalsNeeded;
         bucketFillPct = Mathf.Clamp01(bucketFillPct);
 
         // Check if bucket is full
@@ -34,7 +39,6 @@ public static class PaintManager
 
         // Update HUD
         UiManager.Instance.hud.UpdatePaintBucket(bucketFillPct);
-
         paintCollected += amount;
         StatsRecorder.Instance.SetMaxCoinsCollected(paintCollected);
     }
@@ -45,13 +49,9 @@ public static class PaintManager
     /// </summary>
     private static void ClearBucket()
     {
-        Debug.Log("[PaintManager] Clearing paint bucket.");
         bucketFillPct = 0f;
+        amountInBucket = 0;
         UiManager.Instance.hud.UpdatePaintBucket(bucketFillPct);
-        UiManager.Instance.hud.SetPaintBucketColor(
-            BiomesData.Instance.current.ColorPaint,
-            BiomesData.Instance.current.GaugeImage
-        );
     }
 
 
