@@ -17,8 +17,6 @@ namespace Player.States
 
         public override void OnEnter()
         {
-            player.currentJumpCount++;
-
             // Play jump sound
             AudioManager.Instance.PlaySound("jump");
 

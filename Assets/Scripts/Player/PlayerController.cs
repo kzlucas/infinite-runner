@@ -67,12 +67,6 @@ namespace Player
         /// <summary> Particle system for jump effect</summary>
         public ParticleSystem jumpParticles;
 
-        /// <summary> Maximum number of consecutive jumps allowed between landings (2 basicly means double jump allowed, set to 1 for disabling))</summary>
-        public int maxJumpCount = 2;
-
-        /// <summary> Current number of consecutive jumps performed without touching ground</summary>
-        [HideInInspector] public int currentJumpCount = 0;
-
 
 
         [Header("Slide Settings")]
@@ -215,7 +209,7 @@ namespace Player
                 || (controlReleased)
                 || (Time.timeScale == 0f)
                 || (isSliding)
-                || (currentJumpCount >= maxJumpCount)
+                || (!isGrounded)
             ) && TutorialManager.Instance.TutorialCompleted("Jump");
         }
 

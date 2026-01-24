@@ -25,9 +25,6 @@ namespace Player.States
 
             // reattach ps to player to clean up hierarchy
             player.jumpParticles.transform.parent = player.transform;
-
-            // Reset jump count when landing
-            player.currentJumpCount = 0;
         }
 
 
