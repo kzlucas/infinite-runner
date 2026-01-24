@@ -24,7 +24,7 @@ public static class PaintManager
     /// <param name="amount">Amount to add (usually 1)</param>
     public static void AddPaint(int amount)
     {
-        amountInBucket += amount  * 10;
+        amountInBucket += amount;
         bucketFillPct = amountInBucket / (float)BiomesData.Instance.current.CrystalsNeeded;
         bucketFillPct = Mathf.Clamp01(bucketFillPct);
 
