@@ -17,21 +17,8 @@ public class TutorialManager : Singleton<TutorialManager>
     [SerializeField] public List<Tutorial> tutorials;
     public GameObject playerGo;
 
-    private IEnumerator Start()
+    private void Start()
     {
-
-        // Check if tutorials are marked as completed in save data
-        var saveData = SaveService.Load();
-        var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
-        foreach (var tutorial in tutorials)
-        {
-            if (tutorialsCompleted.Contains(tutorial.tutorialKey))
-            {
-                tutorial.completed = true;
-            }
-        }
-        // Play the first tutorial at start
-        yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized);
         playerGo = GameObject.FindWithTag("Player");
     }
 
@@ -131,6 +118,15 @@ public class TutorialManager : Singleton<TutorialManager>
     /// </summary>
     public bool TutorialsCompleted()
     {
+        var saveData = SaveService.Load();
+        var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
+        foreach (var tutorial in tutorials)
+        {
+            if (tutorialsCompleted.Contains(tutorial.tutorialKey))
+            {
+                tutorial.completed = true;
+            }
+        }
         return tutorials.TrueForAll(t => t.completed);
     }
 }
