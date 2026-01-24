@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbab78c4b7ea22b85a18f85d31d68c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderType
-  colliderType: 3
+  colliderType: 0
   soundToPlayOnCollision: 
 --- !u!1 &2241355896954903007
 GameObject:
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbab78c4b7ea22b85a18f85d31d68c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderType
-  colliderType: 1
+  colliderType: 0
   soundToPlayOnCollision: 
 --- !u!1 &5282040831158995697
 GameObject:
@@ -248,6 +248,7 @@ MonoBehaviour:
   randomizeAxisMin: {x: -4, y: 0, z: 0}
   randomizeAxisMax: {x: 4, y: 0, z: 0}
   randomizeAxisStep: {x: 2, y: 2, z: 2}
+  ignoreSiblings: 0
 --- !u!1 &6921171236757350949
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,5 +492,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbab78c4b7ea22b85a18f85d31d68c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderType
-  colliderType: 3
+  colliderType: 0
   soundToPlayOnCollision: 

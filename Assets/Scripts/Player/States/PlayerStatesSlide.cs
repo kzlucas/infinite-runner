@@ -8,10 +8,25 @@ namespace Player.States
     {
         private Controller player;
 
+        /// <summary> Reference to the player's collider</summary>
+        private BoxCollider bCollider;
+
+        /// <summary> Reference to the player's collider normal dimensions: height</summary>
+        private float originalColliderHeight;
+
+        /// <summary> Reference to the player's collider normal dimensions: center Y position</summary>
+        private float originalColliderCenterY;
+
+
         public SlideState(StateMachine.StateMachine stateMachine, Controller player)
             : base(stateMachine, "Slide")
         {
             this.player = player;
+
+            // store original body collider size (will update when sliding)
+            bCollider = player.collisionHandler.bodyCollider.GetComponent<BoxCollider>();
+            originalColliderHeight = bCollider.size.y;
+            originalColliderCenterY = bCollider.center.y;
         }
 
         public override void OnEnter()
@@ -28,7 +43,7 @@ namespace Player.States
 
             player.isSliding = true;
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", true);
-            SetColliderToSlidingPosition(); // @improve: match the real mesh dimension accross frames to avoid pass through obstacle colliders during animation transition
+            SetCollidersToSlidingPosition(); // @improve: match the real mesh dimension accross frames to avoid pass through obstacle colliders during animation transition
 
             // Play slide particles
             player.slideParticles.Play();
@@ -47,7 +62,7 @@ namespace Player.States
             // stop slide
             player.isSliding = false;
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", false);
-            SetColliderToNormalPosition();
+            SetCollidersToNormalPosition();
 
             // disable slide particles
             player.slideParticles.Stop();
@@ -57,20 +72,24 @@ namespace Player.States
         /// <summary>
         /// Set the player's collider to the sliding position
         /// </summary>
-        private void SetColliderToSlidingPosition()
+        private void SetCollidersToSlidingPosition()
         {
-            player.bcollider.size = new Vector3(player.bcollider.size.x, player.originalColliderHeight / 2f, player.bcollider.size.z); // ~0.5
-            player.bcollider.center = new Vector3(player.bcollider.center.x, player.bcollider.center.y - player.originalColliderHeight / 4f, player.bcollider.center.z); // ~0.3
+            player.collisionHandler.transform.localScale = new Vector3(1f, 0.5f, 1f);
+            player.collisionHandler.transform.localPosition = new Vector3(0f, .1f, 0f);
+            bCollider.size = new Vector3(bCollider.size.x, originalColliderHeight / 2f, bCollider.size.z); // ~0.5
+            bCollider.center = new Vector3(bCollider.center.x, bCollider.center.y - originalColliderHeight / 4f, bCollider.center.z); // ~0.3
         }
 
 
         /// <summary>
         /// Set the player's collider back to the normal position
         /// </summary>
-        private void SetColliderToNormalPosition()
+        private void SetCollidersToNormalPosition()
         {
-            player.bcollider.size = new Vector3(player.bcollider.size.x, player.originalColliderHeight, player.bcollider.size.z);
-            player.bcollider.center = new Vector3(player.bcollider.center.x, player.originalColliderCenterY, player.bcollider.center.z);
+            player.collisionHandler.transform.localScale = new Vector3(1f, 1f, 1f);
+            player.collisionHandler.transform.localPosition = Vector3.zero;
+            bCollider.size = new Vector3(bCollider.size.x, originalColliderHeight, bCollider.size.z);
+            bCollider.center = new Vector3(bCollider.center.x, originalColliderCenterY, bCollider.center.z);
         }
     }
 

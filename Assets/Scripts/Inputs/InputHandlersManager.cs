@@ -43,6 +43,7 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
         , Action<Vector2> OnUpdate = null
         , Action OnTrigger = null
         , Action OnRelease = null
+        , Action OnHold = null
     )
     {
         if (inputHandlers.Exists(ih => ih.label == label))
@@ -53,7 +54,15 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
 
         // create new handler
         InputHandler newInputHandler = new InputHandler();
-        newInputHandler.Init(label, actionRef, OnInput, OnUpdate, OnTrigger, OnRelease);
+        newInputHandler.Init(
+            label
+            , actionRef
+            , OnInput
+            , OnUpdate
+            , OnTrigger
+            , OnRelease
+            , OnHold
+        );
         inputHandlers.Add(newInputHandler);
     }
 
@@ -88,6 +97,11 @@ public class InputHandlersManager : Singleton<InputHandlersManager>
                 ih.OnInput?.Invoke(ih.v2input.normalized);
             }
             ih.OnUpdate?.Invoke(ih.v2input.normalized);
+
+            if (ih.isHolding)
+            {
+                ih.OnHold?.Invoke();
+            }
         }
 
         mousePosition = Mouse.current.position.ReadValue();
@@ -122,6 +136,13 @@ public class InputHandler
     // Invoked when basic button released
     public Action OnRelease;
 
+    // Invoked when basic button held
+    public Action OnHold;
+
+    // Flag indicating if the input is being held
+    public bool isHolding = false;
+
+
 
     public void Init(
         string _label
@@ -130,6 +151,7 @@ public class InputHandler
         , Action<Vector2> _OnUpdate = null
         , Action _OnTrigger = null
         , Action _OnRelease = null
+        , Action _OnHold = null
     )
     {
         label = _label;
@@ -138,6 +160,7 @@ public class InputHandler
         OnUpdate = _OnUpdate;
         OnTrigger = _OnTrigger;
         OnRelease = _OnRelease;
+        OnHold = _OnHold;
 
         actionRef.action.performed += OnPerformed;
         actionRef.action.canceled += OnCanceled;
@@ -146,6 +169,8 @@ public class InputHandler
 
     void OnPerformed(InputAction.CallbackContext context)
     {
+        isHolding = true;
+
         if (actionRef.action.type.ToString() == "Value")
             v2input = actionRef.action.ReadValue<Vector2>();
 
@@ -153,8 +178,10 @@ public class InputHandler
             OnTrigger?.Invoke();
     }
 
+
     void OnCanceled(InputAction.CallbackContext context)
     {
+        isHolding = false;
         v2input = Vector2.zero;
         OnRelease?.Invoke();
     }
@@ -165,6 +192,7 @@ public class InputHandler
         OnUpdate = null;
         OnTrigger = null;
         OnRelease = null;
+        OnHold = null;
 
         if (actionRef == null) return;
 

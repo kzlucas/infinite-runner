@@ -4,10 +4,9 @@ public class ColliderType : MonoBehaviour
 {
     public enum Type
     {
-        Ground,
-        Obstacle,
+        Platform,
+        DeathZone,
         Collectible,
-        Wall,
         ZoneChange,
         None,
     }

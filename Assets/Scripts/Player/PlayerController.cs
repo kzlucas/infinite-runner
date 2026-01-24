@@ -16,15 +16,16 @@ namespace Player
         #region Fields
 
 
-
-        [Header("References")]
-
-        /// <summary> Reference to the collision handling component</summary>
-        public CollisionHandling collisionHandler;
-        public Rigidbody rb;
         private readonly AdvancedStateMachine sm = new();
 
 
+        [Header("Collider")]
+
+        /// <summary> Reference to the collision handling component</summary>
+        public CollisionHandling collisionHandler;
+
+        /// <summary> Reference to the player's rigidbody</summary>
+        public Rigidbody rb;
 
 
         [Header("Flags")]
@@ -104,17 +105,6 @@ namespace Player
 
 
 
-        [Header("Collider")]
-
-        /// <summary> Reference to the player's collider</summary>
-        public BoxCollider bcollider;
-
-        /// <summary> Reference to the player's collider normal dimensions: height</summary>
-        public float originalColliderHeight;
-
-        /// <summary> Reference to the player's collider normal dimensions: center Y position</summary>
-        public float originalColliderCenterY;
-
 
         #endregion
 
@@ -150,25 +140,46 @@ namespace Player
              * Map input events to state transitions 
              */
 
-            InputHandlersManager.Instance.Register("Jump", jumpActionRef, OnTrigger: () =>
-            {
-                if (CanJump()) sm.TransitionTo<JumpState>();
-            });
+            InputHandlersManager.Instance.Register(
+                "Jump"
+                , jumpActionRef
+                , OnTrigger: () =>
+                {
+                    if (CanJump()) sm.TransitionTo<JumpState>();
+                }
+            );
 
-            InputHandlersManager.Instance.Register("Move", moveActionRef, OnUpdate: (v2) => {
-                inputMoveDir = v2;
-                if (CanMove(v2)) sm.TransitionTo<MoveState>();            
-            },
-            OnRelease: () => {
-                sm.GetState<MoveState>().OnRelease();
-            });
+            InputHandlersManager.Instance.Register(
+                "Move"
+                , moveActionRef
+                , OnUpdate: (v2) =>
+                {
+                    inputMoveDir = v2;
+                    if (CanMove(v2)) sm.TransitionTo<MoveState>();
+                }
+                , OnRelease: () =>
+                {
+                    sm.GetState<MoveState>().OnRelease();
+                }
+            );
 
-            InputHandlersManager.Instance.Register("Slide", slideActionRef, OnTrigger: () => {
-                if (CanSlide()) sm.TransitionTo<SlideState>();
-            },
-            OnRelease: () => {
-                sm.GetState<SlideState>().OnRelease();
-            });
+            InputHandlersManager.Instance.Register(
+                "Slide"
+                , slideActionRef
+                , OnTrigger: () =>
+                {
+                    if (CanSlide()) sm.TransitionTo<SlideState>();
+                },
+                OnHold: () =>
+                {
+                    if (CanSlide()) sm.TransitionTo<SlideState>();
+                },
+                OnRelease: () =>
+                {
+                    sm.GetState<SlideState>().OnRelease();
+                }
+            );
+
 
 
             /*
@@ -183,10 +194,6 @@ namespace Player
             crashParticules.Stop();
             laneChangeParticles.Stop();
 
-            // store original collider size (will update when sliding)
-            bcollider = GetComponent<BoxCollider>();
-            originalColliderHeight = bcollider.size.y;
-            originalColliderCenterY = bcollider.center.y;
 
             // Subscribe/unsub to landing event
             collisionHandler.OnLanded += sm.TransitionTo<LandState>;
@@ -269,6 +276,7 @@ namespace Player
             if (this == null) return;
             if (controlReleased) return;
             sm.TransitionTo<CrashState>();
+            EndGameManager.Instance.TriggerEndGame();
         }
 
 

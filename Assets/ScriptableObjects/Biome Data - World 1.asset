@@ -20,7 +20,7 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   - name: Random Obstacles
-    prefab: {fileID: 5740427710291029939, guid: 91ca558998faa53008028742c70c25eb, type: 3}
+    prefab: {fileID: 5740427710291029939, guid: a9116786cd0f5d35ea17cab53a4a8f73, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   _colorPaint: {r: 1, g: 0, b: 0, a: 1}

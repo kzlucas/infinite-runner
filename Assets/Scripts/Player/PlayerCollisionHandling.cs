@@ -3,37 +3,33 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Collider))]
     public class CollisionHandling : MonoBehaviour
     {
         public Action OnLanded;
-        private Controller player;
+        public Controller player;
         private bool previouslyGrounded = true;
 
 
-        /// <summary>
-        ///   Initialize references
-        /// </summary>
+        public PlayerCollider bodyCollider;
+        public PlayerCollider leftCollider;
+        public PlayerCollider rightCollider;
+        public PlayerCollider frontCollider;
+
+
         private void Start()
         {
-            player = GetComponent<Controller>();
+            bodyCollider.OnTriggered += HandleCollision;
+            leftCollider.OnTriggered += HandleCollision;
+            rightCollider.OnTriggered += HandleCollision;
+            frontCollider.OnTriggered += HandleCollision;
         }
 
-        /// <summary>
-        ///   Handles trigger events with other objects with isTrigger enabled.
-        /// </summary>
-        private void OnTriggerEnter(Collider other)
+        private void OnDestroy()
         {
-            HandleCollision(other);
-        }
-
-
-        /// <summary>
-        ///   Handles collision events with other objects without isTrigger enabled.
-        /// </summary>
-        private void OnCollisionEnter(Collision collision)
-        {
-            HandleCollision(collision.collider);
+            bodyCollider.OnTriggered -= HandleCollision;
+            leftCollider.OnTriggered -= HandleCollision;
+            rightCollider.OnTriggered -= HandleCollision;
+            frontCollider.OnTriggered -= HandleCollision;
         }
 
 
@@ -41,9 +37,8 @@ namespace Player
         ///   Processes the collision with the specified collider.
         /// </summary>
         /// <param name="other">The collider of the object collided with.</param>
-        private void HandleCollision(Collider other)
+        private void HandleCollision(ColliderPosition position, Collider other)
         {
-
             if (player.controlReleased) return;
             var colliderType = other.GetComponent<ColliderType>();
             if (colliderType == null) return;
@@ -53,28 +48,32 @@ namespace Player
 
             switch (t)
             {
-                case ColliderType.Type.Obstacle:
-                case ColliderType.Type.Wall:
-                    Debug.Log("[PlayerCollisionHandling] Collided with obstacle: " + other.name);
+                case ColliderType.Type.DeathZone:
                     player.TriggerCrashEvent();
-                    EndGameManager.Instance.TriggerEndGame();
                     break;
-
-                case ColliderType.Type.Ground:
-                    player.isGrounded = true;
+                    
+                case ColliderType.Type.Platform:
+                    if(position != ColliderPosition.Body)
+                    {
+                        player.TriggerCrashEvent();
+                    }
                     break;
 
                 case ColliderType.Type.Collectible:
-                    other.GetComponent<Animator>().SetTrigger("OnCollide");
+                    if (position == ColliderPosition.Body)
+                    {
+                        other.GetComponent<Animator>()?.SetTrigger("OnCollide");
+                    }
                     break;
 
                 case ColliderType.Type.ZoneChange:
-                    Debug.Log($"[PlayerCollisionHandling] Collided with zone change / Current world: {BiomesData.Instance.current.BiomeName}");
-                    StatsRecorder.Instance.UpdateLastBiomeReached(BiomesData.Instance.current.BiomeName);
+                    if (position == ColliderPosition.Body)
+                    {
+                        StatsRecorder.Instance.UpdateLastBiomeReached(BiomesData.Instance.current.BiomeName);
+                    }
                     break;
 
                 default:
-                    Debug.Log("[PlayerCollisionHandling] Collided with: " + other.name);
                     break;
             }
         }
@@ -107,7 +106,7 @@ namespace Player
             if (raycastHit)
             {
                 var colliderType = hit.collider.GetComponent<ColliderType>();
-                if (colliderType != null && colliderType.colliderType == ColliderType.Type.Ground)
+                if (colliderType != null && colliderType.colliderType == ColliderType.Type.Platform)
                 {
                     isCurrentlyGrounded = hit.distance <= .2f;
                 }

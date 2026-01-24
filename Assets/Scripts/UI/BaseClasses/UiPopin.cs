@@ -29,10 +29,7 @@ public class UiPopin : UiController, IOpenable
         // Set initial state
         if (openOnSceneLoad) Open();
         else Close();
-
-        Debug.Log("[UiPopin] Popin initialized: " + gameObject.name);
-        Debug.Log("[UiPopin] Initial state: " + (isOpen ? "Open" : "Closed"));
-
+        
         // Wait frames to ensure open/close classes are applied before adding animate class, 
         yield return new WaitForEndOfFrame(); 
         popin.AddToClassList("animate");
@@ -51,7 +48,7 @@ public class UiPopin : UiController, IOpenable
             return;
         }
 
-        Debug.Log("[UiPopin] Open popin: " + gameObject.name);
+        // Debug.Log("[UiPopin] Open popin: " + gameObject.name);
         popin.AddToClassList("open");
         popin.RemoveFromClassList("close");
         popin.pickingMode = PickingMode.Position;
@@ -69,7 +66,7 @@ public class UiPopin : UiController, IOpenable
             return;
         }
 
-        Debug.Log("[UiPopin] Close popin: " +  gameObject.name);
+        // Debug.Log("[UiPopin] Close popin: " +  gameObject.name);
         popin.AddToClassList("close");
         popin.RemoveFromClassList("open");
         popin.pickingMode = PickingMode.Ignore;
