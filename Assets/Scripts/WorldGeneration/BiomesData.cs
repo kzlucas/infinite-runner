@@ -13,7 +13,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
 
 
     [Header("Initialization")]
-    public int initPriority => 0;
+    public int initPriority => 1;
     public System.Type[] initDependencies => null;
 
 
@@ -29,7 +29,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     /// <returns></returns>
     public Task InitializeAsync()
     {
-        if(!TutorialManager.Instance.TutorialsCompleted())
+        if(!TutorialManager.Instance.tutorialsCompleted)
             ApplyDataAtIndex(0);
         else
             ApplyDataAtIndex(1);

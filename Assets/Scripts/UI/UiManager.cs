@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class UiManager : Singleton<UiManager>, IInitializable
 {
-    public int initPriority => 1;
+    public int initPriority => 2;
     public System.Type[] initDependencies => null;
     public bool isReady { get; private set; } = false;
 

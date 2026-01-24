@@ -8,7 +8,7 @@ using UnityEngine;
 public class WorldGenerationManager : MonoBehaviour, IInitializable
 {
 
-    public int initPriority => 1;
+    public int initPriority => 3;
     public Type[] initDependencies => new Type[] { typeof(BiomesData) };
 
 

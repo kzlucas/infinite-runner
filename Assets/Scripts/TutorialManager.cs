@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 
@@ -12,20 +13,29 @@ public class Tutorial
     public UiPopin ui;
 }
 
-public class TutorialManager : Singleton<TutorialManager>
+public class TutorialManager : Singleton<TutorialManager>, IInitializable
 {
+    public int initPriority => 0;
+    public System.Type[] initDependencies => null;
+
+
     [SerializeField] public List<Tutorial> tutorials;
+    [SerializeField] public bool tutorialsCompleted = false;
     public GameObject playerGo;
 
-    private void Start()
+
+
+    public Task InitializeAsync()
     {
         playerGo = GameObject.FindWithTag("Player");
+        tutorialsCompleted = TutorialsCompleted();
+        return Task.CompletedTask;
     }
 
 
     private void Update()
     {
-        if(TutorialsCompleted())
+        if(tutorialsCompleted)
         {
             return;
         }
@@ -48,7 +58,7 @@ public class TutorialManager : Singleton<TutorialManager>
 
         if (
             playerGo
-            && playerGo.transform.position.z > 280f
+            && playerGo.transform.position.z > 270f
             && !TutorialCompleted("Slide"))
         {
             Play("Slide");
@@ -60,6 +70,7 @@ public class TutorialManager : Singleton<TutorialManager>
             && !TutorialCompleted("Crystal"))
         {
             Play("Crystal");
+            tutorialsCompleted = true;
         }
     }
 
@@ -116,7 +127,7 @@ public class TutorialManager : Singleton<TutorialManager>
     /// <summary>
     ///     Checks if all tutorials have been completed.
     /// </summary>
-    public bool TutorialsCompleted()
+    private bool TutorialsCompleted()
     {
         var saveData = SaveService.Load();
         var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
