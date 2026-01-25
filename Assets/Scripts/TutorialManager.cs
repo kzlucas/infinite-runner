@@ -135,6 +135,7 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
     {
         var saveData = SaveService.Load();
         var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
+        Debug.Log("[TutorialManager] Loaded completed tutorials: " + string.Join(", ", tutorialsCompleted));
         foreach (var tutorial in tutorials.Tutorials)
         {
             tutorial.completed = false;

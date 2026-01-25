@@ -18,8 +18,10 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
 
     /// <summary>Reference to the player transform for generation tracking</summary>
     private Transform _playerTransform;
-    public Transform playerTransform {
-        get {
+    public Transform playerTransform
+    {
+        get
+        {
             if (_playerTransform == null) _playerTransform = GameObject.FindWithTag("Player").transform;
             return _playerTransform;
         }
@@ -50,7 +52,7 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
     public Task InitializeAsync()
     {
         // Start generation thread
-        generatedIndex = 0; 
+        generatedIndex = 0;
         GenerateSegments();
 
         // Stop generation on scene exit
@@ -126,6 +128,7 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
 
 
             case "World 1 - Gray":
+            case "World 2 - Red":
 
 
                 if (generatedIndex <= 3)
@@ -224,7 +227,7 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
                  *
                  * no need to block frame, each segment can be created in its own frame 
                  */
-                
+
                 if (Application.isPlaying)
                     yield return null;
 
@@ -330,7 +333,10 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
         }
 
         foreach (var obj in toDestroy)
-            {
+        {
+            if (Application.isEditor && !Application.isPlaying)
+                DestroyImmediate(obj);
+            else
                 Destroy(obj);
         }
     }

@@ -19,6 +19,8 @@ public class UiPopin : UiController, IOpenable
 
     private IEnumerator _OnDocReady()
     {
+        root.style.display = DisplayStyle.None;
+
         // Wait until doc is ready and get ref
         popin = root.Q<VisualElement>("popin");
 
@@ -33,8 +35,10 @@ public class UiPopin : UiController, IOpenable
         // Wait frames to ensure open/close classes are applied before adding animate class, 
         yield return new WaitForEndOfFrame(); 
         popin.AddToClassList("animate");
+        root.style.display = DisplayStyle.Flex;
 
         // Callback
+        yield return new WaitForEndOfFrame(); 
         WhenReady?.Invoke();
     }
 
@@ -44,7 +48,7 @@ public class UiPopin : UiController, IOpenable
     {
         if(popin == null)
         {
-            WhenReady += () => { Open(); };
+            WhenReady += () => { Open(); WhenReady = null; };
             return;
         }
 
@@ -62,7 +66,7 @@ public class UiPopin : UiController, IOpenable
     {
         if(popin == null)
         {
-            WhenReady += () => { Close(); };
+            WhenReady += () => { Close(); WhenReady = null; };
             return;
         }
 

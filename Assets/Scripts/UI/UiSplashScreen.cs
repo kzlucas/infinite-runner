@@ -8,17 +8,11 @@ using UnityEngine.InputSystem;
 public class UiSplashScreen : UiController
 {
 
-
-    private void Start()
+    public override void OnDocReady()
     {
-        // Show splash screen only in match scene
-        SceneLoader.Instance.OnSceneLoaded += async () =>
-        {
-            await InitializeAsync();
-            root.style.display = SceneLoader.Instance.GetSceneName() == "Splash Screen" 
-                    ? DisplayStyle.Flex 
-                    : DisplayStyle.None;
-        };
+        root.style.display = SceneLoader.Instance.GetSceneName() == "Splash Screen" 
+                ? DisplayStyle.Flex 
+                : DisplayStyle.None;
     }
 
 }

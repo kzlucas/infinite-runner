@@ -101,6 +101,8 @@ public class UiController : MonoBehaviour, IInitializable
         
         // root.Focus(); // needed to ensure input works in WebGL builds
         docReady = true;
+        root.style.display = DisplayStyle.Flex;
+
         OnDocReady();
     }
 
@@ -185,6 +187,7 @@ public class UiController : MonoBehaviour, IInitializable
     {
         uiDoc =  GetComponent<UIDocument>();
         root = uiDoc.rootVisualElement;
+        if(root != null) root.style.display = DisplayStyle.None;
         panelSettings = uiDoc.panelSettings;
     }
 

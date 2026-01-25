@@ -69,7 +69,7 @@ public class RandomizePosition : MonoBehaviour
 
         if (slotX.Count == 0)
         {
-            Debug.LogWarning($"[RandomizePosition] No available X slot for {gameObject.name}");
+            Debug.LogWarning($"[RandomizePosition] No available X slot for {gameObject.name} with parent {transform.parent.name}");
             return;
         }
 

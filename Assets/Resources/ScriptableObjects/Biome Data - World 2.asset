@@ -23,6 +23,10 @@ MonoBehaviour:
     prefab: {fileID: 5740427710291029939, guid: ac7643724e7a34f039b0ccacdb164114, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
+  - name: Random Obstacles
+    prefab: {fileID: 5740427710291029939, guid: 6c0c452c30741e56894ebf1d91c13d4d, type: 3}
+    position: {x: 0, y: 0, z: 0}
+    sizeZ: 0
   _colorPaint: {r: 0.21016175, g: 0.76426554, b: 0.27473277, a: 1}
   _crystalColor: {r: 0, g: 1, b: 0.16732669, a: 1}
   _colorSky: {r: 0.80853844, g: 0.4291105, b: 0.3921321, a: 1}
