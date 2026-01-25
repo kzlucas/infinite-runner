@@ -55,12 +55,41 @@ public class SceneInitializer : Singleton<SceneInitializer>
         // execute initialization in order
         foreach (var obj in ordered)
         {
-            await obj.InitializeAsync();
+            await InitOrTimeout(obj, 1000);
         }
 
         Debug.Log("[SceneInitializer] 🎉 All initializables are ready!");
         Instance.isInitialized = true;
     }
+
+
+    /// <summary>
+    /// Initialize an IInitializable with a timeout
+    /// </summary>
+    private async Task InitOrTimeout(IInitializable item, int timeoutMs)
+    {
+        var timeoutTask = Task.Delay(timeoutMs);
+        var initTask = item.InitializeAsync();
+        var completedTask = await Task.WhenAny(timeoutTask, initTask);
+
+        if (completedTask == timeoutTask)
+        {
+            return;
+        }
+        else
+        {
+            try
+            {
+                await initTask; // This will throw if the task faulted
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"[SceneInitializer] ❌ Initialization of {item.GetType().Name} failed: {ex.Message}");
+                throw; // stop initialization chain
+            }
+        }
+    }
+
 
     /// <summary>
     /// Resolve initialization order based on dependencies using Topological Sort

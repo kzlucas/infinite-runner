@@ -4,22 +4,13 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-
-[System.Serializable]
-public class Tutorial
-{
-    public string tutorialKey;
-    public bool completed;
-    public UiPopin ui;
-}
-
 public class TutorialManager : Singleton<TutorialManager>, IInitializable
 {
     public int initPriority => 0;
     public System.Type[] initDependencies => null;
 
 
-    [SerializeField] public List<Tutorial> tutorials;
+    [SerializeField] public SO_Tutorials tutorials;
     [SerializeField] public bool tutorialsCompleted = false;
     public GameObject playerGo;
 
@@ -27,9 +18,18 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
 
     public Task InitializeAsync()
     {
-        playerGo = GameObject.FindWithTag("Player");
-        tutorialsCompleted = TutorialsCompleted();
-        return Task.CompletedTask;
+        try
+        {
+            playerGo = GameObject.FindWithTag("Player");
+            tutorials = Resources.Load<SO_Tutorials>("ScriptableObjects/Tutorials Data");
+            tutorialsCompleted = TutorialsCompleted();
+            return Task.CompletedTask;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[TutorialManager] Initialization failed: {ex.Message}");
+            throw;
+        }
     }
 
 
@@ -80,11 +80,13 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
     /// <param name="tutorialKey"></param>
     public void Play(string tutorialKey)
     {
-        var tutorial = tutorials.Find(t => t.tutorialKey == tutorialKey);
+        var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
         if (tutorial != null && tutorial.completed == false)
         {
             UiManager.Instance.pauseMenu.Close();
-            tutorial.ui.Open();
+            var ui = Instantiate(tutorial.uiGo);
+            ui.transform.SetParent(transform, false);
+            ui.GetComponent<UiPopin>().Open();
             MarkTutorialCompleted(tutorialKey);
         }
     }
@@ -95,7 +97,7 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
     /// <param name="tutorialKey"></param>
     public void MarkTutorialCompleted(string tutorialKey)
     {
-        var tutorial = tutorials.Find(t => t.tutorialKey == tutorialKey);
+        var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
         if (tutorial != null && tutorial.completed == false)
         {
             tutorial.completed = true;
@@ -104,6 +106,7 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
         // Save completion in save data
         var saveData = SaveService.Load();
         var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted) { tutorialKey };
+        tutorialsCompleted = new List<string>(new HashSet<string>(tutorialsCompleted)); // rm duplicates
         saveData.TutorialsCompleted = tutorialsCompleted.ToArray();
         SaveService.Save(saveData);
     }
@@ -115,7 +118,7 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
     /// <param name="tutorialKey"></param>
     public bool TutorialCompleted(string tutorialKey)
     {
-        var tutorial = tutorials.Find(t => t.tutorialKey == tutorialKey);
+        var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
         if (tutorial != null)
         {
             return tutorial.completed;
@@ -130,14 +133,14 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
     {
         var saveData = SaveService.Load();
         var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
-        foreach (var tutorial in tutorials)
+        foreach (var tutorial in tutorials.Tutorials)
         {
             if (tutorialsCompleted.Contains(tutorial.tutorialKey))
             {
                 tutorial.completed = true;
             }
         }
-        return tutorials.TrueForAll(t => t.completed);
+        return tutorials.Tutorials.TrueForAll(t => t.completed);
     }
 }
 

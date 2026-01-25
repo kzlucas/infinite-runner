@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class WorldGenerationManager : MonoBehaviour, IInitializable
+public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitializable
 {
 
-    public int initPriority => 3;
+    public int initPriority => 2;
     public Type[] initDependencies => new Type[] { typeof(BiomesData) };
 
 
@@ -17,7 +17,13 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     private List<WorldSegment> currentWorldSegments = new List<WorldSegment>();
 
     /// <summary>Reference to the player transform for generation tracking</summary>
-    public Transform playerTransform;
+    private Transform _playerTransform;
+    public Transform playerTransform {
+        get {
+            if (_playerTransform == null) _playerTransform = GameObject.FindWithTag("Player").transform;
+            return _playerTransform;
+        }
+    }
 
     /// <summary>Number of segments to generate in front of the player</summary>
     public int frontGenerationWindowSize = 100;
@@ -34,8 +40,7 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
 
 
 
-    private void OnDisable() => StopAllCoroutines();
-
+    private void OnDestroy() => StopAllCoroutines();
 
 
     /// <summary>
@@ -44,10 +49,12 @@ public class WorldGenerationManager : MonoBehaviour, IInitializable
     /// <returns></returns>
     public Task InitializeAsync()
     {
-        generatedIndex = 0;
-
         // Start generation thread
+        generatedIndex = 0; 
         GenerateSegments();
+
+        // Stop generation on scene exit
+        SceneLoader.Instance.OnSceneExit += () => StopAllCoroutines();
 
         return Task.CompletedTask;
     }

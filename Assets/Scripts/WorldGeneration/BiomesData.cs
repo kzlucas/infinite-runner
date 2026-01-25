@@ -32,7 +32,11 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         if(!TutorialManager.Instance.tutorialsCompleted)
             ApplyDataAtIndex(0);
         else
+        {
+        Debug.Log("[BiomesData]Applying second biome as tutorial completed");
+            
             ApplyDataAtIndex(1);
+        }
 
         return Task.CompletedTask;
     }

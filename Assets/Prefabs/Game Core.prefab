@@ -104,10 +104,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BiomesData
   worldGenerationManager: {fileID: 0}
   items:
+  - {fileID: 11400000, guid: 036e10766ee456551b15846cf5a79b73, type: 2}
   - {fileID: 11400000, guid: 3ae65fefb752a7456a69b81b954ad109, type: 2}
   - {fileID: 11400000, guid: fdc6ee33fb84882919ebce57eec2981e, type: 2}
   - {fileID: 11400000, guid: 78afe4175697c599aa5492bd3fa7ed8c, type: 2}
-  current: {fileID: 11400000, guid: 3ae65fefb752a7456a69b81b954ad109, type: 2}
+  current: {fileID: 11400000, guid: 036e10766ee456551b15846cf5a79b73, type: 2}
 --- !u!114 &5993463896143259542
 MonoBehaviour:
   m_ObjectHideFlags: 0
