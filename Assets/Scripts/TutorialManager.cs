@@ -35,7 +35,7 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
 
     private void Update()
     {
-        if(tutorialsCompleted)
+        if (tutorialsCompleted)
         {
             return;
         }
@@ -86,6 +86,8 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
             UiManager.Instance.pauseMenu.Close();
             var ui = Instantiate(tutorial.uiGo);
             ui.transform.SetParent(transform, false);
+            IInitializable item = ui.GetComponent<IInitializable>();
+            item.InitializeAsync();
             ui.GetComponent<UiPopin>().Open();
             MarkTutorialCompleted(tutorialKey);
         }
@@ -135,6 +137,7 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
         var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
         foreach (var tutorial in tutorials.Tutorials)
         {
+            tutorial.completed = false;
             if (tutorialsCompleted.Contains(tutorial.tutorialKey))
             {
                 tutorial.completed = true;
