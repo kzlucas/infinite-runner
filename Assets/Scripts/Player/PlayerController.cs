@@ -217,7 +217,11 @@ namespace Player
                 || (Time.timeScale == 0f)
                 || (isSliding)
                 || (!isGrounded)
-            ) && TutorialManager.Instance.TutorialCompleted("Jump");
+            ) ;
+            // && 
+            //     (TutorialManager.Instance.TutorialCompleted("Jump") 
+            //     || PlayerPrefService.Instance.Load("SkipTutorials") == "1"
+            // );
         }
 
 
@@ -246,7 +250,11 @@ namespace Player
                 || (controlReleased)
                 || (isSliding)
                 || (!isGrounded)
-            ) && TutorialManager.Instance.TutorialCompleted("Slide");
+            ) ;
+            // && 
+            //     (TutorialManager.Instance.TutorialCompleted("Slide") 
+            //     || PlayerPrefService.Instance.Load("SkipTutorials") == "1"
+            // );
         }
 
 

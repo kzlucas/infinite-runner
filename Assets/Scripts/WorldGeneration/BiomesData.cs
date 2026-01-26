@@ -56,6 +56,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
         if (currentIndex == 0)
         {
             TutorialManager.Instance.Play("Completed");
+            PlayerPrefService.Instance.Save("SkipTutorials", "1");
             TutorialManager.Instance.tutorialsCompleted = true;
         }
         if (currentIndex == -1)
