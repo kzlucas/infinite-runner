@@ -87,3 +87,6 @@ Le "SceneInitializer" ecoute l'evenement "OnSceneLoaded" et initialise les diffe
 
 ![Alt text for the image](Documentation/schema-scene-init.png)
 
+
+## Gestion des colliders
+
