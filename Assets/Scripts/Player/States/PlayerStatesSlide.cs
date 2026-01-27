@@ -54,9 +54,7 @@ namespace Player.States
 
         public void OnRelease()
         {
-            if ((player == null)
-                || (player.controlReleased)
-                || (!player.isSliding))
+            if ((player == null) || (!player.isSliding))
                 return;
 
             // stop slide

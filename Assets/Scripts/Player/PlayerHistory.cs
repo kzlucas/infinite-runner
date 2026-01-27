@@ -129,6 +129,7 @@ namespace Player
             // and lane change coroutine if any
             player.rb.linearVelocity = record.rbVelocity;
             player.sm.GetState<MoveState>().targetXPosition = Mathf.RoundToInt(record.position.x);
+            player.sm.GetState<SlideState>().OnRelease();
             while( Vector3.Distance(player.transform.position, record.position) > 0.1f )
             {
                 player.transform.position = Vector3.MoveTowards(
