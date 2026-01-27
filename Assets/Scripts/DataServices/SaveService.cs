@@ -52,7 +52,7 @@ public static class SaveService
     ///  Delete save file
     /// </summary>
 #if UNITY_EDITOR
-    [UnityEditor.MenuItem("Tools/Delete Save File")]
+    [UnityEditor.MenuItem("Tools/Delete Save File and PlayerPrefs")]
 #endif
     public static void DeleteSave()
     {
@@ -61,6 +61,8 @@ public static class SaveService
         {
             File.Delete(path);
         }
+
+        PlayerPrefs.DeleteAll();
     }
 
 

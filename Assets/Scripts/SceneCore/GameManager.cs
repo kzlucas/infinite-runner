@@ -43,13 +43,14 @@ public class GameManager : Singleton<GameManager>
         {
             SceneLoader.Instance?.ReloadCurrentScene();
         });
+
 #endif
     }
 
 
     /// <summary>
     ///     Pauses the game by setting time scale to zero.
-    /// </summary>  
+    /// </summary>
     public void PauseGame()
     {
         Debug.Log("[GameManager] Pausing game");
