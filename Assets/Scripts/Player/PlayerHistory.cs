@@ -8,7 +8,10 @@ using UnityEngine;
 
 namespace Player
 {
-
+    /// <summary>
+    /// Represents a single record of the player's position 
+    /// and velocity for history tracking
+    /// </summary>
     public class PlayerHistoryRecord
     {
         public Vector3 position;
@@ -22,6 +25,9 @@ namespace Player
     }
 
 
+    /// <summary>
+    ///   Records and restores player position history for respawning
+    /// </summary>
     public class PlayerHistory : MonoBehaviour
     {
         public List<PlayerHistoryRecord> records = new List<PlayerHistoryRecord>();
@@ -29,6 +35,34 @@ namespace Player
         public bool HasObstacleInFront = false;
         public bool HasGroundInFront = true;
         private float lastRecordTime;
+
+
+        private bool IsSafeZoneToRespawn
+        {
+            get
+            {
+            var player = GetComponent<Controller>();
+
+                // Conditions to be able to record a new player position
+                // - player is grounded
+                // - player is not sliding
+                // - player is not changing lane
+                // - recording is not disabled
+                // - no obstacle in front of the player
+                // - there is ground in front of the player
+                // - at least 1 second since last record
+
+                return( player.isGrounded 
+                    && !player.isSliding 
+                    && !player.isChangingLane 
+                    && !_disableRecord
+                    && !HasObstacleInFront
+                    && HasGroundInFront
+                    && Time.time - lastRecordTime >= 1f 
+                )
+            ;
+            }
+        }
 
 
         /// <summary>
@@ -39,19 +73,14 @@ namespace Player
             var player = GetComponent<Controller>();
             HasObstacleInFront = player.collisionHandler.CheckIfObstacleInFront(15f);
             HasGroundInFront = player.collisionHandler.CheckIfGroundInFront(5f);
-            if( player.isGrounded 
-                && !player.isSliding 
-                && !player.isChangingLane 
-                && !_disableRecord 
-                && !HasObstacleInFront
-                && HasGroundInFront
-                && Time.time - lastRecordTime >= 1f // dont record more often than every second
-            )
+            if(IsSafeZoneToRespawn)
             {
                 lastRecordTime = Time.time;
                 Record();
             }
         }
+
+
 
 
         /// <summary>
@@ -67,13 +96,16 @@ namespace Player
             }
 
             // save last record z position to world generation manager to avoid removing segments where player can spawn too
-            WorldGenerationManager.Instance.lastRecordZPosition = record.position.z;
+            WorldGenerationManager.Instance.lastRecordZPosition = records.OrderBy(r => r.position.z).First().position.z;
             Debug.Log("[PlayerHistory] Recorded position: " + record.position);
         }
 
 
+
+
         /// <summary>
         /// Load the last recorded player position and velocity
+        /// and apply it to the player with a smooth transition
         /// </summary>
         public void Load()
         {
@@ -89,7 +121,7 @@ namespace Player
 
             // ~make sure we dont load the current position as sometime 
             // the Record is taken from the current frame
-            records = records.FindAll(r => r.position != player.transform.position ); 
+            records = records.FindAll(r => Vector3.Distance(r.position, player.transform.position) > 0.1f); 
             var record = records.LastOrDefault();
 
             // Restore player position and velocity 

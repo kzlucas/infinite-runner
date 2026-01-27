@@ -230,9 +230,9 @@ namespace Player
         {
             return !(
                 (this == null)
-                || (controlReleased)
+                || controlReleased
                 || (Time.timeScale == 0f)
-                || (isSliding)
+                || isSliding
                 || (!isGrounded)
             ) ;
         }
@@ -245,8 +245,8 @@ namespace Player
         {
             return !(
                 (this == null)
-                || (controlReleased)
-                || (isSliding)
+                || controlReleased
+                || isSliding
                 || (Time.timeScale == 0f)
                 || (dir.x == 0)
             );
@@ -260,8 +260,9 @@ namespace Player
         {
             return !(
                 (this == null)
-                || (controlReleased)
-                || (isSliding)
+                || controlReleased
+                || isSliding
+                || (Time.timeScale == 0f)
                 || (!isGrounded)
             );
         }

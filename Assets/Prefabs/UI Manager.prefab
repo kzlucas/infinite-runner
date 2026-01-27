@@ -518,7 +518,7 @@ MonoBehaviour:
   docReady: 0
   openOnSceneLoad: 0
   isLocked: 0
-  pauseGameActionRef: {fileID: 2422228956939261538, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  pauseGameActionRef: {fileID: 2972918176140473490, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &4398523218064044935
 GameObject:
   m_ObjectHideFlags: 0

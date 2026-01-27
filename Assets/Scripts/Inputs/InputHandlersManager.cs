@@ -162,6 +162,8 @@ public class InputHandler
         OnRelease = _OnRelease;
         OnHold = _OnHold;
 
+Debug.Log("[InputHandler] Initializing handler for: " + label);
+
         actionRef.action.performed += OnPerformed;
         actionRef.action.canceled += OnCanceled;
         actionRef.action.Enable();
