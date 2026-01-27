@@ -83,9 +83,9 @@ namespace Player
         {
             _disableRecord = true;
             var player = GetComponent<Controller>();
+            player.controlReleased = true;
             GameManager.Instance.PauseGame();
-
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSecondsRealtime(0.2f);
 
             // ~make sure we dont load the current position as sometime 
             // the Record is taken from the current frame
@@ -107,9 +107,12 @@ namespace Player
                 yield return null;
             }
 
-            yield return new WaitForSecondsRealtime(1f);
-            _disableRecord = false;
+            UiManager.Instance.countdown.Run();
+            yield return new WaitUntil(() => UiManager.Instance.countdown.animationFinished == true);
+
             GameManager.Instance.ResumeGame();
+            player.controlReleased = false;
+            _disableRecord = false;
             yield return null;
         }
     }

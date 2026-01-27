@@ -18,6 +18,9 @@ public class UiManager : Singleton<UiManager>, IInitializable
     public UiHud hud;
     public UiEndGame endGameScreen;
     public UiSplashScreen splashScreen;
+    public UiCountdown countdown;
+
+
 
     public async Task InitializeAsync()
     {       
@@ -80,6 +83,17 @@ public class UiManager : Singleton<UiManager>, IInitializable
             if(splashScreen == null)
                 Debug.LogError("[UiManager] Splash Screen is missing!");            
         }
+        
+
+        if(countdown == null)
+        {   
+            countdown = transform.Find("Countdown").GetComponent<UiCountdown>();
+            
+            if(countdown == null)
+                Debug.LogError("[UiManager] Countdown is missing!");            
+        }
+    
+
     }
 
 }

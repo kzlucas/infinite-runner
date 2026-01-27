@@ -197,19 +197,26 @@ namespace Player
             // do not play particles at start
             StopParticles();
 
-
             // Subscribe/unsub to landing event
             collisionHandler.OnLanded += sm.TransitionTo<LandState>;
             SceneLoader.Instance.OnSceneExit += () => collisionHandler.OnLanded -= sm.TransitionTo<LandState>;
 
-            // freeze position during scene initialization then unfreeze
-            rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
-            yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized == true);
-            rb.constraints = RigidbodyConstraints.FreezeRotation;
-
             // Set z position slightly forward at begining
             transform.position = transform.position + Vector3.forward;
 
+            // freeze position during scene initialization then unfreeze
+            rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+            yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized == true);
+
+            // Initial position adjust to avoid clipping with ground
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
+
+            // Start game countdown
+            UiManager.Instance.countdown.Run();
+            yield return new WaitUntil(() => UiManager.Instance.countdown.animationFinished == true);
+
+            // Let's play
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
 
             // Initial record
             history.Record();

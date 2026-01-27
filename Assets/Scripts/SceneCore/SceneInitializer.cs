@@ -80,6 +80,7 @@ public class SceneInitializer : Singleton<SceneInitializer>
         {
             try
             {
+                Debug.Log($"[SceneInitializer] ⚙️ Initializing {item.GetType().Name}...");
                 await initTask; // This will throw if the task faulted
             }
             catch (System.Exception ex)
