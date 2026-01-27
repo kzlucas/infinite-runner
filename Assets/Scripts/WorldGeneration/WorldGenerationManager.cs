@@ -39,7 +39,8 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
     /// <summary> Last instantiated biome name to track biome changes </summary>
     private string lastInstantiatedBiomeName = "";
 
-
+    /// <summary> Z position of last recorded player position</summary>
+    public float lastRecordZPosition = 0f;
 
 
     private void OnDestroy() => StopAllCoroutines();
@@ -271,9 +272,10 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
     /// </summary>
     public void ClearSegmentsBehindPlayer()
     {
+
         currentWorldSegments.RemoveAll(s =>
         {
-            if ((s.position.z + s.sizeZ) < playerTransform.position.z - 10) // 10u offset to avoid removing too early
+            if ((s.position.z + s.sizeZ) < lastRecordZPosition - 10) // 10 offset to avoid removing too early
             {
                 if (Application.isEditor && !Application.isPlaying)
                     DestroyImmediate(s.prefab);

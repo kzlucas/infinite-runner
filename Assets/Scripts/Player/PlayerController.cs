@@ -11,12 +11,14 @@ using UnityEngine.InputSystem;
 /// </summary>
 namespace Player
 {
-    public class Controller : StateMachine.StateMachineBehaviour
+    public class Controller : StateMachine.Behaviour
     {
         #region Fields
 
 
-        private readonly AdvancedStateMachine sm = new();
+        public readonly AdvancedStateMachine sm = new();
+        public Health health;
+        public PlayerHistory history;
 
 
         [Header("Collider")]
@@ -26,6 +28,7 @@ namespace Player
 
         /// <summary> Reference to the player's rigidbody</summary>
         public Rigidbody rb;
+
 
 
         [Header("Flags")]
@@ -55,6 +58,9 @@ namespace Player
         /// <summary> Particle system effect run when changing lane</summary>
         public ParticleSystem laneChangeParticles;
 
+        /// <summary>Is the player currently changing lane flag</summary>
+        public bool isChangingLane = false;
+
 
 
         [Header("Jump Settings")]
@@ -83,6 +89,12 @@ namespace Player
 
 
 
+        [Header("Crash Settings")]
+
+        /// <summary> Particle system for crash effect</summary>
+        public ParticleSystem crashParticules;
+
+
 
         [Header("Input Action References")]
 
@@ -95,13 +107,6 @@ namespace Player
         /// <summary> Reference to the input action for slide</summary>
         public InputActionReference slideActionRef;
 
-
-
-
-        [Header("Crash Settings")]
-
-        /// <summary> Particle system for crash effect</summary>
-        public ParticleSystem crashParticules;
 
 
 
@@ -130,6 +135,7 @@ namespace Player
             sm.RegisterState(new SlideState(StateMachine, this));
             sm.RegisterState(new CrashState(StateMachine, this));
             sm.RegisterState(new LandState(StateMachine, this));
+            sm.RegisterState(new RewindingState(StateMachine, this));
 
             // Start with idle
             sm.Start<IdleState>();
@@ -189,10 +195,7 @@ namespace Player
 
 
             // do not play particles at start
-            jumpParticles.Stop();
-            slideParticles.Stop();
-            crashParticules.Stop();
-            laneChangeParticles.Stop();
+            StopParticles();
 
 
             // Subscribe/unsub to landing event
@@ -203,6 +206,13 @@ namespace Player
             rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
             yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized == true);
             rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            // Set z position slightly forward at begining
+            transform.position = transform.position + Vector3.forward;
+
+
+            // Initial record
+            history.Record();
         }
 
 
@@ -218,10 +228,6 @@ namespace Player
                 || (isSliding)
                 || (!isGrounded)
             ) ;
-            // && 
-            //     (TutorialManager.Instance.TutorialCompleted("Jump") 
-            //     || PlayerPrefService.Instance.Load("SkipTutorials") == "1"
-            // );
         }
 
 
@@ -250,11 +256,19 @@ namespace Player
                 || (controlReleased)
                 || (isSliding)
                 || (!isGrounded)
-            ) ;
-            // && 
-            //     (TutorialManager.Instance.TutorialCompleted("Slide") 
-            //     || PlayerPrefService.Instance.Load("SkipTutorials") == "1"
-            // );
+            );
+        }
+
+
+        /// <summary>
+        /// Stop all particle effects
+        /// </summary>
+        public void StopParticles()
+        {
+            laneChangeParticles.Stop();
+            jumpParticles.Stop();
+            slideParticles.Stop();
+            crashParticules.Stop();
         }
 
 

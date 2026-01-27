@@ -90,8 +90,8 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
 
     private IEnumerator FlashAndRegenWorld()
     {
-        if(Application.isPlaying) UiManager.Instance.screenOverlay.FlashWhite();
-        yield return new WaitForSecondsRealtime(0.1f);
+        if(Application.isPlaying) UiManager.Instance.screenOverlay.Flash("white");
+        yield return new WaitForSeconds(0.1f);
         worldGenerationManager.RemoveBiomeCrystals(current.name);
         worldGenerationManager.ClearSegmentsInFrontPlayer(30);
     }

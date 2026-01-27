@@ -11,7 +11,7 @@ namespace Player.States
 
         private bool hasReleasedKey = true;
 
-        private int targetXPosition = 0;
+        public int targetXPosition = 0;
 
 
         /// <summary> Reference to the lane change coroutine</summary>
@@ -35,7 +35,7 @@ namespace Player.States
                 hasReleasedKey = false; // force player to release key before next input
                 var reqTargetXPosition = targetXPosition + (player.inputMoveDir.x > 0 ? 2 : -2); 
                 targetXPosition = Mathf.Clamp(reqTargetXPosition, player.minX, player.maxX);
-                goToLaneRoutine.Replace(GoToLaneRoutine());
+                 goToLaneRoutine.Replace(GoToLaneRoutine());
             }
         }
 
@@ -51,6 +51,8 @@ namespace Player.States
         /// <returns></returns>
         private IEnumerator GoToLaneRoutine()
         {
+            player.isChangingLane = true;
+
             // Play lane change sfx effect
             var sign = targetXPosition - player.transform.position.x > 0 ? 1 : -1;
             if (sign > 0) player.laneChangeParticles.transform.rotation = Quaternion.Euler(-90, 0, 80);
@@ -100,6 +102,7 @@ namespace Player.States
             // Snap to exact position and stop horizontal movement
             player.rb.linearVelocity = new Vector3(0f, player.rb.linearVelocity.y, player.rb.linearVelocity.z);
             player.rb.position = new Vector3(targetXPosition, player.rb.position.y, player.rb.position.z);
+            player.isChangingLane = false;
         }
 
     }

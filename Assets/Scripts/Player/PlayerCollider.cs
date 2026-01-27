@@ -18,7 +18,6 @@ public class PlayerCollider : MonoBehaviour
     public Action<ColliderPosition, Collider> OnTriggered;
 
 
-
     /// <summary>
     ///   Handles trigger events with other objects with isTrigger enabled.
     /// </summary>

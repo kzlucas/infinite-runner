@@ -38,8 +38,6 @@ public class GameManager : Singleton<GameManager>
 
     private void RegisterHandlers()
     {
-        Debug.Log("[GameManager] Registering GameManager Input Handlers");
-
 #if UNITY_EDITOR
         InputHandlersManager.Instance.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
         {

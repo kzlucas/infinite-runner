@@ -61,22 +61,22 @@ public class UiScreenOverlay : UiController, IOpenable
     }
 
 
-    public void FlashWhite(float duration = 0.1f)
+    public void Flash(string color, float duration = 0.1f)
     {
-        StartCoroutine(_FlashWhite(duration));
+        StartCoroutine(_Flash(color, duration));
     }
-    private IEnumerator _FlashWhite(float fadesDuration = .1f, float pauseDuration = 0f)
+    private IEnumerator _Flash(string color, float fadesDuration = .1f, float pauseDuration = 0f)
     {
         var screen = root.Q<VisualElement>("screen");
         screen.RemoveFromClassList(colorString); 
-        screen.AddToClassList("white");
+        screen.AddToClassList(color);
         screen.AddToClassList("fade-in-fast");
         screen.RemoveFromClassList("fade-out-fast");
-        yield return new WaitForSeconds(fadesDuration + pauseDuration);
+        yield return new WaitForSecondsRealtime(fadesDuration + pauseDuration);
         screen.AddToClassList("fade-out-fast");
         screen.RemoveFromClassList("fade-in-fast");
-        yield return new WaitForSeconds(fadesDuration);
-        screen.RemoveFromClassList("white");
+        yield return new WaitForSecondsRealtime(fadesDuration);
+        screen.RemoveFromClassList(color);
         screen.AddToClassList(colorString);
     }
 }

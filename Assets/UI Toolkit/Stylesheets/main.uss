@@ -160,6 +160,18 @@
     background-color: rgba(255, 255, 255, 0);
 }
 
+.screen.red {
+    background-color: rgb(95, 0, 0);
+}
+
+.screen.fade-in-fast.red {
+    background-color: rgb(95, 0, 0);
+}
+
+.screen.fade-out-fast.red {
+    background-color: rgba(255, 255, 255, 0);
+}
+
 .unity-button {
     background-color: transparent;
     border-width: 0;

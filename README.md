@@ -89,4 +89,9 @@ Le "SceneInitializer" ecoute l'evenement "OnSceneLoaded" et initialise les diffe
 
 
 ## Gestion des colliders
+## Description des tags
 
+- World Segment
+- Composite Square Collider
+- Slot
+- Crystal
