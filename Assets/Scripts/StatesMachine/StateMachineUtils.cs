@@ -6,7 +6,7 @@ namespace StateMachine
     /// <summary>
     /// Utility class providing common state machine patterns and helpers
     /// </summary>
-    public static class StateMachineUtils
+    public static class Utils
     {
         /// <summary>
         /// Create a simple condition that checks if a float value meets a threshold

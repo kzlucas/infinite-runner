@@ -5,7 +5,7 @@ namespace StateMachine
     /// <summary>
     /// MonoBehaviour wrapper for the StateMachine that integrates with Unity's lifecycle
     /// </summary>
-    public class StateMachineBehaviour : MonoBehaviour
+    public class Behaviour : MonoBehaviour
     {
         /// <summary>
         /// The internal state machine instance
