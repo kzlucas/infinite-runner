@@ -9,7 +9,7 @@ namespace Player
     {
 
         public int currentHealth { get; set; }
-        public int maxHealth { get; set; } = 5;
+        public int maxHealth { get; set; } = 10;
         public bool isInvincible = false;
         public bool isDie = false;
 
@@ -22,6 +22,7 @@ namespace Player
         public void TakeDamage(int damage)
         {
             if (isInvincible || isDie) return;
+
             currentHealth -= damage;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
             
@@ -30,6 +31,7 @@ namespace Player
             InvincibleForSeconds(.2f); 
 
 
+            UiManager.Instance.hud.UpdateHp((float)currentHealth / maxHealth);
             UiManager.Instance.screenOverlay.Flash("red");
 
             

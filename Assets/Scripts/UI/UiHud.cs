@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,6 +8,12 @@ public class UiHud : UiController
 {
     [HideInInspector] public VisualElement bucketContainer;
     [HideInInspector] public VisualElement bucketFill;
+
+    [HideInInspector] public VisualElement hpContainer;
+    [HideInInspector] public VisualElement hpFill;
+    public List<Sprite> hpFillSprites;
+
+
     [HideInInspector] public Label bucketCounter;
     private int bucketFullPxWidth = 239;
 
@@ -21,8 +28,26 @@ public class UiHud : UiController
         bucketContainer = root.Q<VisualElement>("bucket-container");
         bucketFill = root.Q<VisualElement>("bucket");
         bucketCounter = root.Q<Label>("bucket-counter");
+
+        hpContainer = root.Q<VisualElement>("hp-container");
+        hpFill = root.Q<VisualElement>("hp");
+
+        UpdateHp(1f);
+
         yield return null;
     }
+
+
+    public void UpdateHp(float fillPct)
+    {
+        var index = Mathf.Clamp(Mathf.FloorToInt(fillPct * hpFillSprites.Count), 0, hpFillSprites.Count - 1);
+        Debug.Log($"[UiHud] Updating HP UI: fillPct={fillPct}, index={index}");
+        var hpFillSprite = hpFillSprites[index];
+
+        hpFill.style.backgroundImage = new StyleBackground(hpFillSprite);
+    }
+
+
 
     /// <summary>
     /// Updates the paint bucket UI fill percentage. 

@@ -814,6 +814,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UiHud
   uiDoc: {fileID: 1069559468318583381}
   docReady: 0
+  hpFillSprites:
+  - {fileID: 21300000, guid: cbab646b17af10bbd95b061bbc3c4000, type: 3}
+  - {fileID: 21300000, guid: d2a04138c4ab27732ab2c03839ab035a, type: 3}
+  - {fileID: 21300000, guid: fbb0c04dbcf82c753ae26bdae5113f15, type: 3}
+  - {fileID: 21300000, guid: c29b615e29ec9e6aa9b223ab3a4a2837, type: 3}
+  - {fileID: 21300000, guid: 62cad032b8b687bc581eb30ed56eaf68, type: 3}
+  - {fileID: 21300000, guid: 83608d8cb9804f0c988eafff5a1336ea, type: 3}
+  - {fileID: 21300000, guid: 79b0286ac0f7256cfad70ceeb0799995, type: 3}
+  - {fileID: 21300000, guid: c11f1ffe1f95e0aba9068c757e48c72c, type: 3}
+  - {fileID: 21300000, guid: 5a4f562a9c0fc6a6ea386be736b6bc85, type: 3}
+  - {fileID: 21300000, guid: 30c7685d2c43168d3957202138491911, type: 3}
+  - {fileID: 21300000, guid: a7986568623e45425bd87e6c8535326e, type: 3}
 --- !u!1 &7075962228885277004
 GameObject:
   m_ObjectHideFlags: 0
