@@ -107,13 +107,7 @@ namespace Player
         public InputActionReference slideActionRef;
 
 
-
-
-
         #endregion
-
-
-        private void OnDisable() => StopAllCoroutines();
 
 
 

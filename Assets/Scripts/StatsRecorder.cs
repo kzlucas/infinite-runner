@@ -17,8 +17,6 @@ public class StatsRecorder : Singleton<StatsRecorder>
         EndGameManager.Instance.OnEndGame += OnGameEnd;
     }
 
-    private void OnDestroy() => EndGameManager.Instance.OnEndGame -= OnGameEnd;
-
     private void OnGameEnd()
     {
         SaveService.Save(saveData);      

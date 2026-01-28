@@ -6,13 +6,8 @@ using UnityEngine;
 public class EndGameManager : Singleton<EndGameManager>
 {
     public Action OnEndGame;
-
-
-    private void Start()
-    {
-        SceneLoader.Instance.OnSceneLoaded += () => StopAllCoroutines();
-    }
-
+    private void OnDestroy() => OnEndGame = null;
+    private void Start() => SceneLoader.Instance.OnSceneLoaded += () => StopAllCoroutines();
 
     public void TriggerEndGame()
     {
@@ -22,7 +17,7 @@ public class EndGameManager : Singleton<EndGameManager>
 
     private IEnumerator DelayScreenOpening(float delay = .75f)
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSecondsRealtime(delay);
         UiManager.Instance.endGameScreen.Open();
     }
 }

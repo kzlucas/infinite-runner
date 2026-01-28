@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Biome Data - World 1
   m_EditorClassIdentifier: Assembly-CSharp::SO_BiomeData
   _biomeName: World 1 - Gray
-  _crystalsNeeded: 20
+  _crystalsNeeded: 5
   _segments:
   - name: Straight Segment
     prefab: {fileID: 5740427710291029939, guid: 8a203937f790bf9dd8d19a680e1a2f4f, type: 3}

@@ -96,7 +96,6 @@ namespace Player
 
             // save last record z position to world generation manager to avoid removing segments where player can spawn too
             WorldGenerationManager.Instance.lastRecordZPosition = records.OrderBy(r => r.position.z).First().position.z;
-            Debug.Log("[PlayerHistory] Recorded position: " + record.position);
         }
 
 
