@@ -121,7 +121,9 @@ La classe [`WorldGenerationManager`](Assets/Scripts/WorldGeneration/WorldGenerat
 
 Elle permet egalement de regenerer le monde lorsque le joueur a collecté suffisamment de cristaux pour atteindre un nouveau palier.
 
-Les donnees sur le Monde et les Segments de Monde sont stockees dans des Scriptable Objects ([`SO_BiomeData`](Assets/Scripts/WorldGeneration/SO_BiomeData.cs), [`WorldSegment`](Assets/Scripts/WorldGeneration/WorldSegment.cs)), ce qui permet de faciliter la configuration et la modification des segments de monde sans avoir a modifier le code.
+Les donnees sur le Monde sont stockees dans des Scriptable Objects ([`SO_BiomeData`](Assets/Scripts/WorldGeneration/SO_BiomeData.cs)), les donnees sur les Segments sont stockes dans des classes [`WorldSegment`](Assets/Scripts/WorldGeneration/WorldSegment.cs) ce qui permet de faciliter la configuration et la modification des segments de monde sans avoir a modifier le code.
+
+
 
 ## Rewind system
 
@@ -129,7 +131,7 @@ Lorsque le joueur percute un obstacle, il perd un point de vie et est renvoyé a
 
 La classe [`PlayerHistory`](Assets/Scripts/Player/PlayerHistory.cs) est responsable du stockage et de la restauration de l'historique des positions du joueur. Elle enregistre periodiquement la position et la vitesse du joueur dans une liste de records (`PlayerHistoryRecord`). Lorsqu'un rewind est necessaire, elle restaure la derniere position en douceur en deplacant le joueur vers cette position en utilisant une interpolation.
 
-Les `PlayerHistoryRecord` sont enregistres seulement si le joueur a avance d'une certaine distance depuis le dernier enregistrement, afin d'optimiser l'utilisation de la memoire, mais aussi ils doivent etre des positions qui permettent au joueur de repartir sans risquer d'etre en collision avec un obstacle dans les prochaines frames. C'est le role de la methode `PlayerHistory::IsSafeZoneToRespawn`.
+Les `PlayerHistoryRecord` (*Checkpoint*) sont enregistres seulement si le joueur a avance d'une certaine distance depuis le dernier enregistrement, afin d'optimiser l'utilisation de la memoire, mais aussi ils doivent etre des positions qui permettent au joueur de repartir sans risquer d'etre en collision avec un obstacle dans les prochaines frames. C'est le role de la methode `PlayerHistory::IsSafeZoneToRespawn`.
 
 Cette methode va verifier que le joueur n'est pas entrain de sauter, de glisser ou de changer de voie mais aussi que la position actuelle du joueur est suffisamment eloignee des obstacles presents dans un espace defini autour de cette position. Si des obstacles sont detectes dans cet espace, la position n'est pas consideree comme une zone sure pour le respawn, et le record n'est pas enregistre. Elle verifie egalement que le sol continue sous les pieds du joueur pour eviter de respawner au bord d'un precipice.
 
@@ -175,21 +177,112 @@ public enum ColliderPosition
 Cela permet de differencier la collision du corps principal du joueur (Body) et les collisions sur les cotes (Left, Right) ou l'avant (Front) du joueur. Une collision avec un obstacle detectee par le collider avant (Front)  declenche le crash du joueur, tandis qu'une collision detectee par les collider Body peut vouloir simplement dire que le joueur a heurté le collider du sol lorsqu'il a atterri apres un saut.
 
 
-
-### PlayerHealth
-
-
-
-## Input System
 ## Architecture generale du projet
-### Data et stats
-### Audio Manager
-### UI Toolkit
+
+
+### Suivi des features
+
+Tableau de suivi des principales features developpes au cours du projet :
+[Google Sheet Document](https://docs.google.com/spreadsheets/d/1VynXDeEw_dpZwPe93qpfKKuDYcDk6X5uEqaUhXpRSZ0/edit?gid=0#gid=0)
+
+
 ### Commentaire de code et formatage
-## Description des tags
 
-- World Segment
-- Composite Square Collider
-- Slot
-- Crystal
+Les methodes et les classes sont commentees a l'aide de commentaires XML pour faciliter la comprehension du code et la generation de documentation automatique.
 
+A noter que les commentaires XML sont utilises principalement pour documenter les classes et les methodes publiques, tandis que les commentaires en ligne (// ou /* */) sont utilises pour expliquer des sections de code plus complexes ou des logiques specifiques.
+
+Le code source du projet suit en partie les conventions de nommage et de formatage standard de C#. Les classes, methodes et variables sont nommees de maniere descriptive pour faciliter la comprehension du code.
+
+Ici les conventions de nommage et de formatage utilisees dans ce projet qui ont ete respectees :
+
+- ✅ PascalCase (UpperCamelCase) : Classes, méthodes, propriétés, espaces de noms (namespaces), interfaces (IInterface)
+- ✅ camelCase (LowerCamelCase) : Variables locales, paramètres de méthode
+- ❌ Champ privé (private fields) : _camelCase (underscore + camelCase).
+- ❌ Constantes : PascalCase ou UPPER_CASE
+- ✅ Interfaces : Commencent par une majuscule 'I'.
+- ✅ Booléens : Préfixer par Is, Can, Has. 
+- ⚠️ Accolades : Utiliser le style Allman (accolades ouvrant et fermant sur une nouvelle ligne). --> Sur ce point, j'ai assez souvent omis les accolades lorsqu'il n'y avait qu'une seule instruction dans un bloc conditionnel ou de boucle. Pour le reste le style Allman a ete respecté.
+- ✅ Indentation : 4 espaces (ne pas utiliser de tabulations).
+- ✅ var keyword : Utiliser var lorsque le type est évident à droite de l'assignation, sinon préciser le type.
+- ⚠️ Nommage des fichiers : Faire correspondre le nom de la classe au nom du fichier (ex: Class1.cs). --> Sur ce point, j'ai parfois plusieurs classes dans un meme fichier lorsque ces classes sont petites et fortement liées entre elles.
+- ✅ Commentaires : Utiliser // pour les commentaires sur une seule ligne. 
+
+### Input System
+
+La classe [`InputHandlersManager`](Assets/Scripts/Inputs/InputHandlersManager.cs) est responsable de la gestion des entrees utilisateur. Elle utilise le systeme d'Input de Unity pour detecter les actions de l'utilisateur et declencher les evenements appropries.
+
+Les composants du projet peuvent utiliser cette classe pour mapper un input a une fonction en utilisant la methode `RegisterInputHandler`. Chaque handler est associe a une action specifique et peut definir des callbacks pour les evenements de pression (`OnInput`), de relachement (`OnRelease`) et de maintien d'un input (`OnHold`).
+
+*[Assets/Scripts/Player/PlayerController.cs](Assets/Scripts/Player/PlayerController.cs)*
+```csharp 
+    InputHandlersManager.Instance.Register(
+        label: "Jump", 
+        actionRef: jumpActionRef, 
+        OnTrigger: OnJumpInputPressed
+    );
+```
+
+
+### Singleton
+
+Le pattern de conception [`Singleton<T>`](Assets/Scripts/Singleton.cs) a ete utilise dans plusieurs classes du projet pour garantir qu'une seule instance de ces classes existe a tout moment pendant l'execution du jeu.
+
+
+### Interfaces
+
+Quelques Interfaces ont ete utilisees pour definir des contrats entre les differentes classes du projet. Cela permet de decoupler les composants et de faciliter la maintenance du code.
+
+Elles sont disponibles dans le chemin `Assets/Scripts/Interfaces/`.
+
+### Data
+
+Deux services de sauvegarde de donnees ont ete implementes dans le projet :
+
+- [PlayerPrefService](Assets/Scripts/DataServices/PlayerPrefService.cs) : Permet de sauvegarder et de charger des donnees locales en utilisant PlayerPrefs de Unity. Utilise pour sauvegarder les parametres du jeu (audio mute notamment).
+
+- [SaveService](Assets/Scripts/DataServices/SaveService.cs) : Permet de sauvegarder des donnees plus complexes en utilisant la serialisation JSON. Utilise pour sauvegarder les statistiques du joueur (meilleur score, cristaux collectés, etc.).
+
+
+
+### Audio Manager
+
+La gestion de l'audio dans le jeu est realisee a l'aide de la classe [`AudioManager`](Assets/Scripts/SceneCore/AudioManager.cs). Cette classe est responsable de la lecture des effets sonores et de la musique de fond dans le jeu.
+
+*eg*
+```csharp 
+AudioManager.Instance.PlaySound("crash");
+```
+
+L'AudioManager utilise un dictionnaire pour stocker les clips audio et permet de jouer des sons en utilisant leur nom (`string`). Il prend en charge la lecture de sons uniques ainsi que la lecture en boucle pour la musique de fond.
+
+
+### Tutorial
+
+Un [`TutorialManager`](Assets/Scripts/Tutorials/TutorialManager.cs) a ete implemente pour guider les nouveaux joueurs a travers les mecanismes de base du jeu. Il affiche des messages contextuels a l'ecran pour expliquer les controles et les objectifs du jeu.
+
+### UI Toolkit
+
+Toutes les interfaces utilisateur du jeu sont construites en utilisant le systeme UI Toolkit de Unity.
+
+Tous les `GameObject`s qui contiennent le composant [`UnityEngine.UIElementsModule.UIDocument`](https://docs.unity3d.com/2021.3/Documentation/ScriptReference/UIElements.UIDocument.html) herite de la classe [`UIController`](Assets/Scripts/UI/BaseClasses/UiController.cs) qui fournit des methodes de base pour gerer l'affichage et la mise a jour des elements UI. 
+
+Toutes les fonctionnalites UI specifiques sont implementees dans des classes derivees de `UIController`, telles que :
+
+- [`UiSplashScreen`](Assets/Scripts/UI/UiSplashScreen.cs)
+- [`UiPauseMenu`](Assets/Scripts/UI/UiPauseMenu.cs)
+- [`UiEndGame`](Assets/Scripts/UI/UiEndGame.cs)
+- [`UiHud`](Assets/Scripts/UI/UiHud.cs)
+- ...
+
+
+### Description des Unity tags utilises dans le jeu
+
+- `World Segment` : Utilise pour identifier les segments de monde generes proceduralement.
+- `Composite Square Collider` : Utilise pour identifier les colliders composites utiliser par le systeme de fusion des colliders.
+- `Slot` : Identifie les emplacements disponible pour les obstacles lors de la generation du monde.
+- `Crystal` : Identifie les cristaux a collecter dans le jeu.
+
+### Procedure de Tests
+
+**A rediger**
