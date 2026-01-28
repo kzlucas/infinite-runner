@@ -5,6 +5,8 @@ Il s'agit d'un jeu d'aventure en 3D de type *Infinite Runner* cree dans le cadre
 
 Le jeu met en scène un personnage principal qui court à travers des environnements colorés et variés, collectant des objets et évitant des obstacles pour atteindre le score le plus élevé possible.
 
+Le cahier des charges du projet est disponible ici : [GamingCampus-CDC-dev-jv.pdf](Documentation/GamingCampus-CDC-dev-jv.pdf).
+
 Le jeu est cree sur la base du Game Design Document (GDD) suivant : [ChromAdventure_Game-Design-Document.pdf](Documentation/ChromAdventure_Game-Design-Document.pdf).
 
 Les personnes ayant participé à la création de ce GDD sont :
@@ -26,7 +28,6 @@ Le developpement de ce protoype du jeu a demarre mi decembre 2025 et s'acheve de
 
 - Lucas Tesseron ([@kzlucas](https://github.com/kzlucas))
 
-Le projet a ete realise avec le moteur de jeu **Unity (version 6000.2.8f1)** et utilise le langage de programmation C#.
 
 Les assets du projets notament graphiques et sonores proviennent de ressources libres de droits :
 
@@ -283,6 +284,21 @@ Toutes les fonctionnalites UI specifiques sont implementees dans des classes der
 - `Slot` : Identifie les emplacements disponible pour les obstacles lors de la generation du monde.
 - `Crystal` : Identifie les cristaux a collecter dans le jeu.
 
+
 ### Procedure de Tests
 
-**A rediger**
+Les tests unitaires et les tests d'integration n'ont pas ete mis en place dans ce projet en raison de contraintes de temps et de ressources. Cependant, des tests manuels ont ete effectues pour verifier le bon fonctionnement des principales fonctionnalites du jeu.
+
+Tout au long du developpement:
+- en utilisant la console de l'editeur Unitym avec [`de nombreux Debug`](https://github.com/search?q=repo%3Akzlucas%2Finfinite-runner%20Debug&type=code) : `Debug.Log`, `Debug.DrawRay`, `Debug.Break`, `OnDrawGizmos`...
+- en utilsant l'editeur Unity pour simuler differentes situations de jeu et verifier les comportements attendus.
+- en jouant au jeu regulierement pour identifier et corriger les bugs et les problemes de gameplay.
+- en faisant des builds du jeu pour tester les performances et la compatibilite sur differentes plateformes (Linux et WebGL).
+
+![debug-1.png](Documentation/debug-1.png)
+
+
+
+### Environnement de developpement
+
+Le projet a ete realise avec le moteur de jeu **Unity (version 6000.2.8f1)** et utilise le langage de programmation C#. Il a ete developpe sous Linux, en utilisant l'IDE **Visual Studio Code**. A noter que le projet cible deux plateformes de build : Linux et WebGL. Il prends donc en consideration les contraintes et les optimisations necessaires pour ces plateformes (WebGL en particulier).
