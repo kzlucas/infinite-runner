@@ -58,15 +58,15 @@ Les assets du projets notament graphiques et sonores proviennent de ressources l
 
 
 
-## Architecture generale du projet
+# Architecture generale du projet
 
 
-### Environnement de developpement
+## Environnement de developpement
 
 Le projet a ete realise avec le moteur de jeu **Unity (version 6000.2.8f1)** et utilise le langage de programmation C#. Il a ete developpe sous Linux, en utilisant l'IDE **Visual Studio Code**. A noter que le projet cible deux plateformes de build : Linux et WebGL. Il prends donc en consideration les contraintes et les optimisations necessaires pour ces plateformes (WebGL en particulier).
 
 
-### Structure du Repo
+## Structure du Repo
 
 - `Documentation/` : Contient la documentation du projet, y compris le GDD et d'autres ressources pertinentes.
 
@@ -88,7 +88,7 @@ Le projet a ete realise avec le moteur de jeu **Unity (version 6000.2.8f1)** et 
 
 
 
-### Procedure de Tests
+## Procedure de Tests
 
 Les tests unitaires et les tests d'integration n'ont pas ete mis en place dans ce projet en raison de contraintes de temps et de ressources. Cependant, des tests manuels ont ete effectues pour verifier le bon fonctionnement des principales fonctionnalites du jeu.
 
@@ -103,13 +103,13 @@ Tout au long du developpement:
 Le protoype a ete envoyes au groupe de travail sur Discord pour demander des retours et identifier d'eventuels bugs ou problemes de gameplay.
 
 
-### Suivi des features
+## Suivi des features
 
 Tableau de suivi des principales features developpes au cours du projet :
 [Google Sheet Document](https://docs.google.com/spreadsheets/d/1VynXDeEw_dpZwPe93qpfKKuDYcDk6X5uEqaUhXpRSZ0/edit?gid=0#gid=0)
 
 
-### Commentaire de code et formatage
+## Commentaire de code et formatage
 
 Les methodes et les classes sont commentees a l'aide de commentaires XML pour faciliter la comprehension du code et la generation de documentation automatique.
 
@@ -131,7 +131,7 @@ Ici les conventions de nommage et de formatage utilisees dans ce projet qui ont 
 - ⚠️ Nommage des fichiers : Faire correspondre le nom de la classe au nom du fichier (ex: Class1.cs). --> Sur ce point, j'ai parfois plusieurs classes dans un meme fichier lorsque ces classes sont petites et fortement liées entre elles.
 - ✅ Commentaires : Utiliser // pour les commentaires sur une seule ligne. 
 
-### Input System
+## Input System
 
 La classe [`InputHandlersManager`](Assets/Scripts/Inputs/InputHandlersManager.cs) est responsable de la gestion des entrees utilisateur. Elle utilise le systeme d'Input de Unity pour detecter les actions de l'utilisateur et declencher les evenements appropries.
 
@@ -147,18 +147,18 @@ Les composants du projet peuvent utiliser cette classe pour mapper un input a un
 ```
 
 
-### Singleton
+## Singleton
 
 Le pattern de conception [`Singleton<T>`](Assets/Scripts/Singleton.cs) a ete utilise dans plusieurs classes du projet pour garantir qu'une seule instance de ces classes existe a tout moment pendant l'execution du jeu.
 
 
-### Interfaces
+## Interfaces
 
 Quelques Interfaces ont ete utilisees pour definir des contrats entre les differentes classes du projet. Cela permet de decoupler les composants et de faciliter la maintenance du code.
 
 Elles sont disponibles dans le chemin `Assets/Scripts/Interfaces/`.
 
-### Data
+## Data
 
 Deux services de sauvegarde de donnees ont ete implementes dans le projet :
 
@@ -168,7 +168,7 @@ Deux services de sauvegarde de donnees ont ete implementes dans le projet :
 
 
 
-### Audio Manager
+## Audio Manager
 
 La gestion de l'audio dans le jeu est realisee a l'aide de la classe [`AudioManager`](Assets/Scripts/SceneCore/AudioManager.cs). Cette classe est responsable de la lecture des effets sonores et de la musique de fond dans le jeu.
 
@@ -180,11 +180,11 @@ AudioManager.Instance.PlaySound("crash");
 L'AudioManager utilise un dictionnaire pour stocker les clips audio et permet de jouer des sons en utilisant leur nom (`string`). Il prend en charge la lecture de sons uniques ainsi que la lecture en boucle pour la musique de fond.
 
 
-### Tutorial
+## Tutorial
 
 Un [`TutorialManager`](Assets/Scripts/Tutorials/TutorialManager.cs) a ete implemente pour guider les nouveaux joueurs a travers les mecanismes de base du jeu. Il affiche des messages contextuels a l'ecran pour expliquer les controles et les objectifs du jeu.
 
-### UI Toolkit
+## UI Toolkit
 
 Toutes les interfaces utilisateur du jeu sont construites en utilisant le systeme UI Toolkit de Unity.
 
@@ -199,7 +199,7 @@ Toutes les fonctionnalites UI specifiques sont implementees dans des classes der
 - ...
 
 
-### Description des Unity tags utilises dans le jeu
+## Description des Unity tags utilises dans le jeu
 
 - `World Segment` : Utilise pour identifier les segments de monde generes proceduralement.
 - `Composite Square Collider` : Utilise pour identifier les colliders composites utiliser par le systeme de fusion des colliders.
