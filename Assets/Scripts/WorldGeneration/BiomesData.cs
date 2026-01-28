@@ -45,13 +45,9 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
     ///   Get next biome data based on current biome.
     /// </summary>
     /// <returns>Returns true if biome was changed, false if already at last biome.</returns>
-    public bool SetNext()
+    public void SetNext()
     {
-        if (current == null)
-        {
-            Debug.LogError("[BiomesData] Current biome is null!");
-            return false;
-        }
+        // Mark tutorial completed if called on first biome
         int currentIndex = items.FindIndex(b => b.name == current.name);
         if (currentIndex == 0)
         {
@@ -59,32 +55,17 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
             PlayerPrefService.Instance.Save("SkipTutorials", "1");
             TutorialManager.Instance.tutorialsCompleted = true;
         }
-        if (currentIndex == -1)
-        {
-            currentIndex = 0;
-        }
 
-        // Set next biome data. If at end of list, stay at current biome. (In editor mode, loop back to start)
-#if !UNITY_EDITOR
-        if((currentIndex + 1) < items.Count)
-        {
-#endif
-            int nextIndex = currentIndex + 1;
-            if (nextIndex >= items.Count) nextIndex = 0;
-            ApplyDataAtIndex(nextIndex);
-            
-            // Clear world segments to force regeneration with new biome
-            if (worldGenerationManager == null) 
-                worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
+        // Set next biome data. If at end of list loop back to start
+        int nextIndex = currentIndex + 1;
+        if (nextIndex >= items.Count) nextIndex = 1;
+        ApplyDataAtIndex(nextIndex);
 
-            StartCoroutine(FlashAndRegenWorld());
+        // Clear world segments to force regeneration with new biome
+        if (worldGenerationManager == null) 
+            worldGenerationManager = FindFirstObjectByType<WorldGenerationManager>();
 
-            return true;
-
-#if !UNITY_EDITOR
-        }
-#endif
-        return false;
+        StartCoroutine(FlashAndRegenWorld());
     }
 
 

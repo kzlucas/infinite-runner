@@ -88,11 +88,15 @@ Le "SceneInitializer" ecoute l'evenement "OnSceneLoaded" et initialise les diffe
 ![Alt text for the image](Documentation/schema-scene-init.png)
 
 
+## Architecture generale du projet
 ## Rewind system
 ## Gestion des colliders
+## Machine à états du joueur
+## Generation du monde / Changement de monde process
 ## Description des tags
 
 - World Segment
 - Composite Square Collider
 - Slot
 - Crystal
+

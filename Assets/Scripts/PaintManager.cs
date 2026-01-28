@@ -32,9 +32,9 @@ public static class PaintManager
         if(bucketFillPct >= 1f)
         {   
             // Change to next biome
-            var isLast = !BiomesData.Instance.SetNext();
-            if(!isLast) ClearBucket();
+            BiomesData.Instance.SetNext();
             AudioManager.Instance.PlaySound("biome-change");
+            ClearBucket();
         }
 
         // Update HUD
