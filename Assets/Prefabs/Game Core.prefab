@@ -134,4 +134,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc73b65303cedc384b2583bc10922795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeScaleManager
-  _currentTimeScale: 1
+  InitialTimeScale: 1.3
+  _currentTimeScale: 1.3

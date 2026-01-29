@@ -13,6 +13,9 @@ namespace Player.States
 
         public int targetXPosition = 0;
 
+        /// <summary> Input direction for movement along X axis (-1 left, 1 right)</summary>
+        public Vector2 inputMoveDir = Vector2.zero;
+
 
         /// <summary> Reference to the lane change coroutine</summary>
         private IEnumerator goToLaneRoutine;
@@ -27,13 +30,13 @@ namespace Player.States
 
         public override void OnEnter()
         {
-            if (player.inputMoveDir.x == 0) return;
+            if (inputMoveDir.x == 0) return;
 
             // Update target X position based on input direction
-            if (hasReleasedKey && player.inputMoveDir.x != 0)
+            if (hasReleasedKey && inputMoveDir.x != 0)
             {
                 hasReleasedKey = false; // force player to release key before next input
-                var reqTargetXPosition = targetXPosition + (player.inputMoveDir.x > 0 ? 2 : -2); 
+                var reqTargetXPosition = targetXPosition + (inputMoveDir.x > 0 ? 2 : -2); 
                 targetXPosition = Mathf.Clamp(reqTargetXPosition, player.minX, player.maxX);
                  goToLaneRoutine.Replace(GoToLaneRoutine());
             }

@@ -41,9 +41,6 @@ namespace Player
 
         [Header("X Movement Settings")]
 
-        /// <summary> Input direction for movement along X axis (-1 left, 1 right)</summary>
-        public Vector2 inputMoveDir = Vector2.zero;
-
         /// <summary> X movement speed of the player</summary>
         public float xMoveSpeed = 15f;
 
@@ -144,41 +141,22 @@ namespace Player
             InputHandlersManager.Instance.Register(
                 "Jump"
                 , jumpActionRef
-                , OnTrigger: () =>
-                {
-                    if (CanJump()) sm.TransitionTo<JumpState>();
-                }
+                , OnHold: () => { if (CanJump()) sm.TransitionTo<JumpState>(); }
             );
 
             InputHandlersManager.Instance.Register(
                 "Move"
                 , moveActionRef
-                , OnUpdate: (v2) =>
-                {
-                    inputMoveDir = v2;
-                    if (CanMove(v2)) sm.TransitionTo<MoveState>();
-                }
-                , OnRelease: () =>
-                {
-                    sm.GetState<MoveState>().OnRelease();
-                }
+                , OnUpdate: (v2) => { if (CanMove(v2)) { sm.GetState<MoveState>().inputMoveDir = v2; sm.TransitionTo<MoveState>(); } }
+                , OnRelease: () => { sm.GetState<MoveState>().OnRelease(); }
             );
 
             InputHandlersManager.Instance.Register(
                 "Slide"
                 , slideActionRef
-                , OnTrigger: () =>
-                {
-                    if (CanSlide()) sm.TransitionTo<SlideState>();
-                },
-                OnHold: () =>
-                {
-                    if (CanSlide()) sm.TransitionTo<SlideState>();
-                },
-                OnRelease: () =>
-                {
-                    sm.GetState<SlideState>().OnRelease();
-                }
+                , OnTrigger: () => { if (CanSlide()) sm.TransitionTo<SlideState>(); }
+                , OnHold: () => { if (CanSlide()) sm.TransitionTo<SlideState>(); }
+                , OnRelease: () => { sm.GetState<SlideState>().OnRelease(); }
             );
 
 
@@ -229,7 +207,7 @@ namespace Player
                 || (Time.timeScale == 0f)
                 || isSliding
                 || (!isGrounded)
-            ) ;
+            );
         }
 
 

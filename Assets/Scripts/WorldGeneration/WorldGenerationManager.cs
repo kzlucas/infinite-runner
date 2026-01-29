@@ -130,6 +130,7 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
 
             case "World 1 - Gray":
             case "World 2 - Red":
+            case "World 3 - Green":
 
 
                 if (generatedIndex <= 3)

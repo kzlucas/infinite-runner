@@ -52,7 +52,6 @@ public class TimeScaleManager : Singleton<TimeScaleManager>
         // gradually restore MinTimeScale
         if(_minTimeScale < InitialTimeScale)
         {
-            Debug.Log("[TimeScaleManager] Restoring MinTimeScale " + Time.deltaTime);
             _minTimeScale = _minTimeScale + (Time.deltaTime / 50f); 
         }
     }

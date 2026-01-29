@@ -50,6 +50,7 @@ namespace Player
             switch (t)
             {
                 case ColliderType.Type.DeathZone:
+                    Debug.Log("[PlayerCollisionHandling] Collision with Death Zone: " + other.name);
                     player.health.TakeDamage(1);
                     break;
 
@@ -57,6 +58,8 @@ namespace Player
                 case ColliderType.Type.MovingPlatform:
                     if (position != ColliderPosition.Body)
                     {
+                        Debug.Break();
+                        Debug.Log("[PlayerCollisionHandling] Platform collided at Player." + position.ToString() + " with " + other.name + " (instance ID: " + other.GetInstanceID() + ")");
                         player.health.TakeDamage(1);
                     }
                     break;
