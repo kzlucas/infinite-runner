@@ -6,6 +6,7 @@ public abstract class Collectible : MonoBehaviour
     public Animator animator;
     public string SoundToPlayOnCollection = "";
     public abstract void OnCollide();
+    public bool IsCollected = false;
 
 
     /// <summary>

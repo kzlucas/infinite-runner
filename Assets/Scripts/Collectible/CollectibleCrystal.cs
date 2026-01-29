@@ -33,6 +33,9 @@ public class CollectibleCrystal : Collectible
     /// </summary>
     public override void OnCollide()
     {
+        if (IsCollected) return;
+        IsCollected = true;
+
         PaintManager.AddPaint(1);
     }
 }

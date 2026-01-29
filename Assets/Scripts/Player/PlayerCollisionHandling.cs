@@ -59,7 +59,7 @@ namespace Player
                     if (position != ColliderPosition.Body)
                     {
                         Debug.Break();
-                        Debug.Log("[PlayerCollisionHandling] Platform collided at Player." + position.ToString() + " with " + other.name + " (instance ID: " + other.GetInstanceID() + ")");
+                        Debug.Log("[PlayerCollisionHandling] Platform collided at Player." + position.ToString() + other.GetInstanceID()  + " with " + other.name + " (instance ID: " + other.GetInstanceID() + ")");
                         player.health.TakeDamage(1);
                     }
                     break;
