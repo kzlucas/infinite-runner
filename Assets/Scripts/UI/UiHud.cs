@@ -54,37 +54,37 @@ public class UiHud : UiController
 
 
     /// <summary>
-    /// Updates the paint bucket UI fill percentage. 
+    /// Updates the crystals bucket UI fill percentage. 
     /// </summary>
     /// <param name="fillPct"></param>
-    public void UpdatePaintBucket(float fillPct)
+    public void UpdateCrystalsBucket(float fillPct)
     {
-        StartCoroutine(_UpdatePaintBucket(fillPct));
+        StartCoroutine(_UpdateCrystalsBucket(fillPct));
     }
 
-    private IEnumerator _UpdatePaintBucket(float fillPct)
+    private IEnumerator _UpdateCrystalsBucket(float fillPct)
     {
         yield return new WaitUntil(() => docReady && bucketFill != null);
         bucketFill.style.width = fillPct * (float)bucketFullPxWidth;
         bucketCounter.text = Mathf.RoundToInt(fillPct * 100f).ToString() + "%";
 
-        SetPaintBucketColor(
-            BiomesData.Instance.current.ColorPaint,
+        CrystalsBucketColor(
+            BiomesData.Instance.current.crystalColor,
             BiomesData.Instance.current.GaugeImage
         );
     }
 
     /// <summary>
-    /// Sets the paint bucket color and gauge image.
+    /// Sets the crystals bucket color and gauge image.
     /// </summary>
     /// <param name="color"></param>
     /// <param name="gaugeImage"></param>
 
-    private void SetPaintBucketColor(Color color, Sprite gaugeImage)
+    private void CrystalsBucketColor(Color color, Sprite gaugeImage)
     {
-        StartCoroutine(_SetPaintBucketColor(color, gaugeImage));
+        StartCoroutine(_CrystalsBucketColor(color, gaugeImage));
     }
-    private IEnumerator _SetPaintBucketColor(Color color, Sprite gaugeImage)
+    private IEnumerator _CrystalsBucketColor(Color color, Sprite gaugeImage)
     {
         yield return new WaitUntil(() => docReady && bucketFill != null && bucketContainer != null);
         bucketFill.style.unityBackgroundImageTintColor = color;

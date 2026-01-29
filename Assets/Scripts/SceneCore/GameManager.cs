@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager>
         {
             StopAllCoroutines();
             RegisterHandlers();
-            if(SceneLoader.Instance.IsGameScene()) PaintManager.Reset();
+            if(SceneLoader.Instance.IsGameScene()) CrystalsManager.Reset();
         };
     }
 

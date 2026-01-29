@@ -18,7 +18,7 @@ public class TimeScaleManager : Singleton<TimeScaleManager>
     private float _minTimeScale; 
 
     /// <summary> Scaled time elapsed since the start of the game. </summary>
-    private float _timeElapsedSinceStart = 0f;
+    private float _timeElapsedFactor = 0f;
 
 
     /// <summary>
@@ -28,7 +28,7 @@ public class TimeScaleManager : Singleton<TimeScaleManager>
     {
         SceneLoader.Instance.OnSceneLoaded += () =>
         {
-            _timeElapsedSinceStart = 0f;
+            _timeElapsedFactor = 0f;
             _currentTimeScale = InitialTimeScale;
             _minTimeScale = InitialTimeScale;
         };
@@ -43,8 +43,8 @@ public class TimeScaleManager : Singleton<TimeScaleManager>
         if (_isPaused) return;
         
         // gradually increase time scale over time. 400 unity seconds to reach 2x speed
-        _timeElapsedSinceStart += Time.deltaTime;
-        _currentTimeScale = _minTimeScale + (_timeElapsedSinceStart / 400f); 
+        _timeElapsedFactor += Time.deltaTime;
+        _currentTimeScale = _minTimeScale + (_timeElapsedFactor / 400f); 
         _currentTimeScale = Mathf.Clamp(_currentTimeScale, 0f, _maxTimeScale);
         Time.timeScale = _currentTimeScale;
 
@@ -64,6 +64,10 @@ public class TimeScaleManager : Singleton<TimeScaleManager>
     {
         Debug.Log("[TimeScaleManager] Slowing down time");
         _minTimeScale = 1f;
+
+        // reduce the elapsed time to make the slowdown more pronounced
+        // and reward player if he collects multiple hourglasses
+        _timeElapsedFactor = _timeElapsedFactor * .7f; 
     }
 
 

@@ -36,6 +36,6 @@ public class CollectibleCrystal : Collectible
         if (IsCollected) return;
         IsCollected = true;
 
-        PaintManager.AddPaint(1);
+        CrystalsManager.AddCrystals(1);
     }
 }

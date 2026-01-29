@@ -9,7 +9,7 @@ namespace Player
     {
 
         public int currentHealth { get; set; }
-        public int maxHealth { get; set; } = 2;
+        public int maxHealth { get; set; } = 10;
         public bool isInvincible = false;
         public bool isDie = false;
 

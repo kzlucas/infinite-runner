@@ -17,11 +17,7 @@ public class SO_BiomeData : ScriptableObject
     public List<WorldSegment> Segments => _segments;
 
 
-    [SerializeField] private Color _colorPaint = new Color(0f, .6f, 1f);
-    public Color ColorPaint => _colorPaint;
-
-
-    [SerializeField] private Color _crystalColor = new Color(1f, 1f, 1f);
+    [SerializeField] private Color _crystalColor = new Color(0f, .6f, 1f);
     public Color crystalColor => _crystalColor;
 
 
