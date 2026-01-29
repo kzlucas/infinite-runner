@@ -9,7 +9,7 @@ Le jeu est disponible en ligne ici (Build WebGL et Linux) :
 # Introduction
 
 Ce repo contient le code source et les ressources du projet Unity du jeu **ChromAdventure**.
-Il s'agit d'un jeu d'aventure en 3D de type *Infinite Runner* cree dans le cadre du cours de Programmation de Jeux Vidéo dispensé par Gaming Campus.
+Il s'agit d'un jeu d'aventure en 3D de type *Infinite Runner* créé dans le cadre du cours de Programmation de Jeux Vidéo dispensé par Gaming Campus.
 
 Le jeu met en scène un personnage qui court à travers des environnements colorés et variés, collectant des objets et évitant des obstacles pour atteindre le score le plus élevé possible.
 
@@ -17,7 +17,7 @@ Le cahier des charges du projet est disponible ici : [GamingCampus-CDC-dev-jv.pd
 
 ## Credits
 
-Le jeu est cree sur la base du Game Design Document (GDD) suivant : [ChromAdventure_Game-Design-Document.pdf](Documentation/ChromAdventure_Game-Design-Document.pdf).
+Le jeu est créé sur la base du Game Design Document (GDD) suivant : [ChromAdventure_Game-Design-Document.pdf](Documentation/ChromAdventure_Game-Design-Document.pdf).
 
 Les personnes ayant participé à la création de ce GDD sont :
 
@@ -32,20 +32,20 @@ Les personnes ayant participé à la création de ce GDD sont :
 - Thomas Menant 
 - Vincent Distribué
 
-Les comptes rendus des réunions de creation du GDD sont disponibles ici [ChromAdventure_Game-Design-Document_Comptes-rendu-reu.pdf](Documentation/ChromAdventure_Game-Design-Document_Comptes-rendu-reu.pdf).
+Les comptes rendus des réunions de création du GDD sont disponibles ici [ChromAdventure_Game-Design-Document_Comptes-rendu-reu.pdf](Documentation/ChromAdventure_Game-Design-Document_Comptes-rendu-reu.pdf).
 
 L'enseignant encadrant le projet est :
 
 - Yona Rutkowski ([@Skuuulzy](https://github.com/Skuuulzy))
 
-Le projet ayant ete developpe par l'enseignant durant les cours est disponible ici : [InfiniteRunnerMontreal
+Le projet ayant été développé par l'enseignant durant les cours est disponible ici : [InfiniteRunnerMontreal
 ](https://github.com/Skuuulzy/InfiniteRunnerMontreal) 
 
-Le developpement de ce protoype du jeu a demarre mi decembre 2025 et s'acheve debut fevrier 2026.Il est realise par la personne suivante :
+Le développement de ce prototype du jeu a démarré mi décembre 2025 et s'achève début février 2026.Il est réalisé par la personne suivante :
 
 - Lucas Tesseron ([@kzlucas](https://github.com/kzlucas))
 
-Les assets du projets notament graphiques et sonores proviennent de ressources libres de droits :
+Les assets du projets notamment graphiques et sonores proviennent de ressources libres de droits :
 
 
 - Musique - [licence](https://pixabay.com/service/license-summary/)
@@ -71,7 +71,7 @@ Les assets du projets notament graphiques et sonores proviennent de ressources l
 
 - Splash screen du jeu et elements HUD
 
-    - Genere par DALL·E 3 (https://chat.openai.com/) - [Usage commercial et non-commercial autorisé](https://openai.com/policies/terms-of-use/)
+    - Généré par DALL·E 3 (https://chat.openai.com/) - [Usage commercial et non-commercial autorisé](https://openai.com/policies/terms-of-use/)
     
 
 
@@ -80,9 +80,9 @@ Les assets du projets notament graphiques et sonores proviennent de ressources l
 # Architecture generale du projet
 
 
-## Environnement de developpement
+## Environnement de développement
 
-Le projet a ete realise avec le moteur de jeu **Unity (version 6000.2.8f1)** et utilise le langage de programmation C#. Il a ete developpe sous Linux, en utilisant l'IDE **Visual Studio Code**. A noter que le projet cible deux plateformes de build : Linux et WebGL. Il prends donc en consideration les contraintes et les optimisations necessaires pour ces plateformes (WebGL en particulier).
+Le projet a été réalisé avec le moteur de jeu **Unity (version 6000.2.8f1)** et utilise le langage de programmation C#. Il a été développé sous Linux, en utilisant l'IDE **Visual Studio Code**. À noter que le projet cible deux plateformes de build : Linux et WebGL. Il prend donc en considération les contraintes et les optimisations nécessaires pour ces plateformes (WebGL en particulier).
 
 
 ## Structure du Repo
@@ -109,94 +109,94 @@ Le projet a ete realise avec le moteur de jeu **Unity (version 6000.2.8f1)** et 
 
 ## Procedure de Tests
 
-Les tests unitaires et les tests d'integration n'ont pas ete mis en place dans ce projet en raison de contraintes de temps et de ressources. Cependant, des tests manuels ont ete effectues pour verifier le bon fonctionnement des principales fonctionnalites du jeu.
+Les tests unitaires et les tests d'intégration n'ont pas été mis en place dans ce projet en raison de contraintes de temps et de ressources. Cependant, des tests manuels ont été effectués pour vérifier le bon fonctionnement des principales fonctionnalités du jeu.
 
-Tout au long du developpement:
-- en utilisant la console de l'editeur Unity avec [`de nombreux Debug`](https://github.com/search?q=repo%3Akzlucas%2Finfinite-runner%20Debug&type=code) : `Debug.Log`, `Debug.DrawRay`, `Debug.Break`, `OnDrawGizmos`...
-- en utilsant l'editeur Unity pour simuler differentes situations de jeu et verifier les comportements attendus.
-- en jouant au jeu regulierement pour identifier et corriger les bugs et les problemes de gameplay.
-- en faisant des builds du jeu pour tester les performances et la compatibilite sur differentes plateformes (Linux et WebGL).
+Tout au long du développement:
+- en utilisant la console de l'éditeur Unity avec [`de nombreux Debug`](https://github.com/search?q=repo%3Akzlucas%2Finfinite-runner%20Debug&type=code) : `Debug.Log`, `Debug.DrawRay`, `Debug.Break`, `OnDrawGizmos`...
+- en utilisant l'éditeur Unity pour simuler différentes situations de jeu et vérifier les comportements attendus.
+- en jouant au jeu régulièrement pour identifier et corriger les bugs et les problèmes de gameplay.
+- en faisant des builds du jeu pour tester les performances et la compatibilité sur différentes plateformes (Linux et WebGL).
 
 ![debug-1.png](Documentation/debug-1.png)
 
-Le protoype a ete envoyes au groupe de travail sur Discord pour demander des retours et identifier d'eventuels bugs ou problemes de gameplay. Quelques bugs ont ete remontes et corriges avant la version finale du protoype.
+Le prototype a été envoyé au groupe de travail sur Discord pour demander des retours et identifier d'éventuels bugs ou problèmes de gameplay. Quelques bugs ont été remontés et corrigés avant la version finale du prototype.
 
 
 #### Description de la procedure de test manuelle utilisee :
 
-1. Demarrer le jeu
-2. Verifier l'affichage du menu principal
+1. Démarrer le jeu
+2. Vérifier l'affichage du menu principal
 3. Cliquer sur Start
-4. Verifier le chargement de la scene de jeu
-5. Verifier le systeme de generation procedurale du monde
+4. Vérifier le chargement de la scène de jeu
+5. Vérifier le système de génération procédurale du monde
 6. Jouer au jeu
-  - Verifier le deplacement du personnage
-  - Verifier le saut et la glissade
-  - Verifier la collecte des cristaux
-  - Verifier les collisions avec les obstacles
-  - Verifier la perte de points de vie
-  - Verifier le systeme de rewind
-  - Verifier l'affichage du score et des cristaux collectes
+  - Vérifier le déplacement du personnage
+  - Vérifier le saut et la glissade
+  - Vérifier la collecte des cristaux
+  - Vérifier les collisions avec les obstacles
+  - Vérifier la perte de points de vie
+  - Vérifier le système de rewind
+  - Vérifier l'affichage du score et des cristaux collectés
 7. Perdre la partie
-  - Verifier l'affichage de l'ecran de fin de partie
-  - Verifier le calcul du score final
-8. Redemarrer une nouvelle partie
-  - Verifier le rechargement de la scene de jeu
-  - Recommencer les tests de jeu (1 a 6)
-9. Verifier les parametres audio
-  - Muter et demuter le son
-  - Verifier le volume sonore
-10. Verifier la mise en pause du jeu
-  - Verifier l'ouverture/fermeture du menu pause en appuyant sur Echap
-  - Verifier l'ouverture/fermeture du menu pause en appuyant sur le bouton Pause
+  - Vérifier l'affichage de l'écran de fin de partie
+  - Vérifier le calcul du score final
+8. Redémarrer une nouvelle partie
+  - Vérifier le rechargement de la scène de jeu
+  - Recommencer les tests de jeu (1 à 6)
+9. Vérifier les paramètres audio
+  - Muter et démuter le son
+  - Vérifier le volume sonore
+10. Vérifier la mise en pause du jeu
+  - Vérifier l'ouverture/fermeture du menu pause en appuyant sur Échap
+  - Vérifier l'ouverture/fermeture du menu pause en appuyant sur le bouton Pause
   - Reprendre le jeu
-  - Verifier la reprise du jeu
-11. Arreter le jeu
-15. Verifier si le fichier local de sauvegarde a bien ete ecrit
-12. Demarrer le jeu
-15. Verifier la persistance des statistiques du joueur (meilleur score, cristaux collectes) apres redemarrage du jeu
-13. Verifier la persistance des parametres audio dans le menu
-14. Arreter le jeu
-15. Verifier les erreur et warnings dans la console de l'editeur Unity et corriger si necessaire
+  - Vérifier la reprise du jeu
+11. Arrêter le jeu
+15. Vérifier si le fichier local de sauvegarde a bien été écrit
+12. Démarrer le jeu
+15. Vérifier la persistance des statistiques du joueur (meilleur score, cristaux collectés) après redémarrage du jeu
+13. Vérifier la persistance des paramètres audio dans le menu
+14. Arrêter le jeu
+15. Vérifier les erreur et warnings dans la console de l'éditeur Unity et corriger si nécessaire
 
 
-#### Description de la procedure de test tu Tutorial utilisee :
+#### Description de la procédure de test du Tutorial utilisée :
 
-1. Supprimer les PlayerPrefs dans l'editeur Unity
-2. Supprimer le fichier de sauvegarde local (savefile.json) s'il existe (methode Editor `SaveService::DeleteSave`)
-3. Demarrer le jeu
-4. Verifier l'affichage du menu principal
+1. Supprimer les PlayerPrefs dans l'éditeur Unity
+2. Supprimer le fichier de sauvegarde local (savefile.json) s'il existe (méthode Editor `SaveService::DeleteSave`)
+3. Démarrer le jeu
+4. Vérifier l'affichage du menu principal
 5. Cliquer sur Start
-6. Verifier le chargement de la scene de jeu
-7. Jouer et verifier la completion du tutorial pas a pas :
-  - Verifier l'affichage du message "Comment se Deplacer horizontalement"
-  - Verifier l'affichage du message "Comment Sautez"
-  - Verifier l'affichage du message "Comment Glissez"
-  - Verifier l'affichage du message "Collectez des Cristaux"
-  - Verifier l'affichage du message "Tutoriel complete"
-8. Arreter le jeu
-9. Demarrer le jeu
-10. Verifier que le tutorial ne se lance pas a nouveau
+6. Vérifier le chargement de la scène de jeu
+7. Jouer et vérifier la completion du tutorial pas à pas :
+  - Vérifier l'affichage du message "Comment se Déplacer horizontalement"
+  - Vérifier l'affichage du message "Comment Sautez"
+  - Vérifier l'affichage du message "Comment Glissez"
+  - Vérifier l'affichage du message "Collectez des Cristaux"
+  - Vérifier l'affichage du message "Tutoriel complété"
+8. Arrêter le jeu
+9. Démarrer le jeu
+10. Vérifier que le tutorial ne se lance pas à nouveau
 
 #### Procedure de test des mondes
 
-A noter que pour chaque nouveau segment de monde ajoutes au cours du developpement, une procedure de test manuelle a ete realisee pour verifier que le segment s'integre correctement dans le systeme de generation procedurale du monde mais aussi qu'il ne provoque pas de problemes de collisions ou de rebondissements indésirables, que le joueur peut bien le franchir, que les obstacles sont bien placés, etc.
+À noter que pour chaque nouveau segment de monde ajoutés au cours du développement, une procédure de test manuelle a été réalisée pour vérifier que le segment s'intègre correctement dans le système de génération procédurale du monde mais aussi qu'il ne provoque pas de problèmes de collisions ou de rebondissements indésirables, que le joueur peut bien le franchir, que les obstacles sont bien placés, etc.
 
 ## Suivi des features
 
-Tableau de suivi des principales features developpes au cours du projet :
+Tableau de suivi des principales features développées au cours du projet :
 [Google Sheet Document](https://docs.google.com/spreadsheets/d/1VynXDeEw_dpZwPe93qpfKKuDYcDk6X5uEqaUhXpRSZ0/edit?gid=0#gid=0)
 
 
 ## Commentaire de code et formatage
 
-Les methodes et les classes sont commentees a l'aide de commentaires XML pour faciliter la comprehension du code et la generation de documentation automatique.
+Les méthodes et les classes sont commentées à l'aide de commentaires XML pour faciliter la compréhension du code et la génération de documentation automatique.
 
-A noter que les commentaires XML sont utilises principalement pour documenter les classes et les methodes publiques, tandis que les commentaires en ligne (// ou /* */) sont utilises pour expliquer des sections de code plus complexes ou des logiques specifiques.
+À noter que les commentaires XML sont utilisés principalement pour documenter les classes et les méthodes publiques, tandis que les commentaires en ligne (// ou /* */) sont utilisés pour expliquer des sections de code plus complexes ou des logiques spécifiques.
 
-Le code source du projet suit en partie les conventions de nommage et de formatage standard de C#. Les classes, methodes et variables sont nommees de maniere descriptive pour faciliter la comprehension du code.
+Le code source du projet suit en partie les conventions de nommage et de formatage standard de C#. Les classes, méthodes et variables sont nommées de manière descriptive pour faciliter la compréhension du code.
 
-Ici les conventions de nommage et de formatage utilisees dans ce projet qui ont ete respectees :
+Ici les conventions de nommage et de formatage utilisées dans ce projet qui ont été respectées :
 
 - ✅ PascalCase (UpperCamelCase) : Classes, méthodes, propriétés, espaces de noms (namespaces), interfaces (IInterface)
 - ✅ camelCase (LowerCamelCase) : Variables locales, paramètres de méthode
@@ -204,17 +204,17 @@ Ici les conventions de nommage et de formatage utilisees dans ce projet qui ont 
 - ❌ Constantes : PascalCase ou UPPER_CASE
 - ✅ Interfaces : Commencent par une majuscule 'I'.
 - ✅ Booléens : Préfixer par Is, Can, Has. 
-- ⚠️ Accolades : Utiliser le style Allman (accolades ouvrant et fermant sur une nouvelle ligne). --> Sur ce point, j'ai assez souvent omis les accolades lorsqu'il n'y avait qu'une seule instruction dans un bloc conditionnel ou de boucle. Pour le reste le style Allman a ete respecté.
+- ⚠️ Accolades : Utiliser le style Allman (accolades ouvrant et fermant sur une nouvelle ligne). --> Sur ce point, j'ai assez souvent omis les accolades lorsqu'il n'y avait qu'une seule instruction dans un bloc conditionnel ou de boucle. Pour le reste le style Allman a été respecté.
 - ✅ Indentation : 4 espaces (ne pas utiliser de tabulations).
 - ✅ var keyword : Utiliser var lorsque le type est évident à droite de l'assignation, sinon préciser le type.
-- ⚠️ Nommage des fichiers : Faire correspondre le nom de la classe au nom du fichier (ex: Class1.cs). --> Sur ce point, j'ai parfois plusieurs classes dans un meme fichier lorsque ces classes sont petites et fortement liées entre elles.
+- ⚠️ Nommage des fichiers : Faire correspondre le nom de la classe au nom du fichier (ex: Class1.cs). --> Sur ce point, j'ai parfois plusieurs classes dans un même fichier lorsque ces classes sont petites et fortement liées entre elles.
 - ✅ Commentaires : Utiliser // pour les commentaires sur une seule ligne. 
 
 ## Input System
 
-La classe [`InputHandlersManager`](Assets/Scripts/Inputs/InputHandlersManager.cs) est responsable de la gestion des entrees utilisateur. Elle utilise le systeme d'Input de Unity pour detecter les actions de l'utilisateur et declencher les evenements appropries.
+La classe [`InputHandlersManager`](Assets/Scripts/Inputs/InputHandlersManager.cs) est responsable de la gestion des entrées utilisateur. Elle utilise le système d'Input de Unity pour détecter les actions de l'utilisateur et déclencher les événements appropriés.
 
-Les composants du projet peuvent utiliser cette classe pour mapper un input a une fonction en utilisant la methode `RegisterInputHandler`. Chaque handler est associe a une action specifique et peut definir des callbacks pour les evenements de pression (`OnInput`), de relachement (`OnRelease`) et de maintien d'un input (`OnHold`).
+Les composants du projet peuvent utiliser cette classe pour mapper un input à une fonction en utilisant la méthode `RegisterInputHandler`. Chaque handler est associé à une action spécifique et peut définir des callbacks pour les événements de pression (`OnInput`), de relâchement (`OnRelease`) et de maintien d'un input (`OnHold`).
 
 *[Assets/Scripts/Player/PlayerController.cs](Assets/Scripts/Player/PlayerController.cs)*
 ```csharp 
@@ -228,28 +228,28 @@ Les composants du projet peuvent utiliser cette classe pour mapper un input a un
 
 ## Singleton
 
-Le pattern de conception [`Singleton<T>`](Assets/Scripts/Singleton.cs) a ete utilise dans plusieurs classes du projet pour garantir qu'une seule instance de ces classes existe a tout moment pendant l'execution du jeu.
+Le pattern de conception [`Singleton<T>`](Assets/Scripts/Singleton.cs) a été utilisé dans plusieurs classes du projet pour garantir qu'une seule instance de ces classes existe à tout moment pendant l'exécution du jeu.
 
 
 ## Interfaces
 
-Quelques Interfaces ont ete utilisees pour definir des contrats entre les differentes classes du projet. Cela permet de decoupler les composants et de faciliter la maintenance du code.
+Quelques Interfaces ont été utilisées pour définir des contrats entre les différentes classes du projet. Cela permet de découpler les composants et de faciliter la maintenance du code.
 
 Elles sont disponibles dans le chemin `Assets/Scripts/Interfaces/`.
 
 ## Data
 
-Deux services de sauvegarde de donnees ont ete implementes dans le projet :
+Deux services de sauvegarde de données ont été implémentés dans le projet :
 
-- [PlayerPrefService](Assets/Scripts/DataServices/PlayerPrefService.cs) : Permet de sauvegarder et de charger des donnees locales en utilisant PlayerPrefs de Unity. Utilise pour sauvegarder les parametres du jeu (audio mute notamment).
+- [PlayerPrefService](Assets/Scripts/DataServices/PlayerPrefService.cs) : Permet de sauvegarder et de charger des données locales en utilisant PlayerPrefs de Unity. Utilisé pour sauvegarder les paramètres du jeu (audio mute notamment).
 
-- [SaveService](Assets/Scripts/DataServices/SaveService.cs) : Permet de sauvegarder des donnees plus complexes en utilisant la serialisation JSON. Utilise pour sauvegarder les statistiques du joueur (meilleur score, cristaux collectés, etc.).
+- [SaveService](Assets/Scripts/DataServices/SaveService.cs) : Permet de sauvegarder des données plus complexes en utilisant la sérialisation JSON. Utilisé pour sauvegarder les statistiques du joueur (meilleur score, cristaux collectés, etc.).
 
 
 
 ## Audio Manager
 
-La gestion de l'audio dans le jeu est realisee a l'aide de la classe [`AudioManager`](Assets/Scripts/SceneCore/AudioManager.cs). Cette classe est responsable de la lecture des effets sonores et de la musique de fond dans le jeu.
+La gestion de l'audio dans le jeu est réalisée à l'aide de la classe [`AudioManager`](Assets/Scripts/SceneCore/AudioManager.cs). Cette classe est responsable de la lecture des effets sonores et de la musique de fond dans le jeu.
 
 *eg*
 ```csharp 
@@ -261,15 +261,15 @@ L'AudioManager utilise un dictionnaire pour stocker les clips audio et permet de
 
 ## Tutorial
 
-Un [`TutorialManager`](Assets/Scripts/Tutorials/TutorialManager.cs) a ete implemente pour guider les nouveaux joueurs a travers les mecanismes de base du jeu. Il affiche des messages contextuels a l'ecran pour expliquer les controles et les objectifs du jeu.
+Un [`TutorialManager`](Assets/Scripts/Tutorials/TutorialManager.cs) a été implémenté pour guider les nouveaux joueurs à travers les mécanismes de base du jeu. Il affiche des messages contextuels à l'écran pour expliquer les contrôles et les objectifs du jeu.
 
 ## UI Toolkit
 
-Toutes les interfaces utilisateur du jeu sont construites en utilisant le systeme UI Toolkit de Unity.
+Toutes les interfaces utilisateur du jeu sont construites en utilisant le système UI Toolkit de Unity.
 
-Tous les `GameObject`s qui contiennent le composant [`UnityEngine.UIElementsModule.UIDocument`](https://docs.unity3d.com/2021.3/Documentation/ScriptReference/UIElements.UIDocument.html) herite de la classe [`UIController`](Assets/Scripts/UI/BaseClasses/UiController.cs) qui fournit des methodes de base pour gerer l'affichage et la mise a jour des elements UI. 
+Tous les `GameObject`s qui contiennent le composant [`UnityEngine.UIElementsModule.UIDocument`](https://docs.unity3d.com/2021.3/Documentation/ScriptReference/UIElements.UIDocument.html) hérite de la classe [`UIController`](Assets/Scripts/UI/BaseClasses/UiController.cs) qui fournit des méthodes de base pour gérer l'affichage et la mise à jour des éléments UI. 
 
-Toutes les fonctionnalites UI specifiques sont implementees dans des classes derivees de `UIController`, telles que :
+Toutes les fonctionnalités UI spécifiques sont implémentées dans des classes dérivées de `UIController`, telles que :
 
 - [`UiSplashScreen`](Assets/Scripts/UI/UiSplashScreen.cs)
 - [`UiPauseMenu`](Assets/Scripts/UI/UiPauseMenu.cs)
@@ -278,12 +278,12 @@ Toutes les fonctionnalites UI specifiques sont implementees dans des classes der
 - ...
 
 
-## Description des Unity tags utilises dans le jeu
+## Description des Unity tags utilisés dans le jeu
 
-- `World Segment` : Utilise pour identifier les segments de monde generes proceduralement.
-- `Composite Square Collider` : Utilise pour identifier les colliders composites utiliser par le systeme de fusion des colliders.
-- `Slot` : Identifie les emplacements disponible pour les obstacles lors de la generation du monde.
-- `Crystal` : Identifie les cristaux a collecter dans le jeu.
+- `World Segment` : Utilisé pour identifier les segments de monde générés procéduralement.
+- `Composite Square Collider` : Utilisé pour identifier les colliders composites utilisé par le système de fusion des colliders.
+- `Slot` : Identifie les emplacements disponible pour les obstacles lors de la génération du monde.
+- `Crystal` : Identifie les cristaux à collecter dans le jeu.
 
 
 # Documentation technique sur l'architecture du code
@@ -291,11 +291,11 @@ Toutes les fonctionnalites UI specifiques sont implementees dans des classes der
 
 ## Initialisation de la scene
 
-L'initialisation de la scene se fait grace aux scripts [`SceneLoader`](Assets/Scripts/SceneCore/SceneLoader.cs) et [`SceneInitializer`](Assets/Scripts/SceneCore/SceneInitializer.cs) attaché à un GameObject [Game Core](Assets/Prefabs/Game%20Core.prefab) present dans chaque scene du jeu.
+L'initialisation de la scène se fait grâce aux scripts [`SceneLoader`](Assets/Scripts/SceneCore/SceneLoader.cs) et [`SceneInitializer`](Assets/Scripts/SceneCore/SceneInitializer.cs) attaché à un GameObject [Game Core](Assets/Prefabs/Game%20Core.prefab) présent dans chaque scène du jeu.
 
-Le "SceneLoader" est responsable du chargement des scenes et de la gestion des transitions entre celle ci. Deux evenements sont declenchés par ce script : "OnSceneLoaded" et "OnSceneExit".
+Le "SceneLoader" est responsable du chargement des scènes et de la gestion des transitions entre celle ci. Deux événements sont déclenchés par ce script : "OnSceneLoaded" et "OnSceneExit".
 
-Le "SceneInitializer" ecoute l'evenement "OnSceneLoaded" et initialise les differents elements de la scene en fonction de celle ci.
+Le "SceneInitializer" écoute l'événement "OnSceneLoaded" et initialise les différents éléments de la scène en fonction de celle ci.
 
 ![Schema Scene Init](Documentation/schema-scene-init.png)
 
@@ -303,17 +303,17 @@ Le "SceneInitializer" ecoute l'evenement "OnSceneLoaded" et initialise les diffe
 
 ## Choix du moteur physique
 
-Le choix du moteur physique pour ce projet s'est porté sur l'utilisation du moteur physique 3D de Unity  notament pour permettre de gerer les sauts du personnage sur des plateformes 3D. Le gameplay se deroule sur les 3 axes (X, Y et Z) et le personnage peut sauter et atterrir sur des plateformes de differentes hauteurs.
+Le choix du moteur physique pour ce projet s'est porté sur l'utilisation du moteur physique 3D de Unity  notamment pour permettre de gérer les sauts du personnage sur des plateformes 3D. Le gameplay se déroule sur les 3 axes (X, Y et Z) et le personnage peut sauter et atterrir sur des plateformes de différentes hauteurs.
 
 ## Gestion des colliders
 
-Un systeme de gestion des colliders a ete mis en place pour resoudre un probleme de rebondissements sur les bords des colliders lorsque ceux ci sont disposes cote a cote. Par nature, les elemnent du monde sont une suite de segments de monde ([`WorldSegment`](Assets/Scripts/WorldGeneration/WorldSegment.cs)) qui sont assemblés les uns aux autres pour former le monde infini. Lorsque deux segments de monde sont assembles, leurs colliders respectifs sont egalement mis cote a cote et cela provoque des problemes de rebondissements pour le joueur lorsqu'il passe d'un segment a un autre. Le Rigidbody du joueur rebondit legerement lorsqu'il touche la jonction entre deux colliders, ce qui peut perturbe le gameplay.
+Un système de gestion des colliders a été mis en place pour résoudre un problème de rebondissements sur les bords des colliders lorsque ceux ci sont disposés côte à côte. Par nature, les éléments du monde sont une suite de segments de monde ([`WorldSegment`](Assets/Scripts/WorldGeneration/WorldSegment.cs)) qui sont assemblés les uns aux autres pour former le monde infini. Lorsque deux segments de monde sont assemblés, leurs colliders respectifs sont également mis côte à côte et cela provoque des problèmes de rebondissements pour le joueur lorsqu'il passe d'un segment à un autre. Le Rigidbody du joueur rebondit légèrement lorsqu'il touche la jonction entre deux colliders, ce qui peut perturber le gameplay.
 
-Pour resoudre ce probleme, un systeme de `Composite Square Colliders` a ete implemente. Ce systeme permet de combiner plusieurs colliders en un seul collider plus grand, eliminant ainsi les jonctions entre les colliders individuels et evitant les rebondissements indésirables.
+Pour résoudre ce problème, un système de `Composite Square Colliders` a été implémenté. Ce système permet de combiner plusieurs colliders en un seul collider plus grand, éliminant ainsi les jonctions entre les colliders individuels et évitant les rebondissements indésirables.
 
-La classe [`SquareCollidersMerger`](Assets/Scripts/Helpers/SquareCollidersMerger.cs) est responsable de la fusion des colliders carrés. Elle prend en entree une liste de colliders individuels et les combine en un seul collider composite. Ce collider composite est ensuite utilise pour gerer les collisions avec le joueur, assurant ainsi une experience de jeu fluide et sans rebondissements.
+La classe [`SquareCollidersMerger`](Assets/Scripts/Helpers/SquareCollidersMerger.cs) est responsable de la fusion des colliders carrés. Elle prend en entrée une liste de colliders individuels et les combine en un seul collider composite. Ce collider composite est ensuite utilisé pour gérer les collisions avec le joueur, assurant ainsi une expérience de jeu fluide et sans rebondissements.
 
-A noter que cette classe prend en charge uniquement les colliders de forme carrée, ce qui est suffisant pour les besoins de ce projet.
+À noter que cette classe prend en charge uniquement les colliders de forme carrée, ce qui est suffisant pour les besoins de ce projet.
 
 ### Sans la fusion des colliders
 ![colliders-management-2.png](Documentation/colliders-management-2.png)
@@ -325,27 +325,27 @@ A noter que cette classe prend en charge uniquement les colliders de forme carr�
 
 ## Generation du monde
 
-La generation du monde est realisee de maniere procedurale a l'aide de segments de monde reutilisables. Chaque segment de monde est un prefab qui contient des elements de decor, des obstacles et des objets a collecter.
+La génération du monde est réalisée de manière procédurale à l'aide de segments de monde réutilisables. Chaque segment de monde est un prefab qui contient des éléments de décor, des obstacles et des objets à collecter.
 
-Les prefabs sont stockes dans le dossier `Assets/Prefabs` et sont charges dynamiquement pendant l'execution du jeu.
+Les prefabs sont stockés dans le dossier `Assets/Prefabs` et sont chargés dynamiquement pendant l'exécution du jeu.
 
-La classe [`WorldGenerationManager`](Assets/Scripts/WorldGeneration/WorldGenerationManager.cs) est responsable de la generation du monde. Elle instancie les segments de monde a mesure que le joueur avance (`WorldGenerationManager::GenerationRoutine`). Elle supprime egalement les segments de monde qui sont hors de la vue du joueur, et qui ne sont plus necessaires, afin d'optimiser les performances du jeu (`WorldGenerationManager::ClearSegmentsBehindPlayer`). Si l'utilisateur percute un obstacle, il est envoyé a une position precedente grace au systeme de rewind (voir ci-dessous). Cette classe prend cela en compte dans sa logique de conservation des segments de monde.
+La classe [`WorldGenerationManager`](Assets/Scripts/WorldGeneration/WorldGenerationManager.cs) est responsable de la génération du monde. Elle instancie les segments de monde à mesure que le joueur avance (`WorldGenerationManager::GenerationRoutine`). Elle supprime également les segments de monde qui sont hors de la vue du joueur, et qui ne sont plus nécessaires, afin d'optimiser les performances du jeu (`WorldGenerationManager::ClearSegmentsBehindPlayer`). Si l'utilisateur percute un obstacle, il est envoyé à une position précédente grâce au système de rewind (voir ci-dessous). Cette classe prend cela en compte dans sa logique de conservation des segments de monde.
 
-Elle permet egalement de regenerer le monde lorsque le joueur a collecté suffisamment de cristaux pour atteindre un nouveau palier.
+Elle permet également de regénérer le monde lorsque le joueur a collecté suffisamment de cristaux pour atteindre un nouveau palier.
 
-Les donnees sur le Monde sont stockees dans des Scriptable Objects ([`SO_BiomeData`](Assets/Scripts/WorldGeneration/SO_BiomeData.cs)), les donnees sur les Segments sont stockes dans des classes [`WorldSegment`](Assets/Scripts/WorldGeneration/WorldSegment.cs) ce qui permet de faciliter la configuration et la modification des segments de monde sans avoir a modifier le code.
+Les données sur le Monde sont stockées dans des Scriptable Objects ([`SO_BiomeData`](Assets/Scripts/WorldGeneration/SO_BiomeData.cs)), les données sur les Segments sont stockées dans des classes [`WorldSegment`](Assets/Scripts/WorldGeneration/WorldSegment.cs) ce qui permet de faciliter la configuration et la modification des segments de monde sans avoir à modifier le code.
 
 
 
 ## Rewind system
 
-Lorsque le joueur percute un obstacle, il perd un point de vie et est renvoyé a une position precedente grace au systeme de rewind. Ce systeme permet de repositionner le joueur a un point de controle anterieur, lui permettant ainsi de continuer sa progression sans repartir du debut.
+Lorsque le joueur percute un obstacle, il perd un point de vie et est renvoyé à une position précédente grâce au système de rewind. Ce système permet de repositionner le joueur à un point de contrôle antérieur, lui permettant ainsi de continuer sa progression sans repartir du début.
 
-La classe [`PlayerHistory`](Assets/Scripts/Player/PlayerHistory.cs) est responsable du stockage et de la restauration de l'historique des positions du joueur. Elle enregistre periodiquement la position et la vitesse du joueur dans une liste de records (`PlayerHistoryRecord`). Lorsqu'un rewind est necessaire, elle restaure la derniere position en douceur en deplacant le joueur vers cette position en utilisant une interpolation.
+La classe [`PlayerHistory`](Assets/Scripts/Player/PlayerHistory.cs) est responsable du stockage et de la restauration de l'historique des positions du joueur. Elle enregistre périodiquement la position et la vitesse du joueur dans une liste de records (`PlayerHistoryRecord`). Lorsqu'un rewind est nécessaire, elle restaure la dernière position en douceur en déplaçant le joueur vers cette position en utilisant une interpolation.
 
-Les `PlayerHistoryRecord` (*Checkpoint*) sont enregistres seulement si le joueur a avance d'une certaine distance depuis le dernier enregistrement, afin d'optimiser l'utilisation de la memoire, mais aussi ils doivent etre des positions qui permettent au joueur de repartir sans risquer d'etre en collision avec un obstacle dans les prochaines frames. C'est le role de la methode `PlayerHistory::IsSafeZoneToRespawn`.
+Les `PlayerHistoryRecord` (*Checkpoint*) sont enregistrés seulement si le joueur a avancé d'une certaine distance depuis le dernier enregistrement, afin d'optimiser l'utilisation de la mémoire, mais aussi ils doivent être des positions qui permettent au joueur de repartir sans risquer d'être en collision avec un obstacle dans les prochaines frames. C'est le rôle de la méthode `PlayerHistory::IsSafeZoneToRespawn`.
 
-Cette methode va verifier que le joueur n'est pas entrain de sauter, de glisser ou de changer de voie mais aussi que la position actuelle du joueur est suffisamment eloignee des obstacles presents dans un espace defini autour de cette position. Si des obstacles sont detectes dans cet espace, la position n'est pas consideree comme une zone sure pour le respawn, et le record n'est pas enregistre. Elle verifie egalement que le sol continue sous les pieds du joueur pour eviter de respawner au bord d'un precipice.
+Cette méthode va vérifier que le joueur n'est pas entrain de sauter, de glisser ou de changer de voie mais aussi que la position actuelle du joueur est suffisamment éloignée des obstacles présents dans un espace défini autour de cette position. Si des obstacles sont detectes dans cet espace, la position n'est pas consideree comme une zone sure pour le respawn, et le record n'est pas enregistre. Elle verifie egalement que le sol continue sous les pieds du joueur pour eviter de respawner au bord d'un precipice.
 
 ### Les Rays envoyés pour detecter les obstacles autour de la position du joueur
 Ici la position semble sur pour un respawn car aucun obstacle n'est detecté dans la zone definie.
@@ -357,24 +357,24 @@ Ici la position semble sur pour un respawn car aucun obstacle n'est detecté dan
 
 ### Controller
 
-Le joueur est representé par la classe [`PlayerController`](Assets/Scripts/Player/PlayerController.cs) qui gere les differentes actions du joueur telles que le deplacement, le saut, la glissade et la collecte d'objets.
+Le joueur est représenté par la classe [`PlayerController`](Assets/Scripts/Player/PlayerController.cs) qui gère les différentes actions du joueur telles que le déplacement, le saut, la glissade et la collecte d'objets.
 
-Ce controlleur utilise un systeme d'etats ([**State Machine**](Assets/Scripts/StatesMachine/StateMachine.cs)) pour gerer les differentes actions du joueur. Chaque etat est represente par une classe derivee de la classe abstraite [`PlayerState`](Assets/Scripts/Player/States/PlayerState.cs). Les etats actuels sont :
+Ce contrôleur utilise un système d’états ([**State Machine**](Assets/Scripts/StatesMachine/StateMachine.cs)) pour gérer les différentes actions du joueur. Chaque état est représenté par une classe dérivée de la classe abstraite [`PlayerState`](Assets/Scripts/Player/States/PlayerState.cs). Les états actuels sont :
 
-- [`MoveState`](Assets/Scripts/Player/States/MoveState.cs) : Gere le deplacement lateral du joueur.
-- [`CrashState`](Assets/Scripts/Player/States/CrashState.cs) : Gere l'etat de collision du joueur avec un obstacle.
-- [`JumpState`](Assets/Scripts/Player/States/JumpState.cs) : Gere le saut du joueur.
-- [`SlideState`](Assets/Scripts/Player/States/SlideState.cs) : Gere la glissade du joueur.
-- [`IdleState`](Assets/Scripts/Player/States/IdleState.cs) : Gere l'etat d'attente du joueur.
-- [`LandState`](Assets/Scripts/Player/States/LandState.cs) : Gere l'atterrissage du joueur apres un saut.
-- [`RewindState`](Assets/Scripts/Player/States/RewindState.cs) : Gere le rewind du joueur apres une collision.
+- [`MoveState`](Assets/Scripts/Player/States/MoveState.cs) : Gère le déplacement latéral du joueur.
+- [`CrashState`](Assets/Scripts/Player/States/CrashState.cs) : Gère l’état de collision du joueur avec un obstacle.
+- [`JumpState`](Assets/Scripts/Player/States/JumpState.cs) : Gère le saut du joueur.
+- [`SlideState`](Assets/Scripts/Player/States/SlideState.cs) : Gère la glissade du joueur.
+- [`IdleState`](Assets/Scripts/Player/States/IdleState.cs) : Gère l’état d'attente du joueur.
+- [`LandState`](Assets/Scripts/Player/States/LandState.cs) : Gère l'atterrissage du joueur après un saut.
+- [`RewindState`](Assets/Scripts/Player/States/RewindState.cs) : Gère le rewind du joueur après une collision.
 
 
 ### Collision Handler
 
-La classe [`PlayerCollisionHandling`](Assets/Scripts/Player/PlayerCollisionHandling.cs) est responsable de la gestion des collisions du joueur avec les obstacles et les objets a collecter. Elle detecte les collisions et declenche les actions appropriees en fonction du type d'objet touche.
+La classe [`PlayerCollisionHandling`](Assets/Scripts/Player/PlayerCollisionHandling.cs) est responsable de la gestion des collisions du joueur avec les obstacles et les objets à collecter. Elle détecte les collisions et déclenche les actions appropriées en fonction du type d'objet touché.
 
-A noter que le Player comporte 4 differents colliders pour detecter les collisions sur differentes parties du corps du joueur (corps, cote gauche, cote droit, avant). 
+À noter que le Player comporte 4 différents colliders pour détecter les collisions sur différentes parties du corps du joueur (corps, côté gauche, côté droit, avant). 
 
 *[Assets/Scripts/Player/PlayerCollider.cs](Assets/Scripts/Player/PlayerCollider.cs)*
 ```csharp 
@@ -386,4 +386,4 @@ public enum ColliderPosition
     Front,
 }
 ```
-Cela permet de differencier la collision du corps principal du joueur (Body) et les collisions sur les cotes (Left, Right) ou l'avant (Front) du joueur. Une collision avec un obstacle detectee par le collider avant (Front)  declenche le crash du joueur, tandis qu'une collision detectee par les collider Body peut vouloir simplement dire que le joueur a heurté le collider du sol lorsqu'il a atterri apres un saut.
+Cela permet de différencier la collision du corps principal du joueur (Body) et les collisions sur les côtés (Left, Right) ou l'avant (Front) du joueur. Une collision avec un obstacle détectée par le collider avant (Front)  déclenche le crash du joueur, tandis qu'une collision détectée par les collider Body peut vouloir simplement dire que le joueur a heurté le collider du sol lorsqu'il a atterri après un saut.
