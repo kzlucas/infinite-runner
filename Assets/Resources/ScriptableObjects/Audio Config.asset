@@ -18,7 +18,7 @@ MonoBehaviour:
   - sceneName: Game
     musicClip: {fileID: 8300000, guid: 2475b49e149f5d22294e5f1e18752f18, type: 3}
   _sfxSoundsPairs:
-  - sceneName: coin
+  - sceneName: crystal
     musicClip: {fileID: 8300000, guid: f6bc8e2008f73c8eea80938e8295fd39, type: 3}
   - sceneName: jump
     musicClip: {fileID: 8300000, guid: f87f293181483afb3991f4d15a230da8, type: 3}

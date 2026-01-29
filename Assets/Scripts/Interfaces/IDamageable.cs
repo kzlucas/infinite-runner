@@ -1,7 +1,3 @@
-
-using System;
-using System.Threading.Tasks;
-
 public interface IDamageable
 {
     int currentHealth { get; set; }

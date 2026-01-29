@@ -63,7 +63,7 @@ namespace Player
                 case ColliderType.Type.Collectible:
                     if (position == ColliderPosition.Body)
                     {
-                        other.GetComponent<Animator>()?.SetTrigger("OnCollide");
+                        other.GetComponent<Collectible>().OnCollide();
                     }
                     break;
 

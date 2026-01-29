@@ -3,8 +3,10 @@ using UnityEngine;
 
 
 
-public class Crystal : MonoBehaviour
+public class CollectibleCrystal : Collectible
 {
+   
+
     private void Start()
     {
         
