@@ -21,9 +21,6 @@ public class TimeScaleManager : Singleton<TimeScaleManager>
     /// <summary> Scaled time elapsed since the start of the game. </summary>
     private float _timeElapsedSinceStart = 0f;
 
-    /// <summary> Scaled time elapsed since the last time slowdown. </summary>
-    private float _slowDownStartTime = 0f;
-
 
     /// <summary>
     ///     On scene loaded, reset the time elapsed counter.

@@ -54,6 +54,7 @@ namespace Player
                     break;
 
                 case ColliderType.Type.Platform:
+                case ColliderType.Type.MovingPlatform:
                     if (position != ColliderPosition.Body)
                     {
                         player.health.TakeDamage(1);
@@ -63,6 +64,7 @@ namespace Player
                 case ColliderType.Type.Collectible:
                     if (position == ColliderPosition.Body)
                     {
+                        Debug.Log("[PlayerCollisionHandling] Collectible collided: " + other.name);
                         other.GetComponent<Collectible>().TriggerCollision();
                     }
                     break;
@@ -108,7 +110,11 @@ namespace Player
             if (raycastHit)
             {
                 var colliderType = hit.collider.GetComponent<ColliderType>();
-                if (colliderType != null && colliderType.colliderType == ColliderType.Type.Platform)
+                if (colliderType != null 
+                && (
+                    colliderType.colliderType == ColliderType.Type.Platform
+                    || colliderType.colliderType == ColliderType.Type.MovingPlatform
+                ))
                 {
                     isCurrentlyGrounded = hit.distance <= .2f;
                 }

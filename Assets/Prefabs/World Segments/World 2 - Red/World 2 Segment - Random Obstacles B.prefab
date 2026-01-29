@@ -5088,7 +5088,7 @@ Transform:
   m_GameObject: {fileID: 3204840386868555633}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 21.659998}
+  m_LocalPosition: {x: 0, y: 0.15, z: 26.53}
   m_LocalScale: {x: 2.5, y: 0.625, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -6392,7 +6392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbab78c4b7ea22b85a18f85d31d68c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderType
-  colliderType: 0
+  colliderType: 1
   soundToPlayOnCollision: 
 --- !u!1 &3787211694853444245
 GameObject:
@@ -11415,7 +11415,7 @@ Transform:
   m_GameObject: {fileID: 5282403193269194951}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -4.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11504,7 +11504,7 @@ Transform:
   m_GameObject: {fileID: 5618385758584017198}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 6.4299984}
+  m_LocalPosition: {x: 0, y: 0.15, z: 13.85}
   m_LocalScale: {x: 2.5, y: 0.625, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -12808,7 +12808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbab78c4b7ea22b85a18f85d31d68c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderType
-  colliderType: 0
+  colliderType: 1
   soundToPlayOnCollision: 
 --- !u!1 &5698138961881057245
 GameObject:
@@ -12841,7 +12841,7 @@ Transform:
   m_GameObject: {fileID: 5698138961881057245}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 37.7}
+  m_LocalPosition: {x: 0, y: 0.15, z: 39.49}
   m_LocalScale: {x: 2.5, y: 0.625, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -14145,7 +14145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbab78c4b7ea22b85a18f85d31d68c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderType
-  colliderType: 0
+  colliderType: 1
   soundToPlayOnCollision: 
 --- !u!1 &5740427710291029939
 GameObject:
@@ -14422,8 +14422,8 @@ Transform:
   m_GameObject: {fileID: 7391839651088283811}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.67, z: 16.999998}
-  m_LocalScale: {x: 10, y: 1, z: 20}
+  m_LocalPosition: {x: 0, y: 0.67, z: 18.76}
+  m_LocalScale: {x: 10, y: 1, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8577933693107429078}
@@ -14684,7 +14684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbab78c4b7ea22b85a18f85d31d68c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderType
-  colliderType: 1
+  colliderType: 2
   soundToPlayOnCollision: 
 --- !u!1 &8948569313011550320
 GameObject:
@@ -24993,15 +24993,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3766592420759533768, guid: 35f1fc438a88dd5698473be786261dff, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3766592420759533768, guid: 35f1fc438a88dd5698473be786261dff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3766592420759533768, guid: 35f1fc438a88dd5698473be786261dff, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 55
+      value: 54
       objectReference: {fileID: 0}
     - target: {fileID: 3766592420759533768, guid: 35f1fc438a88dd5698473be786261dff, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25620,15 +25620,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5609556817619568118, guid: 395e0959d183aac9b8af80ec50f2b193, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5609556817619568118, guid: 395e0959d183aac9b8af80ec50f2b193, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5609556817619568118, guid: 395e0959d183aac9b8af80ec50f2b193, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 55
+      value: 54
       objectReference: {fileID: 0}
     - target: {fileID: 5609556817619568118, guid: 395e0959d183aac9b8af80ec50f2b193, type: 3}
       propertyPath: m_LocalRotation.w

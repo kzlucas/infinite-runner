@@ -5,6 +5,7 @@ public class ColliderType : MonoBehaviour
     public enum Type
     {
         Platform,
+        MovingPlatform,
         DeathZone,
         Collectible,
         ZoneChange,

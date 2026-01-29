@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbab78c4b7ea22b85a18f85d31d68c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColliderType
-  colliderType: 2
+  colliderType: 3
   soundToPlayOnCollision: 
 --- !u!114 &6846851630883689073
 MonoBehaviour:
