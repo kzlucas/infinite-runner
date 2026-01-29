@@ -105,12 +105,12 @@ Le protoype a ete envoyes au groupe de travail sur Discord pour demander des ret
 
 #### Description de la procedure de test manuelle utilisee :
 
-- Demarrer le jeu
-- Verifier l'affichage du menu principal
-- Cliquer sur Start
-- Verifier le chargement de la scene de jeu
-- Verifier le systeme de generation procedurale du monde
-- Jouer au jeu
+1. Demarrer le jeu
+2. Verifier l'affichage du menu principal
+3. Cliquer sur Start
+4. Verifier le chargement de la scene de jeu
+5. Verifier le systeme de generation procedurale du monde
+6. Jouer au jeu
   - Verifier le deplacement du personnage
   - Verifier le saut et la glissade
   - Verifier la collecte des cristaux
@@ -118,25 +118,50 @@ Le protoype a ete envoyes au groupe de travail sur Discord pour demander des ret
   - Verifier la perte de points de vie
   - Verifier le systeme de rewind
   - Verifier l'affichage du score et des cristaux collectes
-- Perdre la partie
+7. Perdre la partie
   - Verifier l'affichage de l'ecran de fin de partie
   - Verifier le calcul du score final
-- Redemarrer une nouvelle partie
+8. Redemarrer une nouvelle partie
   - Verifier le rechargement de la scene de jeu
-  - Recommencer les tests de jeu
-- Verifier les parametres audio
+  - Recommencer les tests de jeu (1 a 6)
+9. Verifier les parametres audio
   - Muter et demuter le son
   - Verifier le volume sonore
-- Verifier la mise en pause du jeu
+10. Verifier la mise en pause du jeu
   - Verifier l'ouverture/fermeture du menu pause en appuyant sur Echap
   - Verifier l'ouverture/fermeture du menu pause en appuyant sur le bouton Pause
   - Reprendre le jeu
   - Verifier la reprise du jeu
+11. Arreter le jeu
+15. Verifier si le fichier local de sauvegarde a bien ete ecrit
+12. Demarrer le jeu
+15. Verifier la persistance des statistiques du joueur (meilleur score, cristaux collectes) apres redemarrage du jeu
+13. Verifier la persistance des parametres audio dans le menu
+14. Arreter le jeu
+15. Verifier les erreur et warnings dans la console de l'editeur Unity et corriger si necessaire
 
 
+#### Description de la procedure de test tu Tutorial utilisee :
 
+1. Supprimer les PlayerPrefs dans l'editeur Unity
+2. Supprimer le fichier de sauvegarde local (savefile.json) s'il existe (methode Editor `SaveService::DeleteSave`)
+3. Demarrer le jeu
+4. Verifier l'affichage du menu principal
+5. Cliquer sur Start
+6. Verifier le chargement de la scene de jeu
+7. Jouer et verifier la completion du tutorial pas a pas :
+  - Verifier l'affichage du message "Comment se Deplacer horizontalement"
+  - Verifier l'affichage du message "Comment Sautez"
+  - Verifier l'affichage du message "Comment Glissez"
+  - Verifier l'affichage du message "Collectez des Cristaux"
+  - Verifier l'affichage du message "Tutoriel complete"
+8. Arreter le jeu
+9. Demarrer le jeu
+10. Verifier que le tutorial ne se lance pas a nouveau
 
+#### Procedure de test des mondes
 
+A noter que pour chaque nouveau segment de monde ajoutes au cours du developpement, une procedure de test manuelle a ete realisee pour verifier que le segment s'integre correctement dans le systeme de generation procedurale du monde mais aussi qu'il ne provoque pas de problemes de collisions ou de rebondissements indésirables, que le joueur peut bien le franchir, que les obstacles sont bien placés, etc.
 
 ## Suivi des features
 
