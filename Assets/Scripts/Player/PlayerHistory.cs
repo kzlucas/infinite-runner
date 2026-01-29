@@ -34,6 +34,7 @@ namespace Player
         public bool HasObstacleInFront = false;
         public bool HasGroundInFront = true;
         private float lastRecordTime;
+        private Vector3 lastRecordPosition;
 
 
         private bool IsSafeZoneToRespawn
@@ -50,14 +51,17 @@ namespace Player
                 // - no obstacle in front of the player
                 // - there is ground in front of the player
                 // - at least 1 second since last record
+                // - player is far from last record at least 10 units
 
-                return( player.isGrounded 
+                return( 
+                    player.isGrounded 
                     && !player.isSliding 
                     && !player.isChangingLane 
-                    && !_disableRecord
                     && !HasObstacleInFront
                     && HasGroundInFront
-                    && Time.time - lastRecordTime >= 1f 
+                    && !_disableRecord
+                    && Time.time - lastRecordTime > 1f 
+                    && Vector3.Distance(lastRecordPosition, player.transform.position) > 10f
                 )
             ;
             }
@@ -75,6 +79,7 @@ namespace Player
             if(IsSafeZoneToRespawn)
             {
                 lastRecordTime = Time.time;
+                lastRecordPosition = transform.position;
                 Record();
             }
         }
@@ -121,8 +126,11 @@ namespace Player
 
             // ~make sure we dont load the current position as sometime 
             // the Record is taken from the current frame
-            records = records.FindAll(r => Vector3.Distance(r.position, player.transform.position) > 0.1f); 
+            records = records.FindAll(r => Vector3.Distance(r.position, player.transform.position) > 1f);
             var record = records.LastOrDefault();
+            
+            // remove used record, this prevent respawn loop if player die again right after respawn
+            if(records.Count > 1) records.Remove(record); 
 
             // Restore player position and velocity 
             // and stop all particle effects
