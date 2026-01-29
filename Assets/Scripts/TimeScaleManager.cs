@@ -1,5 +1,4 @@
 
-using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class TimeScaleManager : Singleton<TimeScaleManager>

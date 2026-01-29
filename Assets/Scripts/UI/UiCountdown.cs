@@ -21,6 +21,9 @@ public class UiCountdown : MonoBehaviour
         animationFinished = false;
         canvas.enabled = true;
         animator.SetTrigger("Run");
+
+        var player = FindFirstObjectByType<Player.Controller>();
+        player.animator.speed = 0f;
     }
 
 
@@ -29,5 +32,8 @@ public class UiCountdown : MonoBehaviour
         Debug.Log("[UiCountdown] Countdown finished");
         animationFinished = true;
         canvas.enabled = false;
+
+        var player = FindFirstObjectByType<Player.Controller>();
+        player.animator.speed = 1f;
     }
 }

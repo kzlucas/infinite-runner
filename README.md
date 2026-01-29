@@ -1,4 +1,10 @@
 
+# Pour jouer au jeu
+
+
+Le jeu est disponible en ligne ici (Build WebGL et Linux):
+[Itch.io - ChromAdventure](https://kzlucas.itch.io/chromadventure)
+
 
 # Avant-propos
 
@@ -26,10 +32,16 @@ Les personnes ayant participé à la création de ce GDD sont :
 
 Les comptes rendus des réunions de creation du GDD sont disponibles ici [ChromAdventure_Game-Design-Document_Comptes-rendu-reu.pdf](Documentation/ChromAdventure_Game-Design-Document_Comptes-rendu-reu.pdf).
 
+L'enseignant encadrant le projet est :
+
+- Yona Rutkowski ([@Skuuulzy](https://github.com/Skuuulzy))
+
+Le projet ayant ete developpe par l'enseignant durant les cours est disponible ici : [InfiniteRunnerMontreal
+](https://github.com/Skuuulzy/InfiniteRunnerMontreal) 
+
 Le developpement de ce protoype du jeu a demarre mi decembre 2025 et s'acheve debut fevrier 2026.Il est realise par la personne suivante :
 
 - Lucas Tesseron ([@kzlucas](https://github.com/kzlucas))
-
 
 Les assets du projets notament graphiques et sonores proviennent de ressources libres de droits :
 
@@ -47,14 +59,18 @@ Les assets du projets notament graphiques et sonores proviennent de ressources l
     - [Thump - Macif](https://pixabay.com/sound-effects/household-thump-105302/)
     - [HealPop - shyguy014](https://pixabay.com/sound-effects/film-special-effects-healpop-46004/)
 
-- Model 3D du personnage
-    - [licence CC0 1.0 Universal (CC0 1.0) Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/)
-    - [Kenney - Animated Characters 2](https://kenney.nl/assets/animated-characters-2)
+- Models 3D
+    - [Kenney - Animated Characters 2](https://kenney.nl/assets/animated-characters-2) - [licence CC0 1.0 Universal (CC0 1.0) Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/)
+    - [Transparent Glass Hourglass - Ayd3n91](https://sketchfab.com/3d-models/transparent-glass-hourglass-4249e12fc0904c28886ea688daced98c) - [licence CC AttributionCreative Commons Attribution](https://creativecommons.org/licenses/by/4.0/)
+    - [Low Poly Spinning Heart! - mano1creative](https://sketchfab.com/3d-models/low-poly-spinning-heart-17cf0dbe4435434eb6e04394fd5bf7ae) - [licence CC AttributionCreative Commons Attribution](https://creativecommons.org/licenses/by/4.0/)
+    
 
-- Splash screen du jeu
 
-    - Genere par DALL·E 3 (https://chat.openai.com/)
-    - [Usage commercial et non-commercial autorisé](https://openai.com/policies/terms-of-use/)
+
+- Splash screen du jeu et elements HUD
+
+    - Genere par DALL·E 3 (https://chat.openai.com/) - [Usage commercial et non-commercial autorisé](https://openai.com/policies/terms-of-use/)
+    
 
 
 

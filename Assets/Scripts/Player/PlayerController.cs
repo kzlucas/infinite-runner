@@ -15,9 +15,11 @@ namespace Player
         #region Fields
 
 
+        [Header("References")]
         public readonly AdvancedStateMachine sm = new();
         public Health health;
         public PlayerHistory history;
+        public Animator animator;
 
 
         [Header("Collider")]
