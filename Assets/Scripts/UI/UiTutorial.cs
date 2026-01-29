@@ -14,13 +14,13 @@ public class UiTutorial : UiPopin
 
     public override void OnOpen()
     {
-        GameManager.Instance.PauseGame();
+        TimeScaleManager.Instance.PauseGame();
         UiManager.Instance.pauseMenu.isLocked = true;
     }
 
     public override void OnClose()
     {
-        GameManager.Instance.ResumeGame();
+        TimeScaleManager.Instance.ResumeGame();
         UiManager.Instance.pauseMenu.isLocked = false;
     }
 

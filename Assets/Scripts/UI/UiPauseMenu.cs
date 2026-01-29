@@ -24,12 +24,12 @@ public class UiPauseMenu : UiPopin
 
     public override void OnOpen()
     {
-        GameManager.Instance.PauseGame();
+        TimeScaleManager.Instance.PauseGame();
     }
 
     public override void OnClose()
     {
-        GameManager.Instance.ResumeGame();
+        TimeScaleManager.Instance.ResumeGame();
     }
 
 }

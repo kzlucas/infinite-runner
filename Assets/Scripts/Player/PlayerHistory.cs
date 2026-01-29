@@ -114,7 +114,7 @@ namespace Player
             _disableRecord = true;
             var player = GetComponent<Controller>();
             player.controlReleased = true;
-            GameManager.Instance.PauseGame();
+            TimeScaleManager.Instance.PauseGame();
             yield return new WaitForSecondsRealtime(0.2f);
 
             // ~make sure we dont load the current position as sometime 
@@ -141,7 +141,7 @@ namespace Player
             UiManager.Instance.countdown.Run();
             yield return new WaitUntil(() => UiManager.Instance.countdown.animationFinished == true);
 
-            GameManager.Instance.ResumeGame();
+            TimeScaleManager.Instance.ResumeGame();
             player.controlReleased = false;
             _disableRecord = false;
             yield return null;

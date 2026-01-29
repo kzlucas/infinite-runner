@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5239146189298920655}
   - component: {fileID: 1528715817263589116}
   - component: {fileID: 5993463896143259542}
+  - component: {fileID: 76958870936460503}
   m_Layer: 0
   m_Name: Game Core
   m_TagString: Untagged
@@ -105,8 +106,8 @@ MonoBehaviour:
   worldGenerationManager: {fileID: 0}
   items:
   - {fileID: 11400000, guid: 036e10766ee456551b15846cf5a79b73, type: 2}
-  - {fileID: 11400000, guid: fdc6ee33fb84882919ebce57eec2981e, type: 2}
   - {fileID: 11400000, guid: 3ae65fefb752a7456a69b81b954ad109, type: 2}
+  - {fileID: 11400000, guid: fdc6ee33fb84882919ebce57eec2981e, type: 2}
   - {fileID: 11400000, guid: 78afe4175697c599aa5492bd3fa7ed8c, type: 2}
   current: {fileID: 11400000, guid: 036e10766ee456551b15846cf5a79b73, type: 2}
 --- !u!114 &5993463896143259542
@@ -121,3 +122,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2e41794ebcb7a4f9aab98d4a00fab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndGameManager
+--- !u!114 &76958870936460503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9050897395116239076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc73b65303cedc384b2583bc10922795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimeScaleManager
+  _currentTimeScale: 1

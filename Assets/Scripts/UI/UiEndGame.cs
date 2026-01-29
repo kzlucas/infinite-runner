@@ -26,7 +26,7 @@ public class UiEndGame : UiPopin
 
     public override void OnOpen()
     {
-        GameManager.Instance.PauseGame();
+        TimeScaleManager.Instance.PauseGame();
 
         label_crystalsCollectedCount.text = StatsRecorder.Instance.currentRunCoinsCollected.ToString();
         label_lastBiomeReached.text = StatsRecorder.Instance.lastBiomeReached;
