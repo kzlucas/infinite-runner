@@ -19,7 +19,7 @@ public class StatsRecorder : Singleton<StatsRecorder>
 
     private void OnGameEnd()
     {
-        SaveService.Save(saveData);      
+        SaveService.Save(saveData);
     }
 
     private void GetSaveData()
@@ -47,9 +47,19 @@ public class StatsRecorder : Singleton<StatsRecorder>
         saveData.MaxDistanceReached = Mathf.Max(saveData.MaxDistanceReached, distance);
     }
 
+    public int GetMaxDistanceReached()
+    {
+        return saveData.MaxDistanceReached;
+    }
+
     public void SetMaxCoinsCollected(int crystalsCollected)
     {
         currentRunCoinsCollected = crystalsCollected;
         saveData.MaxCrystalsCollectedInRun = Mathf.Max(saveData.MaxCrystalsCollectedInRun, crystalsCollected);
+    }
+
+    public int GetMaxCoinsCollected()
+    {
+        return saveData.MaxCrystalsCollectedInRun;
     }
 }

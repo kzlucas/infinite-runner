@@ -10,6 +10,10 @@ public class UiEndGame : UiPopin
     [HideInInspector] public Label label_crystalsCollectedCount;
     [HideInInspector] public Label label_lastBiomeReached;
 
+    [HideInInspector] public Label label_bestDistanceReached;
+    [HideInInspector] public Label label_bestCrystalsCollectedCount;
+    [HideInInspector] public Label label_bestLastBiomeReached;
+
     private void Start()
     {
         SceneLoader.Instance.OnSceneLoaded += () => StartCoroutine(_OnSceneLoaded());
@@ -19,9 +23,13 @@ public class UiEndGame : UiPopin
     {
         yield return new WaitUntil(() => docReady);
 
-        label_crystalsCollectedCount = root.Q<Label>("label--paint-collected-count");
+        label_crystalsCollectedCount = root.Q<Label>("label--crystals-collected-count");
         label_lastBiomeReached = root.Q<Label>("label--last-biome-reached");
         label_distanceReached = root.Q<Label>("label--distance-reached");
+
+        label_bestCrystalsCollectedCount = root.Q<Label>("label--best--crystals-collected-count");
+        label_bestLastBiomeReached = root.Q<Label>("label--best--last-biome-reached");
+        label_bestDistanceReached = root.Q<Label>("label--best--distance-reached");
     }
 
     public override void OnOpen()
@@ -31,6 +39,9 @@ public class UiEndGame : UiPopin
         label_crystalsCollectedCount.text = StatsRecorder.Instance.currentRunCoinsCollected.ToString();
         label_lastBiomeReached.text = StatsRecorder.Instance.lastBiomeReached;
         label_distanceReached.text = StatsRecorder.Instance.currentRunDistanceReached.ToString();
+
+        label_bestCrystalsCollectedCount.text = StatsRecorder.Instance.GetMaxCoinsCollected().ToString();
+        label_bestDistanceReached.text = StatsRecorder.Instance.GetMaxDistanceReached().ToString();
     }
 
 }

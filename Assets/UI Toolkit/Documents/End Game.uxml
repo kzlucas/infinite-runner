@@ -3,16 +3,30 @@
     <ui:VisualElement name="popin" class="popin" style="flex-grow: 1;">
         <ui:VisualElement name="popin-inner" class="popin-inner" style="flex-grow: 0; justify-content: space-between;">
             <ui:Label text="Game Over" style="-unity-text-align: upper-center; font-size: 60px;" />
-            <ui:VisualElement name="run-infos" style="flex-grow: 1; flex-direction: row; justify-content: space-between; margin-top: 40px; margin-bottom: 40px;">
+            <ui:Label text="Current Run:" style="-unity-text-align: upper-left; font-size: 38px; margin-top: 20px;" />
+            <ui:VisualElement name="run-infos" style="flex-grow: 1; flex-direction: row; justify-content: space-between; margin-top: 0; margin-bottom: 40px;">
                 <ui:VisualElement name="left" style="flex-grow: 1; align-items: flex-start;">
-                    <ui:Label text="Collected  Count" name="label--heading--paint-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />
-                    <ui:Label text="End World" name="label--heading--last-biome-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="Crystals collected" name="label--heading--crystals-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />
                     <ui:Label text="Distance reached" name="label--heading--distance-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="End World" name="label--heading--last-biome-reached" style="-unity-text-align: upper-center; font-size: 32px; display: none;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="right" style="flex-grow: 1; align-items: flex-end;">
-                    <ui:Label text="0" name="label--paint-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />
-                    <ui:Label text="0" name="label--last-biome-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="0" name="label--crystals-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />
                     <ui:Label text="0" name="label--distance-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="0" name="label--last-biome-reached" style="-unity-text-align: upper-center; font-size: 32px; display: none;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Label text="Personal best:" style="-unity-text-align: upper-left; font-size: 38px;" />
+            <ui:VisualElement name="run-infos" style="flex-grow: 1; flex-direction: row; justify-content: space-between; margin-top: 0; margin-bottom: 40px;">
+                <ui:VisualElement name="left" style="flex-grow: 1; align-items: flex-start;">
+                    <ui:Label text="Crystals collected" name="label--best--heading--crystals-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="Distance reached" name="label--best--heading--distance-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="End World" name="label--best--heading--last-biome-reached" style="-unity-text-align: upper-center; font-size: 32px; display: none;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="right" style="flex-grow: 1; align-items: flex-end;">
+                    <ui:Label text="0" name="label--best--crystals-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="0" name="label--best--distance-reached" style="-unity-text-align: upper-center; font-size: 32px;" />
+                    <ui:Label text="0" name="label--best--last-biome-reached" style="-unity-text-align: upper-center; font-size: 32px; display: none;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="buttons" style="flex-grow: 0; justify-content: flex-end;">
