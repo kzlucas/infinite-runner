@@ -5,7 +5,7 @@
 Ce repo contient le code source et les ressources du projet Unity du jeu **ChromAdventure**.
 Il s'agit d'un jeu d'aventure en 3D de type *Infinite Runner* cree dans le cadre du cours de Programmation de Jeux Vidéo dispensé par Gaming Campus.
 
-Le jeu met en scène un personnage principal qui court à travers des environnements colorés et variés, collectant des objets et évitant des obstacles pour atteindre le score le plus élevé possible.
+Le jeu met en scène un personnage qui court à travers des environnements colorés et variés, collectant des objets et évitant des obstacles pour atteindre le score le plus élevé possible.
 
 Le cahier des charges du projet est disponible ici : [GamingCampus-CDC-dev-jv.pdf](Documentation/GamingCampus-CDC-dev-jv.pdf).
 
@@ -93,14 +93,49 @@ Le projet a ete realise avec le moteur de jeu **Unity (version 6000.2.8f1)** et 
 Les tests unitaires et les tests d'integration n'ont pas ete mis en place dans ce projet en raison de contraintes de temps et de ressources. Cependant, des tests manuels ont ete effectues pour verifier le bon fonctionnement des principales fonctionnalites du jeu.
 
 Tout au long du developpement:
-- en utilisant la console de l'editeur Unitym avec [`de nombreux Debug`](https://github.com/search?q=repo%3Akzlucas%2Finfinite-runner%20Debug&type=code) : `Debug.Log`, `Debug.DrawRay`, `Debug.Break`, `OnDrawGizmos`...
+- en utilisant la console de l'editeur Unity avec [`de nombreux Debug`](https://github.com/search?q=repo%3Akzlucas%2Finfinite-runner%20Debug&type=code) : `Debug.Log`, `Debug.DrawRay`, `Debug.Break`, `OnDrawGizmos`...
 - en utilsant l'editeur Unity pour simuler differentes situations de jeu et verifier les comportements attendus.
 - en jouant au jeu regulierement pour identifier et corriger les bugs et les problemes de gameplay.
 - en faisant des builds du jeu pour tester les performances et la compatibilite sur differentes plateformes (Linux et WebGL).
 
 ![debug-1.png](Documentation/debug-1.png)
 
-Le protoype a ete envoyes au groupe de travail sur Discord pour demander des retours et identifier d'eventuels bugs ou problemes de gameplay.
+Le protoype a ete envoyes au groupe de travail sur Discord pour demander des retours et identifier d'eventuels bugs ou problemes de gameplay. Quelques bugs ont ete remontes et corriges avant la version finale du protoype.
+
+
+#### Description de la procedure de test manuelle utilisee :
+
+- Demarrer le jeu
+- Verifier l'affichage du menu principal
+- Cliquer sur Start
+- Verifier le chargement de la scene de jeu
+- Verifier le systeme de generation procedurale du monde
+- Jouer au jeu
+  - Verifier le deplacement du personnage
+  - Verifier le saut et la glissade
+  - Verifier la collecte des cristaux
+  - Verifier les collisions avec les obstacles
+  - Verifier la perte de points de vie
+  - Verifier le systeme de rewind
+  - Verifier l'affichage du score et des cristaux collectes
+- Perdre la partie
+  - Verifier l'affichage de l'ecran de fin de partie
+  - Verifier le calcul du score final
+- Redemarrer une nouvelle partie
+  - Verifier le rechargement de la scene de jeu
+  - Recommencer les tests de jeu
+- Verifier les parametres audio
+  - Muter et demuter le son
+  - Verifier le volume sonore
+- Verifier la mise en pause du jeu
+  - Verifier l'ouverture/fermeture du menu pause en appuyant sur Echap
+  - Verifier l'ouverture/fermeture du menu pause en appuyant sur le bouton Pause
+  - Reprendre le jeu
+  - Verifier la reprise du jeu
+
+
+
+
 
 
 ## Suivi des features

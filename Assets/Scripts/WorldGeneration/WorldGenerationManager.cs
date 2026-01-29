@@ -22,7 +22,7 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
     {
         get
         {
-            if (_playerTransform == null) _playerTransform = GameObject.FindWithTag("Player").transform;
+            if (_playerTransform == null) _playerTransform = GameObject.FindWithTag("Player")?.transform;
             return _playerTransform;
         }
     }
@@ -166,6 +166,8 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
     /// </summary>
     private IEnumerator GenerationRoutine()
     {
+        if(playerTransform == null) yield break; 
+        
         // Generate new segments if needed
         int cursor = (int)playerTransform.position.z;
         int maxZ = cursor + frontGenerationWindowSize;
