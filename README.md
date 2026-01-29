@@ -2,11 +2,11 @@
 # Pour jouer au jeu
 
 
-Le jeu est disponible en ligne ici (Build WebGL et Linux):
+Le jeu est disponible en ligne ici (Build WebGL et Linux) :
 [Itch.io - ChromAdventure](https://kzlucas.itch.io/chromadventure)
 
 
-# Avant-propos
+# Introduction
 
 Ce repo contient le code source et les ressources du projet Unity du jeu **ChromAdventure**.
 Il s'agit d'un jeu d'aventure en 3D de type *Infinite Runner* cree dans le cadre du cours de Programmation de Jeux Vidéo dispensé par Gaming Campus.
@@ -14,6 +14,8 @@ Il s'agit d'un jeu d'aventure en 3D de type *Infinite Runner* cree dans le cadre
 Le jeu met en scène un personnage qui court à travers des environnements colorés et variés, collectant des objets et évitant des obstacles pour atteindre le score le plus élevé possible.
 
 Le cahier des charges du projet est disponible ici : [GamingCampus-CDC-dev-jv.pdf](Documentation/GamingCampus-CDC-dev-jv.pdf).
+
+## Credits
 
 Le jeu est cree sur la base du Game Design Document (GDD) suivant : [ChromAdventure_Game-Design-Document.pdf](Documentation/ChromAdventure_Game-Design-Document.pdf).
 
