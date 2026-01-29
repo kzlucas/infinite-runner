@@ -19,7 +19,7 @@ MonoBehaviour:
     musicClip: {fileID: 8300000, guid: 2475b49e149f5d22294e5f1e18752f18, type: 3}
   _sfxSoundsPairs:
   - sceneName: crystal
-    musicClip: {fileID: 8300000, guid: f6bc8e2008f73c8eea80938e8295fd39, type: 3}
+    musicClip: {fileID: 8300000, guid: 215b60468bee9ac4d862b06f8f71a5eb, type: 3}
   - sceneName: jump
     musicClip: {fileID: 8300000, guid: f87f293181483afb3991f4d15a230da8, type: 3}
   - sceneName: land
@@ -30,3 +30,5 @@ MonoBehaviour:
     musicClip: {fileID: 8300000, guid: b73e51789b4ff8866becb0fb27745ab9, type: 3}
   - sceneName: button-click
     musicClip: {fileID: 8300000, guid: 2255197f4f9581100a8d5fb17dcb9f2c, type: 3}
+  - sceneName: heal
+    musicClip: {fileID: 8300000, guid: cf40a9b9bf62897719c255320a76d091, type: 3}

@@ -314,7 +314,7 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
 
 
     /// <summary>
-    ///   Remove all coins that belong to given biome name
+    ///   Remove all crystals that belong to given biome name
     /// </summary>
     /// <param name="biomeName"></param>
     public void RemoveBiomeCrystals(string biomeName)

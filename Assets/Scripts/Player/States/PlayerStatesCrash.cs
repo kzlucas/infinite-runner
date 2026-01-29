@@ -22,7 +22,6 @@ namespace Player.States
             player.crashParticules.transform.parent = null;
             player.crashParticules.transform.position = player.transform.position + Vector3.up * 0.5f;
             player.crashParticules.Play();
-            AudioManager.Instance.PlaySound("crash");
 
             // release control
             player.controlReleased = true;

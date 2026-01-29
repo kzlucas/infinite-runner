@@ -1,27 +1,30 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class Collectible : MonoBehaviour
+public abstract class Collectible : MonoBehaviour
 {
     public Animator animator;
-    public string OnCollectedSoundLabel = "";
+    public string SoundToPlayOnCollection = "";
+    public abstract void OnCollide();
 
 
     /// <summary>
     ///    Defines behavior when collided.
     /// </summary>
 
-    public virtual Collectible OnCollide()
+    public virtual Collectible TriggerCollision()
     {
         if (animator != null)
         {
             animator.SetTrigger("OnCollide");
         }
 
-        if(OnCollectedSoundLabel != "")
+        if(SoundToPlayOnCollection != "")
         {
-            AudioManager.Instance?.PlaySound(OnCollectedSoundLabel);
+            AudioManager.Instance?.PlaySound(SoundToPlayOnCollection);
         }
+
+        OnCollide();
         
         return this;
     }

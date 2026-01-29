@@ -23,6 +23,9 @@ namespace Player
         {
             if (isInvincible || isDie) return;
 
+            // Play crash sound
+            AudioManager.Instance.PlaySound("crash");
+
             currentHealth -= damage;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
             
@@ -44,6 +47,13 @@ namespace Player
                 var player = GetComponent<Controller>();
                 player.history.Load();
             }
+        }
+
+        public void Heal(int amount)
+        {
+            currentHealth += amount;
+            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+            UiManager.Instance.hud.UpdateHp((float)currentHealth / maxHealth);
         }
 
         public void Die()

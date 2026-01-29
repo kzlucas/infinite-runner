@@ -43,8 +43,9 @@ Les assets du projets notament graphiques et sonores proviennent de ressources l
     - [Button Click - freesoundeffects](https://pixabay.com/sound-effects/film-special-effects-button-click-289742/)
     - [land2 - deleted_user_10023915](https://pixabay.com/sound-effects/film-special-effects-land2-43790/)
     - [Magazine Slide - MootMcnoodles](https://pixabay.com/sound-effects/film-special-effects-magazine-slide-100131/)
-    - [Retro coin 4 - Driken5482](https://pixabay.com/sound-effects/film-special-effects-retro-coin-4-236671/)
+    - [Drop Coin - Crunchpix Studio](https://pixabay.com/sound-effects/film-special-effects-drop-coin-384921/)
     - [Thump - Macif](https://pixabay.com/sound-effects/household-thump-105302/)
+    - [HealPop - shyguy014](https://pixabay.com/sound-effects/film-special-effects-healpop-46004/)
 
 - Model 3D du personnage
     - [licence CC0 1.0 Universal (CC0 1.0) Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/)

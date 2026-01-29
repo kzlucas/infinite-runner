@@ -38,6 +38,10 @@ public class UiHud : UiController
     }
 
 
+    /// <summary>
+    /// Updates the HP UI fill percentage.
+    /// </summary>
+    /// <param name="fillPct"></param>
     public void UpdateHp(float fillPct)
     {
         var index = Mathf.Clamp(Mathf.FloorToInt(fillPct * hpFillSprites.Count), 0, hpFillSprites.Count - 1);
