@@ -31,13 +31,11 @@ public class GameManager : Singleton<GameManager>
 
     private void RegisterHandlers()
     {
-#if UNITY_EDITOR
-        InputHandlersManager.Instance.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
+        InputHandlersManager.Register("Reload Scene", reloadSceneActionRef, OnTrigger: () =>
         {
             SceneLoader.Instance?.ReloadCurrentScene();
         });
 
-#endif
     }
 
 
