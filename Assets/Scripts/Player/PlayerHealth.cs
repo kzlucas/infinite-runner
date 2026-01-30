@@ -1,4 +1,5 @@
 using System.Collections;
+using Components.Audio.Scripts;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Player
 
         [Header("Dependencies")]
         private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
         [Header("Health Settings")]
@@ -30,7 +32,7 @@ namespace Player
             if (isInvincible || isDie) return;
 
             // Play crash sound
-            AudioManager.Instance.PlaySound("crash");
+            AudioManager.PlaySound("crash");
 
             currentHealth -= damage;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);

@@ -6,7 +6,7 @@ namespace Components.Events
 
     public struct OnRunStart: IGameEvent
     {
-        public OnRunStart(int runNumber)
+        public OnRunStart(bool _)
         {
         }
     }

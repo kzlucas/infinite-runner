@@ -1,12 +1,20 @@
 using UnityEngine;
 using StateMachine;
+using Components.Audio.Scripts;
+using Components.ServiceLocator.Scripts;
 
 namespace Player.States
 {
     public class JumpState : BaseState
     {
+        [Header("Dependencies")]
+        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
+
+
+        [Header("References")]
         private Controller player;
         
+
 
         public JumpState(StateMachine.StateMachine stateMachine, Controller player) 
             : base(stateMachine, "Jump")
@@ -18,7 +26,7 @@ namespace Player.States
         public override void OnEnter()
         {
             // Play jump sound
-            AudioManager.Instance.PlaySound("jump");
+            AudioManager.PlaySound("jump");
 
             // Start jump animation
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);

@@ -2,6 +2,7 @@ using System.Collections;
 using Components.EndGame.Scripts;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
+using InputsHandler;
 using Player.States;
 using StateMachine;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Player
         [Header("Dependencies")]
         private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
         private EndGameManager EndGameManager => ServiceLocator.Get<EndGameManager>();
-
+        private InputHandlersManager InputHandlersManager => ServiceLocator.Get<InputHandlersManager>();
 
 
         [Header("References")]
@@ -147,20 +148,20 @@ namespace Player
              * Map input events to state transitions 
              */
 
-            InputHandlersManager.Instance.Register(
+            InputHandlersManager.Register(
                 "Jump"
                 , jumpActionRef
                 , OnHold: () => { if (CanJump()) sm.TransitionTo<JumpState>(); }
             );
 
-            InputHandlersManager.Instance.Register(
+            InputHandlersManager.Register(
                 "Move"
                 , moveActionRef
                 , OnUpdate: (v2) => { if (CanMove(v2)) { sm.GetState<MoveState>().inputMoveDir = v2; sm.TransitionTo<MoveState>(); } }
                 , OnRelease: () => { sm.GetState<MoveState>().OnRelease(); }
             );
 
-            InputHandlersManager.Instance.Register(
+            InputHandlersManager.Register(
                 "Slide"
                 , slideActionRef
                 , OnTrigger: () => { if (CanSlide()) sm.TransitionTo<SlideState>(); }

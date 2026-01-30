@@ -38,7 +38,14 @@ namespace Player.States
                 hasReleasedKey = false; // force player to release key before next input
                 var reqTargetXPosition = targetXPosition + (inputMoveDir.x > 0 ? 2 : -2); 
                 targetXPosition = Mathf.Clamp(reqTargetXPosition, player.minX, player.maxX);
-                 goToLaneRoutine.Replace(GoToLaneRoutine());
+
+                // (re)start coroutine
+                if(goToLaneRoutine != null)
+                {
+                    player.StopCoroutine(goToLaneRoutine);
+                }
+                goToLaneRoutine = GoToLaneRoutine();
+                player.StartCoroutine(goToLaneRoutine);
             }
         }
 

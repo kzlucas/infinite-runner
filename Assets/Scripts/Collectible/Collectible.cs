@@ -1,8 +1,15 @@
+using Components.Audio.Scripts;
+using Components.ServiceLocator.Scripts;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public abstract class Collectible : MonoBehaviour
 {
+    [Header("Dependencies")]
+    private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
+
+
+    [Header("Collectible Settings")]
     public Animator animator;
     public string SoundToPlayOnCollection = "";
     public abstract void OnCollide();
@@ -22,7 +29,7 @@ public abstract class Collectible : MonoBehaviour
 
         if(SoundToPlayOnCollection != "")
         {
-            AudioManager.Instance?.PlaySound(SoundToPlayOnCollection);
+            AudioManager?.PlaySound(SoundToPlayOnCollection);
         }
 
         OnCollide();

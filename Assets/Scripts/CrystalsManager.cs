@@ -1,5 +1,6 @@
 
 
+using Components.Audio.Scripts;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using UnityEngine;
@@ -9,6 +10,7 @@ public static class CrystalsManager
         
     [Header("Dependencies")]
     private static UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+    private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
     [Header("Crystals Data")]
@@ -41,7 +43,7 @@ public static class CrystalsManager
         {   
             // Change to next biome
             BiomesData.Instance.SetNext();
-            AudioManager.Instance.PlaySound("biome-change");
+            AudioManager.PlaySound("biome-change");
             ClearBucket();
         }
 

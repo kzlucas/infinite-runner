@@ -45,7 +45,6 @@ public class UiHud : UiController
     public void UpdateHp(float fillPct)
     {
         var index = Mathf.Clamp(Mathf.FloorToInt(fillPct * hpFillSprites.Count), 0, hpFillSprites.Count - 1);
-        Debug.Log($"[UiHud] Updating HP UI: fillPct={fillPct}, index={index}");
         var hpFillSprite = hpFillSprites[index];
 
         hpFill.style.backgroundImage = new StyleBackground(hpFillSprite);

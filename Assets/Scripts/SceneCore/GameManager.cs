@@ -1,3 +1,6 @@
+using System.Collections;
+using Components.ServiceLocator.Scripts;
+using InputsHandler;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,19 +8,24 @@ using UnityEngine.InputSystem;
 public class GameManager : Singleton<GameManager>
 {
 
+        
+    [Header("Dependencies")]
+    private InputHandlersManager InputHandlersManager => ServiceLocator.Get<InputHandlersManager>();
+    
+    
+    [Header("References")]
     public InputActionReference reloadSceneActionRef;
 
+    
 
-    private void OnDisable() => StopAllCoroutines();
+    private void Start() => SceneLoader.Instance.OnSceneLoaded += OnSceneLoaded;
+    private void OnSceneLoaded() => StartCoroutine(HandleSceneLoaded());
 
-    private void Start()
+    private IEnumerator HandleSceneLoaded()
     {
-        SceneLoader.Instance.OnSceneLoaded += () =>
-        {
-            StopAllCoroutines();
-            RegisterHandlers();
-            if(SceneLoader.Instance.IsGameScene()) CrystalsManager.Reset();
-        };
+        yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized);
+        RegisterHandlers();
+        if(SceneLoader.Instance.IsGameScene()) CrystalsManager.Reset();
     }
 
 

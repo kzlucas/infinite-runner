@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Interfaces;
 using UnityEngine;
 
 
@@ -8,7 +10,7 @@ namespace Components.UI.Scripts
     /// <summary>
     ///  Manages UI elements references in the game.
     /// </summary>
-    public class UiRegistry : MonoBehaviour, IInitializable, IService
+    public class UiRegistry : Singleton<UiRegistry>, IInitializable, IService
     {
 
         [Header("Initialization")]
@@ -26,20 +28,19 @@ namespace Components.UI.Scripts
         public UiCountdown countdown;
 
 
-
         public async Task InitializeAsync()
         {
             // Wait for all controllers to be ready
             GetReferences();
             var initializationTasks = new List<Task>();
             foreach (var uiController in new UiController[]
-                     {
-                     screenOverlay,
-                     pauseMenu,
-                     hud,
-                     endGameScreen,
-                     splashScreen
-                     })
+            {
+                screenOverlay,
+                pauseMenu,
+                hud,
+                endGameScreen,
+                splashScreen
+            })
             {
                 initializationTasks.Add(uiController.InitializeAsync());
             }
@@ -54,7 +55,7 @@ namespace Components.UI.Scripts
                 screenOverlay = transform.Find("Screen Overlay").GetComponent<UiScreenOverlay>();
 
                 if (screenOverlay == null)
-                    Debug.LogError("[UiManager] Screen Overlay is missing!");
+                    Debug.LogError("[UiRegistry] Screen Overlay is missing!");
             }
 
             if (pauseMenu == null)
@@ -62,7 +63,7 @@ namespace Components.UI.Scripts
                 pauseMenu = transform.Find("Pause Menu").GetComponent<UiPauseMenu>();
 
                 if (pauseMenu == null)
-                    Debug.LogError("[UiManager] Pause Menu is missing!");
+                    Debug.LogError("[UiRegistry] Pause Menu is missing!");
             }
 
             if (hud == null)
@@ -70,7 +71,7 @@ namespace Components.UI.Scripts
                 hud = transform.Find("HUD").GetComponent<UiHud>();
 
                 if (hud == null)
-                    Debug.LogError("[UiManager] HUD is missing!");
+                    Debug.LogError("[UiRegistry] HUD is missing!");
             }
 
             if (endGameScreen == null)
@@ -78,7 +79,7 @@ namespace Components.UI.Scripts
                 endGameScreen = transform.Find("End Game Screen").GetComponent<UiEndGame>();
 
                 if (endGameScreen == null)
-                    Debug.LogError("[UiManager] End Game Screen is missing!");
+                    Debug.LogError("[UiRegistry] End Game Screen is missing!");
             }
 
             if (splashScreen == null)
@@ -86,7 +87,7 @@ namespace Components.UI.Scripts
                 splashScreen = transform.Find("Splash Screen").GetComponent<UiSplashScreen>();
 
                 if (splashScreen == null)
-                    Debug.LogError("[UiManager] Splash Screen is missing!");
+                    Debug.LogError("[UiRegistry] Splash Screen is missing!");
             }
 
 
@@ -95,7 +96,7 @@ namespace Components.UI.Scripts
                 countdown = transform.Find("Countdown").GetComponent<UiCountdown>();
 
                 if (countdown == null)
-                    Debug.LogError("[UiManager] Countdown is missing!");
+                    Debug.LogError("[UiRegistry] Countdown is missing!");
             }
 
 

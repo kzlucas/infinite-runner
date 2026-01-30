@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Components.Audio.Scripts;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class UiController : MonoBehaviour, IInitializable
         
     [Header("Dependencies")]
     private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-
+    private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
     [Header("Initialization")]
@@ -106,9 +107,9 @@ public class UiController : MonoBehaviour, IInitializable
 
             // Initialize toggle states from PlayerPrefService
             if (toggle.name == "settings--music")
-                toggle.value = AudioManager.Instance.MusicOn;
+                toggle.value = AudioManager.UserSettings.MusicOn;
             if (toggle.name == "settings--sfx")
-                toggle.value = AudioManager.Instance.SfxOn;
+                toggle.value = AudioManager.UserSettings.SfxOn;
         }
         
         // root.Focus(); // needed to ensure input works in WebGL builds
@@ -163,7 +164,7 @@ public class UiController : MonoBehaviour, IInitializable
             Debug.LogError("[UiController] Unhandled button action: " + actionName);
         }
 
-        AudioManager.Instance.PlaySound("button-click");
+        AudioManager.PlaySound("button-click");
     }
 
 
@@ -180,18 +181,18 @@ public class UiController : MonoBehaviour, IInitializable
 
         if(actionName == "music")
         {
-            AudioManager.Instance.MusicOn = newValue;
+            AudioManager.UserSettings.MusicOn = newValue;
         }
         else if(actionName == "sfx")
         {
-            AudioManager.Instance.SfxOn = newValue;
+            AudioManager.UserSettings.SfxOn = newValue;
         }
         else
         {
             Debug.LogError("[UiController] Unhandled toggle action: " + actionName);
         }
 
-        AudioManager.Instance.PlaySound("button-click");
+        AudioManager.PlaySound("button-click");
     }
 
 

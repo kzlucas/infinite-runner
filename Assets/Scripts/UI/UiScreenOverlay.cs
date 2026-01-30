@@ -11,13 +11,12 @@ public class UiScreenOverlay : UiController, IOpenable
 
     private IEnumerator Start()
     {
-        
         if(!fadeOutOnStart) yield break;
-        SceneLoader.Instance.OnSceneLoaded += OnSceneLoaded;
-        OnSceneLoaded();
+        SceneLoader.Instance.OnSceneLoaded += HandleSceneLoaded;
+        HandleSceneLoaded();
     }
 
-    private void OnDestroy() => StopAllCoroutines();
+    private void OnDestroy() => SceneLoader.Instance.OnSceneLoaded -= HandleSceneLoaded;
 
 
 
@@ -25,11 +24,14 @@ public class UiScreenOverlay : UiController, IOpenable
     ///   When a new scene has been loaded, initialize the fade screen to default state then close it.
     /// </summary>
     /// <returns></returns>
-    public void OnSceneLoaded()
+    private void HandleSceneLoaded()
     {
-        StartCoroutine(_OnSceneLoaded());
+        if (this == null || gameObject == null) return;
+        StartCoroutine(OnSceneLoaded());
     }
-    private IEnumerator _OnSceneLoaded()
+
+
+    private IEnumerator OnSceneLoaded()
     {
         yield return new WaitUntil(() => docReady);
         var screen = root.Q<VisualElement>("screen");

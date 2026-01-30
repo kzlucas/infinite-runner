@@ -1,11 +1,19 @@
 using UnityEngine;
 using StateMachine;
+using Components.Audio.Scripts;
+using Components.ServiceLocator.Scripts;
 
 namespace Player.States
 {
     public class LandState : BaseState
     {
+        [Header("Dependencies")]
+        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
+
+
+        [Header("References")]
         private Controller player;
+
 
         public LandState(StateMachine.StateMachine stateMachine, Controller player) 
             : base(stateMachine, "Land")
@@ -18,7 +26,7 @@ namespace Player.States
             if (player == null) return;
 
             // Play land sound
-            AudioManager.Instance.PlaySound("land");
+            AudioManager.PlaySound("land");
 
             // Play again jump particles on landing
             PlayLandParticules();

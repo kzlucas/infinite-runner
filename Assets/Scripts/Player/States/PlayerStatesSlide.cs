@@ -1,4 +1,6 @@
 using System.Collections;
+using Components.Audio.Scripts;
+using Components.ServiceLocator.Scripts;
 using StateMachine;
 using UnityEngine;
 
@@ -6,6 +8,11 @@ namespace Player.States
 {
     public class SlideState : BaseState
     {
+        [Header("Dependencies")]
+        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
+
+
+        [Header("References")]
         private Controller player;
 
         /// <summary> Reference to the player's collider</summary>
@@ -31,7 +38,13 @@ namespace Player.States
 
         public override void OnEnter()
         {
-            player.slideRoutine.Replace(SlideRoutine());
+            // (re)start coroutine
+            if(player.slideRoutine != null)
+            {
+                player.StopCoroutine(player.slideRoutine);
+            }
+            player.slideRoutine = SlideRoutine();
+            player.StartCoroutine(player.slideRoutine);
         }
 
         /// <summary>
@@ -39,7 +52,7 @@ namespace Player.States
         /// </summary>
         private IEnumerator SlideRoutine()
         {
-            AudioManager.Instance.PlaySound("slide");
+            AudioManager.PlaySound("slide");
 
             player.isSliding = true;
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", true);

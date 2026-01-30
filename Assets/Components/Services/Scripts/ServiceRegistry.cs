@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Assets.Components.SquareColliders.Scripts;
+using Components.Audio.Scripts;
 using Components.EndGame.Scripts;
 using Components.UI.Scripts;
+using InputsHandler;
 using UnityEngine;
 
 
@@ -12,6 +15,16 @@ namespace Components.ServiceLocator.Scripts
     /// </summary>
     public class ServiceRegistry : MonoBehaviour, IInitializable
     {
+        Type[] TypesToFind = new Type[]
+        {
+              typeof( UiRegistry )
+            , typeof( EndGameManager )
+            , typeof( SquareCollidersMerger )
+            , typeof( InputHandlersManager )
+            , typeof( AudioManager )
+
+        };
+
         public int initPriority => -1;
         public System.Type[] initDependencies => null;
 
@@ -51,10 +64,10 @@ namespace Components.ServiceLocator.Scripts
             var interfaces = serviceType.GetInterfaces();
             foreach (var interfaceType in interfaces)
             {
-                if (interfaceType != typeof(IInitializable)) // Skip common interfaces
-                {
-                    ServiceLocator.Register(interfaceType, service);
-                }
+                // if (interfaceType != typeof(IInitializable)) // Skip common interfaces
+                // {
+                ServiceLocator.Register(interfaceType, service);
+                // }
             }
 
             Debug.Log($"[ServiceRegistry] Registered service: {serviceType.Name}");
@@ -62,14 +75,8 @@ namespace Components.ServiceLocator.Scripts
 
         private async Task RegisterFoundServices()
         {
-            var typesToFind = new Type[]
-            {
-                typeof(UiRegistry)
-                , typeof(EndGameManager)
-                
-            };
 
-            foreach (var type in typesToFind)
+            foreach (var type in TypesToFind)
             {
                 var serviceInstance = FindFirstObjectByType(type);
                 if (serviceInstance != null)

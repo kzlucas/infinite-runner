@@ -1,16 +1,30 @@
 using System;
 using System.Collections.Generic;
+using Components.Audio.Scripts;
+using Components.ServiceLocator.Scripts;
 using UnityEngine;
 
 namespace Player
 {
     public class CollisionHandling : MonoBehaviour
     {
-        public Action OnLanded;
-        public Controller player;
+        [Header("Dependencies")]
+        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
+
+
+        [Header("Flags")]
         private bool previouslyGrounded = true;
+        
+
+        [Header("Events")]
+        public Action OnLanded;
 
 
+        [Header("References")]
+        public Controller player;
+
+
+        [Header("Colliders References")]
         public PlayerCollider bodyCollider;
         public PlayerCollider leftCollider;
         public PlayerCollider rightCollider;
@@ -45,7 +59,7 @@ namespace Player
             if (colliderType == null) return;
             var t = colliderType.colliderType;
             var sound = colliderType.soundToPlayOnCollision;
-            if (sound != "") AudioManager.Instance?.PlaySound(sound);
+            if (sound != "") AudioManager?.PlaySound(sound);
 
             switch (t)
             {

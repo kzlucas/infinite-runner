@@ -3,15 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Assets.Components.SquareColliders.Scripts;
+using Components.ServiceLocator.Scripts;
 using UnityEngine;
 
 public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitializable
 {
 
+
+    [Header("Dependencies")]
+    private SquareCollidersMerger SquareCollidersMerger => ServiceLocator.Get<SquareCollidersMerger>();
+    
+    
+
+    [Header("Initialization")]
     public int initPriority => 2;
     public Type[] initDependencies => new Type[] { typeof(BiomesData) };
 
 
+
+    [Header("References")]
 
     /// <summary>Current world segments</summary>
     private List<WorldSegment> currentWorldSegments = new List<WorldSegment>();
@@ -26,6 +37,9 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
             return _playerTransform;
         }
     }
+
+
+    [Header("Settings")]
 
     /// <summary>Number of segments to generate in front of the player</summary>
     public int frontGenerationWindowSize = 100;
@@ -261,7 +275,7 @@ public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitia
         ClearSegmentsBehindPlayer();
 
         // Update colliders
-        SquareCollidersMerger.Instance.GenerateSquareColliders();
+        SquareCollidersMerger.GenerateSquareColliders();
 
         // Restart coroutine
         yield return new WaitForEndOfFrame();

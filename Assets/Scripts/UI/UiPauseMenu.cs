@@ -1,5 +1,6 @@
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
+using InputsHandler;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -10,7 +11,8 @@ public class UiPauseMenu : UiPopin
         
     [Header("Dependencies")]
     private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-
+    private InputHandlersManager InputHandlersManager => ServiceLocator.Get<InputHandlersManager>();
+    
 
 
     [Header("Pause Menu Settings")]
@@ -22,7 +24,7 @@ public class UiPauseMenu : UiPopin
     {
         SceneLoader.Instance.OnSceneLoaded += () =>
         {
-            InputHandlersManager.Instance.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
+            InputHandlersManager.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
             {
                 if(isLocked) return;
                 Debug.Log("[UiPauseMenu] Toggling Pause Menu");

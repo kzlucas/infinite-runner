@@ -253,7 +253,7 @@ La gestion de l'audio dans le jeu est réalisée à l'aide de la classe [`AudioM
 
 *eg*
 ```csharp 
-AudioManager.Instance.PlaySound("crash");
+AudioManager.PlaySound("crash");
 ```
 
 L'AudioManager utilise un dictionnaire pour stocker les clips audio et permet de jouer des sons en utilisant leur nom (`string`). Il prend en charge la lecture de sons uniques ainsi que la lecture en boucle pour la musique de fond.

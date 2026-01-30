@@ -78,8 +78,9 @@ namespace Components.ServiceLocator.Scripts
         /// <returns>Service instance</returns>
         public static T Get<T>()
         {
+
             var type = typeof(T);
-            
+
             // Check if service is already registered
             if (Instance._services.TryGetValue(type, out var service))
             {
@@ -100,6 +101,19 @@ namespace Components.ServiceLocator.Scripts
                 var found = UnityEngine.Object.FindFirstObjectByType(type);
                 if (found != null)
                 {
+                    Instance._services[type] = found;
+                    
+                    return (T)(object)found;
+                }
+            }
+
+            // Try to find service in scene if it's a MonoBehaviour
+            if (typeof(MonoBehaviour).IsAssignableFrom(type))
+            {
+                var found = UnityEngine.Object.FindFirstObjectByType(type);
+                if (found != null)
+                {
+                    Debug.LogWarning($"[ServiceLocator] Service {type.Name} was not registered but found in scene. Auto-registering.");
                     Instance._services[type] = found;
                     return (T)(object)found;
                 }

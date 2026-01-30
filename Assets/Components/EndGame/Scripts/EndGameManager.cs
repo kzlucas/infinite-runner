@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Components.UI.Scripts;
+using Interfaces;
 using UnityEngine;
 
 namespace Components.EndGame.Scripts

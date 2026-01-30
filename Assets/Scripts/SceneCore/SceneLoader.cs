@@ -98,6 +98,7 @@ public class SceneLoader : Singleton<SceneLoader>
         yield return FadeToBlack();
 
         // load scene
+        ServiceLocator.Clear();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(name);
 
         while (!asyncLoad.isDone)

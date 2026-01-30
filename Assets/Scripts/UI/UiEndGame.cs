@@ -14,12 +14,16 @@ public class UiEndGame : UiPopin
     [HideInInspector] public Label label_bestCrystalsCollectedCount;
     [HideInInspector] public Label label_bestLastBiomeReached;
 
-    private void Start()
+
+    private void Start() => SceneLoader.Instance.OnSceneLoaded += HandleSceneLoaded;
+    private void OnDestroy() => SceneLoader.Instance.OnSceneLoaded -= HandleSceneLoaded;
+    private void HandleSceneLoaded()
     {
-        SceneLoader.Instance.OnSceneLoaded += () => StartCoroutine(_OnSceneLoaded());
+        if (this == null || gameObject == null) return;
+        StartCoroutine(OnSceneLoaded());
     }
 
-    private IEnumerator _OnSceneLoaded()
+    private IEnumerator OnSceneLoaded()
     {
         yield return new WaitUntil(() => docReady);
 
