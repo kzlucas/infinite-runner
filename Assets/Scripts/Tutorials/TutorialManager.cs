@@ -18,7 +18,7 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
 
     public Task InitializeAsync()
     {
-        if(PlayerPrefService.Instance.Load("SkipTutorials") == "1")
+        if(PlayerPrefService.Load("SkipTutorials") == "1")
         {
             tutorialsCompleted = true;
             return Task.CompletedTask;

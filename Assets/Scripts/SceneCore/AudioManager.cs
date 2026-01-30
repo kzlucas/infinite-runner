@@ -19,7 +19,7 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
         set
         {
             _musicOn = value;
-            PlayerPrefService.Instance.Save("music", _musicOn.ToString());
+            PlayerPrefService.Save("music", _musicOn.ToString());
             if (!_musicOn)
             {
                 musicSource.mute = true;
@@ -39,7 +39,7 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
         set
         {
             _sfxOn = value;
-            PlayerPrefService.Instance.Save("sfx", _sfxOn.ToString());
+            PlayerPrefService.Save("sfx", _sfxOn.ToString());
             if (!_sfxOn)
             {
                 sfxSource.mute = true;
@@ -119,8 +119,8 @@ public class AudioManager : Singleton<AudioManager>, IInitializable
     /// </summary>
     private void ApplyUserSettings()
     {
-        MusicOn = PlayerPrefService.Instance.Load("music") != "False";
-        SfxOn = PlayerPrefService.Instance.Load("sfx") != "False";
+        MusicOn = PlayerPrefService.Load("music") != "False";
+        SfxOn = PlayerPrefService.Load("sfx") != "False";
     }
 
 
