@@ -26,6 +26,7 @@ namespace Components.Audio.Scripts
                     cam.gameObject.AddComponent<AudioSource>();
                 }
             }
+            audioSources = cam.GetComponents<AudioSource>();
 
             if (musicSource == null)
             {
@@ -38,7 +39,6 @@ namespace Components.Audio.Scripts
                 sfxSource = audioSources[1];
                 sfxSource.loop = false;
             }
-
             return (musicSource, sfxSource);
         }
     }

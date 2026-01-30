@@ -1,4 +1,4 @@
-namespace Components.Events.Interfaces
+namespace Components.Events
 {
     /// <summary>
     /// Marker interface for all game events

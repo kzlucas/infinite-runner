@@ -107,9 +107,9 @@ public class UiController : MonoBehaviour, IInitializable
 
             // Initialize toggle states from PlayerPrefService
             if (toggle.name == "settings--music")
-                toggle.value = AudioManager.UserSettings.MusicOn;
+                toggle.value = AudioManager.IsMusicEnabled;
             if (toggle.name == "settings--sfx")
-                toggle.value = AudioManager.UserSettings.SfxOn;
+                toggle.value = AudioManager.IsSfxEnabled;
         }
         
         // root.Focus(); // needed to ensure input works in WebGL builds
@@ -181,11 +181,11 @@ public class UiController : MonoBehaviour, IInitializable
 
         if(actionName == "music")
         {
-            AudioManager.UserSettings.MusicOn = newValue;
+            AudioManager.UserSettings.SetMusicEnabled(newValue);
         }
         else if(actionName == "sfx")
         {
-            AudioManager.UserSettings.SfxOn = newValue;
+            AudioManager.UserSettings.SetSfxEnabled(newValue);
         }
         else
         {

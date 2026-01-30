@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Components.Events.Interfaces;
 using UnityEngine;
 
 namespace Components.Events

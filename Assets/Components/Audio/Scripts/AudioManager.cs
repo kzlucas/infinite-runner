@@ -1,22 +1,24 @@
 using System.Collections;
 using System.Threading.Tasks;
+using Components.Events;
+using Scene.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
 namespace Components.Audio.Scripts
 {
-    public class AudioManager : Singleton<AudioManager>, IInitializable
+    public class AudioManager : MonoBehaviour, IAudioService, IInitializable
     {
 
-        [Header("References")]
+        [Header("Components")]
         private AudioMapping _audioMapping = new();
         private HardwareValidation _hardwareValidation = new();
         public UserSettings UserSettings = new();
+        
+
+        [Header("Runtime Sources")]
         [SerializeField] private AudioSource musicSource;
         [SerializeField] private AudioSource sfxSource;
-
 
 
         [Header("Initialisation")]
@@ -24,43 +26,85 @@ namespace Components.Audio.Scripts
         public System.Type[] initDependencies => null;
 
 
-
-        [Header("Config")]
+        [Header("Configuration")]
         public SO_AudioConfig audioConfig;
 
 
-
-        [Header("Settings")]
+        [Header("State")]
         private bool isFading = false;
+        
+        
+        // IAudioService implementation
+        public bool IsMusicEnabled => UserSettings.MusicEnabled;
+        public bool IsSfxEnabled => UserSettings.SfxEnabled;
 
 
 
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            // Map audio config data
-            audioConfig = _audioMapping.Map(audioConfig);
+            // Setup configuration and hardware
+            await SetupAudioSystem();
 
-            // Ensure there is an AudioListener and sources in the scene
-            (musicSource, sfxSource) = _hardwareValidation.AttachAudioSources(Camera.main);
+            // Subscribe to events`
+            SubscribeToEvents();
 
-            // Play music for the current scene
-            PlayMusicForCurrentScene();
-
-            // Apply user settings
+            // Load and apply user settings
+            UserSettings.LoadSettings();
             UserSettings.ApplyToSources(musicSource, sfxSource);
 
-            return Task.CompletedTask;
+            Debug.Log("[AudioManager] Audio system initialized and registered as service");
+        }
+
+        private async Task SetupAudioSystem()
+        {
+            // Configuration setup
+            audioConfig = _audioMapping.Map(audioConfig);
+
+            // Hardware setup
+            (musicSource, sfxSource) = _hardwareValidation.AttachAudioSources(Camera.main);
+
+            await Task.CompletedTask;
+        }
+
+        private void SubscribeToEvents()
+        {
+            EventBus.Subscribe<PlaySoundEvent>(OnPlaySoundEvent);
+            EventBus.Subscribe<PlayMusicEvent>(OnPlayMusicEvent);
+            EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+            EventBus.Subscribe<AudioSettingsChangedEvent>(OnAudioSettingsChanged);
         }
 
 
 
 
-        /// <summary>
-        /// Play music assigned to the current scene.
-        /// </summary>
-        private void PlayMusicForCurrentScene()
+        // Event handlers
+        private void OnPlaySoundEvent(PlaySoundEvent soundEvent)
         {
-            var sceneName = SceneManager.GetActiveScene().name;
+            PlaySound(soundEvent.soundName, soundEvent.volume);
+        }
+
+        private void OnPlayMusicEvent(PlayMusicEvent musicEvent)
+        {
+            PlayMusicForScene(musicEvent.sceneName);
+        }
+
+        private void OnSceneLoadedEvent(SceneLoadedEvent sceneEvent)
+        {
+            PlayMusicForScene(sceneEvent.sceneName);
+        }
+
+        private void OnAudioSettingsChanged(AudioSettingsChangedEvent settingsEvent)
+        {
+            UserSettings.ApplyToSources(musicSource, sfxSource);
+        }
+
+
+        /// <summary>
+        /// Play music for a specific scene.
+        /// </summary>
+        public void PlayMusicForScene(string sceneName)
+        {
+            if (!IsMusicEnabled) return;
 
             // Check for exact scene match
             if (audioConfig.SceneMusicMap.TryGetValue(sceneName, out AudioClip musicClip))
@@ -70,13 +114,10 @@ namespace Components.Audio.Scripts
                     StartCoroutine(FadeTo(musicSource, musicClip, .5f));
                 }
             }
-
             // No music assigned for this scene
             else
             {
-                musicSource.Stop();
-                musicSource.clip = null;
-
+                StopMusic();
                 Debug.LogWarning($"[AudioManager] No music assigned for scene: {sceneName}");
             }
         }
@@ -84,15 +125,42 @@ namespace Components.Audio.Scripts
         /// <summary>
         ///   Play a sound effect by its label.
         /// </summary>
-        public void PlaySound(string label)
+        public void PlaySound(string soundName, float volume = 1f)
         {
-            if (audioConfig.SfxSoundsMap.TryGetValue(label, out AudioClip clip))
+            if (!IsSfxEnabled) return;
+
+            if (audioConfig.SfxSoundsMap.TryGetValue(soundName, out AudioClip clip))
             {
-                sfxSource.PlayOneShot(clip);
+                sfxSource.PlayOneShot(clip, volume);
             }
             else
             {
-                Debug.LogWarning($"[AudioManager] No sound effect found for label: {label}");
+                Debug.LogWarning($"[AudioManager] No sound effect found for: {soundName}");
+            }
+        }
+
+        public void StopMusic()
+        {
+            if (musicSource != null)
+            {
+                musicSource.Stop();
+                musicSource.clip = null;
+            }
+        }
+
+        public void SetMusicVolume(float volume)
+        {
+            if (musicSource != null)
+            {
+                musicSource.volume = IsMusicEnabled ? volume : 0f;
+            }
+        }
+
+        public void SetSfxVolume(float volume)
+        {
+            if (sfxSource != null)
+            {
+                sfxSource.volume = IsSfxEnabled ? volume : 0f;
             }
         }
 
@@ -156,7 +224,13 @@ namespace Components.Audio.Scripts
             StartCoroutine(FadeIn(audioSource, fadeTime));
         }
 
-
-
+        private void OnDestroy()
+        {
+            // Cleanup event subscriptions
+            EventBus.Unsubscribe<PlaySoundEvent>(OnPlaySoundEvent);
+            EventBus.Unsubscribe<PlayMusicEvent>(OnPlayMusicEvent);
+            EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+            EventBus.Unsubscribe<AudioSettingsChangedEvent>(OnAudioSettingsChanged);
+        }
     }
 }

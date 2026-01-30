@@ -1,68 +1,57 @@
 
 using UnityEngine;
+using Components.Events;
 
 namespace Components.Audio.Scripts
 {
+    [System.Serializable]
     public class UserSettings
     {
-        private AudioSource _musicSource;
-        private AudioSource _sfxSource;
+        public bool MusicEnabled { get; private set; } = true;
+        public bool SfxEnabled { get; private set; } = true;
 
-
-        private bool _musicOn = true;
-        public bool MusicOn
+        public void LoadSettings()
         {
-            get => _musicOn;
-            set
-            {
-                _musicOn = value;
-                PlayerPrefService.Save("music", _musicOn.ToString());
-                if (!_musicOn)
-                {
-                    _musicSource.mute = true;
-                    _musicSource.Pause();
-                }
-                else
-                {
-                    _musicSource.mute = false;
-                    _musicSource.UnPause();
-                }
-            }
-        }
-        private bool _sfxOn = true;
-        public bool SfxOn
-        {
-            get => _sfxOn;
-            set
-            {
-                _sfxOn = value;
-                PlayerPrefService.Save("sfx", _sfxOn.ToString());
-                if (!_sfxOn)
-                {
-                    _sfxSource.mute = true;
-                    _sfxSource.Pause();
-                }
-                else
-                {
-                    _sfxSource.mute = false;
-                    _sfxSource.UnPause();
-                }
-            }
+            MusicEnabled = PlayerPrefService.Load("music") != "False";
+            SfxEnabled = PlayerPrefService.Load("sfx") != "False";
         }
 
+        public void SetMusicEnabled(bool enabled)
+        {
+            MusicEnabled = enabled;
+            SaveSetting("music", enabled.ToString());
+            
+            // Publish event
+            EventBus.Publish(new AudioSettingsChangedEvent(enabled, SfxEnabled));
+        }
 
-        /// <summary>
-        ///   Apply user audio settings from saved data.
-        /// </summary>
+        public void SetSfxEnabled(bool enabled)
+        {
+            SfxEnabled = enabled;
+            SaveSetting("sfx", enabled.ToString());
+            
+            // Publish event
+            EventBus.Publish(new AudioSettingsChangedEvent(MusicEnabled, enabled));
+        }
+
         public void ApplyToSources(AudioSource musicSource, AudioSource sfxSource)
         {
-            _musicSource = musicSource;
-            _sfxSource = sfxSource;
+            if (musicSource != null)
+            {
+                musicSource.mute = !MusicEnabled;
+                musicSource.volume = MusicEnabled ? 0.7f : 0f;
+            }
 
-            MusicOn = PlayerPrefService.Load("music") != "False";
-            SfxOn = PlayerPrefService.Load("sfx") != "False";
+            if (sfxSource != null)
+            {
+                sfxSource.mute = !SfxEnabled;
+                sfxSource.volume = SfxEnabled ? 1f : 0f;
+            }
         }
 
-
+        private void SaveSetting(string key, string value)
+        {
+            PlayerPrefService.Save(key, value);
+        }
     }
 }

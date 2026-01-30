@@ -1,28 +1,31 @@
 using System.Collections.Generic;
-using Components.Audio.Scripts;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Create Audio Config", menuName = "Audio Config/New Audio Config", order = 1)]
-public class SO_AudioConfig : ScriptableObject
+namespace Components.Audio.Scripts
 {
 
-    [Header("Background Music")]
-    
-    [SerializeField] private List<SceneMusicPair> _sceneMusicPairs = new List<SceneMusicPair>();
-    public List<SceneMusicPair> SceneMusicPairs => _sceneMusicPairs;
+    [CreateAssetMenu(fileName = "Create Audio Config", menuName = "Audio Config/New Audio Config", order = 1)]
+    public class SO_AudioConfig : ScriptableObject
+    {
 
-    private Dictionary<string, AudioClip> _sceneMusicMap = new Dictionary<string, AudioClip>();
-    public Dictionary<string, AudioClip> SceneMusicMap => _sceneMusicMap;
+        [Header("Background Music")]
+
+        [SerializeField] private List<SceneMusicPair> _sceneMusicPairs = new List<SceneMusicPair>();
+        public List<SceneMusicPair> SceneMusicPairs => _sceneMusicPairs;
+
+        private Dictionary<string, AudioClip> _sceneMusicMap = new Dictionary<string, AudioClip>();
+        public Dictionary<string, AudioClip> SceneMusicMap => _sceneMusicMap;
 
 
 
-    [Header("Sound Effects")]
+        [Header("Sound Effects")]
 
-    [SerializeField] private List<SceneMusicPair> _sfxSoundsPairs = new List<SceneMusicPair>();
-    public List<SceneMusicPair> SfxSoundsPairs => _sfxSoundsPairs;
+        [SerializeField] private List<SceneMusicPair> _sfxSoundsPairs = new List<SceneMusicPair>();
+        public List<SceneMusicPair> SfxSoundsPairs => _sfxSoundsPairs;
 
-    private Dictionary<string, AudioClip> _sfxSoundsMap = new Dictionary<string, AudioClip>();
-    public Dictionary<string, AudioClip> SfxSoundsMap => _sfxSoundsMap;
+        private Dictionary<string, AudioClip> _sfxSoundsMap = new Dictionary<string, AudioClip>();
+        public Dictionary<string, AudioClip> SfxSoundsMap => _sfxSoundsMap;
 
+    }
 }

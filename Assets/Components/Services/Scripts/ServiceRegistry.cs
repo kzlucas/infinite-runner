@@ -22,6 +22,7 @@ namespace Components.ServiceLocator.Scripts
             , typeof( SquareCollidersMerger )
             , typeof( InputHandlersManager )
             , typeof( AudioManager )
+            , typeof( IAudioService )
 
         };
 
