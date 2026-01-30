@@ -16,18 +16,17 @@ MonoBehaviour:
   _crystalsNeeded: 50
   _segments:
   - name: Straight Segment
-    prefab: {fileID: 5740427710291029939, guid: 27477a886e4ece9a5a3db30b7973ff8e, type: 3}
+    GameObject: {fileID: 5740427710291029939, guid: 27477a886e4ece9a5a3db30b7973ff8e, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   - name: Random Obstacles
-    prefab: {fileID: 5740427710291029939, guid: ac7643724e7a34f039b0ccacdb164114, type: 3}
+    GameObject: {fileID: 5740427710291029939, guid: ac7643724e7a34f039b0ccacdb164114, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   - name: Random Obstacles
-    prefab: {fileID: 5740427710291029939, guid: 6c0c452c30741e56894ebf1d91c13d4d, type: 3}
+    GameObject: {fileID: 5740427710291029939, guid: 6c0c452c30741e56894ebf1d91c13d4d, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
-  _colorCrystals: {r: 0, g: 0.6, b: 1, a: 1}
   _crystalColor: {r: 0.077367894, g: 0.8254717, b: 0, a: 1}
   _colorSky: {r: 0.80853844, g: 0.4291105, b: 0.3921321, a: 1}
   _colorSkyHorizon: {r: 0.6875933, g: 0.084048815, b: 0.03819743, a: 1}

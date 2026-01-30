@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using WorldGenerator.Scripts;
 
 public class EditorMenuExtras : MonoBehaviour
 {

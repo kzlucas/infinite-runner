@@ -4,6 +4,7 @@ using Components.Audio.Scripts;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using UnityEngine;
+using WorldGenerator.Scripts;
 
 public static class CrystalsManager
 {

@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using WorldGenerator.Scripts;
 
 
 public class CollectibleCrystal : Collectible

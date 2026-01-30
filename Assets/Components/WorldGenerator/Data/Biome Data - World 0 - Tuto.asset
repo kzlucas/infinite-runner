@@ -16,22 +16,21 @@ MonoBehaviour:
   _crystalsNeeded: 10
   _segments:
   - name: Straight Segment
-    prefab: {fileID: 5740427710291029939, guid: 72a83ad715b4a8162beb56a876128047, type: 3}
+    GameObject: {fileID: 5740427710291029939, guid: 72a83ad715b4a8162beb56a876128047, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   - name: Change Lane
-    prefab: {fileID: 5740427710291029939, guid: 9def3e1330318673fa22730783028bdd, type: 3}
+    GameObject: {fileID: 5740427710291029939, guid: 9def3e1330318673fa22730783028bdd, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   - name: Jump
-    prefab: {fileID: 5740427710291029939, guid: dc2971f68905af204a2e22f7c2576a25, type: 3}
+    GameObject: {fileID: 5740427710291029939, guid: dc2971f68905af204a2e22f7c2576a25, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
   - name: Slide
-    prefab: {fileID: 5740427710291029939, guid: b6a0ddd1be16dc54cb87e3f65d1f270f, type: 3}
+    GameObject: {fileID: 5740427710291029939, guid: b6a0ddd1be16dc54cb87e3f65d1f270f, type: 3}
     position: {x: 0, y: 0, z: 0}
     sizeZ: 0
-  _colorPaint: {r: 1, g: 1, b: 1, a: 1}
   _crystalColor: {r: 1, g: 1, b: 1, a: 1}
   _colorSky: {r: 1, g: 1, b: 1, a: 1}
   _colorSkyHorizon: {r: 0.77977395, g: 0.77977395, b: 0.77977395, a: 1}

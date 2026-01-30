@@ -31,14 +31,15 @@ namespace Components.Audio.Scripts
             if (musicSource == null)
             {
                 musicSource = audioSources[0];
-                musicSource.loop = true;
             }
             // Ensure there is an AudioSource for SFX
             if (sfxSource == null)
             {
                 sfxSource = audioSources[1];
-                sfxSource.loop = false;
             }
+            
+            musicSource.loop = true;
+            sfxSource.loop = false;
             return (musicSource, sfxSource);
         }
     }

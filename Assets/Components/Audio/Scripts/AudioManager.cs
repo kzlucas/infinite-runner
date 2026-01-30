@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using Components.Events;
 using Scene.Scripts;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Components.Audio.Scripts
 {
-    public class AudioManager : MonoBehaviour, IAudioService, IInitializable
+    public class AudioManager : Singleton<AudioManager>, IAudioService, IInitializable
     {
 
         [Header("Components")]
@@ -32,7 +31,9 @@ namespace Components.Audio.Scripts
 
         [Header("State")]
         private bool isFading = false;
-        
+        public float MaxVolume = .3f;
+
+
         
         // IAudioService implementation
         public bool IsMusicEnabled => UserSettings.MusicEnabled;
@@ -45,7 +46,7 @@ namespace Components.Audio.Scripts
             // Setup configuration and hardware
             await SetupAudioSystem();
 
-            // Subscribe to events`
+            // Subscribe to events
             SubscribeToEvents();
 
             // Load and apply user settings
@@ -132,6 +133,7 @@ namespace Components.Audio.Scripts
             if (audioConfig.SfxSoundsMap.TryGetValue(soundName, out AudioClip clip))
             {
                 sfxSource.PlayOneShot(clip, volume);
+                sfxSource.volume = MaxVolume;
             }
             else
             {
@@ -177,7 +179,7 @@ namespace Components.Audio.Scripts
             isFading = true;
             audioSource.volume = 0;
             audioSource.Play();
-            while (audioSource && audioSource.volume < 1)
+            while (audioSource && audioSource.volume < MaxVolume)
             {
                 audioSource.volume += Time.deltaTime / fadeTime;
                 yield return null;

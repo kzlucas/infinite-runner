@@ -5,6 +5,7 @@ using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using Player.States;
 using UnityEngine;
+using WorldGenerator.Scripts;
 
 
 namespace Player

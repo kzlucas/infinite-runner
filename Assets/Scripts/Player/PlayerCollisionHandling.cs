@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Components.Audio.Scripts;
 using Components.ServiceLocator.Scripts;
 using UnityEngine;
+using WorldGenerator.Scripts;
 
 namespace Player
 {
