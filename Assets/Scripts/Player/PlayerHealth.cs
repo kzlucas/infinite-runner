@@ -1,5 +1,6 @@
-using System;
 using System.Collections;
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using UnityEngine;
 
 namespace Player
@@ -8,6 +9,11 @@ namespace Player
     public class Health : MonoBehaviour, IDamageable
     {
 
+        [Header("Dependencies")]
+        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
+
+        [Header("Health Settings")]
         public int currentHealth { get; set; }
         public int maxHealth { get; set; } = 10;
         public bool isInvincible = false;
@@ -34,8 +40,8 @@ namespace Player
             InvincibleForSeconds(.2f); 
 
 
-            UiManager.Instance.hud.UpdateHp((float)currentHealth / maxHealth);
-            UiManager.Instance.screenOverlay.Flash("red");
+            UiRegistry.hud.UpdateHp((float)currentHealth / maxHealth);
+            UiRegistry.screenOverlay.Flash("red");
 
             
             if (currentHealth <= 0)
@@ -53,7 +59,7 @@ namespace Player
         {
             currentHealth += amount;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-            UiManager.Instance.hud.UpdateHp((float)currentHealth / maxHealth);
+            UiRegistry.hud.UpdateHp((float)currentHealth / maxHealth);
         }
 
         public void Die()

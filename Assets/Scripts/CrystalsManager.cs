@@ -1,9 +1,17 @@
 
 
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using UnityEngine;
 
 public static class CrystalsManager
 {
+        
+    [Header("Dependencies")]
+    private static UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
+
+    [Header("Crystals Data")]
     public static int crystalsCollected = 0;
     public static int amountInBucket = 0;
     public static float bucketFillPct = 0f;
@@ -38,9 +46,9 @@ public static class CrystalsManager
         }
 
         // Update HUD
-        UiManager.Instance.hud.UpdateCrystalsBucket(bucketFillPct);
+        UiRegistry.hud.UpdateCrystalsBucket(bucketFillPct);
         crystalsCollected += amount;
-        StatsRecorder.Instance.SetMaxCoinsCollected(crystalsCollected);
+        StatsRecorder.SetMaxCoinsCollected(crystalsCollected);
     }
 
 
@@ -51,7 +59,7 @@ public static class CrystalsManager
     {
         bucketFillPct = 0f;
         amountInBucket = 0;
-        UiManager.Instance.hud.UpdateCrystalsBucket(bucketFillPct);
+        UiRegistry.hud.UpdateCrystalsBucket(bucketFillPct);
     }
 
 

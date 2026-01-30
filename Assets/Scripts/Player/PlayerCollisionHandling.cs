@@ -75,7 +75,7 @@ namespace Player
                 case ColliderType.Type.ZoneChange:
                     if (position == ColliderPosition.Body)
                     {
-                        StatsRecorder.Instance.UpdateLastBiomeReached(BiomesData.Instance.current.BiomeName);
+                        StatsRecorder.UpdateLastBiomeReached(BiomesData.Instance.current.BiomeName);
                     }
                     break;
 

@@ -1,0 +1,17 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/main.uss?fileID=7433441132597879392&amp;guid=563c666c9d9d0e307a2f416a110b8ac6&amp;type=3#main" />
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; align-items: flex-start; flex-direction: column;">
+        <ui:VisualElement name="top-bar" style="flex-grow: 0; flex-direction: row; flex-shrink: 1; justify-content: space-between; width: 100%; height: auto; padding-left: 20px; padding-right: 20px;">
+            <ui:VisualElement name="left" style="flex-grow: 1; flex-direction: row;">
+                <ui:VisualElement name="bucket-container" picking-mode="Ignore" class="bucket-container" style="height: 84px; width: 545px;">
+                    <ui:VisualElement name="bucket" picking-mode="Ignore" style="flex-grow: 1; width: 239px; background-image: url(&quot;project://database/Assets/Graphics/crystal-gauge-fill.png?fileID=2800000&amp;guid=048ce8f537da7d69abff46acef04fd00&amp;type=3#crystal-gauge-fill&quot;); flex-shrink: 0; position: absolute; height: 39px; top: 17px; left: 127px; -unity-background-image-tint-color: rgb(255, 0, 0); background-size: 239px 100%;" />
+                    <ui:Label text="0001" name="bucket-counter" style="position: absolute; top: 13px; left: 425px; width: 144px; color: rgb(255, 255, 255); font-size: 30px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="hp-container" picking-mode="Ignore" class="bucket-container" style="height: 84px; width: 372px; background-image: url(&quot;project://database/Assets/Graphics/healthbar-_bg.png?fileID=2800000&amp;guid=6d49117f2d967062cac2aa726d1920ab&amp;type=3#healthbar-_bg&quot;); margin-left: 20px;">
+                    <ui:VisualElement name="hp" picking-mode="Ignore" style="flex-grow: 1; width: 372px; background-image: url(&quot;project://database/Assets/Graphics/healthbar-_1.png?fileID=2800000&amp;guid=d2a04138c4ab27732ab2c03839ab035a&amp;type=3#healthbar-_1&quot;); flex-shrink: 0; position: absolute; height: 60px; top: 12px; left: 1px; -unity-background-image-tint-color: rgb(255, 0, 0); background-size: 239px 100%; -unity-background-scale-mode: scale-and-crop;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button text="Pause" name="btn--pause" class="action-button" style="height: 61px; width: 179px; -unity-slice-scale: 0.05px; font-size: 34px; padding-top: 18px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

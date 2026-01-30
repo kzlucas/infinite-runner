@@ -1,28 +1,42 @@
+using Components.EndGame.Scripts;
+using Components.Events;
+using Components.ServiceLocator.Scripts;
 using UnityEngine;
 
 /// <summary>
 ///   Records and manages player statistics and progress
 /// </summary>
-public class StatsRecorder : Singleton<StatsRecorder>
+public static class StatsRecorder
 {
-    private SaveData saveData;
-    public string lastBiomeReached = "None";
-    public int currentRunDistanceReached = 0;
-    public int currentRunCoinsCollected = 0;
 
-    private void Start()
+    [Header("Dependencies")]
+    private static EndGameManager EndGameManager => ServiceLocator.Get<EndGameManager>();
+
+
+    [Header("Player Stats")]
+    private static SaveData saveData;
+    public static string lastBiomeReached = "None";
+    public static int currentRunDistanceReached = 0;
+    public static int currentRunCoinsCollected = 0;
+
+    static StatsRecorder()
     {
         GetSaveData();
-        IncrementRunsCount();
-        EndGameManager.Instance.OnEndGame += OnGameEnd;
+        EventBus.Subscribe<OnRunStart>(OnRunStart);
+        EndGameManager.OnEndGame += OnGameEnd;
     }
 
-    private void OnGameEnd()
+    private static void OnRunStart(OnRunStart evt)
+    {
+        IncrementRunsCount();
+    }
+
+    private static void OnGameEnd()
     {
         SaveService.Save(saveData);
     }
 
-    private void GetSaveData()
+    private static void GetSaveData()
     {
         saveData = SaveService.Load();
         if (saveData == null)
@@ -31,34 +45,34 @@ public class StatsRecorder : Singleton<StatsRecorder>
         }
     }
 
-    private void IncrementRunsCount()
+    private static void IncrementRunsCount()
     {
         saveData.RunsCount += 1;
     }
 
-    public void UpdateLastBiomeReached(string biomeName)
+    public static void UpdateLastBiomeReached(string biomeName)
     {
         lastBiomeReached = biomeName;
     }
 
-    public void SetMaxDistanceReached(int distance)
+    public static void SetMaxDistanceReached(int distance)
     {
         currentRunDistanceReached = distance;
         saveData.MaxDistanceReached = Mathf.Max(saveData.MaxDistanceReached, distance);
     }
 
-    public int GetMaxDistanceReached()
+    public static int GetMaxDistanceReached()
     {
         return saveData.MaxDistanceReached;
     }
 
-    public void SetMaxCoinsCollected(int crystalsCollected)
+    public static void SetMaxCoinsCollected(int crystalsCollected)
     {
         currentRunCoinsCollected = crystalsCollected;
         saveData.MaxCrystalsCollectedInRun = Mathf.Max(saveData.MaxCrystalsCollectedInRun, crystalsCollected);
     }
 
-    public int GetMaxCoinsCollected()
+    public static int GetMaxCoinsCollected()
     {
         return saveData.MaxCrystalsCollectedInRun;
     }

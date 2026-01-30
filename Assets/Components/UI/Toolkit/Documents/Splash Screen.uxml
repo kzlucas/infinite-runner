@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/main.uss?fileID=7433441132597879392&amp;guid=563c666c9d9d0e307a2f416a110b8ac6&amp;type=3#main" />
+    <ui:VisualElement name="screen" class="screen" style="flex-grow: 1; align-items: center; justify-content: center; background-image: url(&quot;project://database/Assets/Graphics/splah-screen-bg.png?fileID=2800000&amp;guid=3d3a81ef020f684158d9b20a21c28dc7&amp;type=3#splah-screen-bg&quot;); -unity-background-scale-mode: scale-and-crop;">
+        <ui:VisualElement name="screen-inner" style="flex-grow: 1; height: auto; width: 100%; align-items: center; justify-content: flex-start;">
+            <ui:VisualElement name="Logo" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Graphics/logo.psd?fileID=2800000&amp;guid=8106d3cd53b8500179391aca0bad76bc&amp;type=3#logo&quot;); -unity-background-scale-mode: scale-to-fit; width: 100%; max-width: 1200px; max-height: 600px; margin-top: 40px;" />
+            <ui:VisualElement name="ButtonsContainer" style="flex-grow: 0; justify-content: flex-start; max-width: 600px; width: 100%; min-height: 200px;">
+                <ui:Button text="EXIT" name="btn--exit" class="action-button qqqqqqqqqqqq" />
+                <ui:Button text="START" name="btn--start" class="action-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

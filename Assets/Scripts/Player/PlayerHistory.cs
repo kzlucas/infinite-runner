@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using Player.States;
 using UnityEngine;
 
@@ -29,6 +31,12 @@ namespace Player
     /// </summary>
     public class PlayerHistory : MonoBehaviour
     {
+        
+        [Header("Dependencies")]
+        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
+
+        [Header("History Settings")]
         public List<PlayerHistoryRecord> records = new List<PlayerHistoryRecord>();
         public bool _disableRecord = false;
         public bool HasObstacleInFront = false;
@@ -148,8 +156,8 @@ namespace Player
                 yield return null;
             }
 
-            UiManager.Instance.countdown.Run();
-            yield return new WaitUntil(() => UiManager.Instance.countdown.animationFinished == true);
+            UiRegistry.countdown.Run();
+            yield return new WaitUntil(() => UiRegistry.countdown.animationFinished == true);
 
             TimeScaleManager.Instance.ResumeGame();
             player.animator.speed = 1f;

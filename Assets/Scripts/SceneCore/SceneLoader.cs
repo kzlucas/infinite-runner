@@ -1,14 +1,23 @@
 using System;
 using System.Collections;
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : Singleton<SceneLoader>
 {
-    public event Action OnSceneLoaded;
-    public event Action OnSceneExit;
+        
+    [Header("Dependencies")]
+    private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
+
+
+    [Header("Scene Loader Settings")]
     private bool isTriggered = false;
     public string currentSceneName => SceneManager.GetActiveScene().name;
+    public event Action OnSceneLoaded;
+    public event Action OnSceneExit;
 
 
     /// <summary>
@@ -102,8 +111,8 @@ public class SceneLoader : Singleton<SceneLoader>
 
     public IEnumerator FadeToBlack()
     {
-        yield return new WaitUntil(() => UiManager.Instance.isReady);
-        UiManager.Instance.screenOverlay.Open();
+        yield return new WaitUntil(() => UiRegistry.isReady);
+        UiRegistry.screenOverlay.Open();
         yield return new WaitForSecondsRealtime(.15f);
     }
     

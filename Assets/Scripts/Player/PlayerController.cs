@@ -1,4 +1,7 @@
 using System.Collections;
+using Components.EndGame.Scripts;
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using Player.States;
 using StateMachine;
 using UnityEngine;
@@ -13,6 +16,12 @@ namespace Player
     public class Controller : StateMachine.Behaviour
     {
         #region Fields
+
+        
+        [Header("Dependencies")]
+        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+        private EndGameManager EndGameManager => ServiceLocator.Get<EndGameManager>();
+
 
 
         [Header("References")]
@@ -185,8 +194,8 @@ namespace Player
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
 
             // Start game countdown
-            UiManager.Instance.countdown.Run();
-            yield return new WaitUntil(() => UiManager.Instance.countdown.animationFinished == true);
+            UiRegistry.countdown.Run();
+            yield return new WaitUntil(() => UiRegistry.countdown.animationFinished == true);
 
             // Let's play
             rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -267,7 +276,7 @@ namespace Player
             // Apply constant forward movement
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, gravityModifier, zMoveSpeed);
 
-            StatsRecorder.Instance.SetMaxDistanceReached((int)transform.position.z);
+            StatsRecorder.SetMaxDistanceReached((int)transform.position.z);
         }
 
 
@@ -279,7 +288,7 @@ namespace Player
             if (this == null) return;
             if (controlReleased) return;
             sm.TransitionTo<CrashState>();
-            EndGameManager.Instance.TriggerEndGame();
+            EndGameManager.TriggerEndGame();
         }
 
 

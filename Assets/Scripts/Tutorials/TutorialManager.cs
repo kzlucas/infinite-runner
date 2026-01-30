@@ -1,15 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using UnityEngine;
 
 
 public class TutorialManager : Singleton<TutorialManager>, IInitializable
 {
+        
+    [Header("Dependencies")]
+    private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
+
+
+    [Header("Initialisation")]
     public int initPriority => 0;
     public System.Type[] initDependencies => null;
 
 
+
+    [Header("Tutorial Data")]
     [SerializeField] public SO_Tutorials tutorials;
     [SerializeField] public bool tutorialsCompleted = false;
     public GameObject playerGo;
@@ -89,7 +100,7 @@ public class TutorialManager : Singleton<TutorialManager>, IInitializable
         var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
         if (tutorial != null && tutorial.completed == false)
         {
-            UiManager.Instance.pauseMenu.Close();
+            UiRegistry.pauseMenu.Close();
             var ui = Instantiate(tutorial.uiGo);
             ui.transform.SetParent(transform, false);
             IInitializable item = ui.GetComponent<IInitializable>();

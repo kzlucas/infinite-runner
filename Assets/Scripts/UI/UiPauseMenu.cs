@@ -1,3 +1,5 @@
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -5,6 +7,13 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class UiPauseMenu : UiPopin
 {
+        
+    [Header("Dependencies")]
+    private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
+
+
+    [Header("Pause Menu Settings")]
     public bool isLocked = false;
     public InputActionReference pauseGameActionRef;
 
@@ -17,7 +26,7 @@ public class UiPauseMenu : UiPopin
             {
                 if(isLocked) return;
                 Debug.Log("[UiPauseMenu] Toggling Pause Menu");
-                UiManager.Instance.pauseMenu.Toggle();
+                UiRegistry.pauseMenu.Toggle();
             });
         };
     }

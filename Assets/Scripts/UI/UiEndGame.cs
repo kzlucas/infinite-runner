@@ -36,12 +36,12 @@ public class UiEndGame : UiPopin
     {
         TimeScaleManager.Instance.PauseGame();
 
-        label_crystalsCollectedCount.text = StatsRecorder.Instance.currentRunCoinsCollected.ToString();
-        label_lastBiomeReached.text = StatsRecorder.Instance.lastBiomeReached;
-        label_distanceReached.text = StatsRecorder.Instance.currentRunDistanceReached.ToString();
+        label_crystalsCollectedCount.text = StatsRecorder.currentRunCoinsCollected.ToString();
+        label_lastBiomeReached.text = StatsRecorder.lastBiomeReached;
+        label_distanceReached.text = StatsRecorder.currentRunDistanceReached.ToString();
 
-        label_bestCrystalsCollectedCount.text = StatsRecorder.Instance.GetMaxCoinsCollected().ToString();
-        label_bestDistanceReached.text = StatsRecorder.Instance.GetMaxDistanceReached().ToString();
+        label_bestCrystalsCollectedCount.text = StatsRecorder.GetMaxCoinsCollected().ToString();
+        label_bestDistanceReached.text = StatsRecorder.GetMaxDistanceReached().ToString();
     }
 
 }

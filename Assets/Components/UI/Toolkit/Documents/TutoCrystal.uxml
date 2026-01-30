@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/main.uss?fileID=7433441132597879392&amp;guid=563c666c9d9d0e307a2f416a110b8ac6&amp;type=3#main" />
+    <ui:VisualElement name="popin" class="popin" style="flex-grow: 1;">
+        <ui:VisualElement name="popin-inner" class="popin-inner" style="flex-grow: 0; justify-content: space-between; max-height: none;">
+            <ui:Label text="Crystals" style="-unity-text-align: upper-center; font-size: 44px;" />
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Label text="Collect the crystals to repair your machine and return home." name="Label" style="-unity-text-align: upper-center; font-size: 30px; white-space: normal; margin-top: 20px; margin-bottom: 20px;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1; height: 122px; background-image: url(&quot;project://database/Assets/Graphics/crystal.psd?fileID=2800000&amp;guid=4075834c6594adf1cb4e83b0a7c118e7&amp;type=3#crystal&quot;); -unity-background-scale-mode: scale-to-fit;" />
+            <ui:VisualElement name="buttons" style="flex-grow: 0; justify-content: flex-end;">
+                <ui:Button text="OK" name="btn--close-tuto" style="margin-top: 10px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

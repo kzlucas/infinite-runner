@@ -1,15 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
 public class UiController : MonoBehaviour, IInitializable
 {
+        
+    [Header("Dependencies")]
+    private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
+
+
+    [Header("Initialization")]
     public int initPriority => 1;
     public System.Type[] initDependencies => null;
 
+
+
+    [Header("UI Document References")]
     protected VisualElement root;
     private PanelSettings panelSettings;
     public UIDocument uiDoc;
@@ -139,12 +151,12 @@ public class UiController : MonoBehaviour, IInitializable
         else if(actionName == "resume")
         {
             Debug.Log("[UiController] resume button clicked.");
-            UiManager.Instance.pauseMenu.Close();
+            UiRegistry.pauseMenu.Close();
         }
         else if(actionName == "pause")
         {
             Debug.Log("[UiController] pause button clicked.");
-            UiManager.Instance.pauseMenu.Open();   
+            UiRegistry.pauseMenu.Open();   
         }
         else
         {

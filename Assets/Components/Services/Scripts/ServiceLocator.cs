@@ -97,7 +97,7 @@ namespace Components.ServiceLocator.Scripts
             // Try to find service in scene if it's a MonoBehaviour
             if (typeof(MonoBehaviour).IsAssignableFrom(type))
             {
-                var found = UnityEngine.Object.FindObjectOfType(type);
+                var found = UnityEngine.Object.FindFirstObjectByType(type);
                 if (found != null)
                 {
                     Instance._services[type] = found;

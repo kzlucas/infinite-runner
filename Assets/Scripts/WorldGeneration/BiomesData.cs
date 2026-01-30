@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
 using UnityEngine;
 
 
 public class BiomesData : Singleton<BiomesData>, IInitializable
 {
+        
+    [Header("Dependencies")]
+    private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
 
     [Header("References")]
     private IEnumerator lerpBiomeColorCoroutineInstance;
@@ -71,7 +77,7 @@ public class BiomesData : Singleton<BiomesData>, IInitializable
 
     private IEnumerator FlashAndRegenWorld()
     {
-        if(Application.isPlaying) UiManager.Instance.screenOverlay.Flash("white");
+        if(Application.isPlaying) UiRegistry.screenOverlay.Flash("white");
         yield return new WaitForSeconds(0.1f);
         worldGenerationManager.RemoveBiomeCrystals(current.name);
         worldGenerationManager.ClearSegmentsInFrontPlayer(30);

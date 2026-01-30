@@ -1,4 +1,7 @@
+using System;
 using System.Threading.Tasks;
+using Components.EndGame.Scripts;
+using Components.UI.Scripts;
 using UnityEngine;
 
 
@@ -6,11 +9,10 @@ namespace Components.ServiceLocator.Scripts
 {
     /// <summary>
     /// Manages service registration and initialization
-    /// Integrates with the existing IInitializable system
     /// </summary>
     public class ServiceRegistry : MonoBehaviour, IInitializable
     {
-        public int initPriority => -100; // Initialize very early
+        public int initPriority => -1;
         public System.Type[] initDependencies => null;
 
         [Header("Services to Auto-Register")]
@@ -60,53 +62,20 @@ namespace Components.ServiceLocator.Scripts
 
         private async Task RegisterFoundServices()
         {
-            // Register AudioManager
-            var audioManager = FindObjectOfType<AudioManager>();
-            if (audioManager != null)
+            var typesToFind = new Type[]
             {
-                ServiceLocator.Register<AudioManager>(audioManager);
-            }
+                typeof(UiRegistry)
+                , typeof(EndGameManager)
+                
+            };
 
-            // Register UiManager
-            var uiManager = FindObjectOfType<UiManager>();
-            if (uiManager != null)
+            foreach (var type in typesToFind)
             {
-                ServiceLocator.Register<UiManager>(uiManager);
-            }
-
-            // Register GameManager
-            var gameManager = FindObjectOfType<GameManager>();
-            if (gameManager != null)
-            {
-                ServiceLocator.Register<GameManager>(gameManager);
-            }
-
-            // Register SceneLoader
-            var sceneLoader = FindObjectOfType<SceneLoader>();
-            if (sceneLoader != null)
-            {
-                ServiceLocator.Register<SceneLoader>(sceneLoader);
-            }
-
-            // Register EndGameManager
-            var endGameManager = FindObjectOfType<EndGameManager>();
-            if (endGameManager != null)
-            {
-                ServiceLocator.Register<EndGameManager>(endGameManager);
-            }
-
-            // Register SquareCollidersMerger
-            var squareCollidersMerger = FindObjectOfType<SquareCollidersMerger>();
-            if (squareCollidersMerger != null)
-            {
-                ServiceLocator.Register<SquareCollidersMerger>(squareCollidersMerger);
-            }
-
-            // Register InputHandlersManager
-            var inputManager = FindObjectOfType<InputHandlersManager>();
-            if (inputManager != null)
-            {
-                ServiceLocator.Register<InputHandlersManager>(inputManager);
+                var serviceInstance = FindFirstObjectByType(type);
+                if (serviceInstance != null)
+                {
+                    ServiceLocator.Register(type, serviceInstance);
+                }
             }
 
             await Task.CompletedTask;
