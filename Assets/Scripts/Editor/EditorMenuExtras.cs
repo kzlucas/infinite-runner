@@ -1,37 +1,57 @@
+using Components.Events;
 using UnityEditor;
 using UnityEngine;
 using WorldGenerator.Scripts;
 
-public class EditorMenuExtras : MonoBehaviour
+namespace Scripts.Editor
 {
+    /// <summary>
+    /// Extra editor menu items to call debug and utility functions
+    /// </summary>
 
-    [MenuItem("Tools/World Generation/Generate World Segments %g")] // Ctrl + G
-    private static void GenerateWorldSegments()
+    public class EditorMenuExtras : MonoBehaviour
     {
 
-        
-        if(BiomesData.Instance != null)
+        [MenuItem("Tools/World Generation/Generate World Segments %g")] // Ctrl + G
+        private static void GenerateWorldSegments()
         {
-            BiomesData.Instance.SetNext();
-        }
-        else
-        {
-            Debug.LogError("[EditorMenuExtras] WorldGenerationManager not found in the scene.");
-        }
+            if (BiomesDataManager.Instance != null)
+            {
+                BiomesDataManager.Instance.CycleToNextBiome();
+            }
+            else
+            {
+                Debug.LogError("[EditorMenuExtras] WorldGenerationManager not found in the scene.");
+            }
 
 
 
-        var worldGenManager = FindFirstObjectByType<WorldGenerationManager>();
-        if (worldGenManager != null)
-        {
-            worldGenManager.GenerateSegments();
+            var worldGenManager = FindFirstObjectByType<WorldGenerationManager>();
+            if (worldGenManager != null)
+            {
+                worldGenManager.GenerateSegments();
+            }
+
+            else
+            {
+                Debug.LogError("[EditorMenuExtras] BiomesData instance not found.");
+            }
         }
 
-        else
+
+        [MenuItem("Tools/Delete Save File and Player Prefs %&d")] // Ctrl + Alt + D
+        private static void DeleteSave()
         {
-            Debug.LogError("[EditorMenuExtras] BiomesData instance not found.");
+            SaveService.DeleteSave();
+            PlayerPrefService.DeleteAll();
         }
+
+
+        [MenuItem("Tools/EventBus/Log Active Subscriptions")]
+        private static void LogEventBusSubscriptions()
+        {
+            EventBus.LogActiveSubscriptions();
+        }
+
     }
-
-
 }

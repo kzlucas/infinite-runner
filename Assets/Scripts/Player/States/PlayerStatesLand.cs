@@ -7,8 +7,6 @@ namespace Player.States
 {
     public class LandState : BaseState
     {
-        [Header("Dependencies")]
-        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
         [Header("References")]
@@ -26,7 +24,7 @@ namespace Player.States
             if (player == null) return;
 
             // Play land sound
-            AudioManager.PlaySound("land");
+            AudioManager.Instance.PlaySound("land");
 
             // Play again jump particles on landing
             PlayLandParticules();

@@ -1,167 +1,187 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Components.Events;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
+using Interfaces;
 using UnityEngine;
 
-
-public class TutorialManager : Singleton<TutorialManager>, IInitializable
+namespace Tutorials
 {
-        
-    [Header("Dependencies")]
-    private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-
-
-
-    [Header("Initialisation")]
-    public int initPriority => 0;
-    public System.Type[] initDependencies => null;
-
-
-
-    [Header("Tutorial Data")]
-    [SerializeField] public SO_Tutorials tutorials;
-    [SerializeField] public bool tutorialsCompleted = false;
-    public GameObject playerGo;
-
-
-
-    public Task InitializeAsync()
+    public class TutorialManager : MonoBehaviour, IInitializable, IService
     {
-        if(PlayerPrefService.Load("SkipTutorials") == "1")
+
+        [Header("Dependencies")]
+        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+
+
+
+        [Header("Initialisation")]
+        public int initPriority => 0;
+        public System.Type[] initDependencies => null;
+
+
+
+        [Header("Tutorial Data")]
+        [SerializeField] public SO_Tutorials tutorials;
+        [SerializeField] public bool tutorialsCompleted = false;
+        public GameObject playerGo;
+
+
+
+        public Task InitializeAsync()
         {
-            tutorialsCompleted = true;
-            return Task.CompletedTask;
+            if (PlayerPrefService.Load("SkipTutorials") == "1")
+            {
+                tutorialsCompleted = true;
+                return Task.CompletedTask;
+            }
+
+            try
+            {
+                playerGo = GameObject.FindWithTag("Player");
+                tutorials = Resources.Load<SO_Tutorials>("ScriptableObjects/Tutorials Data");
+                tutorialsCompleted = TutorialsCompleted();
+                return Task.CompletedTask;
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"[TutorialManager] Initialization failed: {ex.Message}");
+                throw;
+            }
         }
 
-        try
-        {
-            playerGo = GameObject.FindWithTag("Player");
-            tutorials = Resources.Load<SO_Tutorials>("ScriptableObjects/Tutorials Data");
-            tutorialsCompleted = TutorialsCompleted();
-            return Task.CompletedTask;
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError($"[TutorialManager] Initialization failed: {ex.Message}");
-            throw;
-        }
-    }
 
-
-    private void Update()
-    {
-        if (tutorialsCompleted)
+        private void Start()
         {
-            return;
+            EventBus.Subscribe<BiomeChangedEvent>(OnBiomeChanged);
         }
 
-        if (
-            playerGo
-            && playerGo.transform.position.z > 10f
-            && !TutorialCompleted("ChangeLane"))
+        private void OnBiomeChanged(BiomeChangedEvent evt)
         {
-            Play("ChangeLane");
+            // Play "Tutorial Completed"  when leaving tutorial biome
+            if(evt.NewBiomeData.name != "Tutorial" && (PlayerPrefService.Load("SkipTutorials") == null))
+            {
+                Play("Completed");
+                PlayerPrefService.Save("SkipTutorials", "1");
+                tutorialsCompleted = true;
+            }
         }
 
-        if (
-            playerGo
-            && playerGo.transform.position.z > 170f
-            && !TutorialCompleted("Jump"))
+
+        private void Update()
         {
-            Play("Jump");
+            if (tutorialsCompleted)
+            {
+                return;
+            }
+
+            if (
+                playerGo
+                && playerGo.transform.position.z > 10f
+                && !TutorialCompleted("ChangeLane"))
+            {
+                Play("ChangeLane");
+            }
+
+            if (
+                playerGo
+                && playerGo.transform.position.z > 170f
+                && !TutorialCompleted("Jump"))
+            {
+                Play("Jump");
+            }
+
+            if (
+                playerGo
+                && playerGo.transform.position.z > 270f
+                && !TutorialCompleted("Slide"))
+            {
+                Play("Slide");
+            }
+
+            if (
+                playerGo
+                && playerGo.transform.position.z > 410f
+                && !TutorialCompleted("Crystal"))
+            {
+                Play("Crystal");
+            }
         }
 
-        if (
-            playerGo
-            && playerGo.transform.position.z > 270f
-            && !TutorialCompleted("Slide"))
+
+        /// <summary>
+        ///     Plays the tutorial with the specified key if not already completed.
+        /// </summary>
+        /// <param name="tutorialKey"></param>
+        public void Play(string tutorialKey)
         {
-            Play("Slide");
+            var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
+            if (tutorial != null && tutorial.completed == false)
+            {
+                UiRegistry.pauseMenu.Close();
+                var ui = Instantiate(tutorial.uiGo);
+                ui.transform.SetParent(transform, false);
+                IInitializable item = ui.GetComponent<IInitializable>();
+                item.InitializeAsync();
+                ui.GetComponent<UiPopin>().Open();
+                MarkTutorialCompleted(tutorialKey);
+            }
         }
 
-        if (
-            playerGo
-            && playerGo.transform.position.z > 410f
-            && !TutorialCompleted("Crystal"))
+        /// <summary>
+        ///     Marks the tutorial with the specified key as completed.
+        /// </summary>
+        /// <param name="tutorialKey"></param>
+        public void MarkTutorialCompleted(string tutorialKey)
         {
-            Play("Crystal");
-        }
-    }
-
-
-    /// <summary>
-    ///     Plays the tutorial with the specified key if not already completed.
-    /// </summary>
-    /// <param name="tutorialKey"></param>
-    public void Play(string tutorialKey)
-    {
-        var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
-        if (tutorial != null && tutorial.completed == false)
-        {
-            UiRegistry.pauseMenu.Close();
-            var ui = Instantiate(tutorial.uiGo);
-            ui.transform.SetParent(transform, false);
-            IInitializable item = ui.GetComponent<IInitializable>();
-            item.InitializeAsync();
-            ui.GetComponent<UiPopin>().Open();
-            MarkTutorialCompleted(tutorialKey);
-        }
-    }
-
-    /// <summary>
-    ///     Marks the tutorial with the specified key as completed.
-    /// </summary>
-    /// <param name="tutorialKey"></param>
-    public void MarkTutorialCompleted(string tutorialKey)
-    {
-        var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
-        if (tutorial != null && tutorial.completed == false)
-        {
-            tutorial.completed = true;
-        }
-
-        // Save completion in save data
-        var saveData = SaveService.Load();
-        var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted) { tutorialKey };
-        tutorialsCompleted = new List<string>(new HashSet<string>(tutorialsCompleted)); // rm duplicates
-        saveData.TutorialsCompleted = tutorialsCompleted.ToArray();
-        SaveService.Save(saveData);
-    }
-
-
-    /// <summary>
-    ///     Checks if the tutorial with the specified key has been completed.
-    /// </summary>
-    /// <param name="tutorialKey"></param>
-    public bool TutorialCompleted(string tutorialKey)
-    {
-        var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
-        if (tutorial != null)
-        {
-            return tutorial.completed;
-        }
-        return false;
-    }
-
-    /// <summary>
-    ///     Checks if all tutorials have been completed.
-    /// </summary>
-    private bool TutorialsCompleted()
-    {
-        var saveData = SaveService.Load();
-        var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
-        Debug.Log("[TutorialManager] Loaded completed tutorials: " + string.Join(", ", tutorialsCompleted));
-        foreach (var tutorial in tutorials.Tutorials)
-        {
-            tutorial.completed = false;
-            if (tutorialsCompleted.Contains(tutorial.tutorialKey))
+            var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
+            if (tutorial != null && tutorial.completed == false)
             {
                 tutorial.completed = true;
             }
+
+            // Save completion in save data
+            var saveData = SaveService.Load();
+            var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted) { tutorialKey };
+            tutorialsCompleted = new List<string>(new HashSet<string>(tutorialsCompleted)); // rm duplicates
+            saveData.TutorialsCompleted = tutorialsCompleted.ToArray();
+            SaveService.Save(saveData);
         }
-        return tutorials.Tutorials.TrueForAll(t => t.completed);
+
+
+        /// <summary>
+        ///     Checks if the tutorial with the specified key has been completed.
+        /// </summary>
+        /// <param name="tutorialKey"></param>
+        public bool TutorialCompleted(string tutorialKey)
+        {
+            var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
+            if (tutorial != null)
+            {
+                return tutorial.completed;
+            }
+            return false;
+        }
+
+        /// <summary>
+        ///     Checks if all tutorials have been completed.
+        /// </summary>
+        private bool TutorialsCompleted()
+        {
+            var saveData = SaveService.Load();
+            var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
+            Debug.Log("[TutorialManager] Loaded completed tutorials: " + string.Join(", ", tutorialsCompleted));
+            foreach (var tutorial in tutorials.Tutorials)
+            {
+                tutorial.completed = false;
+                if (tutorialsCompleted.Contains(tutorial.tutorialKey))
+                {
+                    tutorial.completed = true;
+                }
+            }
+            return tutorials.Tutorials.TrueForAll(t => t.completed);
+        }
     }
 }
 

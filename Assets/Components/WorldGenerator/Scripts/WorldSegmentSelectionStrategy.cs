@@ -19,7 +19,7 @@ namespace WorldGenerator.Scripts
 
         public WorldSegment Select(int generatedIndex)
         {
-            switch (BiomesData.Instance.current.BiomeName)
+            switch (BiomesDataManager.Instance.current.BiomeName)
             {
                 case "Tutorial":
 

@@ -7,8 +7,6 @@ namespace Player.States
 {
     public class JumpState : BaseState
     {
-        [Header("Dependencies")]
-        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
         [Header("References")]
@@ -26,7 +24,7 @@ namespace Player.States
         public override void OnEnter()
         {
             // Play jump sound
-            AudioManager.PlaySound("jump");
+            AudioManager.Instance.PlaySound("jump");
 
             // Start jump animation
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);

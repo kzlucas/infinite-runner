@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public abstract class Collectible : MonoBehaviour
 {
-    [Header("Dependencies")]
-    private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
     [Header("Collectible Settings")]
@@ -29,7 +27,7 @@ public abstract class Collectible : MonoBehaviour
 
         if(SoundToPlayOnCollection != "")
         {
-            AudioManager?.PlaySound(SoundToPlayOnCollection);
+            AudioManager.Instance?.PlaySound(SoundToPlayOnCollection);
         }
 
         OnCollide();

@@ -35,7 +35,7 @@ namespace WorldGenerator.Scripts
 
             var segmentInstance = GameObject.Instantiate(GameObject, new Vector3(0f, 0f, zTarget), Quaternion.identity);
             var sidewalkGenerators = segmentInstance.GetComponentsInChildren<SidewalkGenerator>();
-            segmentInstance.name += $"| {name}";
+            segmentInstance.name += $" | z: {zTarget}";
             foreach (var sidewalkGenerator in sidewalkGenerators) sidewalkGenerator.Generate();
             segmentInstance.transform.parent = parent;
             var worldSegment = new WorldSegment()
@@ -87,7 +87,7 @@ namespace WorldGenerator.Scripts
 
 
         /// <summary>
-        ///   Remove all crystals that belong to given biome name
+        ///   Remove all crystals
         /// </summary>
         public void RemoveCrystals()
         {

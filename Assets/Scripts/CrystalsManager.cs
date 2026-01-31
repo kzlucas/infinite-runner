@@ -11,7 +11,6 @@ public static class CrystalsManager
         
     [Header("Dependencies")]
     private static UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-    private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
     [Header("Crystals Data")]
@@ -36,15 +35,15 @@ public static class CrystalsManager
     public static void AddCrystals(int amount)
     {
         amountInBucket += amount;
-        bucketFillPct = amountInBucket / (float)BiomesData.Instance.current.CrystalsNeeded;
+        bucketFillPct = amountInBucket / (float)BiomesDataManager.Instance.current.CrystalsNeeded;
         bucketFillPct = Mathf.Clamp01(bucketFillPct);
 
         // Check if bucket is full
         if(bucketFillPct >= 1f)
         {   
             // Change to next biome
-            BiomesData.Instance.SetNext();
-            AudioManager.PlaySound("biome-change");
+            BiomesDataManager.Instance.CycleToNextBiome();
+            AudioManager.Instance.PlaySound("biome-change");
             ClearBucket();
         }
 

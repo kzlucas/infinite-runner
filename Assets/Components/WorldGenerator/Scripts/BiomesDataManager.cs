@@ -1,0 +1,138 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Components.Events;
+using Components.ServiceLocator.Scripts;
+using Components.UI.Scripts;
+using Interfaces;
+using Tutorials;
+using UnityEngine;
+
+
+namespace WorldGenerator.Scripts
+{
+
+    /// <summary>
+    ///  Manager for biome data and transitions between biomes
+    /// </summary>
+    public class BiomesDataManager : Singleton<BiomesDataManager>, IInitializable, IService
+    {
+
+        [Header("Dependencies")]
+        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+        private TutorialManager TutorialManager => ServiceLocator.Get<TutorialManager>();
+
+
+        [Header("References")]
+        private IEnumerator lerpBiomeColorCoroutineInstance;
+        public WorldGenerationManager worldGenerationManager;
+
+
+        [Header("Initialization")]
+        public int initPriority => 1;
+        public System.Type[] initDependencies => null;
+
+
+        [Header("Biome Data")]
+        public List<SO_BiomeData> items = new List<SO_BiomeData>();
+        public SO_BiomeData current = null;
+
+
+
+        /// <summary>
+        ///   Initializes the Biomes Data Manager.
+        /// </summary>
+        /// <returns></returns>
+        public Task InitializeAsync()
+        {
+            CycleToNextBiome(); // set initial biome
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        ///   Cycle to the next biome in the list.
+        /// </summary>
+        public void CycleToNextBiome()
+        {
+            int CycleBiomesIndex()
+            {
+                int currentIndex = items.FindIndex(b => b.name == current.name);
+                int nextIndex = currentIndex + 1;
+                if (nextIndex >= items.Count) nextIndex = 1;
+                return nextIndex;
+            }
+
+            if (!TutorialManager.tutorialsCompleted)
+                SetBiome(0); // tutorial
+            else
+                SetBiome(CycleBiomesIndex()); // real biomes
+
+        }
+
+
+        /// <summary>
+        ///   Apply biome data at given index.
+        /// </summary>
+        /// <param name="index"></param>
+        private void SetBiome(int index)
+        {
+            if (index < 0 || index >= items.Count)
+            {
+                Debug.LogError("[BiomesData] Index out of range when applying biome data!");
+                return;
+            }
+
+            current = items[index];
+            EventBus.Publish(new BiomeChangedEvent(current));
+
+            Debug.Log("[BiomesData] Changing to biome: " + current.name);
+
+            // Update Sky color and Regenerate world
+            float lerpDuration = .5f;
+            lerpBiomeColorCoroutineInstance = LerpBiomeColors(current.ColorSky, current.ColorSkyHorizon, current.ColorSkyGround, lerpDuration);
+            StartCoroutine(lerpBiomeColorCoroutineInstance);
+            StartCoroutine(RegenWorld());
+        }
+
+
+        /// <summary>
+        ///   Gradually change biome colors
+        ///  </summary>
+        private IEnumerator LerpBiomeColors(Color targetSky, Color targetHorizon, Color targetGround, float duration)
+        {
+
+            if (SceneLoader.Instance.currentSceneName != "Game")
+                yield break;
+
+            Color initialSky = RenderSettings.skybox.GetColor("_SkyColor");
+            Color initialHorizon = RenderSettings.skybox.GetColor("_HorizonColor");
+            Color initialGround = RenderSettings.skybox.GetColor("_GroundColor");
+
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+
+                RenderSettings.skybox.SetColor("_SkyColor", Color.Lerp(initialSky, targetSky, t));
+                RenderSettings.skybox.SetColor("_HorizonColor", Color.Lerp(initialHorizon, targetHorizon, t));
+                RenderSettings.skybox.SetColor("_GroundColor", Color.Lerp(initialGround, targetGround, t));
+
+                yield return null;
+            }
+            // Ensure final colors are set
+            RenderSettings.skybox.SetColor("_SkyColor", targetSky);
+            RenderSettings.skybox.SetColor("_HorizonColor", targetHorizon);
+            RenderSettings.skybox.SetColor("_GroundColor", targetGround);
+        }
+
+
+        private IEnumerator RegenWorld()
+        {
+            if (Application.isPlaying) UiRegistry.screenOverlay.Flash("white");
+            yield return new WaitForSeconds(0.1f);
+            var playerTransform = FindFirstObjectByType<Player.Controller>()?.transform;
+            InstancesRegistry.ClearSegmentsInFront((int)(playerTransform.position.z + 30)); // force regen
+        }
+    }
+}

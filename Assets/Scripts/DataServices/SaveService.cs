@@ -51,9 +51,6 @@ public static class SaveService
     /// <summary>
     ///  Delete save file
     /// </summary>
-#if UNITY_EDITOR
-    [UnityEditor.MenuItem("Tools/Delete Save File")]
-#endif
     public static void DeleteSave()
     {
         string path = GetSaveFilePath();

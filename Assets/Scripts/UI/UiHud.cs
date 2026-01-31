@@ -69,8 +69,8 @@ public class UiHud : UiController
         bucketCounter.text = Mathf.RoundToInt(fillPct * 100f).ToString() + "%";
 
         CrystalsBucketColor(
-            BiomesData.Instance.current.crystalColor,
-            BiomesData.Instance.current.GaugeImage
+            BiomesDataManager.Instance.current.crystalColor,
+            BiomesDataManager.Instance.current.GaugeImage
         );
     }
 

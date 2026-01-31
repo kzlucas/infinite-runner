@@ -13,7 +13,7 @@ public class CollectibleCrystal : Collectible
     {
         
         // Set material color based on biome
-        var color = BiomesData.Instance.current.crystalColor;
+        var color = BiomesDataManager.Instance.current.crystalColor;
         var materials = GetComponentsInChildren<Renderer>().SelectMany(r => r.materials);
         foreach (var mat in materials)
         {

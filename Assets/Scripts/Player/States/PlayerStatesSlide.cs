@@ -8,9 +8,6 @@ namespace Player.States
 {
     public class SlideState : BaseState
     {
-        [Header("Dependencies")]
-        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
-
 
         [Header("References")]
         private Controller player;
@@ -52,7 +49,7 @@ namespace Player.States
         /// </summary>
         private IEnumerator SlideRoutine()
         {
-            AudioManager.PlaySound("slide");
+            AudioManager.Instance.PlaySound("slide");
 
             player.isSliding = true;
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", true);

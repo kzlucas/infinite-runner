@@ -13,13 +13,11 @@ public class UiController : MonoBehaviour, IInitializable
         
     [Header("Dependencies")]
     private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-    private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
     [Header("Initialization")]
     public int initPriority => 1;
     public System.Type[] initDependencies => null;
-
 
 
     [Header("UI Document References")]
@@ -107,9 +105,9 @@ public class UiController : MonoBehaviour, IInitializable
 
             // Initialize toggle states from PlayerPrefService
             if (toggle.name == "settings--music")
-                toggle.value = AudioManager.IsMusicEnabled;
+                toggle.value = AudioManager.Instance.IsMusicEnabled;
             if (toggle.name == "settings--sfx")
-                toggle.value = AudioManager.IsSfxEnabled;
+                toggle.value = AudioManager.Instance.IsSfxEnabled;
         }
         
         // root.Focus(); // needed to ensure input works in WebGL builds
@@ -164,7 +162,7 @@ public class UiController : MonoBehaviour, IInitializable
             Debug.LogError("[UiController] Unhandled button action: " + actionName);
         }
 
-        AudioManager.PlaySound("button-click");
+        AudioManager.Instance.PlaySound("button-click");
     }
 
 
@@ -181,18 +179,18 @@ public class UiController : MonoBehaviour, IInitializable
 
         if(actionName == "music")
         {
-            AudioManager.UserSettings.SetMusicEnabled(newValue);
+            AudioManager.Instance.UserSettings.SetMusicEnabled(newValue);
         }
         else if(actionName == "sfx")
         {
-            AudioManager.UserSettings.SetSfxEnabled(newValue);
+            AudioManager.Instance.UserSettings.SetSfxEnabled(newValue);
         }
         else
         {
             Debug.LogError("[UiController] Unhandled toggle action: " + actionName);
         }
 
-        AudioManager.PlaySound("button-click");
+        AudioManager.Instance.PlaySound("button-click");
     }
 
 

@@ -20,6 +20,8 @@ namespace WorldGenerator.Scripts
         public static void Clear()
         {
             instances.Clear();
+            foreach (var seg in GameObject.FindGameObjectsWithTag("World Segment"))
+                GameObject.DestroyImmediate(seg);
         }
 
         public static WorldSegment FindByZ(int zPosition)

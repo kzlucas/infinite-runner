@@ -12,7 +12,6 @@ namespace Player
 
         [Header("Dependencies")]
         private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
         [Header("Health Settings")]
@@ -32,7 +31,7 @@ namespace Player
             if (isInvincible || isDie) return;
 
             // Play crash sound
-            AudioManager.PlaySound("crash");
+            AudioManager.Instance.PlaySound("crash");
 
             currentHealth -= damage;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);

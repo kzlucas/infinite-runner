@@ -1,12 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Assets.Components.SquareColliders.Scripts;
-using Components.Audio.Scripts;
-using Components.EndGame.Scripts;
-using Components.UI.Scripts;
-using InputsHandler;
 using UnityEngine;
-
 
 namespace Components.ServiceLocator.Scripts
 {
@@ -15,16 +9,7 @@ namespace Components.ServiceLocator.Scripts
     /// </summary>
     public class ServiceRegistry : MonoBehaviour, IInitializable
     {
-        Type[] TypesToFind = new Type[]
-        {
-              typeof( UiRegistry )
-            , typeof( EndGameManager )
-            , typeof( SquareCollidersMerger )
-            , typeof( InputHandlersManager )
-            , typeof( AudioManager )
-            , typeof( IAudioService )
-
-        };
+        Type[] TypesToFind = new Type[]{};
 
         public int initPriority => -1;
         public System.Type[] initDependencies => null;
@@ -95,12 +80,9 @@ namespace Components.ServiceLocator.Scripts
             ServiceLocator.Clear();
         }
 
-#if UNITY_EDITOR
-        [ContextMenu("Log Registered Services")]
-        private void LogServices()
+        public static void LogServices()
         {
             ServiceLocator.LogRegisteredServices();
         }
-#endif
     }
 }

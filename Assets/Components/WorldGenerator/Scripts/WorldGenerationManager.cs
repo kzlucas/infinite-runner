@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Assets.Components.SquareColliders.Scripts;
 using Components.ServiceLocator.Scripts;
 using UnityEngine;
-using WorldGenerator.Scripts;
 
 
 namespace WorldGenerator.Scripts
@@ -25,13 +24,14 @@ namespace WorldGenerator.Scripts
 
         [Header("Initialization")]
         public int initPriority => 2;
-        public Type[] initDependencies => new Type[] { typeof(BiomesData) };
+        public Type[] initDependencies => new Type[] { typeof(BiomesDataManager) };
 
 
 
         [Header("References")]
 
-        /// <summary>Current world segments</summary>
+        /// <summary> Biome limit game object</summary>
+        public WorldStartOverlay WorldStartOverlay;
 
         /// <summary>Reference to the player transform for generation tracking</summary>
         private Transform _playerTransform;
@@ -60,7 +60,6 @@ namespace WorldGenerator.Scripts
         public float lastRecordZPosition = 0f;
 
 
-        private void OnDestroy() => StopAllCoroutines();
 
 
         /// <summary>
@@ -89,13 +88,11 @@ namespace WorldGenerator.Scripts
             {
                 generatedIndex = 0;
                 InstancesRegistry.Clear();
-                foreach (var seg in GameObject.FindGameObjectsWithTag("World Segment"))
-                    DestroyImmediate(seg);
             }
 
             // (re)Start generation thread
             if (generationCoroutine != null) StopCoroutine(generationCoroutine);
-            generationCoroutine = GenerationRoutine();
+            generationCoroutine = GenerationWalkerRoutine();
             StartCoroutine(generationCoroutine);
         }
 
@@ -104,7 +101,7 @@ namespace WorldGenerator.Scripts
         /// <summary>
         /// Check if we need to generate or rm segments and do it
         /// </summary>
-        private IEnumerator GenerationRoutine()
+        private IEnumerator GenerationWalkerRoutine()
         {
             if (playerTransform == null) yield break;
 
@@ -117,68 +114,23 @@ namespace WorldGenerator.Scripts
                 var segmentInstance = InstancesRegistry.FindByZ(cursor);
                 if (segmentInstance == null)
                 {
+                    // Data init
                     var lastSegment = InstancesRegistry.LastOrDefault();
-                    var currentBiomeName = BiomesData.Instance.current.BiomeName;
-                    var previousBiomeName = InstancesRegistry.PreviousOrDefault()?.BiomeData?.BiomeName;
                     var zTarget = cursor;
 
-                    /*
-                     *
-                     * Add biome change overlay if biome changed 
-                     */
+                    // Add biome change overlay if biome changed 
+                    if(ShouldGenerateChangeOverlay(ref lastSegment))
+                        GenerateBiomeChangeOverlay(ref lastSegment, lastSegment.position);
 
-                    if (lastSegment != null && (currentBiomeName != previousBiomeName))
-                    {
-                        WorldStartOverlay.Instance.Set(
-                            lastSegment.position + new Vector3(0, 0, lastSegment.sizeZ)
-                            , BiomesData.Instance.current.ColorSkyGround
-                        );
-                        generatedIndex = 0; // reset index on biome change
-                    }
+                    // Create new segment 
+                    InstantiateNewSegment(ref lastSegment, ref segmentInstance, zTarget);
 
-                    /*
-                     *
-                     * Create new segment 
-                     */
+                    // Special case: Remove crystals in tutorial biome segments until certain index
+                    if ((BiomesDataManager.Instance.current.BiomeName == "Tutorial")
+                    && (generatedIndex <= 24)) segmentInstance.RemoveCrystals();
 
-                    generatedIndex++;
-
-                    if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
-                    var selectionStrategy = new SelectionStrategy(BiomesData.Instance.current);
-                    var segmentModel = selectionStrategy.Select(generatedIndex);
-                    segmentInstance = segmentModel.ToInstance(zTarget, BiomesData.Instance.current, this.transform);
-                    InstancesRegistry.RegisterInstance(segmentInstance);
-
-
-                    /*
-                     *
-                     * Special case: Remove crystals in tutorial biome segments until certain index
-                     */
-
-                    if ((BiomesData.Instance.current.BiomeName == "Tutorial")
-                    && (generatedIndex <= 24))
-                    {
-                        segmentInstance.RemoveCrystals();
-                    }
-
-
-                    /*
-                     *
-                     * no need to block frame, each segment can be created in its own frame 
-                     */
-
+                    // no need to block frame, each segment can be created in its own frame 
                     if (Application.isPlaying) yield return null;
-                }
-
-                if (segmentInstance == null)
-                {
-                    Debug.LogError("[WorldGenerationManager] World segment is null after instantiation!");
-                    break;
-                }
-                if (segmentInstance.sizeZ <= 0)
-                {
-                    Debug.LogError("[WorldGenerationManager] World segment sizeZ is invalid after calculation!");
-                    break;
                 }
                 cursor += segmentInstance.sizeZ;
             }
@@ -195,6 +147,51 @@ namespace WorldGenerator.Scripts
         }
 
 
+        /// <summary>
+        /// Check if we need to generate biome change overlay
+        /// </summary>
+        /// <param name="lastSegment"></param>
+        /// <returns></returns>
+        private bool ShouldGenerateChangeOverlay(ref WorldSegment lastSegment)
+        {
+            var currentBiomeName = BiomesDataManager.Instance.current.BiomeName;
+            var previousBiomeName = InstancesRegistry.PreviousOrDefault()?.BiomeData?.BiomeName;
+            var worldIsStarting = lastSegment != null && (previousBiomeName != null) && (currentBiomeName != previousBiomeName);
+            return worldIsStarting;
+        }
 
+        /// <summary>
+        /// Generate overlay at the start of a new biome
+        /// </summary>
+        private void GenerateBiomeChangeOverlay(ref WorldSegment lastSegment, Vector3 pos)
+        {
+            // cleanup crystals from previous biome
+            var previousBiomeName = InstancesRegistry.PreviousOrDefault()?.BiomeData?.BiomeName;
+            InstancesRegistry.RemoveBiomeCrystals(previousBiomeName);
+
+            // cleanup existing overlays
+            foreach (var go in GameObject.FindGameObjectsWithTag("WorldStart"))
+            {
+                Destroy(go);
+            }
+            // create new overlay
+            var _worldStartOverlay = Instantiate(WorldStartOverlay.gameObject);
+            _worldStartOverlay.transform.parent = this.transform;
+            _worldStartOverlay.GetComponent<WorldStartOverlay>().Set(pos, BiomesDataManager.Instance.current.ColorSkyGround);
+            generatedIndex = 0; // reset index on biome change
+        }
+
+        /// <summary>
+        /// Instantiate a new world segment at given z position
+        /// </summary>
+        private void InstantiateNewSegment(ref WorldSegment lastSegment, ref WorldSegment segmentInstance, int zTarget)
+        {
+            generatedIndex++;
+            if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
+            var selectionStrategy = new SelectionStrategy(BiomesDataManager.Instance.current);
+            var segmentModel = selectionStrategy.Select(generatedIndex);
+            segmentInstance = segmentModel.ToInstance(zTarget, BiomesDataManager.Instance.current, this.transform);
+            InstancesRegistry.RegisterInstance(segmentInstance);
+        }
     }
 }

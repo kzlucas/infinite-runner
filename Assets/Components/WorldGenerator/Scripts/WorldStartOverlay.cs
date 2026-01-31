@@ -7,7 +7,7 @@ namespace WorldGenerator.Scripts
     /// <summary>
     ///  Overlay displayed at the start of the world
     /// </summary>
-    public class WorldStartOverlay : Singleton<WorldStartOverlay>
+    public class WorldStartOverlay : MonoBehaviour
     {
         public GameObject overlayObject;
 

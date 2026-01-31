@@ -128,8 +128,9 @@ namespace Components.Events
             return count;
         }
 
-#if UNITY_EDITOR
-        [UnityEditor.MenuItem("Tools/EventBus/Log Active Subscriptions")]
+        /// <summary>
+        /// Log all active subscriptions
+        /// </summary>
         public static void LogActiveSubscriptions()
         {
             Debug.Log($"[EventBus] Active subscriptions: {_handlers.Count} event types");
@@ -138,6 +139,5 @@ namespace Components.Events
                 Debug.Log($"  {kvp.Key.Name}: {kvp.Value.Count} handlers");
             }
         }
-#endif
     }
 }

@@ -30,4 +30,12 @@ public static class PlayerPrefService
         }
         return null;
     }
+
+    /// <summary>
+    ///  Delete all player prefs
+    /// </summary>
+    public static void DeleteAll()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }

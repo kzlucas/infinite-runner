@@ -116,8 +116,7 @@ Tout au long du développement:
 - en utilisant l'éditeur Unity pour simuler différentes situations de jeu et vérifier les comportements attendus.
 - en jouant au jeu régulièrement pour identifier et corriger les bugs et les problèmes de gameplay.
 - en faisant des builds du jeu pour tester les performances et la compatibilité sur différentes plateformes (Linux et WebGL).
-
-![debug-1.png](Documentation/debug-1.png)
+- en utilisant une classe `Editor` [`EditorMenuExtras`](Assets/Scripts/Editor/EditorMenuExtras.cs) pour lancer des fonctions  depuis le menu de l'éditeur Unity.
 
 Le prototype a été envoyé au groupe de travail sur Discord pour demander des retours et identifier d'éventuels bugs ou problèmes de gameplay. Quelques bugs ont été remontés et corrigés avant la version finale du prototype.
 
@@ -253,7 +252,7 @@ La gestion de l'audio dans le jeu est réalisée à l'aide de la classe [`AudioM
 
 *eg*
 ```csharp 
-AudioManager.PlaySound("crash");
+AudioManager.Instance.PlaySound("crash");
 ```
 
 L'AudioManager utilise un dictionnaire pour stocker les clips audio et permet de jouer des sons en utilisant leur nom (`string`). Il prend en charge la lecture de sons uniques ainsi que la lecture en boucle pour la musique de fond.

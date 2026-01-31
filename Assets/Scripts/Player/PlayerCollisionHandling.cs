@@ -9,8 +9,6 @@ namespace Player
 {
     public class CollisionHandling : MonoBehaviour
     {
-        [Header("Dependencies")]
-        private static AudioManager AudioManager => ServiceLocator.Get<AudioManager>();
 
 
         [Header("Flags")]
@@ -60,7 +58,7 @@ namespace Player
             if (colliderType == null) return;
             var t = colliderType.colliderType;
             var sound = colliderType.soundToPlayOnCollision;
-            if (sound != "") AudioManager?.PlaySound(sound);
+            if (sound != "") AudioManager.Instance?.PlaySound(sound);
 
             switch (t)
             {
@@ -90,7 +88,7 @@ namespace Player
                 case ColliderType.Type.ZoneChange:
                     if (position == ColliderPosition.Body)
                     {
-                        StatsRecorder.UpdateLastBiomeReached(BiomesData.Instance.current.BiomeName);
+                        StatsRecorder.UpdateLastBiomeReached(BiomesDataManager.Instance.current.BiomeName);
                     }
                     break;
 
