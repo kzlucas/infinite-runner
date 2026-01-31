@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Threading.Tasks;
 using Components.Events;
-using Scene.Scripts;
+using Components.Scenes;
 using UnityEngine;
 
 namespace Components.Audio.Scripts
@@ -62,7 +62,7 @@ namespace Components.Audio.Scripts
             audioConfig = _audioMapping.Map(audioConfig);
 
             // Hardware setup
-            (musicSource, sfxSource) = _hardwareValidation.AttachAudioSources(Camera.main);
+            (musicSource, sfxSource) = _hardwareValidation.AttachAudioSources(UnityEngine.Camera.main);
 
             await Task.CompletedTask;
         }
@@ -91,7 +91,7 @@ namespace Components.Audio.Scripts
 
         private void OnSceneLoadedEvent(SceneLoadedEvent sceneEvent)
         {
-            PlayMusicForScene(sceneEvent.sceneName);
+            PlayMusicForScene(sceneEvent.SceneName);
         }
 
         private void OnAudioSettingsChanged(AudioSettingsChangedEvent settingsEvent)

@@ -9,7 +9,7 @@ namespace Components.Audio.Scripts
         [SerializeField] private AudioSource sfxSource;
 
 
-        public (AudioSource, AudioSource) AttachAudioSources(Camera cam)
+        public (AudioSource, AudioSource) AttachAudioSources(UnityEngine.Camera cam)
         {
             if (cam == null)
             {

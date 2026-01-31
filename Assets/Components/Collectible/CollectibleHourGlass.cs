@@ -1,3 +1,4 @@
+using Components.TimeScale;
 using UnityEngine;
 
 

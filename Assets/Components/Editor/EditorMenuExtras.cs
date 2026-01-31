@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using WorldGenerator.Scripts;
 
-namespace Scripts.EditorExtra
+namespace Components.Editor.EditorExtra
 {
     /// <summary>
     /// Extra editor menu items to call debug and utility functions

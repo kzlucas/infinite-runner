@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Components.Events;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
-using Tutorials;
+using Components.Collectible;
+using Components.Tutorials;
 using UnityEngine;
 
 
@@ -134,6 +135,7 @@ namespace WorldGenerator.Scripts
             yield return new WaitForSeconds(0.1f);
             var playerTransform = FindFirstObjectByType<Player.Controller>()?.transform;
             InstancesRegistry.ClearSegmentsInFront((int)(playerTransform.position.z + 30)); // force regen
+            CrystalsManager.Reset();
         }
     }
 }
