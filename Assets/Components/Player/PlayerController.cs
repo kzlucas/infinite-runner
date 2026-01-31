@@ -195,8 +195,8 @@ namespace Player
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
 
             // Start game countdown
-            UiRegistry.countdown.Run();
-            yield return new WaitUntil(() => UiRegistry.countdown.animationFinished == true);
+            UiRegistry.Countdown.Run();
+            yield return new WaitUntil(() => UiRegistry.Countdown.animationFinished == true);
 
             // Let's play
             rb.constraints = RigidbodyConstraints.FreezeRotation;

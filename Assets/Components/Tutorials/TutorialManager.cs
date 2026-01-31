@@ -18,15 +18,14 @@ namespace Components.Tutorials
 
 
         [Header("Initialisation")]
-        public int initPriority => 0;
-        public System.Type[] initDependencies => null;
+        public int InitPriority => 0;
+        public System.Type[] InitDependencies => null;
 
 
 
         [Header("Tutorial Data")]
         [SerializeField] public SO_Tutorials tutorials;
         [SerializeField] public bool tutorialsCompleted = false;
-        public GameObject playerGo;
 
 
         private void Start()
@@ -64,8 +63,6 @@ namespace Components.Tutorials
 
             try
             {
-                playerGo = GameObject.FindWithTag("Player");
-                tutorials = Resources.Load<SO_Tutorials>("ScriptableObjects/Tutorials Data");
                 tutorialsCompleted = TutorialsCompleted();
                 return Task.CompletedTask;
             }
@@ -84,32 +81,32 @@ namespace Components.Tutorials
             }
 
             if (
-                playerGo
-                && playerGo.transform.position.z > 10f
+                Player.Utils.Locate()
+                && Player.Utils.Locate().transform.position.z > 10f
                 && !TutorialCompleted("ChangeLane"))
             {
                 Play("ChangeLane");
             }
 
             if (
-                playerGo
-                && playerGo.transform.position.z > 160f
+                Player.Utils.Locate()
+                && Player.Utils.Locate().transform.position.z > 160f
                 && !TutorialCompleted("Jump"))
             {
                 Play("Jump");
             }
 
             if (
-                playerGo
-                && playerGo.transform.position.z > 260f
+                Player.Utils.Locate()
+                && Player.Utils.Locate().transform.position.z > 260f
                 && !TutorialCompleted("Slide"))
             {
                 Play("Slide");
             }
 
             if (
-                playerGo
-                && playerGo.transform.position.z > 400f
+                Player.Utils.Locate()
+                && Player.Utils.Locate().transform.position.z > 400f
                 && !TutorialCompleted("Crystal"))
             {
                 Play("Crystal");
@@ -126,7 +123,7 @@ namespace Components.Tutorials
             var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
             if (tutorial != null && tutorial.completed == false)
             {
-                UiRegistry.pauseMenu.Close();
+                UiRegistry.PauseMenu.Close();
                 var ui = Instantiate(tutorial.uiGo);
                 ui.transform.SetParent(transform, false);
                 IInitializable item = ui.GetComponent<IInitializable>();

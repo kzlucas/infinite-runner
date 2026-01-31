@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Components.Events;
+using Components.Scenes;
 using Components.UI.Scripts.Controllers;
 using Components.UI.Scripts.Controllers.BaseClasses;
 using UnityEngine;
@@ -14,89 +16,102 @@ namespace Components.UI.Scripts
     {
 
         [Header("Initialization")]
-        public int initPriority => 2;
-        public System.Type[] initDependencies => null;
-        public bool isReady { get; private set; } = false;
+        public int InitPriority => 2;
+        public System.Type[] InitDependencies => null;
+        public bool IsReady { get; private set; } = false;
 
 
         [Header("UI Controllers")]
-        public UiScreenOverlay screenOverlay;
-        public UiPauseMenu pauseMenu;
-        public UiHud hud;
-        public UiEndGame endGameScreen;
-        public UiSplashScreen splashScreen;
-        public UiCountdown countdown;
+        public UiScreenOverlay ScreenOverlay;
+        public UiPauseMenu PauseMenu;
+        public UiHud Hud;
+        public UiEndGame EndGameScreen;
+        public UiSplashScreen SplashScreen;
+        public UiCountdown Countdown;
 
 
         public async Task InitializeAsync()
         {
+            EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+
+
             // Wait for all controllers to be ready
             GetReferences();
             var initializationTasks = new List<Task>();
             foreach (var uiController in new UiController[]
             {
-                screenOverlay,
-                pauseMenu,
-                hud,
-                endGameScreen,
-                splashScreen
+                ScreenOverlay,
+                PauseMenu,
+                Hud,
+                EndGameScreen,
+                SplashScreen
             })
             {
                 initializationTasks.Add(uiController.InitializeAsync());
             }
 
             await Task.WhenAll(initializationTasks);
-            isReady = true;
+            IsReady = true;
         }
 
+
+        // Ensure references are up to date on scene load
+        private void OnSceneLoadedEvent(SceneLoadedEvent evt)
+        {
+            GetReferences();
+        }
+
+        /// <summary>
+        ///   Retrieves and assigns references to key UI components.
+        /// </summary>
         private void GetReferences()
         {
-            if (screenOverlay == null)
+            if (ScreenOverlay == null)
             {
-                screenOverlay = transform.Find("Screen Overlay").GetComponent<UiScreenOverlay>();
+                ScreenOverlay = transform.Find("Screen Overlay").GetComponent<UiScreenOverlay>();
 
-                if (screenOverlay == null)
+                if (ScreenOverlay == null)
                     Debug.LogError("[UiRegistry] Screen Overlay is missing!");
             }
 
-            if (pauseMenu == null)
+            if (PauseMenu == null)
             {
-                pauseMenu = transform.Find("Pause Menu").GetComponent<UiPauseMenu>();
+                PauseMenu = transform.Find("Pause Menu").GetComponent<UiPauseMenu>();
 
-                if (pauseMenu == null)
+                if (PauseMenu == null)
                     Debug.LogError("[UiRegistry] Pause Menu is missing!");
             }
 
-            if (hud == null)
+            if (Hud == null)
             {
-                hud = transform.Find("HUD").GetComponent<UiHud>();
+                Hud = transform.Find("HUD").GetComponent<UiHud>();
 
-                if (hud == null)
+                if (Hud == null)
                     Debug.LogError("[UiRegistry] HUD is missing!");
             }
 
-            if (endGameScreen == null)
+            if (EndGameScreen == null)
             {
-                endGameScreen = transform.Find("End Game Screen").GetComponent<UiEndGame>();
+                EndGameScreen = transform.Find("End Game Screen").GetComponent<UiEndGame>();
 
-                if (endGameScreen == null)
+                if (EndGameScreen == null)
                     Debug.LogError("[UiRegistry] End Game Screen is missing!");
             }
 
-            if (splashScreen == null)
+            if (SplashScreen == null)
             {
-                splashScreen = transform.Find("Splash Screen").GetComponent<UiSplashScreen>();
+                SplashScreen = transform.Find("Splash Screen").GetComponent<UiSplashScreen>();
 
-                if (splashScreen == null)
+                if (SplashScreen == null)
                     Debug.LogError("[UiRegistry] Splash Screen is missing!");
             }
 
 
-            if (countdown == null)
+            if (Countdown == null)
             {
-                countdown = transform.Find("Countdown").GetComponent<UiCountdown>();
+                Countdown = transform.Find("Countdown").GetComponent<UiCountdown>();
 
-                if (countdown == null)
+                if (Countdown == null)
                     Debug.LogError("[UiRegistry] Countdown is missing!");
             }
 

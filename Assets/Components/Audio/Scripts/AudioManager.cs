@@ -21,8 +21,8 @@ namespace Components.Audio.Scripts
 
 
         [Header("Initialisation")]
-        public int initPriority => 0;
-        public System.Type[] initDependencies => null;
+        public int InitPriority => 0;
+        public System.Type[] InitDependencies => null;
 
 
         [Header("Configuration")]

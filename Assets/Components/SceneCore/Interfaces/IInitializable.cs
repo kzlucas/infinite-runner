@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public interface IInitializable
 {
-    int initPriority { get; }
-    Type[] initDependencies { get; }
+    int InitPriority { get; }
+    Type[] InitDependencies { get; }
     Task InitializeAsync();
 }

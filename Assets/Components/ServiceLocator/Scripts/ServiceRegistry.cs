@@ -11,8 +11,8 @@ namespace Components.ServiceLocator.Scripts
     {
         Type[] TypesToFind = new Type[]{};
 
-        public int initPriority => -1;
-        public System.Type[] initDependencies => null;
+        public int InitPriority => -1;
+        public System.Type[] InitDependencies => null;
 
         [Header("Services to Auto-Register")]
         [SerializeField] private MonoBehaviour[] autoRegisterServices;

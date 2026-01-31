@@ -27,8 +27,8 @@ namespace WorldGenerator.Scripts
 
 
         [Header("Initialization")]
-        public int initPriority => 1;
-        public System.Type[] initDependencies => new System.Type[]
+        public int InitPriority => 1;
+        public System.Type[] InitDependencies => new System.Type[]
         {
             typeof(UiRegistry),
         };
@@ -130,10 +130,10 @@ namespace WorldGenerator.Scripts
 
         private IEnumerator RegenWorld()
         {
-            yield return new WaitUntil(() => UiRegistry.screenOverlay != null);
-            if (Application.isPlaying) UiRegistry.screenOverlay.Flash("white");
+            yield return new WaitUntil(() => UiRegistry.ScreenOverlay != null);
+            if (Application.isPlaying) UiRegistry.ScreenOverlay.Flash("white");
             yield return new WaitForSeconds(0.1f);
-            var playerTransform = FindFirstObjectByType<Player.Controller>()?.transform;
+            var playerTransform = Player.Utils.Locate().transform;
             InstancesRegistry.ClearSegmentsInFront((int)(playerTransform.position.z + 30)); // force regen
             CrystalsManager.Reset();
         }

@@ -106,7 +106,7 @@ public class SceneInitializer : Singleton.Model<SceneInitializer>
         }
 
         // At last, sort by Priority
-        return result.OrderBy(i => i.initPriority).ToList();
+        return result.OrderBy(i => i.InitPriority).ToList();
     }
 
 
@@ -124,9 +124,9 @@ public class SceneInitializer : Singleton.Model<SceneInitializer>
 
         visited.Add(item);
 
-        if (item.initDependencies != null)
+        if (item.InitDependencies != null)
         {
-            foreach (var depType in item.initDependencies)
+            foreach (var depType in item.InitDependencies)
             {
                 var dep = allItems.FirstOrDefault(i => i.GetType() == depType);
 

@@ -23,8 +23,8 @@ namespace WorldGenerator.Scripts
 
 
         [Header("Initialization")]
-        public int initPriority => 2;
-        public Type[] initDependencies => new Type[] { typeof(BiomesDataManager) };
+        public int InitPriority => 2;
+        public Type[] InitDependencies => new Type[] { typeof(BiomesDataManager) };
 
 
 

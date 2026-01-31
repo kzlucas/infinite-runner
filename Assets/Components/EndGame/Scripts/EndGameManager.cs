@@ -28,7 +28,7 @@ namespace Components.EndGame.Scripts
         private IEnumerator DelayScreenOpening(float delay = .75f)
         {
             yield return new WaitForSecondsRealtime(delay);
-            UiRegistry.endGameScreen.Open();
+            UiRegistry.EndGameScreen.Open();
         }
     }
 }

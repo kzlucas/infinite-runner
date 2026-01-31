@@ -84,8 +84,8 @@ namespace Player
         void LateUpdate()
         {
             var player = GetComponent<Controller>();
-            HasObstacleInFront = player.collisionHandler.CheckIfObstacleInFront(15f);
-            HasGroundInFront = player.collisionHandler.CheckIfGroundInFront(5f);
+            HasObstacleInFront = Utils.CheckIfObstacleInFront(player.transform, 15f);
+            HasGroundInFront = Utils.CheckIfGroundInFront(player.transform, 5f);
             if(IsSafeZoneToRespawn)
             {
                 lastRecordTime = Time.time;
@@ -158,8 +158,8 @@ namespace Player
                 yield return null;
             }
 
-            UiRegistry.countdown.Run();
-            yield return new WaitUntil(() => UiRegistry.countdown.animationFinished == true);
+            UiRegistry.Countdown.Run();
+            yield return new WaitUntil(() => UiRegistry.Countdown.animationFinished == true);
 
             TimeScaleManager.Instance.ResumeGame();
             player.animator.speed = 1f;

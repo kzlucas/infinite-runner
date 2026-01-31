@@ -29,7 +29,7 @@ namespace Components.UI.Scripts.Controllers
                 {
                     if (isLocked) return;
                     Debug.Log("[UiPauseMenu] Toggling Pause Menu");
-                    UiRegistry.pauseMenu.Toggle();
+                    UiRegistry.PauseMenu.Toggle();
                 });
             };
         }

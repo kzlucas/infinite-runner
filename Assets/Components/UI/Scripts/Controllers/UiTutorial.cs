@@ -23,13 +23,13 @@ namespace Components.UI.Scripts.Controllers
         public override void OnOpen()
         {
             TimeScaleManager.Instance.PauseGame();
-            UiRegistry.pauseMenu.isLocked = true;
+            UiRegistry.PauseMenu.isLocked = true;
         }
 
         public override void OnClose()
         {
             TimeScaleManager.Instance.ResumeGame();
-            UiRegistry.pauseMenu.isLocked = false;
+            UiRegistry.PauseMenu.isLocked = false;
         }
 
     }

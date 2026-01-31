@@ -41,8 +41,8 @@ namespace Player
             InvincibleForSeconds(.2f); 
 
 
-            UiRegistry.hud.UpdateHp((float)currentHealth / maxHealth);
-            UiRegistry.screenOverlay.Flash("red");
+            UiRegistry.Hud.UpdateHp((float)currentHealth / maxHealth);
+            UiRegistry.ScreenOverlay.Flash("red");
 
             
             if (currentHealth <= 0)
@@ -60,7 +60,7 @@ namespace Player
         {
             currentHealth += amount;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-            UiRegistry.hud.UpdateHp((float)currentHealth / maxHealth);
+            UiRegistry.Hud.UpdateHp((float)currentHealth / maxHealth);
         }
 
         public void Die()

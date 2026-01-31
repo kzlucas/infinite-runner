@@ -12,8 +12,7 @@ namespace Components.Collectible
             IsCollected = true;
 
             Debug.Log("[CollectibleHeart] Heart collected");
-            var playerHealth = FindFirstObjectByType<Player.Health>();
-            playerHealth.Heal(1);
+            Player.Utils.Locate().GetComponent<Player.Health>().Heal(1);
         }
     }
 }

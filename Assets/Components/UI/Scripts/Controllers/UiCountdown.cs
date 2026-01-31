@@ -24,9 +24,7 @@ namespace Components.UI.Scripts.Controllers
             animationFinished = false;
             canvas.enabled = true;
             animator.SetTrigger("Run");
-
-            var player = FindFirstObjectByType<Player.Controller>();
-            player.animator.speed = 0f;
+            Player.Utils.Locate().animator.speed = 0f;
         }
 
 
@@ -35,9 +33,7 @@ namespace Components.UI.Scripts.Controllers
             Debug.Log("[UiCountdown] Countdown finished");
             animationFinished = true;
             canvas.enabled = false;
-
-            var player = FindFirstObjectByType<Player.Controller>();
-            player.animator.speed = 1f;
+            Player.Utils.Locate().animator.speed = 1f;
         }
     }
 }

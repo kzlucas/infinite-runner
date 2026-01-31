@@ -17,8 +17,8 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
 
 
         [Header("Initialization")]
-        public int initPriority => 1;
-        public System.Type[] initDependencies => null;
+        public int InitPriority => 1;
+        public System.Type[] InitDependencies => null;
 
 
         [Header("UI Document References")]
@@ -151,12 +151,12 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
             else if (actionName == "resume")
             {
                 Debug.Log("[UiController] resume button clicked.");
-                UiRegistry.pauseMenu.Close();
+                UiRegistry.PauseMenu.Close();
             }
             else if (actionName == "pause")
             {
                 Debug.Log("[UiController] pause button clicked.");
-                UiRegistry.pauseMenu.Open();
+                UiRegistry.PauseMenu.Open();
             }
             else
             {
