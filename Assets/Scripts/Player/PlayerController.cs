@@ -4,7 +4,6 @@ using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using InputsHandler;
 using Player.States;
-using StateMachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,7 +25,7 @@ namespace Player
 
 
         [Header("References")]
-        public readonly AdvancedStateMachine sm = new();
+        public readonly StateMachine.StateMachine sm = new();
         public Health health;
         public PlayerHistory history;
         public Animator animator;

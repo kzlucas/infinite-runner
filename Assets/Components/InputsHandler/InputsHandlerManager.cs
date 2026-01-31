@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Interfaces;
-using InputsHandler;
 
 
 #if UNITY_EDITOR
@@ -16,7 +14,7 @@ namespace InputsHandler
     /// <summary>
     ///   Manager for multiple input handlers
     /// </summary>
-    public class InputHandlersManager : Singleton<InputHandlersManager>, IService
+    public class InputHandlersManager : Singleton.Model<InputHandlersManager>, IGameService
     {
         public Vector2 mousePosition = Vector2.zero;
         [SerializeField] public static List<InputHandler> inputHandlers = new List<InputHandler>();

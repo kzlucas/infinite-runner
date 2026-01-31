@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Interfaces;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -11,7 +8,7 @@ namespace Components.UI.Scripts
     /// <summary>
     ///  Manages UI elements references in the game.
     /// </summary>
-    public class UiRegistry : Singleton<UiRegistry>, IInitializable, IService
+    public class UiRegistry : Singleton.Model<UiRegistry>, IInitializable, IGameService
     {
 
         [Header("Initialization")]

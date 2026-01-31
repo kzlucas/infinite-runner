@@ -1,5 +1,4 @@
 using Components.Events;
-using Interfaces;
 
 namespace Components.Audio.Scripts
 {

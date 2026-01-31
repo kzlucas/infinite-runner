@@ -13,7 +13,7 @@ namespace WorldGenerator.Scripts
     ///   Manager responsible for generating world segments
     ///   as the player progresses through the world.
     /// </summary>
-    public class WorldGenerationManager : Singleton<WorldGenerationManager>, IInitializable
+    public class WorldGenerationManager : Singleton.Model<WorldGenerationManager>, IInitializable
     {
 
 

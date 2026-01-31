@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Components.Events;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
-using Interfaces;
 using Tutorials;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ namespace WorldGenerator.Scripts
     /// <summary>
     ///  Manager for biome data and transitions between biomes
     /// </summary>
-    public class BiomesDataManager : Singleton<BiomesDataManager>, IInitializable, IService
+    public class BiomesDataManager : Singleton.Model<BiomesDataManager>, IInitializable, IGameService
     {
 
         [Header("Dependencies")]

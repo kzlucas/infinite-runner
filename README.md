@@ -227,7 +227,7 @@ Les composants du projet peuvent utiliser cette classe pour mapper un input à u
 
 ## Singleton
 
-Le pattern de conception [`Singleton<T>`](Assets/Scripts/Singleton.cs) a été utilisé dans plusieurs classes du projet pour garantir qu'une seule instance de ces classes existe à tout moment pendant l'exécution du jeu.
+Le pattern de conception [`Singleton.Model<T>`](Assets/Scripts/Singleton.cs) a été utilisé dans plusieurs classes du projet pour garantir qu'une seule instance de ces classes existe à tout moment pendant l'exécution du jeu.
 
 
 ## Interfaces

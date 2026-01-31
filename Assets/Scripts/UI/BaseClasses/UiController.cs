@@ -103,7 +103,7 @@ public class UiController : MonoBehaviour, IInitializable
             // Register handler
             toggle.RegisterValueChangedCallback((evt) => OnToggleChanged(toggle, evt.newValue));
 
-            // Initialize toggle states from PlayerPrefService
+            // Initialize toggle states 
             if (toggle.name == "settings--music")
                 toggle.value = AudioManager.Instance.IsMusicEnabled;
             if (toggle.name == "settings--sfx")

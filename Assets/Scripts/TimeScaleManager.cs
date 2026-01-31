@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class TimeScaleManager : Singleton<TimeScaleManager>
+public class TimeScaleManager : Singleton.Model<TimeScaleManager>
 {
     public float InitialTimeScale = 1.3f;
 

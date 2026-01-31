@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Components.Audio.Scripts
 {
-    public class AudioManager : Singleton<AudioManager>, IAudioService, IInitializable
+    public class AudioManager : Singleton.Model<AudioManager>, IAudioService, IInitializable
     {
 
         [Header("Components")]

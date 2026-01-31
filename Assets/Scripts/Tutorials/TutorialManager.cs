@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Components.DataServices;
 using Components.Events;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
-using Interfaces;
 using UnityEngine;
 
 namespace Tutorials
 {
-    public class TutorialManager : MonoBehaviour, IInitializable, IService
+    public class TutorialManager : MonoBehaviour, IInitializable, IGameService
     {
 
         [Header("Dependencies")]

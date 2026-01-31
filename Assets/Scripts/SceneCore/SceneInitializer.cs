@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// SceneInitializer is responsible for initializing all IInitializable objects in the scene
 /// in the correct order based on their dependencies.
 /// </summary>
-public class SceneInitializer : Singleton<SceneInitializer>
+public class SceneInitializer : Singleton.Model<SceneInitializer>
 {
     /// <summary>
     /// This flag indicates whether the scene has been initialized

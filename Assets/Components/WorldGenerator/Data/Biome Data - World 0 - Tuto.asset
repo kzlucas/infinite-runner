@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f783110f3dd86ef1f87219d37e09e88c, type: 3}
   m_Name: Biome Data - World 0 - Tuto
   m_EditorClassIdentifier: Assembly-CSharp::SO_BiomeData
-  _biomeName: Tutorial
+  _biomeName: World 0 - Tuto
   _crystalsNeeded: 10
   _segments:
   - name: Straight Segment

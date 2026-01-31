@@ -7,7 +7,7 @@ using Components.UI.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : Singleton<SceneLoader>
+public class SceneLoader : Singleton.Model<SceneLoader>
 {
         
     [Header("Dependencies")]

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Components.Audio.Scripts;
+using Components.Collectible;
 using Components.ServiceLocator.Scripts;
 using UnityEngine;
 using WorldGenerator.Scripts;

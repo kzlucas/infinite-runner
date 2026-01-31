@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
 using Components.UI.Scripts;
-using Interfaces;
 using UnityEngine;
 
 namespace Components.EndGame.Scripts
 {
-    public class EndGameManager : MonoBehaviour, IService
+    public class EndGameManager : MonoBehaviour, IGameService
     {
 
         [Header("Dependencies")]

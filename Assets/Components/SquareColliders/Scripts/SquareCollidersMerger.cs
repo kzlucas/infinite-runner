@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Interfaces;
 using UnityEngine;
 
 namespace Assets.Components.SquareColliders.Scripts
@@ -9,7 +8,7 @@ namespace Assets.Components.SquareColliders.Scripts
     /// <summary>
     ///  Merges square colliders in the scene that share at least 2 corner points into composite colliders
     /// </summary>
-    public class SquareCollidersMerger: MonoBehaviour, IService
+    public class SquareCollidersMerger: MonoBehaviour, IGameService
     {
         private SquareCollidersBehaviour squareCollidersBehaviour;
         private List<Collider> squareColliders = new List<Collider>();

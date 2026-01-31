@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : Singleton.Model<GameManager>
 {
 
         
