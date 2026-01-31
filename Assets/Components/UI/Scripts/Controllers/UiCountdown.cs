@@ -24,7 +24,7 @@ namespace Components.UI.Scripts.Controllers
             animationFinished = false;
             canvas.enabled = true;
             animator.SetTrigger("Run");
-            Player.Utils.Locate().animator.speed = 0f;
+            Player.Utils.Locate().Animator.speed = 0f;
         }
 
 
@@ -33,7 +33,7 @@ namespace Components.UI.Scripts.Controllers
             Debug.Log("[UiCountdown] Countdown finished");
             animationFinished = true;
             canvas.enabled = false;
-            Player.Utils.Locate().animator.speed = 1f;
+            Player.Utils.Locate().Animator.speed = 1f;
         }
     }
 }

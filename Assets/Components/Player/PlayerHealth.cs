@@ -52,7 +52,7 @@ namespace Player
             else
             {
                 var player = GetComponent<Controller>();
-                player.history.Load();
+                player.History.Load();
             }
         }
 

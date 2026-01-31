@@ -29,8 +29,8 @@ namespace Player.States
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", true);
 
             // Physic jump
-            player.rb.linearVelocity = Vector3.zero;
-            player.rb.AddForce(Vector3.up * player.jumpHeight, ForceMode.Impulse);
+            player.Rb.linearVelocity = Vector3.zero;
+            player.Rb.AddForce(Vector3.up * player.JumpHeight, ForceMode.Impulse);
 
             // Play jump particles
             PlayJumpParticules(0.3f);
@@ -42,10 +42,10 @@ namespace Player.States
         /// </summary>
         private void PlayJumpParticules(float zOffset = 0f)
         {
-            player.jumpParticles.transform.parent = null; // detach from player
-            player.jumpParticles.transform.position = player.transform.position + Vector3.up * zOffset; // slightly above ground
-            player.jumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, player.rb.linearVelocity.z);
-            player.jumpParticles.Play();
+            player.JumpParticles.transform.parent = null; // detach from player
+            player.JumpParticles.transform.position = player.transform.position + Vector3.up * zOffset; // slightly above ground
+            player.JumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, player.Rb.linearVelocity.z);
+            player.JumpParticles.Play();
         }
 
     }

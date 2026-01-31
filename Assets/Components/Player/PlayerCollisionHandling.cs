@@ -55,7 +55,7 @@ namespace Player
         /// <param name="other">The collider of the object collided with.</param>
         private void HandleCollision(ColliderPosition position, Collider other)
         {
-            if (player.controlReleased) return;
+            if (player.ControlReleased) return;
             var colliderType = other.GetComponent<ColliderType>();
             if (colliderType == null) return;
             var t = colliderType.colliderType;
@@ -66,7 +66,7 @@ namespace Player
             {
                 case ColliderType.Type.DeathZone:
                     Debug.Log("[PlayerCollisionHandling] Collision with Death Zone: " + other.name);
-                    player.health.TakeDamage(1);
+                    player.Health.TakeDamage(1);
                     break;
 
                 case ColliderType.Type.Platform:
@@ -75,7 +75,7 @@ namespace Player
                     {
                         // Debug.Break();
                         Debug.Log("[PlayerCollisionHandling] Platform collided at Player." + position.ToString() + other.GetInstanceID()  + " with " + other.name + " (instance ID: " + other.GetInstanceID() + ")");
-                        player.health.TakeDamage(1);
+                        player.Health.TakeDamage(1);
                     }
                     break;
 
@@ -139,17 +139,17 @@ namespace Player
             }
 
             // Update grounded state
-            player.isGrounded = isCurrentlyGrounded;
+            player.IsGrounded = isCurrentlyGrounded;
 
             // Set jump animation state ~
-            player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", !player.isGrounded);
+            player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", !player.IsGrounded);
 
             // If just landed, invoke the OnLanded event
-            if (!previouslyGrounded && player.isGrounded)
+            if (!previouslyGrounded && player.IsGrounded)
             {
                 OnLanded?.Invoke();
             }
-            previouslyGrounded = player.isGrounded;
+            previouslyGrounded = player.IsGrounded;
         }
 
 

@@ -29,7 +29,7 @@ namespace Player.States
             PlayLandParticules();
 
             // reattach ps to player to clean up hierarchy
-            player.jumpParticles.transform.parent = player.transform;
+            player.JumpParticles.transform.parent = player.transform;
         }
 
 
@@ -38,10 +38,10 @@ namespace Player.States
         /// </summary>
         private void PlayLandParticules(float zOffset = 0f)
         {
-            player.jumpParticles.transform.parent = null; // detach from player
-            player.jumpParticles.transform.position = player.transform.position + Vector3.up * zOffset; // slightly above ground
-            player.jumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, player.rb.linearVelocity.z);
-            player.jumpParticles.Play();
+            player.JumpParticles.transform.parent = null; // detach from player
+            player.JumpParticles.transform.position = player.transform.position + Vector3.up * zOffset; // slightly above ground
+            player.JumpParticles.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, player.Rb.linearVelocity.z);
+            player.JumpParticles.Play();
         }
 
     }

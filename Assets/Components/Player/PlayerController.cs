@@ -27,93 +27,93 @@ namespace Player
 
         [Header("References")]
         public readonly StateMachine.StateMachine sm = new();
-        public Health health;
-        public PlayerHistory history;
-        public Animator animator;
+        public Health Health;
+        public PlayerHistory History;
+        public Animator Animator;
 
 
         [Header("Collider")]
 
         /// <summary> Reference to the collision handling component</summary>
-        public CollisionHandling collisionHandler;
+        public CollisionHandling CollisionHandler;
 
         /// <summary> Reference to the player's rigidbody</summary>
-        public Rigidbody rb;
+        public Rigidbody Rb;
 
 
 
         [Header("Flags")]
 
         /// <summary> Indicates whether player control has been released (e.g., after a crash)</summary>
-        [HideInInspector] public bool controlReleased = false;
+        public bool ControlReleased = false;
 
 
 
         [Header("X Movement Settings")]
 
         /// <summary> X movement speed of the player</summary>
-        public float xMoveSpeed = 15f;
+        public float XMoveSpeed = 15f;
 
         /// <summary> Forward movement speed of the player</summary>
-        public float zMoveSpeed = 15f;
+        public float ZMoveSpeed = 15f;
 
         /// <summary> Maximum allowed X position</summary>
-        public int maxX = 4;
+        public int MaxX = 4;
 
         /// <summary> Minimum allowed X position</summary>
-        public int minX = -4;
+        public int MinX = -4;
 
         /// <summary> Particle system effect run when changing lane</summary>
-        public ParticleSystem laneChangeParticles;
+        public ParticleSystem LaneChangeParticles;
 
         /// <summary>Is the player currently changing lane flag</summary>
-        public bool isChangingLane = false;
+        public bool IsChangingLane = false;
 
 
 
         [Header("Jump Settings")]
 
         /// <summary> Is the player currently jumping</summary>
-        public bool isGrounded = false;
+        public bool IsGrounded = false;
 
         /// <summary> Height of the jump</summary>
-        public float jumpHeight = 2f;
+        public float JumpHeight = 2f;
 
         /// <summary> Particle system for jump effect</summary>
-        public ParticleSystem jumpParticles;
+        public ParticleSystem JumpParticles;
 
 
 
         [Header("Slide Settings")]
 
         /// <summary> Is the player currently sliding</summary>
-        public bool isSliding = false;
+        public bool IsSliding = false;
 
         /// <summary> Particle system for slide effect</summary>
-        public ParticleSystem slideParticles;
+        public ParticleSystem SlideParticles;
 
         /// <summary> Slide coroutine</summary>
-        public IEnumerator slideRoutine;
+        public IEnumerator SlideRoutine;
 
 
 
         [Header("Crash Settings")]
 
         /// <summary> Particle system for crash effect</summary>
-        public ParticleSystem crashParticules;
+        public ParticleSystem CrashParticules;
 
 
 
         [Header("Input Action References")]
 
         /// <summary> Reference to the input action for movements</summary>
-        public InputActionReference moveActionRef;
+        public InputActionReference MoveActionRef;
 
         /// <summary> Reference to the input action for jump</summary>
-        public InputActionReference jumpActionRef;
+        public InputActionReference JumpActionRef;
 
         /// <summary> Reference to the input action for slide</summary>
-        public InputActionReference slideActionRef;
+        public InputActionReference SlideActionRef;
 
 
         #endregion
@@ -150,20 +150,20 @@ namespace Player
 
             InputHandlersManager.Register(
                 "Jump"
-                , jumpActionRef
+                , JumpActionRef
                 , OnHold: () => { if (CanJump()) sm.TransitionTo<JumpState>(); }
             );
 
             InputHandlersManager.Register(
                 "Move"
-                , moveActionRef
+                , MoveActionRef
                 , OnUpdate: (v2) => { if (CanMove(v2)) { sm.GetState<MoveState>().inputMoveDir = v2; sm.TransitionTo<MoveState>(); } }
                 , OnRelease: () => { sm.GetState<MoveState>().OnRelease(); }
             );
 
             InputHandlersManager.Register(
                 "Slide"
-                , slideActionRef
+                , SlideActionRef
                 , OnTrigger: () => { if (CanSlide()) sm.TransitionTo<SlideState>(); }
                 , OnHold: () => { if (CanSlide()) sm.TransitionTo<SlideState>(); }
                 , OnRelease: () => { sm.GetState<SlideState>().OnRelease(); }
@@ -181,14 +181,14 @@ namespace Player
             StopParticles();
 
             // Subscribe/unsub to landing event
-            collisionHandler.OnLanded += sm.TransitionTo<LandState>;
-            SceneLoader.Instance.OnSceneExit += () => collisionHandler.OnLanded -= sm.TransitionTo<LandState>;
+            CollisionHandler.OnLanded += sm.TransitionTo<LandState>;
+            SceneLoader.Instance.OnSceneExit += () => CollisionHandler.OnLanded -= sm.TransitionTo<LandState>;
 
             // Set z position slightly forward at begining
             transform.position = transform.position + Vector3.forward;
 
             // freeze position during scene initialization then unfreeze
-            rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+            Rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
             yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized == true);
 
             // Initial position adjust to avoid clipping with ground
@@ -199,10 +199,10 @@ namespace Player
             yield return new WaitUntil(() => UiRegistry.Countdown.animationFinished == true);
 
             // Let's play
-            rb.constraints = RigidbodyConstraints.FreezeRotation;
+            Rb.constraints = RigidbodyConstraints.FreezeRotation;
 
             // Initial record
-            history.Record();
+            History.Record();
         }
 
 
@@ -213,10 +213,10 @@ namespace Player
         {
             return !(
                 (this == null)
-                || controlReleased
+                || ControlReleased
                 || (Time.timeScale == 0f)
-                || isSliding
-                || (!isGrounded)
+                || IsSliding
+                || (!IsGrounded)
             );
         }
 
@@ -228,8 +228,8 @@ namespace Player
         {
             return !(
                 (this == null)
-                || controlReleased
-                || isSliding
+                || ControlReleased
+                || IsSliding
                 || (Time.timeScale == 0f)
                 || (dir.x == 0)
             );
@@ -243,10 +243,10 @@ namespace Player
         {
             return !(
                 (this == null)
-                || controlReleased
-                || isSliding
+                || ControlReleased
+                || IsSliding
                 || (Time.timeScale == 0f)
-                || (!isGrounded)
+                || (!IsGrounded)
             );
         }
 
@@ -256,10 +256,10 @@ namespace Player
         /// </summary>
         public void StopParticles()
         {
-            laneChangeParticles.Stop();
-            jumpParticles.Stop();
-            slideParticles.Stop();
-            crashParticules.Stop();
+            LaneChangeParticles.Stop();
+            JumpParticles.Stop();
+            SlideParticles.Stop();
+            CrashParticules.Stop();
         }
 
 
@@ -269,13 +269,13 @@ namespace Player
         /// </summary>
         private void FixedUpdate()
         {
-            if (controlReleased) return;
+            if (ControlReleased) return;
 
             // Slight downward force to stay grounded
-            var gravityModifier = rb.linearVelocity.y - .2f;
+            var gravityModifier = Rb.linearVelocity.y - .2f;
 
             // Apply constant forward movement
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, gravityModifier, zMoveSpeed);
+            Rb.linearVelocity = new Vector3(Rb.linearVelocity.x, gravityModifier, ZMoveSpeed);
 
             StatsRecorder.SetMaxDistanceReached((int)transform.position.z);
         }
@@ -287,7 +287,7 @@ namespace Player
         public void TriggerCrashEvent()
         {
             if (this == null) return;
-            if (controlReleased) return;
+            if (ControlReleased) return;
             sm.TransitionTo<CrashState>();
             EndGameManager.TriggerEndGame();
         }

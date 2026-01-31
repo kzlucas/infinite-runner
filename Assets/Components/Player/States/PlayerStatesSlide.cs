@@ -27,7 +27,7 @@ namespace Player.States
             this.player = player;
 
             // store original body collider size (will update when sliding)
-            bCollider = player.collisionHandler.bodyCollider.GetComponent<BoxCollider>();
+            bCollider = player.CollisionHandler.bodyCollider.GetComponent<BoxCollider>();
             originalColliderHeight = bCollider.size.y;
             originalColliderCenterY = bCollider.center.y;
         }
@@ -35,12 +35,12 @@ namespace Player.States
         public override void OnEnter()
         {
             // (re)start coroutine
-            if(player.slideRoutine != null)
+            if(player.SlideRoutine != null)
             {
-                player.StopCoroutine(player.slideRoutine);
+                player.StopCoroutine(player.SlideRoutine);
             }
-            player.slideRoutine = SlideRoutine();
-            player.StartCoroutine(player.slideRoutine);
+            player.SlideRoutine = SlideRoutine();
+            player.StartCoroutine(player.SlideRoutine);
         }
 
         /// <summary>
@@ -50,12 +50,12 @@ namespace Player.States
         {
             AudioManager.Instance.PlaySound("slide");
 
-            player.isSliding = true;
+            player.IsSliding = true;
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", true);
             SetCollidersToSlidingPosition(); // @improve: match the real mesh dimension accross frames to avoid pass through obstacle colliders during animation transition
 
             // Play slide particles
-            player.slideParticles.Play();
+            player.SlideParticles.Play();
 
             yield break;
         }
@@ -63,16 +63,16 @@ namespace Player.States
 
         public void OnRelease()
         {
-            if ((player == null) || (!player.isSliding))
+            if ((player == null) || (!player.IsSliding))
                 return;
 
             // stop slide
-            player.isSliding = false;
+            player.IsSliding = false;
             player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isSliding", false);
             SetCollidersToNormalPosition();
 
             // disable slide particles
-            player.slideParticles.Stop();
+            player.SlideParticles.Stop();
         }
 
 
@@ -81,8 +81,8 @@ namespace Player.States
         /// </summary>
         private void SetCollidersToSlidingPosition()
         {
-            player.collisionHandler.transform.localScale = new Vector3(1f, 0.5f, 1f);
-            player.collisionHandler.transform.localPosition = new Vector3(0f, .1f, 0f);
+            player.CollisionHandler.transform.localScale = new Vector3(1f, 0.5f, 1f);
+            player.CollisionHandler.transform.localPosition = new Vector3(0f, .1f, 0f);
             bCollider.size = new Vector3(bCollider.size.x, originalColliderHeight / 2f, bCollider.size.z); // ~0.5
             bCollider.center = new Vector3(bCollider.center.x, bCollider.center.y - originalColliderHeight / 4f, bCollider.center.z); // ~0.3
         }
@@ -93,8 +93,8 @@ namespace Player.States
         /// </summary>
         private void SetCollidersToNormalPosition()
         {
-            player.collisionHandler.transform.localScale = new Vector3(1f, 1f, 1f);
-            player.collisionHandler.transform.localPosition = Vector3.zero;
+            player.CollisionHandler.transform.localScale = new Vector3(1f, 1f, 1f);
+            player.CollisionHandler.transform.localPosition = Vector3.zero;
             bCollider.size = new Vector3(bCollider.size.x, originalColliderHeight, bCollider.size.z);
             bCollider.center = new Vector3(bCollider.center.x, originalColliderCenterY, bCollider.center.z);
         }

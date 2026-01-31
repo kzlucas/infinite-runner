@@ -64,9 +64,9 @@ namespace Player
                 // - player is far from last record at least 10 units
 
                 return( 
-                    player.isGrounded 
-                    && !player.isSliding 
-                    && !player.isChangingLane 
+                    player.IsGrounded 
+                    && !player.IsSliding 
+                    && !player.IsChangingLane 
                     && !HasObstacleInFront
                     && HasGroundInFront
                     && !_disableRecord
@@ -128,9 +128,9 @@ namespace Player
         {
             _disableRecord = true;
             var player = GetComponent<Controller>();
-            player.controlReleased = true;
+            player.ControlReleased = true;
             TimeScaleManager.Instance.PauseGame();
-            player.animator.speed = 0f;
+            player.Animator.speed = 0f;
 
             yield return new WaitForSecondsRealtime(0.2f);
 
@@ -145,7 +145,7 @@ namespace Player
             // Restore player position and velocity 
             // and stop all particle effects
             // and lane change coroutine if any
-            player.rb.linearVelocity = record.rbVelocity;
+            player.Rb.linearVelocity = record.rbVelocity;
             player.sm.GetState<MoveState>().targetXPosition = Mathf.RoundToInt(record.position.x);
             player.sm.GetState<SlideState>().OnRelease();
             while( Vector3.Distance(player.transform.position, record.position) > 0.1f )
@@ -162,8 +162,8 @@ namespace Player
             yield return new WaitUntil(() => UiRegistry.Countdown.animationFinished == true);
 
             TimeScaleManager.Instance.ResumeGame();
-            player.animator.speed = 1f;
-            player.controlReleased = false;
+            player.Animator.speed = 1f;
+            player.ControlReleased = false;
             _disableRecord = false;
             yield return null;
         }
