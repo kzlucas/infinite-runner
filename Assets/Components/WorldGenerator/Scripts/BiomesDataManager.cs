@@ -18,9 +18,6 @@ namespace WorldGenerator.Scripts
     public class BiomesDataManager : Singleton.Model<BiomesDataManager>, IInitializable, IGameService
     {
 
-        [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-
 
         [Header("References")]
         private IEnumerator lerpBiomeColorCoroutineInstance;
