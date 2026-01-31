@@ -49,20 +49,21 @@ namespace Components.Tutorials
             }
         }
 
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
             tutorialsCompleted = false;
 
             if (PlayerPrefService.Load("SkipTutorials") == "1")
             {
                 tutorialsCompleted = true;
-                return Task.CompletedTask;
+                await Task.CompletedTask;
+                return;
             }
 
             try
             {
                 tutorialsCompleted = TutorialsCompleted();
-                return Task.CompletedTask;
+                await Task.CompletedTask;
             }
             catch (System.Exception ex)
             {
@@ -80,7 +81,7 @@ namespace Components.Tutorials
 
             if (
                 Components.Player.Utils.PlayerController
-                && Components.Player.Utils.PlayerController.transform.position.z > 10f
+                && Components.Player.Utils.PlayerController.transform.position.z > 0f
                 && !TutorialCompleted("ChangeLane"))
             {
                 Play("ChangeLane");
@@ -88,7 +89,7 @@ namespace Components.Tutorials
 
             if (
                 Components.Player.Utils.PlayerController
-                && Components.Player.Utils.PlayerController.transform.position.z > 160f
+                && Components.Player.Utils.PlayerController.transform.position.z > 150f
                 && !TutorialCompleted("Jump"))
             {
                 Play("Jump");
@@ -96,7 +97,7 @@ namespace Components.Tutorials
 
             if (
                 Components.Player.Utils.PlayerController
-                && Components.Player.Utils.PlayerController.transform.position.z > 260f
+                && Components.Player.Utils.PlayerController.transform.position.z > 250f
                 && !TutorialCompleted("Slide"))
             {
                 Play("Slide");
@@ -104,7 +105,7 @@ namespace Components.Tutorials
 
             if (
                 Components.Player.Utils.PlayerController
-                && Components.Player.Utils.PlayerController.transform.position.z > 400f
+                && Components.Player.Utils.PlayerController.transform.position.z > 350f
                 && !TutorialCompleted("Crystal"))
             {
                 Play("Crystal");

@@ -183,13 +183,13 @@ namespace Components.ServiceLocator.Scripts
             Debug.Log("[ServiceLocator] Reset service locator");
         }
 
-    #if UNITY_EDITOR
         /// <summary>
         /// Debug method to list all registered services
         /// </summary>
         [System.Diagnostics.Conditional("UNITY_EDITOR")]
         public static void LogRegisteredServices()
         {
+    #if UNITY_EDITOR
             Debug.Log($"[ServiceLocator] Registered Services ({Instance._services.Count}):");
             foreach (var kvp in Instance._services)
             {
@@ -201,7 +201,7 @@ namespace Components.ServiceLocator.Scripts
             {
                 Debug.Log($"  - {kvp.Key.Name}");
             }
-        }
     #endif
+        }
     }
 }

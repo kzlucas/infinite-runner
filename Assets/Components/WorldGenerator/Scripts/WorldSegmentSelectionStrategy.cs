@@ -25,7 +25,7 @@ namespace WorldGenerator.Scripts
             {
                 case "World 0 - Tuto":
 
-                    if (generatedIndex <= 3)
+                    if (generatedIndex <= 4)
                         return _biomeData.Segments.Find(s => s.name == "Straight Segment");
 
                     else if (generatedIndex <= 10)
@@ -40,7 +40,7 @@ namespace WorldGenerator.Scripts
                     else if (generatedIndex <= 18)
                         return _biomeData.Segments.Find(s => s.name == "Straight Segment");
 
-                    else if (generatedIndex <= 22)
+                    else if (generatedIndex <= 21)
                         return _biomeData.Segments.Find(s => s.name == "Slide");
 
                     else if (generatedIndex <= 24)

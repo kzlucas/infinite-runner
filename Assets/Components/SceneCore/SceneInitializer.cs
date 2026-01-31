@@ -31,10 +31,8 @@ public class SceneInitializer : Singleton.Model<SceneInitializer>
         Instance.isInitialized = false;
     }
 
-    private void Start()
-    {
-        EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
-    }
+    private void Start() => EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+    private void OnDestroy() => EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
 
 
 
@@ -60,6 +58,7 @@ public class SceneInitializer : Singleton.Model<SceneInitializer>
         // execute initialization in order
         foreach (var obj in ordered)
         {
+            Debug.Log($"[SceneInitializer] ⏳ Initializing {obj.GetType().Name} timestamp: {System.DateTime.Now:T}");
             await InitOrTimeout(obj, 1000);
         }
 
@@ -73,26 +72,17 @@ public class SceneInitializer : Singleton.Model<SceneInitializer>
     /// </summary>
     private async Task InitOrTimeout(IInitializable item, int timeoutMs)
     {
-        var timeoutTask = Task.Delay(timeoutMs);
         var initTask = item.InitializeAsync();
-        var completedTask = await Task.WhenAny(timeoutTask, initTask);
+        var delayTask = Task.Delay(timeoutMs);
+        var completedTask = await Task.WhenAny(initTask, delayTask);
 
-        if (completedTask == timeoutTask)
+        if (completedTask == delayTask)
         {
-            return;
+            Debug.LogWarning($"[SceneInitializer] ⚠️ Initialization of {item.GetType().Name} timed out after {timeoutMs} ms");
         }
         else
         {
-            try
-            {
-                Debug.Log($"[SceneInitializer] ⚙️ Initializing {item.GetType().Name}...");
-                await initTask; // This will throw if the task faulted
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"[SceneInitializer] ❌ Initialization of {item.GetType().Name} failed: {ex.Message}");
-                throw; // stop initialization chain
-            }
+            await initTask; // Ensure any exceptions are observed
         }
     }
 

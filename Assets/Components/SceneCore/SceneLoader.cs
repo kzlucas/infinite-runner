@@ -39,11 +39,7 @@ public class SceneLoader : Singleton.Model<SceneLoader>
     /// </summary>
     public void Load(string name)
     {
-        if (isTriggered) // prevent multiple clicks
-        {
-            return;
-        }
-
+        if (isTriggered)  return;// prevent multiple clicks
         isTriggered = true;
         StartCoroutine(LoadSceneAsync(name));
     }
@@ -66,12 +62,8 @@ public class SceneLoader : Singleton.Model<SceneLoader>
     /// <returns></returns>
     private IEnumerator LoadSceneAsync(string name)
     {
-
-        Debug.Log("[SceneLoader] Loading scene: " + name);
-
         SceneInitializer.Instance.isInitialized = false;
         EventBus.Publish(new SceneExitEvent());
-
 
         // Run scene exit animation and wait for it to finish
         yield return FadeToBlack();

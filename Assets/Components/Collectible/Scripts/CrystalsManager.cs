@@ -62,7 +62,7 @@ namespace Components.Collectible
         /// <summary>
         ///  Clear crystals bucket
         /// </summary>
-        private static void ClearBucket()
+        public static void ClearBucket()
         {
             bucketFillPct = 0f;
             amountInBucket = 0;

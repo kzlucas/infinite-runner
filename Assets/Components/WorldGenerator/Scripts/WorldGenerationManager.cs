@@ -75,12 +75,12 @@ namespace WorldGenerator.Scripts
         /// Get the needed references and setup for world generation
         /// </summary>
         /// <returns></returns>
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
             // Start generation thread
             generatedIndex = 0;
             GenerateSegments();
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
 

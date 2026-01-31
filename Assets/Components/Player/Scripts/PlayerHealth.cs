@@ -12,7 +12,7 @@ namespace Components.Player
 
         [Header("Health Settings")]
         public int currentHealth { get; set; }
-        public int maxHealth { get; set; } = 10;
+        public int maxHealth { get; set; } = 1;
         public bool isInvincible = false;
         public bool isDie = false;
 

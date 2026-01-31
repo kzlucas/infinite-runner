@@ -41,10 +41,13 @@ namespace WorldGenerator.Scripts
         ///   Initializes the Biomes Data Manager.
         /// </summary>
         /// <returns></returns>
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            SetBiome(1); // set initial biome
-            return Task.CompletedTask;
+            if(SceneLoader.Instance.IsGameScene())
+            {
+                SetBiome(1); // set initial biome
+            }
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -130,7 +133,7 @@ namespace WorldGenerator.Scripts
             yield return new WaitForSeconds(0.1f);
             var playerTransform = Components.Player.Utils.PlayerController.transform;
             InstancesRegistry.ClearSegmentsInFront((int)(playerTransform.position.z + 30)); // force regen
-            CrystalsManager.Reset();
+            CrystalsManager.ClearBucket();
         }
     }
 }
