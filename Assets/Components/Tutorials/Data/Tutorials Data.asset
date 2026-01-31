@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: Tutorials Data
   m_EditorClassIdentifier: Assembly-CSharp::SO_Tutorials
   _tutorials:
-  - tutorialKey: ChangeLane
-    completed: 1
-    uiGo: {fileID: 1403725486498173905, guid: 8d37f77218ac9bbaa886ee4ac0582ed8, type: 3}
-  - tutorialKey: Jump
-    completed: 1
-    uiGo: {fileID: 6467432420947775741, guid: d6c1ce4359c8df81380a52f61151018e, type: 3}
-  - tutorialKey: Slide
-    completed: 1
-    uiGo: {fileID: 5376517841285417522, guid: def698ef53d18d5e09168c638c801b7b, type: 3}
-  - tutorialKey: Crystal
-    completed: 1
-    uiGo: {fileID: 1361420538468969911, guid: 024743d332546c5088ec5c6e7b7e97c4, type: 3}
-  - tutorialKey: Completed
-    completed: 1
-    uiGo: {fileID: 5913195952631408009, guid: f63c4d0685d2c94659bf4c1867367bb2, type: 3}
+  - TutorialKey: ChangeLane
+    Completed: 0
+    UiGo: {fileID: 1403725486498173905, guid: 8d37f77218ac9bbaa886ee4ac0582ed8, type: 3}
+  - TutorialKey: Jump
+    Completed: 0
+    UiGo: {fileID: 6467432420947775741, guid: d6c1ce4359c8df81380a52f61151018e, type: 3}
+  - TutorialKey: Slide
+    Completed: 0
+    UiGo: {fileID: 5376517841285417522, guid: def698ef53d18d5e09168c638c801b7b, type: 3}
+  - TutorialKey: Crystal
+    Completed: 0
+    UiGo: {fileID: 1361420538468969911, guid: 024743d332546c5088ec5c6e7b7e97c4, type: 3}
+  - TutorialKey: Completed
+    Completed: 0
+    UiGo: {fileID: 5913195952631408009, guid: f63c4d0685d2c94659bf4c1867367bb2, type: 3}
