@@ -9,8 +9,8 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
     public class UiPopin : BaseClasses.UiController, IOpenable
     {
         private Action WhenReady { get; set; }
-        public bool isOpen { get; set; } = false;
-        public bool openOnSceneLoad = false;
+        public bool IsOpen { get; set; } = false;
+        public bool OpenOnSceneLoad = false;
         [HideInInspector] public VisualElement popin;
 
 
@@ -31,7 +31,7 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
             yield return new WaitForEndOfFrame();
 
             // Set initial state
-            if (openOnSceneLoad) Open();
+            if (OpenOnSceneLoad) Open();
             else Close();
 
             // Wait frames to ensure open/close classes are applied before adding animate class, 
@@ -58,7 +58,7 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
             popin.AddToClassList("open");
             popin.RemoveFromClassList("close");
             popin.pickingMode = PickingMode.Position;
-            isOpen = true;
+            IsOpen = true;
             OnOpen();
         }
 
@@ -76,7 +76,7 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
             popin.AddToClassList("close");
             popin.RemoveFromClassList("open");
             popin.pickingMode = PickingMode.Ignore;
-            isOpen = false;
+            IsOpen = false;
             OnClose();
         }
 
@@ -84,7 +84,7 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
 
         public virtual void Toggle()
         {
-            if (isOpen)
+            if (IsOpen)
                 Close();
             else
                 Open();

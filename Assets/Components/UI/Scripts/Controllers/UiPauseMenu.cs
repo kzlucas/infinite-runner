@@ -1,3 +1,5 @@
+using Components.Events;
+using Components.Scenes;
 using Components.TimeScale;
 using InputsHandler;
 using UnityEngine;
@@ -21,18 +23,18 @@ namespace Components.UI.Scripts.Controllers
         public InputActionReference pauseGameActionRef;
 
 
-        private void Start()
+        private void Start() => EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+        private void OnDestroy() => EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);            
+        private void OnSceneLoadedEvent(SceneLoadedEvent e)
         {
-            SceneLoader.Instance.OnSceneLoaded += () =>
+            InputHandlersManager.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
             {
-                InputHandlersManager.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
-                {
-                    if (isLocked) return;
-                    Debug.Log("[UiPauseMenu] Toggling Pause Menu");
-                    UiRegistry.Instance.PauseMenu.Toggle();
-                });
-            };
+                if (isLocked) return;
+                Debug.Log("[UiPauseMenu] Toggling Pause Menu");
+                UiRegistry.Instance.PauseMenu.Toggle();
+            });
         }
+
 
         public override void OnOpen()
         {

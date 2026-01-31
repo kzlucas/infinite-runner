@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using Components.Events;
+using Components.Scenes;
 
 
 /// <summary>
@@ -25,14 +27,13 @@ public class SceneInitializer : Singleton.Model<SceneInitializer>
     [RuntimeInitializeOnLoadMethod] 
     static void OnEnteringPlayMode()
     {
-        SceneLoader.Instance.OnSceneLoaded -= () => _ = Instance.InitializeSceneAsync();
+        EventBus.Unsubscribe<SceneLoadedEvent>(Instance.OnSceneLoadedEvent);
         Instance.isInitialized = false;
     }
 
     private void Start()
     {
-        // Register to scene loaded event
-        SceneLoader.Instance.OnSceneLoaded += () => _ = InitializeSceneAsync();
+        EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
     }
 
 
@@ -40,7 +41,11 @@ public class SceneInitializer : Singleton.Model<SceneInitializer>
     /// <summary>
     /// Initialize all IInitializable objects in the scene
     /// </summary>
-    private async Task InitializeSceneAsync()
+    private void OnSceneLoadedEvent(SceneLoadedEvent e)
+    {
+        _ = InitializeSceneAsync(e);
+    }
+    private async Task InitializeSceneAsync(SceneLoadedEvent e)
     {
         isInitialized = false;
         

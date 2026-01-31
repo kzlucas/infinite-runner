@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Threading.Tasks;
 using Assets.Components.SquareColliders.Scripts;
+using Components.Events;
+using Components.Scenes;
 using Components.ServiceLocator.Scripts;
 using UnityEngine;
 
@@ -61,6 +63,13 @@ namespace WorldGenerator.Scripts
 
 
 
+        private void Start() => EventBus.Subscribe<SceneExitEvent>(OnSceneExitEvent);
+        private void OnDestroy() => EventBus.Unsubscribe<SceneExitEvent>(OnSceneExitEvent);
+        private void OnSceneExitEvent(SceneExitEvent e)
+        {
+            StopAllCoroutines();
+        }
+
 
         /// <summary>
         /// Get the needed references and setup for world generation
@@ -71,10 +80,6 @@ namespace WorldGenerator.Scripts
             // Start generation thread
             generatedIndex = 0;
             GenerateSegments();
-
-            // Stop generation on scene exit
-            SceneLoader.Instance.OnSceneExit += () => StopAllCoroutines();
-
             return Task.CompletedTask;
         }
 

@@ -1,4 +1,6 @@
 using System.Collections;
+using Components.Events;
+using Components.Scenes;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,29 +11,17 @@ namespace Components.UI.Scripts.Controllers
     public class UiScreenOverlay : BaseClasses.UiController, IOpenable
     {
         public string colorString = "black";
-        public bool isOpen { get; set; } = true;
-        public bool fadeOutOnStart = true;
-
-        private IEnumerator Start()
-        {
-            if (!fadeOutOnStart) yield break;
-            SceneLoader.Instance.OnSceneLoaded += HandleSceneLoaded;
-            HandleSceneLoaded();
-        }
-
-        private void OnDestroy() => SceneLoader.Instance.OnSceneLoaded -= HandleSceneLoaded;
+        public bool IsOpen { get; set; } = true;
 
 
-
-        /// <summary>
-        ///   When a new scene has been loaded, initialize the fade screen to default state then close it.
-        /// </summary>
-        /// <returns></returns>
-        private void HandleSceneLoaded()
+        private void Start() => EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+        private void OnDestroy() => EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);            
+        private void OnSceneLoadedEvent(SceneLoadedEvent e)
         {
             if (this == null || gameObject == null) return;
             StartCoroutine(OnSceneLoaded());
         }
+
 
 
         private IEnumerator OnSceneLoaded()
@@ -53,7 +43,7 @@ namespace Components.UI.Scripts.Controllers
             screen.AddToClassList(colorString);
             screen.AddToClassList("fade-in");
             screen.RemoveFromClassList("fade-out");
-            isOpen = true;
+            IsOpen = true;
         }
 
         public void Close()
@@ -62,7 +52,7 @@ namespace Components.UI.Scripts.Controllers
             screen.AddToClassList(colorString);
             screen.AddToClassList("fade-out");
             screen.RemoveFromClassList("fade-in");
-            isOpen = false;
+            IsOpen = false;
         }
 
 

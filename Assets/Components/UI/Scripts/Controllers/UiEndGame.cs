@@ -1,4 +1,6 @@
 using System.Collections;
+using Components.Events;
+using Components.Scenes;
 using Components.Stats;
 using Components.TimeScale;
 using UnityEngine;
@@ -20,9 +22,9 @@ namespace Components.UI.Scripts.Controllers
         [HideInInspector] public Label label_bestLastBiomeReached;
 
 
-        private void Start() => SceneLoader.Instance.OnSceneLoaded += HandleSceneLoaded;
-        private void OnDestroy() => SceneLoader.Instance.OnSceneLoaded -= HandleSceneLoaded;
-        private void HandleSceneLoaded()
+        private void Start() => EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+        private void OnDestroy() => EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);            
+        private void OnSceneLoadedEvent(SceneLoadedEvent e)
         {
             if (this == null || gameObject == null) return;
             StartCoroutine(OnSceneLoaded());

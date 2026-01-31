@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Components.Events;
 using Components.Scenes;
@@ -9,31 +8,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : Singleton.Model<SceneLoader>
 {
-        
-    [Header("Dependencies")]
-    private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-
-
 
     [Header("Scene Loader Settings")]
     private bool isTriggered = false;
     public string currentSceneName => SceneManager.GetActiveScene().name;
-    public event Action OnSceneLoaded;
-    public event Action OnSceneExit;
-
-
-    /// <summary>
-    ///  Called when entering Play mode.
-    /// - Unregister handlers so it doesn't affect the next Play mode run
-    /// This is needed when domain reloading is disabled in Unity Editor.
-    /// @see https://docs.unity3d.com/6000.2/Documentation/Manual/domain-reloading.html
-    /// </summary>
-    [RuntimeInitializeOnLoadMethod] 
-    static void OnEnteringPlayMode()
-    {
-        Instance.OnSceneLoaded = null;
-        Instance.OnSceneExit = null;
-    }
 
 
     /// <summary>
@@ -43,7 +21,7 @@ public class SceneLoader : Singleton.Model<SceneLoader>
     {
         // Make sur other components have put their OnSceneLoaded subscriptions before first invocation
         yield return new WaitForEndOfFrame();
-        OnSceneLoaded?.Invoke();
+        EventBus.Publish(new SceneLoadedEvent(currentSceneName));
     }
     
     /// <summary>
@@ -81,8 +59,6 @@ public class SceneLoader : Singleton.Model<SceneLoader>
     }
 
 
-
-
     /// <summary>
     ///    Loads a scene asynchronously with transition effects.
     /// </summary>
@@ -94,7 +70,6 @@ public class SceneLoader : Singleton.Model<SceneLoader>
         Debug.Log("[SceneLoader] Loading scene: " + name);
 
         SceneInitializer.Instance.isInitialized = false;
-        OnSceneExit?.Invoke();
         EventBus.Publish(new SceneExitEvent());
 
 
@@ -110,7 +85,6 @@ public class SceneLoader : Singleton.Model<SceneLoader>
             yield return null;
         }
 
-        OnSceneLoaded?.Invoke();
         EventBus.Publish(new SceneLoadedEvent(name));
         isTriggered = false;
     }

@@ -1,4 +1,6 @@
 
+using Components.Events;
+using Components.Scenes;
 using UnityEngine;
 
 
@@ -30,16 +32,14 @@ namespace Components.TimeScale
         /// <summary>
         ///     On scene loaded, reset the time elapsed counter.
         /// </summary>
-        private void Start()
+        private void Start() => EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+        private void OnDestroy() => EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);            
+        private void OnSceneLoadedEvent(SceneLoadedEvent e)
         {
-            SceneLoader.Instance.OnSceneLoaded += () =>
-            {
-                _timeElapsedFactor = 0f;
-                _currentTimeScale = InitialTimeScale;
-                _minTimeScale = InitialTimeScale;
-            };
+            _timeElapsedFactor = 0f;
+            _currentTimeScale = InitialTimeScale;
+            _minTimeScale = InitialTimeScale;
         }
-
 
         /// <summary>
         ///     On update, gradually increase the time scale if the game is not paused.
