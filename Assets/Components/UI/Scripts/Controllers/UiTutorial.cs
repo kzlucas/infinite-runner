@@ -10,7 +10,7 @@ namespace Components.UI.Scripts.Controllers
     {
         public IEnumerator Start()
         {
-            yield return new WaitUntil(() => docReady == true);
+            yield return new WaitUntil(() => DocReady == true);
             var resumeButton = root.Q<Button>("btn--close-tuto");
             resumeButton.clicked += () => Close();
         }
@@ -18,13 +18,13 @@ namespace Components.UI.Scripts.Controllers
         public override void OnOpen()
         {
             TimeScaleManager.Instance.PauseGame();
-            UiRegistry.Instance.PauseMenu.isLocked = true;
+            UiRegistry.Instance.PauseMenu.IsLocked = true;
         }
 
         public override void OnClose()
         {
             TimeScaleManager.Instance.ResumeGame();
-            UiRegistry.Instance.PauseMenu.isLocked = false;
+            UiRegistry.Instance.PauseMenu.IsLocked = false;
         }
 
     }

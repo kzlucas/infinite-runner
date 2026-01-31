@@ -6,7 +6,7 @@ namespace Components.Audio.Scripts
     [System.Serializable]
     public class SceneMusicPair
     {
-        public string sceneName;
-        public AudioClip musicClip;
+        public string SceneName;
+        public AudioClip MusicClip;
     }
 }

@@ -22,8 +22,8 @@ namespace Components.Tutorials
 
 
         [Header("Tutorial Data")]
-        [SerializeField] public SO_Tutorials tutorials;
-        [SerializeField] public bool tutorialsCompleted = false;
+        [SerializeField] public SO_Tutorials Tutorials;
+        [SerializeField] public bool AllTutorialsCompleted = false;
 
 
         private void Start()
@@ -45,24 +45,24 @@ namespace Components.Tutorials
                 Debug.Log("[TutorialManager] OnBiomeChanged! > " + evt.NewBiomeData.name );
                 Play("Completed");
                 PlayerPrefService.Save("SkipTutorials", "1");
-                tutorialsCompleted = true;
+                AllTutorialsCompleted = true;
             }
         }
 
         public async Task InitializeAsync()
         {
-            tutorialsCompleted = false;
+            AllTutorialsCompleted = false;
 
             if (PlayerPrefService.Load("SkipTutorials") == "1")
             {
-                tutorialsCompleted = true;
+                AllTutorialsCompleted = true;
                 await Task.CompletedTask;
                 return;
             }
 
             try
             {
-                tutorialsCompleted = TutorialsCompleted();
+                AllTutorialsCompleted = TutorialsCompleted();
                 await Task.CompletedTask;
             }
             catch (System.Exception ex)
@@ -74,7 +74,7 @@ namespace Components.Tutorials
 
         private void Update()
         {
-            if (tutorialsCompleted)
+            if (AllTutorialsCompleted)
             {
                 return;
             }
@@ -119,11 +119,11 @@ namespace Components.Tutorials
         /// <param name="tutorialKey"></param>
         public void Play(string tutorialKey)
         {
-            var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
-            if (tutorial != null && tutorial.completed == false)
+            var tutorial = Tutorials.Tutorials.Find(t => t.TutorialKey == tutorialKey);
+            if (tutorial != null && tutorial.Completed == false)
             {
                 UiRegistry.Instance.PauseMenu.Close();
-                var ui = Instantiate(tutorial.uiGo);
+                var ui = Instantiate(tutorial.UiGo);
                 ui.transform.SetParent(transform, false);
                 IInitializable item = ui.GetComponent<IInitializable>();
                 item.InitializeAsync();
@@ -138,10 +138,10 @@ namespace Components.Tutorials
         /// <param name="tutorialKey"></param>
         public void MarkTutorialCompleted(string tutorialKey)
         {
-            var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
-            if (tutorial != null && tutorial.completed == false)
+            var tutorial = Tutorials.Tutorials.Find(t => t.TutorialKey == tutorialKey);
+            if (tutorial != null && tutorial.Completed == false)
             {
-                tutorial.completed = true;
+                tutorial.Completed = true;
             }
 
             // Save completion in save data
@@ -159,10 +159,10 @@ namespace Components.Tutorials
         /// <param name="tutorialKey"></param>
         public bool TutorialCompleted(string tutorialKey)
         {
-            var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
+            var tutorial = Tutorials.Tutorials.Find(t => t.TutorialKey == tutorialKey);
             if (tutorial != null)
             {
-                return tutorial.completed;
+                return tutorial.Completed;
             }
             return false;
         }
@@ -174,15 +174,15 @@ namespace Components.Tutorials
         {
             var saveData = SaveService.Load();
             var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
-            foreach (var tutorial in tutorials.Tutorials)
+            foreach (var tutorial in Tutorials.Tutorials)
             {
-                tutorial.completed = false;
-                if (tutorialsCompleted.Contains(tutorial.tutorialKey))
+                tutorial.Completed = false;
+                if (tutorialsCompleted.Contains(tutorial.TutorialKey))
                 {
-                    tutorial.completed = true;
+                    tutorial.Completed = true;
                 }
             }
-            return tutorials.Tutorials.TrueForAll(t => t.completed);
+            return Tutorials.Tutorials.TrueForAll(t => t.Completed);
         }
     }
 }

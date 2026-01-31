@@ -18,16 +18,16 @@ namespace Components.Collectible
 
 
         [Header("Crystals Data")]
-        public static int crystalsCollected = 0;
-        public static int amountInBucket = 0;
-        public static float bucketFillPct = 0f;
+        public static int CrystalsCollected = 0;
+        public static int AmountInBucket = 0;
+        public static float BucketFillPct = 0f;
 
 
 
         public static void Reset()
         {
-            crystalsCollected = 0;
-            amountInBucket = 0;
+            CrystalsCollected = 0;
+            AmountInBucket = 0;
             ClearBucket();
         }
 
@@ -38,24 +38,24 @@ namespace Components.Collectible
         /// <param name="amount">Amount to add (usually 1)</param>
         public static void AddCrystals(int amount)
         {
-            amountInBucket += amount;
-            bucketFillPct = amountInBucket / (float)BiomesDataManager.Instance.current.CrystalsNeeded;
-            bucketFillPct = Mathf.Clamp01(bucketFillPct);
+            AmountInBucket += amount;
+            BucketFillPct = AmountInBucket / (float)BiomesDataManager.Instance.Current.CrystalsNeeded;
+            BucketFillPct = Mathf.Clamp01(BucketFillPct);
 
             // Check if bucket is full
-            if (bucketFillPct >= 1f)
+            if (BucketFillPct >= 1f)
             {
                 // Change to next biome
-                TutorialManager.tutorialsCompleted = true;
+                TutorialManager.AllTutorialsCompleted = true;
                 BiomesDataManager.Instance.CycleToNextBiome();
                 AudioManager.Instance.PlaySound("biome-change");
                 ClearBucket();
             }
 
             // Update HUD
-            UiRegistry.Instance.Hud.UpdateCrystalsBucket(bucketFillPct);
-            crystalsCollected += amount;
-            StatsRecorder.SetMaxCoinsCollected(crystalsCollected);
+            UiRegistry.Instance.Hud.UpdateCrystalsBucket(BucketFillPct);
+            CrystalsCollected += amount;
+            StatsRecorder.SetMaxCoinsCollected(CrystalsCollected);
         }
 
 
@@ -64,9 +64,9 @@ namespace Components.Collectible
         /// </summary>
         public static void ClearBucket()
         {
-            bucketFillPct = 0f;
-            amountInBucket = 0;
-            UiRegistry.Instance.Hud.UpdateCrystalsBucket(bucketFillPct);
+            BucketFillPct = 0f;
+            AmountInBucket = 0;
+            UiRegistry.Instance.Hud.UpdateCrystalsBucket(BucketFillPct);
         }
 
 

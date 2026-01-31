@@ -10,16 +10,16 @@ namespace Components.UI.Scripts.Controllers
     [RequireComponent(typeof(UIDocument))]
     public class UiHud : BaseClasses.UiController
     {
-        [HideInInspector] public VisualElement bucketContainer;
-        [HideInInspector] public VisualElement bucketFill;
+        [HideInInspector] public VisualElement BucketContainer;
+        [HideInInspector] public VisualElement BucketFill;
 
-        [HideInInspector] public VisualElement hpContainer;
-        [HideInInspector] public VisualElement hpFill;
-        public List<Sprite> hpFillSprites;
+        [HideInInspector] public VisualElement HpContainer;
+        [HideInInspector] public VisualElement HpFill;
+        public List<Sprite> HpFillSprites;
 
 
-        [HideInInspector] public Label bucketCounter;
-        private int bucketFullPxWidth = 239;
+        [HideInInspector] public Label BucketCounter;
+        private int _bucketFullPxWidth = 239;
 
 
         public override void OnDocReady()
@@ -29,12 +29,12 @@ namespace Components.UI.Scripts.Controllers
 
         private IEnumerator _OnDocReady()
         {
-            bucketContainer = root.Q<VisualElement>("bucket-container");
-            bucketFill = root.Q<VisualElement>("bucket");
-            bucketCounter = root.Q<Label>("bucket-counter");
+            BucketContainer = root.Q<VisualElement>("bucket-container");
+            BucketFill = root.Q<VisualElement>("bucket");
+            BucketCounter = root.Q<Label>("bucket-counter");
 
-            hpContainer = root.Q<VisualElement>("hp-container");
-            hpFill = root.Q<VisualElement>("hp");
+            HpContainer = root.Q<VisualElement>("hp-container");
+            HpFill = root.Q<VisualElement>("hp");
 
             UpdateHp(1f);
 
@@ -48,10 +48,10 @@ namespace Components.UI.Scripts.Controllers
         /// <param name="fillPct"></param>
         public void UpdateHp(float fillPct)
         {
-            var index = Mathf.Clamp(Mathf.FloorToInt(fillPct * hpFillSprites.Count), 0, hpFillSprites.Count - 1);
-            var hpFillSprite = hpFillSprites[index];
+            var index = Mathf.Clamp(Mathf.FloorToInt(fillPct * HpFillSprites.Count), 0, HpFillSprites.Count - 1);
+            var hpFillSprite = HpFillSprites[index];
 
-            hpFill.style.backgroundImage = new StyleBackground(hpFillSprite);
+            HpFill.style.backgroundImage = new StyleBackground(hpFillSprite);
         }
 
 
@@ -68,13 +68,13 @@ namespace Components.UI.Scripts.Controllers
 
         private IEnumerator _UpdateCrystalsBucket(float fillPct)
         {
-            yield return new WaitUntil(() => docReady && bucketFill != null);
-            bucketFill.style.width = fillPct * (float)bucketFullPxWidth;
-            bucketCounter.text = Mathf.RoundToInt(fillPct * 100f).ToString() + "%";
+            yield return new WaitUntil(() => DocReady && BucketFill != null);
+            BucketFill.style.width = fillPct * (float)_bucketFullPxWidth;
+            BucketCounter.text = Mathf.RoundToInt(fillPct * 100f).ToString() + "%";
 
             CrystalsBucketColor(
-                BiomesDataManager.Instance.current.crystalColor,
-                BiomesDataManager.Instance.current.GaugeImage
+                BiomesDataManager.Instance.Current.crystalColor,
+                BiomesDataManager.Instance.Current.GaugeImage
             );
         }
 
@@ -91,9 +91,9 @@ namespace Components.UI.Scripts.Controllers
         }
         private IEnumerator _CrystalsBucketColor(Color color, Sprite gaugeImage)
         {
-            yield return new WaitUntil(() => docReady && bucketFill != null && bucketContainer != null);
-            bucketFill.style.unityBackgroundImageTintColor = color;
-            bucketContainer.style.backgroundImage = new StyleBackground(gaugeImage);
+            yield return new WaitUntil(() => DocReady && BucketFill != null && BucketContainer != null);
+            BucketFill.style.unityBackgroundImageTintColor = color;
+            BucketContainer.style.backgroundImage = new StyleBackground(gaugeImage);
 
         }
     }

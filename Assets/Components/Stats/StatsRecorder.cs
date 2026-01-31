@@ -20,9 +20,9 @@ namespace Components.Stats
 
         [Header("Player Stats")]
         private static SaveData saveData;
-        public static string lastBiomeReached = "None";
-        public static int currentRunDistanceReached = 0;
-        public static int currentRunCoinsCollected = 0;
+        public static string LastBiomeReached = "None";
+        public static int CurrentRunDistanceReached = 0;
+        public static int CurrentRunCoinsCollected = 0;
 
         static StatsRecorder()
         {
@@ -57,12 +57,12 @@ namespace Components.Stats
 
         public static void UpdateLastBiomeReached(string biomeName)
         {
-            lastBiomeReached = biomeName;
+            LastBiomeReached = biomeName;
         }
 
         public static void SetMaxDistanceReached(int distance)
         {
-            currentRunDistanceReached = distance;
+            CurrentRunDistanceReached = distance;
             saveData.MaxDistanceReached = Mathf.Max(saveData.MaxDistanceReached, distance);
         }
 
@@ -73,7 +73,7 @@ namespace Components.Stats
 
         public static void SetMaxCoinsCollected(int crystalsCollected)
         {
-            currentRunCoinsCollected = crystalsCollected;
+            CurrentRunCoinsCollected = crystalsCollected;
             saveData.MaxCrystalsCollectedInRun = Mathf.Max(saveData.MaxCrystalsCollectedInRun, crystalsCollected);
         }
 

@@ -13,13 +13,13 @@ namespace Components.UI.Scripts.Controllers
     public class UiEndGame : BaseClasses.UiPopin
     {
 
-        [HideInInspector] public Label label_distanceReached;
-        [HideInInspector] public Label label_crystalsCollectedCount;
-        [HideInInspector] public Label label_lastBiomeReached;
+        [HideInInspector] public Label Label_distanceReached;
+        [HideInInspector] public Label Label_crystalsCollectedCount;
+        [HideInInspector] public Label Label_lastBiomeReached;
 
-        [HideInInspector] public Label label_bestDistanceReached;
-        [HideInInspector] public Label label_bestCrystalsCollectedCount;
-        [HideInInspector] public Label label_bestLastBiomeReached;
+        [HideInInspector] public Label Label_bestDistanceReached;
+        [HideInInspector] public Label Label_bestCrystalsCollectedCount;
+        [HideInInspector] public Label Label_bestLastBiomeReached;
 
 
         private void Start() => EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
@@ -32,27 +32,27 @@ namespace Components.UI.Scripts.Controllers
 
         private IEnumerator OnSceneLoaded()
         {
-            yield return new WaitUntil(() => docReady);
+            yield return new WaitUntil(() => DocReady);
 
-            label_crystalsCollectedCount = root.Q<Label>("label--crystals-collected-count");
-            label_lastBiomeReached = root.Q<Label>("label--last-biome-reached");
-            label_distanceReached = root.Q<Label>("label--distance-reached");
+            Label_crystalsCollectedCount = root.Q<Label>("label--crystals-collected-count");
+            Label_lastBiomeReached = root.Q<Label>("label--last-biome-reached");
+            Label_distanceReached = root.Q<Label>("label--distance-reached");
 
-            label_bestCrystalsCollectedCount = root.Q<Label>("label--best--crystals-collected-count");
-            label_bestLastBiomeReached = root.Q<Label>("label--best--last-biome-reached");
-            label_bestDistanceReached = root.Q<Label>("label--best--distance-reached");
+            Label_bestCrystalsCollectedCount = root.Q<Label>("label--best--crystals-collected-count");
+            Label_bestLastBiomeReached = root.Q<Label>("label--best--last-biome-reached");
+            Label_bestDistanceReached = root.Q<Label>("label--best--distance-reached");
         }
 
         public override void OnOpen()
         {
             TimeScaleManager.Instance.PauseGame();
 
-            label_crystalsCollectedCount.text = StatsRecorder.currentRunCoinsCollected.ToString();
-            label_lastBiomeReached.text = StatsRecorder.lastBiomeReached;
-            label_distanceReached.text = StatsRecorder.currentRunDistanceReached.ToString();
+            Label_crystalsCollectedCount.text = StatsRecorder.CurrentRunCoinsCollected.ToString();
+            Label_lastBiomeReached.text = StatsRecorder.LastBiomeReached;
+            Label_distanceReached.text = StatsRecorder.CurrentRunDistanceReached.ToString();
 
-            label_bestCrystalsCollectedCount.text = StatsRecorder.GetMaxCoinsCollected().ToString();
-            label_bestDistanceReached.text = StatsRecorder.GetMaxDistanceReached().ToString();
+            Label_bestCrystalsCollectedCount.text = StatsRecorder.GetMaxCoinsCollected().ToString();
+            Label_bestDistanceReached.text = StatsRecorder.GetMaxDistanceReached().ToString();
         }
 
     }

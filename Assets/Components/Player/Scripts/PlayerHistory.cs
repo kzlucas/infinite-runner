@@ -16,13 +16,13 @@ namespace Components.Player
     /// </summary>
     public class PlayerHistoryRecord
     {
-        public Vector3 position;
-        public Vector3 rbVelocity;
+        public Vector3 Position;
+        public Vector3 RbVelocity;
 
         public PlayerHistoryRecord(Vector3 pos, Vector3 vel)
         {
-            position = pos;
-            rbVelocity = vel;
+            Position = pos;
+            RbVelocity = vel;
         }
     }
 
@@ -38,11 +38,11 @@ namespace Components.Player
 
         [Header("History Settings")]
         public List<PlayerHistoryRecord> records = new List<PlayerHistoryRecord>();
-        public bool _disableRecord = false;
+        public bool IsRecordDisabled = false;
         public bool HasObstacleInFront = false;
         public bool HasGroundInFront = true;
-        private float lastRecordTime;
-        private Vector3 lastRecordPosition;
+        private float _lastRecordTime;
+        private Vector3 _lastRecordPosition;
 
         private void Start() => Record();
 
@@ -68,9 +68,9 @@ namespace Components.Player
                     && !player.IsChangingLane 
                     && !HasObstacleInFront
                     && HasGroundInFront
-                    && !_disableRecord
-                    && Time.time - lastRecordTime > 1f 
-                    && Vector3.Distance(lastRecordPosition, player.transform.position) > 10f
+                    && !IsRecordDisabled
+                    && Time.time - _lastRecordTime > 1f 
+                    && Vector3.Distance(_lastRecordPosition, player.transform.position) > 10f
                 )
             ;
             }
@@ -87,8 +87,8 @@ namespace Components.Player
             HasGroundInFront = Utils.CheckIfGroundInFront(player.transform, 5f);
             if(IsSafeZoneToRespawn)
             {
-                lastRecordTime = Time.time;
-                lastRecordPosition = transform.position;
+                _lastRecordTime = Time.time;
+                _lastRecordPosition = transform.position;
                 Record();
             }
         }
@@ -109,7 +109,7 @@ namespace Components.Player
             }
 
             // save last record z position to world generation manager to avoid removing segments where player can spawn too
-            WorldGenerationManager.Instance.lastRecordZPosition = records.Min(r => r.position.z);
+            WorldGenerationManager.Instance.LastRecordZPosition = records.Min(r => r.Position.z);
         }
 
 
@@ -124,7 +124,7 @@ namespace Components.Player
         }
         private IEnumerator LoadCoroutine()
         {
-            _disableRecord = true;
+            IsRecordDisabled = true;
             var player = GetComponent<Controller>();
             player.ControlReleased = true;
             TimeScaleManager.Instance.PauseGame();
@@ -134,7 +134,7 @@ namespace Components.Player
 
             // ~make sure we dont load the current position as sometime 
             // the Record is taken from the current frame
-            records = records.FindAll(r => Vector3.Distance(r.position, player.transform.position) > 1f);
+            records = records.FindAll(r => Vector3.Distance(r.Position, player.transform.position) > 1f);
             var record = records.LastOrDefault();
             
             // remove used record, this prevent respawn loop if player die again right after respawn
@@ -143,26 +143,26 @@ namespace Components.Player
             // Restore player position and velocity 
             // and stop all particle effects
             // and lane change coroutine if any
-            player.Rb.linearVelocity = record.rbVelocity;
-            player.sm.GetState<MoveState>().targetXPosition = Mathf.RoundToInt(record.position.x);
+            player.Rb.linearVelocity = record.RbVelocity;
+            player.sm.GetState<MoveState>().targetXPosition = Mathf.RoundToInt(record.Position.x);
             player.sm.GetState<SlideState>().OnRelease();
-            while( Vector3.Distance(player.transform.position, record.position) > 0.1f )
+            while( Vector3.Distance(player.transform.position, record.Position) > 0.1f )
             {
                 player.transform.position = Vector3.MoveTowards(
                     player.transform.position, 
-                    record.position, 
+                    record.Position, 
                     60f* Time.unscaledDeltaTime
                 );
                 yield return null;
             }
 
             UiRegistry.Instance.Countdown.Run();
-            yield return new WaitUntil(() => UiRegistry.Instance.Countdown.animationFinished == true);
+            yield return new WaitUntil(() => UiRegistry.Instance.Countdown.AnimationFinished == true);
 
             TimeScaleManager.Instance.ResumeGame();
             player.Animator.speed = 1f;
             player.ControlReleased = false;
-            _disableRecord = false;
+            IsRecordDisabled = false;
             yield return null;
         }
     }

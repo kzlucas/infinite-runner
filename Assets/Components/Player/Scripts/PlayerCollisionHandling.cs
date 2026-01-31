@@ -12,34 +12,34 @@ namespace Components.Player
 
 
         [Header("Flags")]
-        private bool previouslyGrounded = true;
+        private bool wasPreviouslyGrounded = true;
         
 
         [Header("References")]
-        public Controller player;
+        public Controller Player;
 
 
         [Header("Colliders References")]
-        public PlayerCollider bodyCollider;
-        public PlayerCollider leftCollider;
-        public PlayerCollider rightCollider;
-        public PlayerCollider frontCollider;
+        public PlayerCollider BodyCollider;
+        public PlayerCollider LeftCollider;
+        public PlayerCollider RightCollider;
+        public PlayerCollider FrontCollider;
 
 
         private void Start()
         {
-            bodyCollider.OnTriggered += HandleCollision;
-            leftCollider.OnTriggered += HandleCollision;
-            rightCollider.OnTriggered += HandleCollision;
-            frontCollider.OnTriggered += HandleCollision;
+            BodyCollider.OnTriggered += HandleCollision;
+            LeftCollider.OnTriggered += HandleCollision;
+            RightCollider.OnTriggered += HandleCollision;
+            FrontCollider.OnTriggered += HandleCollision;
         }
 
         private void OnDestroy()
         {
-            bodyCollider.OnTriggered -= HandleCollision;
-            leftCollider.OnTriggered -= HandleCollision;
-            rightCollider.OnTriggered -= HandleCollision;
-            frontCollider.OnTriggered -= HandleCollision;
+            BodyCollider.OnTriggered -= HandleCollision;
+            LeftCollider.OnTriggered -= HandleCollision;
+            RightCollider.OnTriggered -= HandleCollision;
+            FrontCollider.OnTriggered -= HandleCollision;
         }
 
 
@@ -49,7 +49,7 @@ namespace Components.Player
         /// <param name="other">The collider of the object collided with.</param>
         private void HandleCollision(ColliderPosition position, Collider other)
         {
-            if (player.ControlReleased) return;
+            if (Player.ControlReleased) return;
             var colliderType = other.GetComponent<ColliderType>();
             if (colliderType == null) return;
             var t = colliderType.colliderType;
@@ -60,7 +60,7 @@ namespace Components.Player
             {
                 case ColliderType.Type.DeathZone:
                     Debug.Log("[PlayerCollisionHandling] Collision with Death Zone: " + other.name);
-                    player.Health.TakeDamage(1);
+                    Player.Health.TakeDamage(1);
                     break;
 
                 case ColliderType.Type.Platform:
@@ -69,7 +69,7 @@ namespace Components.Player
                     {
                         // Debug.Break();
                         Debug.Log("[PlayerCollisionHandling] Platform collided at Player." + position.ToString() + other.GetInstanceID()  + " with " + other.name + " (instance ID: " + other.GetInstanceID() + ")");
-                        player.Health.TakeDamage(1);
+                        Player.Health.TakeDamage(1);
                     }
                     break;
 
@@ -84,7 +84,7 @@ namespace Components.Player
                 case ColliderType.Type.ZoneChange:
                     if (position == ColliderPosition.Body)
                     {
-                        StatsRecorder.UpdateLastBiomeReached(BiomesDataManager.Instance.current.BiomeName);
+                        StatsRecorder.UpdateLastBiomeReached(BiomesDataManager.Instance.Current.BiomeName);
                     }
                     break;
 
@@ -133,17 +133,17 @@ namespace Components.Player
             }
 
             // Update grounded state
-            player.IsGrounded = isCurrentlyGrounded;
+            Player.IsGrounded = isCurrentlyGrounded;
 
             // Set jump animation state ~
-            player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", !player.IsGrounded);
+            Player.transform.Find("Renderer").GetComponent<Animator>().SetBool("isJumping", !Player.IsGrounded);
 
             // If just landed, invoke the OnLanded event
-            if (!previouslyGrounded && player.IsGrounded)
+            if (!wasPreviouslyGrounded && Player.IsGrounded)
             {
                 EventBus.Publish(new Events.Landed());
             }
-            previouslyGrounded = player.IsGrounded;
+            wasPreviouslyGrounded = Player.IsGrounded;
         }
 
 

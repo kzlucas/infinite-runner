@@ -1,9 +1,9 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Stylesheets/main.uss?fileID=7433441132597879392&amp;guid=563c666c9d9d0e307a2f416a110b8ac6&amp;type=3#main" />
+    <Style src="project://database/Assets/Components/UI/Toolkit/Stylesheets/main.uss?fileID=7433441132597879392&amp;guid=563c666c9d9d0e307a2f416a110b8ac6&amp;type=3#main" />
     <ui:VisualElement name="popin" class="popin" style="flex-grow: 1;">
-        <ui:VisualElement name="popin-inner" class="popin-inner" style="flex-grow: 0; justify-content: space-between;">
+        <ui:VisualElement name="popin-inner" class="popin-inner" style="flex-grow: 0; justify-content: space-between; max-height: 800px;">
             <ui:Label text="Game Over" style="-unity-text-align: upper-center; font-size: 60px;" />
-            <ui:Label text="Current Run:" style="-unity-text-align: upper-left; font-size: 38px; margin-top: 20px;" />
+            <ui:Label text="Current Run:" style="-unity-text-align: upper-left; font-size: 38px; margin-top: 30px;" />
             <ui:VisualElement name="run-infos" style="flex-grow: 1; flex-direction: row; justify-content: space-between; margin-top: 0; margin-bottom: 40px;">
                 <ui:VisualElement name="left" style="flex-grow: 1; align-items: flex-start;">
                     <ui:Label text="Crystals collected" name="label--heading--crystals-collected-count" style="-unity-text-align: upper-center; font-size: 32px;" />

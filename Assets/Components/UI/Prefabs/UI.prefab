@@ -55,8 +55,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d65a5ad197353dd890608b8a12703cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiCountdown
-  animator: {fileID: 4344017970833326197}
-  animationFinished: 0
+  Animator: {fileID: 4344017970833326197}
+  AnimationFinished: 0
 --- !u!223 &4466067769286066747
 Canvas:
   m_ObjectHideFlags: 0
@@ -226,9 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c665c2debae534e8c0f45b11347c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiEndGame
-  uiDoc: {fileID: 5144216983025208215}
-  docReady: 0
-  openOnSceneLoad: 0
+  UiDoc: {fileID: 5144216983025208215}
+  DocReady: 0
+  OpenOnSceneLoad: 0
 --- !u!1 &1727631810234736370
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,8 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d2cbd360acb62ae8ed4cd3ff9da6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiSplahScreen
-  uiDoc: {fileID: 1110537507356915878}
-  docReady: 0
+  UiDoc: {fileID: 1110537507356915878}
+  DocReady: 0
 --- !u!1 &3603787125247540302
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,10 +442,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9e50844f509d190b13b4eb10c78e72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiScreenOverlay
-  uiDoc: {fileID: 440355448378493811}
-  docReady: 0
-  colorString: black
-  fadeOutOnStart: 1
+  UiDoc: {fileID: 440355448378493811}
+  DocReady: 0
+  ColorString: black
 --- !u!1 &4182733758907958160
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,11 +513,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0d25763aa046e0d86c26107b562ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiPauseMenu
-  uiDoc: {fileID: 2485610362209029224}
-  docReady: 0
-  openOnSceneLoad: 0
-  isLocked: 0
-  pauseGameActionRef: {fileID: 2972918176140473490, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  UiDoc: {fileID: 2485610362209029224}
+  DocReady: 0
+  OpenOnSceneLoad: 0
+  IsLocked: 0
+  PauseGameActionRef: {fileID: 2972918176140473490, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &4398523218064044935
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,10 +811,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bf754c81ada2c88bb9e6f6c6416706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiHud
-  uiDoc: {fileID: 1069559468318583381}
-  docReady: 0
-  hpFillSprites:
-  - {fileID: 21300000, guid: cbab646b17af10bbd95b061bbc3c4000, type: 3}
+  UiDoc: {fileID: 1069559468318583381}
+  DocReady: 0
+  HpFillSprites:
   - {fileID: 21300000, guid: d2a04138c4ab27732ab2c03839ab035a, type: 3}
   - {fileID: 21300000, guid: fbb0c04dbcf82c753ae26bdae5113f15, type: 3}
   - {fileID: 21300000, guid: c29b615e29ec9e6aa9b223ab3a4a2837, type: 3}

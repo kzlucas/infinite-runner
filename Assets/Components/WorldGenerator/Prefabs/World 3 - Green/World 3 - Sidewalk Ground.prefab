@@ -10184,9 +10184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b816073f2e06a4f6db1814e12ba7575c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SidewalkGenerator
-  slotsContainer: {fileID: 5319042039191950459}
-  itemsContainer: {fileID: 8477323290447266009}
-  prefabs:
+  SlotsContainer: {fileID: 5319042039191950459}
+  ItemsContainer: {fileID: 8477323290447266009}
+  Prefabs:
   - {fileID: 919132149155446097, guid: ab08612ef1fbaee0a9d881225a7817eb, type: 3}
   - {fileID: 919132149155446097, guid: 183d438efdb9d73b7b6ade5508f43976, type: 3}
   - {fileID: 919132149155446097, guid: 82035792ab5f98672893d6e40409f73b, type: 3}

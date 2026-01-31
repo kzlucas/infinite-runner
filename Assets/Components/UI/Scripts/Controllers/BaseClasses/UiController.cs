@@ -22,11 +22,11 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
 
         [Header("UI Document References")]
         protected VisualElement root;
-        private PanelSettings panelSettings;
-        public UIDocument uiDoc;
-        [HideInInspector] public bool docReady = false;
-        private List<Button> buttons = null;
-        private List<Toggle> toggles = null;
+        private PanelSettings _panelSettings;
+        public UIDocument UiDoc;
+        [HideInInspector] public bool DocReady = false;
+        private List<Button> _buttons = null;
+        private List<Toggle> _toggles = null;
 
 
 
@@ -34,7 +34,7 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
         {
             StartCoroutine(AttachDocument());
 
-            while (!docReady)
+            while (!DocReady)
             {
                 await Task.Yield();
             }
@@ -50,14 +50,14 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
         public IEnumerator AttachDocument()
         {
             float timeout = 3f;
-            uiDoc.enabled = true;
+            UiDoc.enabled = true;
 
-            while ((uiDoc == null || root == null || panelSettings == null) && timeout > 0f)
+            while ((UiDoc == null || root == null || _panelSettings == null) && timeout > 0f)
             {
                 timeout -= Time.deltaTime;
                 if (timeout <= 0f)
                 {
-                    Debug.LogError("[UiController] AttachDocument() timed out. uiDoc: " + (uiDoc != null) + ", root: " + (root != null) + ", panelSettings: " + (panelSettings != null));
+                    Debug.LogError("[UiController] AttachDocument() timed out. uiDoc: " + (UiDoc != null) + ", root: " + (root != null) + ", panelSettings: " + (_panelSettings != null));
                     yield break;
                 }
                 _AttachDocument();
@@ -83,9 +83,9 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
              * Buttons click actions 
              */
 
-            buttons = new List<Button>();
-            root.Query<Button>(className: "action-button").ToList(buttons);
-            foreach (Button button in buttons)
+            _buttons = new List<Button>();
+            root.Query<Button>(className: "action-button").ToList(_buttons);
+            foreach (Button button in _buttons)
             {
                 button.clickable = null; // clear existing handlers
                 button.clicked += () => OnButtonClicked(button);
@@ -96,9 +96,9 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
              * Toggles change actions 
              */
 
-            toggles = new List<Toggle>();
-            root.Query<Toggle>(className: "unity-toggle").ToList(toggles);
-            foreach (Toggle toggle in toggles)
+            _toggles = new List<Toggle>();
+            root.Query<Toggle>(className: "unity-toggle").ToList(_toggles);
+            foreach (Toggle toggle in _toggles)
             {
                 // Register handler
                 toggle.RegisterValueChangedCallback((evt) => OnToggleChanged(toggle, evt.newValue));
@@ -111,7 +111,7 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
             }
 
             // root.Focus(); // needed to ensure input works in WebGL builds
-            docReady = true;
+            DocReady = true;
             root.style.display = DisplayStyle.Flex;
 
             OnDocReady();
@@ -196,10 +196,10 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
 
         public void _AttachDocument()
         {
-            uiDoc = GetComponent<UIDocument>();
-            root = uiDoc.rootVisualElement;
+            UiDoc = GetComponent<UIDocument>();
+            root = UiDoc.rootVisualElement;
             if (root != null) root.style.display = DisplayStyle.None;
-            panelSettings = uiDoc.panelSettings;
+            _panelSettings = UiDoc.panelSettings;
         }
 
 

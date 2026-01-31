@@ -13,22 +13,24 @@ MonoBehaviour:
   m_Name: Audio Config
   m_EditorClassIdentifier: Assembly-CSharp::SO_AudioConfig
   _sceneMusicPairs:
-  - sceneName: Splash Screen
-    musicClip: {fileID: 8300000, guid: 8fd50203ab33e577ba6e837c2e3ef93e, type: 3}
-  - sceneName: Game
-    musicClip: {fileID: 8300000, guid: 2475b49e149f5d22294e5f1e18752f18, type: 3}
+  - SceneName: Splash Screen
+    MusicClip: {fileID: 8300000, guid: 8fd50203ab33e577ba6e837c2e3ef93e, type: 3}
+  - SceneName: Game
+    MusicClip: {fileID: 8300000, guid: 2475b49e149f5d22294e5f1e18752f18, type: 3}
   _sfxSoundsPairs:
-  - sceneName: crystal
-    musicClip: {fileID: 8300000, guid: 215b60468bee9ac4d862b06f8f71a5eb, type: 3}
-  - sceneName: jump
-    musicClip: {fileID: 8300000, guid: f87f293181483afb3991f4d15a230da8, type: 3}
-  - sceneName: land
-    musicClip: {fileID: 8300000, guid: c7558289904adb14bbc1daacf78dbc9c, type: 3}
-  - sceneName: slide
-    musicClip: {fileID: 8300000, guid: a8edbdda3ff6a9721853040a5076621d, type: 3}
-  - sceneName: crash
-    musicClip: {fileID: 8300000, guid: b73e51789b4ff8866becb0fb27745ab9, type: 3}
-  - sceneName: button-click
-    musicClip: {fileID: 8300000, guid: 2255197f4f9581100a8d5fb17dcb9f2c, type: 3}
-  - sceneName: heal
-    musicClip: {fileID: 8300000, guid: cf40a9b9bf62897719c255320a76d091, type: 3}
+  - SceneName: crash
+    MusicClip: {fileID: 8300000, guid: b73e51789b4ff8866becb0fb27745ab9, type: 3}
+  - SceneName: button-click
+    MusicClip: {fileID: 8300000, guid: 2255197f4f9581100a8d5fb17dcb9f2c, type: 3}
+  - SceneName: crystal
+    MusicClip: {fileID: 8300000, guid: 215b60468bee9ac4d862b06f8f71a5eb, type: 3}
+  - SceneName: heal
+    MusicClip: {fileID: 8300000, guid: cf40a9b9bf62897719c255320a76d091, type: 3}
+  - SceneName: land
+    MusicClip: {fileID: 8300000, guid: c7558289904adb14bbc1daacf78dbc9c, type: 3}
+  - SceneName: slide
+    MusicClip: {fileID: 8300000, guid: a8edbdda3ff6a9721853040a5076621d, type: 3}
+  - SceneName: jump
+    MusicClip: {fileID: 8300000, guid: f87f293181483afb3991f4d15a230da8, type: 3}
+  - SceneName: biome-change
+    MusicClip: {fileID: 8300000, guid: cf40a9b9bf62897719c255320a76d091, type: 3}

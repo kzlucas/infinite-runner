@@ -8,16 +8,16 @@ namespace Components.Audio.Scripts
         {
             foreach (var pair in audioConfig.SceneMusicPairs)
             {
-                if (!string.IsNullOrEmpty(pair.sceneName) && pair.musicClip != null)
+                if (!string.IsNullOrEmpty(pair.SceneName) && pair.MusicClip != null)
                 {
-                    audioConfig.SceneMusicMap[pair.sceneName] = pair.musicClip;
+                    audioConfig.SceneMusicMap[pair.SceneName] = pair.MusicClip;
                 }
             }
             foreach (var pair in audioConfig.SfxSoundsPairs)
             {
-                if (!string.IsNullOrEmpty(pair.sceneName) && pair.musicClip != null)
+                if (!string.IsNullOrEmpty(pair.SceneName) && pair.MusicClip != null)
                 {
-                    audioConfig.SfxSoundsMap[pair.sceneName] = pair.musicClip;
+                    audioConfig.SfxSoundsMap[pair.SceneName] = pair.MusicClip;
                 }
             }
 

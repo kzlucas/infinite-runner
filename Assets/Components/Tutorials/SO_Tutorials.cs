@@ -7,9 +7,9 @@ namespace Components.Tutorials
     [System.Serializable]
     public class Tutorial
     {
-        public string tutorialKey;
-        public bool completed;
-        public GameObject uiGo;
+        public string TutorialKey;
+        public bool Completed;
+        public GameObject UiGo;
     }
 
     [CreateAssetMenu(fileName = "Create New Tutorials Data", menuName = "Tutorials Data/New Tutorials Data", order = 1)]

@@ -20,7 +20,7 @@ namespace WorldGenerator.Scripts
 
 
         [Header("References")]
-        private IEnumerator lerpBiomeColorCoroutineInstance;
+        private IEnumerator _lerpBiomeColorCoroutineInstance;
 
 
         [Header("Initialization")]
@@ -32,8 +32,8 @@ namespace WorldGenerator.Scripts
 
 
         [Header("Biome Data")]
-        public List<SO_BiomeData> items = new List<SO_BiomeData>();
-        public SO_BiomeData current = null;
+        public List<SO_BiomeData> Items = new List<SO_BiomeData>();
+        public SO_BiomeData Current = null;
 
 
 
@@ -57,9 +57,9 @@ namespace WorldGenerator.Scripts
         {
             int CycleBiomesIndex()
             {
-                int currentIndex = items.FindIndex(b => b.name == current.name);
+                int currentIndex = Items.FindIndex(b => b.name == Current.name);
                 int nextIndex = currentIndex + 1;
-                if (nextIndex >= items.Count) nextIndex = 1;
+                if (nextIndex >= Items.Count) nextIndex = 1;
                 return nextIndex;
             }
 
@@ -72,24 +72,24 @@ namespace WorldGenerator.Scripts
         private void SetBiome(int index)
         {
             var tutorialManager = ServiceLocator.Get<TutorialManager>();
-            if (!tutorialManager.tutorialsCompleted)
+            if (!tutorialManager.AllTutorialsCompleted)
                 index = 0;
 
-            if (index < 0 || index >= items.Count)
+            if (index < 0 || index >= Items.Count)
             {
                 Debug.LogError("[BiomesData] Index out of range when applying biome data!");
                 return;
             }
 
-            current = items[index];
-            EventBus.Publish(new BiomeChangedEvent(current));
+            Current = Items[index];
+            EventBus.Publish(new BiomeChangedEvent(Current));
 
-            Debug.Log("[BiomesData] Changing to biome: " + current.BiomeName);
+            Debug.Log("[BiomesData] Changing to biome: " + Current.BiomeName);
 
             // Update Sky color and Regenerate world
             float lerpDuration = .5f;
-            lerpBiomeColorCoroutineInstance = LerpBiomeColors(current.ColorSky, current.ColorSkyHorizon, current.ColorSkyGround, lerpDuration);
-            StartCoroutine(lerpBiomeColorCoroutineInstance);
+            _lerpBiomeColorCoroutineInstance = LerpBiomeColors(Current.ColorSky, Current.ColorSkyHorizon, Current.ColorSkyGround, lerpDuration);
+            StartCoroutine(_lerpBiomeColorCoroutineInstance);
             StartCoroutine(RegenWorld());
         }
 
@@ -100,7 +100,7 @@ namespace WorldGenerator.Scripts
         private IEnumerator LerpBiomeColors(Color targetSky, Color targetHorizon, Color targetGround, float duration)
         {
 
-            if (SceneLoader.Instance.currentSceneName != "Game")
+            if (SceneLoader.Instance.CurrentSceneName != "Game")
                 yield break;
 
             Color initialSky = RenderSettings.skybox.GetColor("_SkyColor");

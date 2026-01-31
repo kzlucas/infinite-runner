@@ -10,7 +10,7 @@ namespace Components.Collectible
 
 
         [Header("Collectible Settings")]
-        public Animator animator;
+        public Animator Animator;
         public string SoundToPlayOnCollection = "";
         public abstract void OnCollide();
         public bool IsCollected = false;
@@ -22,9 +22,9 @@ namespace Components.Collectible
 
         public virtual Collectible TriggerCollision()
         {
-            if (animator != null)
+            if (Animator != null)
             {
-                animator.SetTrigger("OnCollide");
+                Animator.SetTrigger("OnCollide");
             }
 
             if (SoundToPlayOnCollection != "")

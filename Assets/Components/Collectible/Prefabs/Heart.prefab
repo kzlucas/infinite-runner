@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a08645e48c9cd89f083642146a522225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationEvent__Destroy
-  toDestroyGo: {fileID: 5200056686928846985}
+  ToDestroyGo: {fileID: 5200056686928846985}
 --- !u!135 &3855728851669252144
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -120,8 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5b222f88efc6dc899e9159633bf12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectibleHeart
-  animator: {fileID: 3439655210384551142}
+  Animator: {fileID: 3439655210384551142}
   SoundToPlayOnCollection: heal
+  IsCollected: 0
 --- !u!1 &5648759138778097002
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,8 +5,8 @@ namespace Components.Audio.Scripts
 {
     public class HardwareValidation
     {
-        [SerializeField] private AudioSource musicSource;
-        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioSource _musicSource;
+        [SerializeField] private AudioSource _sfxSource;
 
 
         public (AudioSource, AudioSource) AttachAudioSources(UnityEngine.Camera cam)
@@ -28,19 +28,19 @@ namespace Components.Audio.Scripts
             }
             audioSources = cam.GetComponents<AudioSource>();
 
-            if (musicSource == null)
+            if (_musicSource == null)
             {
-                musicSource = audioSources[0];
+                _musicSource = audioSources[0];
             }
             // Ensure there is an AudioSource for SFX
-            if (sfxSource == null)
+            if (_sfxSource == null)
             {
-                sfxSource = audioSources[1];
+                _sfxSource = audioSources[1];
             }
             
-            musicSource.loop = true;
-            sfxSource.loop = false;
-            return (musicSource, sfxSource);
+            _musicSource.loop = true;
+            _sfxSource.loop = false;
+            return (_musicSource, _sfxSource);
         }
     }
 }

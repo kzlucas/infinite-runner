@@ -49,18 +49,22 @@ namespace WorldGenerator.Scripts
 
         [Header("Settings")]
 
-        /// <summary>Number of segments to generate in front of the player</summary>
-        public int frontGenerationWindowSize = 100;
-
         /// <summary> Index for generated segments</summary>
-        private int generatedIndex = 0;
+        private int _generatedIndex = 0;
 
         /// <summary> Coroutine reference for world generation</summary>
-        private IEnumerator generationCoroutine;
+        private IEnumerator _generationCoroutine;
 
         /// <summary> Z position of last recorded player position</summary>
-        public float lastRecordZPosition = 0f;
+        public float LastRecordZPosition = 0f;
 
+        /// <summary>Number of segments to generate in front of the player</summary>
+        private int _frontGenerationWindowSize { get {
+            if (Application.platform == RuntimePlatform.WebGLPlayer) 
+                return 120;  
+            else
+                return 300;
+        } }
 
 
         private void Start() => EventBus.Subscribe<SceneExitEvent>(OnSceneExitEvent);
@@ -78,7 +82,7 @@ namespace WorldGenerator.Scripts
         public async Task InitializeAsync()
         {
             // Start generation thread
-            generatedIndex = 0;
+            _generatedIndex = 0;
             GenerateSegments();
             await Task.CompletedTask;
         }
@@ -91,14 +95,14 @@ namespace WorldGenerator.Scripts
             // destroy existing segments
             if (clearExisting)
             {
-                generatedIndex = 0;
+                _generatedIndex = 0;
                 InstancesRegistry.Clear();
             }
 
             // (re)Start generation thread
-            if (generationCoroutine != null) StopCoroutine(generationCoroutine);
-            generationCoroutine = GenerationWalkerRoutine();
-            StartCoroutine(generationCoroutine);
+            if (_generationCoroutine != null) StopCoroutine(_generationCoroutine);
+            _generationCoroutine = GenerationWalkerRoutine();
+            StartCoroutine(_generationCoroutine);
         }
 
 
@@ -112,7 +116,7 @@ namespace WorldGenerator.Scripts
 
             // Generate new segments if needed
             int cursor = (int)playerTransform.position.z - 10; // generate slightly behind player to avoid display empty world in camera
-            int maxZ = cursor + frontGenerationWindowSize;
+            int maxZ = cursor + _frontGenerationWindowSize;
             while (cursor < maxZ)
             {
                 // Check if segment at this z already exists
@@ -125,23 +129,23 @@ namespace WorldGenerator.Scripts
 
                     // Add biome change overlay if biome changed 
                     if(ShouldGenerateChangeOverlay(ref lastSegment))
-                        GenerateBiomeChangeOverlay(ref lastSegment, lastSegment.position);
+                        GenerateBiomeChangeOverlay(ref lastSegment, lastSegment.Position);
 
                     // Create new segment 
                     InstantiateNewSegment(ref lastSegment, ref segmentInstance, zTarget);
 
                     // Special case: Remove crystals in tutorial biome segments until certain index
-                    if ((BiomesDataManager.Instance.current.BiomeName == "World 0 - Tuto")
-                    && (generatedIndex <= 24)) segmentInstance.RemoveCrystals();
+                    if ((BiomesDataManager.Instance.Current.BiomeName == "World 0 - Tuto")
+                    && (_generatedIndex <= 24)) segmentInstance.RemoveCrystals();
 
                     // no need to block frame, each segment can be created in its own frame 
                     if (Application.isPlaying) yield return null;
                 }
-                cursor += segmentInstance.sizeZ;
+                cursor += segmentInstance.SizeZ;
             }
 
             // Remove all segments that are behind the player
-            InstancesRegistry.ClearSegmentsBehind(lastRecordZPosition - 10);
+            InstancesRegistry.ClearSegmentsBehind(LastRecordZPosition - 10);
 
             // Update colliders
             SquareCollidersMerger.GenerateSquareColliders();
@@ -159,7 +163,7 @@ namespace WorldGenerator.Scripts
         /// <returns></returns>
         private bool ShouldGenerateChangeOverlay(ref WorldSegment lastSegment)
         {
-            var currentBiomeName = BiomesDataManager.Instance.current.BiomeName;
+            var currentBiomeName = BiomesDataManager.Instance.Current.BiomeName;
             var previousBiomeName = InstancesRegistry.PreviousOrDefault()?.BiomeData?.BiomeName;
             var worldIsStarting = lastSegment != null && (previousBiomeName != null) && (currentBiomeName != previousBiomeName);
             return worldIsStarting;
@@ -182,8 +186,8 @@ namespace WorldGenerator.Scripts
             // create new overlay
             var _worldStartOverlay = Instantiate(WorldStartOverlay.gameObject);
             _worldStartOverlay.transform.parent = this.transform;
-            _worldStartOverlay.GetComponent<WorldStartOverlay>().Set(pos, BiomesDataManager.Instance.current.ColorSkyGround);
-            generatedIndex = 0; // reset index on biome change
+            _worldStartOverlay.GetComponent<WorldStartOverlay>().Set(pos, BiomesDataManager.Instance.Current.ColorSkyGround);
+            _generatedIndex = 0; // reset index on biome change
         }
 
         /// <summary>
@@ -191,11 +195,11 @@ namespace WorldGenerator.Scripts
         /// </summary>
         private void InstantiateNewSegment(ref WorldSegment lastSegment, ref WorldSegment segmentInstance, int zTarget)
         {
-            generatedIndex++;
-            if (lastSegment != null) zTarget = lastSegment.rangeZ.Item2;
-            var selectionStrategy = new SelectionStrategy(BiomesDataManager.Instance.current);
-            var segmentModel = selectionStrategy.Select(generatedIndex);
-            segmentInstance = segmentModel.ToInstance(zTarget, BiomesDataManager.Instance.current, this.transform);
+            _generatedIndex++;
+            if (lastSegment != null) zTarget = lastSegment.RangeZ.Item2;
+            var selectionStrategy = new SelectionStrategy(BiomesDataManager.Instance.Current);
+            var segmentModel = selectionStrategy.Select(_generatedIndex);
+            segmentInstance = segmentModel.ToInstance(zTarget, BiomesDataManager.Instance.Current, this.transform);
             InstancesRegistry.RegisterInstance(segmentInstance);
         }
     }

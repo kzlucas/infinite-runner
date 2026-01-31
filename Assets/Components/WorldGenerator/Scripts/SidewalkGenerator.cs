@@ -15,17 +15,17 @@ namespace WorldGenerator.Scripts
         /// <summary>
         /// Positions to place items on sidewalks
         /// </summary>
-        public GameObject slotsContainer;
+        public GameObject SlotsContainer;
 
         /// <summary>
         /// Container for instantiated items
         /// </summary>
-        public GameObject itemsContainer;
+        public GameObject ItemsContainer;
 
         /// <summary>>
         /// Prefabs to place on sidewalks
         /// </summary>
-        public List<GameObject> prefabs;
+        public List<GameObject> Prefabs;
 
 
         /// <summary>
@@ -34,17 +34,17 @@ namespace WorldGenerator.Scripts
         public void Generate()
         {
             // clear previous items if any (append in edit mode)
-            foreach (Transform child in itemsContainer.transform)
+            foreach (Transform child in ItemsContainer.transform)
             {
                 DestroyImmediate(child.gameObject);
             }
 
             // get random prefab and instantiate at each slot
-            foreach (GameObject slot in slotsContainer.FindChildWithTag("Slot"))
+            foreach (GameObject slot in SlotsContainer.FindChildWithTag("Slot"))
             {
-                var prefab = prefabs[Random.Range(0, prefabs.Count)];
+                var prefab = Prefabs[Random.Range(0, Prefabs.Count)];
                 var instance = Instantiate(prefab, slot.transform.position, Quaternion.identity, transform);
-                instance.transform.SetParent(itemsContainer.transform);
+                instance.transform.SetParent(ItemsContainer.transform);
                 instance.transform.rotation = slot.transform.rotation;
             }
 

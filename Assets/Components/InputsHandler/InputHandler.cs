@@ -15,10 +15,10 @@ namespace InputsHandler
     public class InputHandler
     {
         // Unique label for the input handler
-        public string label;
+        public string Label;
 
         // Reference to the input action
-        public InputActionReference actionRef;
+        public InputActionReference ActionRef;
 
         // Current input value
         public Vector2 v2input = Vector2.zero;
@@ -39,7 +39,7 @@ namespace InputsHandler
         public Action OnHold;
 
         // Flag indicating if the input is being held
-        public bool isHolding = false;
+        public bool IsHolding = false;
 
 
 
@@ -53,34 +53,34 @@ namespace InputsHandler
             , Action _OnHold = null
         )
         {
-            label = _label;
-            actionRef = _actionRef;
+            Label = _label;
+            ActionRef = _actionRef;
             OnInput = _OnInput;
             OnUpdate = _OnUpdate;
             OnTrigger = _OnTrigger;
             OnRelease = _OnRelease;
             OnHold = _OnHold;
 
-            actionRef.action.performed += OnPerformed;
-            actionRef.action.canceled += OnCanceled;
-            actionRef.action.Enable();
+            ActionRef.action.performed += OnPerformed;
+            ActionRef.action.canceled += OnCanceled;
+            ActionRef.action.Enable();
         }
 
         void OnPerformed(InputAction.CallbackContext context)
         {
-            isHolding = true;
+            IsHolding = true;
 
-            if (actionRef.action.type.ToString() == "Value")
-                v2input = actionRef.action.ReadValue<Vector2>();
+            if (ActionRef.action.type.ToString() == "Value")
+                v2input = ActionRef.action.ReadValue<Vector2>();
 
-            if (actionRef.action.type.ToString() == "Button")
+            if (ActionRef.action.type.ToString() == "Button")
                 OnTrigger?.Invoke();
         }
 
 
         void OnCanceled(InputAction.CallbackContext context)
         {
-            isHolding = false;
+            IsHolding = false;
             v2input = Vector2.zero;
             OnRelease?.Invoke();
         }
@@ -93,11 +93,11 @@ namespace InputsHandler
             OnRelease = null;
             OnHold = null;
 
-            if (actionRef == null) return;
+            if (ActionRef == null) return;
 
-            actionRef.action.performed -= OnPerformed;
-            actionRef.action.canceled -= OnCanceled;
-            actionRef.action.Disable();
+            ActionRef.action.performed -= OnPerformed;
+            ActionRef.action.canceled -= OnCanceled;
+            ActionRef.action.Disable();
         }
 
     }

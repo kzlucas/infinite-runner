@@ -21,30 +21,30 @@ namespace WorldGenerator.Scripts
 
         public WorldSegment Select(int generatedIndex)
         {
-            switch (BiomesDataManager.Instance.current.BiomeName)
+            switch (BiomesDataManager.Instance.Current.BiomeName)
             {
                 case "World 0 - Tuto":
 
                     if (generatedIndex <= 4)
-                        return _biomeData.Segments.Find(s => s.name == "Straight Segment");
+                        return _biomeData.Segments.Find(s => s.Name == "Straight Segment");
 
                     else if (generatedIndex <= 10)
-                        return _biomeData.Segments.Find(s => s.name == "Change Lane");
+                        return _biomeData.Segments.Find(s => s.Name == "Change Lane");
 
                     else if (generatedIndex <= 12)
-                        return _biomeData.Segments.Find(s => s.name == "Straight Segment");
+                        return _biomeData.Segments.Find(s => s.Name == "Straight Segment");
 
                     else if (generatedIndex <= 16)
-                        return _biomeData.Segments.Find(s => s.name == "Jump");
+                        return _biomeData.Segments.Find(s => s.Name == "Jump");
 
                     else if (generatedIndex <= 18)
-                        return _biomeData.Segments.Find(s => s.name == "Straight Segment");
+                        return _biomeData.Segments.Find(s => s.Name == "Straight Segment");
 
                     else if (generatedIndex <= 21)
-                        return _biomeData.Segments.Find(s => s.name == "Slide");
+                        return _biomeData.Segments.Find(s => s.Name == "Slide");
 
                     else if (generatedIndex <= 24)
-                        return _biomeData.Segments.Find(s => s.name == "Straight Segment");
+                        return _biomeData.Segments.Find(s => s.Name == "Straight Segment");
 
                     else
                     {
@@ -59,19 +59,19 @@ namespace WorldGenerator.Scripts
 
 
                     if (generatedIndex <= 3)
-                        return _biomeData.Segments.Find(s => s.name == "Straight Segment");
+                        return _biomeData.Segments.Find(s => s.Name == "Straight Segment");
 
                     else
-                        return _biomeData.Segments.FindAll(s => s.name != "Straight Segment")
+                        return _biomeData.Segments.FindAll(s => s.Name != "Straight Segment")
                                                   .PickRandom();
 
                 default:
 
                     if (generatedIndex <= 3)
-                        return _biomeData.Segments.Find(s => s.name == "Straight Segment");
+                        return _biomeData.Segments.Find(s => s.Name == "Straight Segment");
 
                     else
-                        return _biomeData.Segments.Find(s => s.name == "Random Obstacles");
+                        return _biomeData.Segments.Find(s => s.Name == "Random Obstacles");
 
             }
 

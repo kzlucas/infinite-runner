@@ -11,7 +11,7 @@ namespace Components.DataServices
     /// </summary>
     public static class SaveService
     {
-        private static readonly string saveFileName = "save.json";
+        private static readonly string _saveFileName = "save.json";
 
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Components.DataServices
         /// <returns>Path to save file</returns>
         private static string GetSaveFilePath()
         {
-            return Application.persistentDataPath + "/" + saveFileName;
+            return Application.persistentDataPath + "/" + _saveFileName;
         }
 
 

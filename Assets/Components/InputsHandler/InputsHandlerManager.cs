@@ -16,8 +16,8 @@ namespace InputsHandler
     /// </summary>
     public class InputHandlersManager : Singleton.Model<InputHandlersManager>, IGameService
     {
-        public Vector2 mousePosition = Vector2.zero;
-        [SerializeField] public static List<InputHandler> inputHandlers = new List<InputHandler>();
+        public Vector2 MousePosition = Vector2.zero;
+        [SerializeField] public static List<InputHandler> InputHandlers = new List<InputHandler>();
 
 
 
@@ -49,7 +49,7 @@ namespace InputsHandler
             , Action OnHold = null
         )
         {
-            if (inputHandlers.Exists(ih => ih.label == label))
+            if (InputHandlers.Exists(ih => ih.Label == label))
             {
                 // clear previous subscriptions
                 Unregister(label);
@@ -66,17 +66,17 @@ namespace InputsHandler
                 , OnRelease
                 , OnHold
             );
-            inputHandlers.Add(newInputHandler);
+            InputHandlers.Add(newInputHandler);
         }
 
 
         public void Unregister(string label)
         {
-            InputHandler ih = inputHandlers.Find(ih => ih.label == label);
+            InputHandler ih = InputHandlers.Find(ih => ih.Label == label);
             if (ih != null)
             {
                 ih.ClearSubscriptions();
-                inputHandlers.Remove(ih);
+                InputHandlers.Remove(ih);
             }
         }
 
@@ -84,16 +84,16 @@ namespace InputsHandler
         private static void ClearAllHandlers()
         {
             Debug.Log("[InputHandlersManager] Clearing all input handlers");
-            foreach (InputHandler ih in inputHandlers)
+            foreach (InputHandler ih in InputHandlers)
             {
                 ih.ClearSubscriptions();
             }
-            inputHandlers.Clear();
+            InputHandlers.Clear();
         }
 
         private void FixedUpdate()
         {
-            foreach (InputHandler ih in inputHandlers)
+            foreach (InputHandler ih in InputHandlers)
             {
                 if (ih.v2input != Vector2.zero)
                 {
@@ -101,13 +101,13 @@ namespace InputsHandler
                 }
                 ih.OnUpdate?.Invoke(ih.v2input.normalized);
 
-                if (ih.isHolding)
+                if (ih.IsHolding)
                 {
                     ih.OnHold?.Invoke();
                 }
             }
 
-            mousePosition = Mouse.current.position.ReadValue();
+            MousePosition = Mouse.current.position.ReadValue();
         }
     }
 }

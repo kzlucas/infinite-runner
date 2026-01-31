@@ -18,17 +18,17 @@ namespace Components.UI.Scripts.Controllers
 
 
         [Header("Pause Menu Settings")]
-        public bool isLocked = false;
-        public InputActionReference pauseGameActionRef;
+        public bool IsLocked = false;
+        public InputActionReference PauseGameActionRef;
 
 
         private void Start() => EventBus.Subscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
         private void OnDestroy() => EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);            
         private void OnSceneLoadedEvent(SceneLoadedEvent e)
         {
-            InputHandlersManager.Register("Open Pause Menu", pauseGameActionRef, OnTrigger: () =>
+            InputHandlersManager.Register("Open Pause Menu", PauseGameActionRef, OnTrigger: () =>
             {
-                if (isLocked) return;
+                if (IsLocked) return;
                 Debug.Log("[UiPauseMenu] Toggling Pause Menu");
                 UiRegistry.Instance.PauseMenu.Toggle();
             });

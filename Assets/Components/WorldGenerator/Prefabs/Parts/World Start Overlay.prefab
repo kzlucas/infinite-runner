@@ -171,4 +171,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f9a22495d6941e59b1e75ab5ba1043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldStartOverlay
-  overlayObject: {fileID: 4443773472841176924}
+  OverlayObject: {fileID: 4443773472841176924}

@@ -73,6 +73,7 @@ namespace Components.Events
                     catch (Exception ex)
                     {
                         Debug.LogError($"[EventBus] Error in event handler for {eventType.Name}: {ex.Message}");
+                        Debug.LogException(ex);
                     }
                 }
             }
@@ -82,7 +83,6 @@ namespace Components.Events
             {
                 var onceHandlersToCall = new List<object>(_onceHandlers[eventType]);
                 _onceHandlers[eventType].Clear();
-                
                 foreach (Action<T> handler in onceHandlersToCall)
                 {
                     try

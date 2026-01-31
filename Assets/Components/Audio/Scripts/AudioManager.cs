@@ -16,8 +16,8 @@ namespace Components.Audio.Scripts
         
 
         [Header("Runtime Sources")]
-        [SerializeField] private AudioSource musicSource;
-        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioSource _musicSource;
+        [SerializeField] private AudioSource _sfxSource;
 
 
         [Header("Initialisation")]
@@ -26,11 +26,11 @@ namespace Components.Audio.Scripts
 
 
         [Header("Configuration")]
-        public SO_AudioConfig audioConfig;
+        public SO_AudioConfig AudioConfig;
 
 
         [Header("State")]
-        private bool isFading = false;
+        private bool _isFading = false;
         public float MaxVolume = .3f;
 
 
@@ -49,14 +49,14 @@ namespace Components.Audio.Scripts
         private async Task SetupAudioSystem()
         {
             // Configuration setup
-            audioConfig = _audioMapping.Map(audioConfig);
+            AudioConfig = _audioMapping.Map(AudioConfig);
 
             // Hardware setup
-            (musicSource, sfxSource) = _hardwareValidation.AttachAudioSources(UnityEngine.Camera.main);
+            (_musicSource, _sfxSource) = _hardwareValidation.AttachAudioSources(UnityEngine.Camera.main);
 
             // Load and apply user settings
             UserSettings.LoadSettings();
-            UserSettings.ApplyToSources(musicSource, sfxSource);
+            UserSettings.ApplyToSources(_musicSource, _sfxSource);
 
             await Task.CompletedTask;
         }
@@ -84,7 +84,7 @@ namespace Components.Audio.Scripts
         private async void OnPlaySoundEvent(PlaySoundEvent soundEvent)
         {
             await SetupAudioSystem();
-            PlaySound(soundEvent.soundName, soundEvent.volume);
+            PlaySound(soundEvent.SoundName, soundEvent.Volume);
         }
 
         private async void OnPlayMusicEvent(PlayMusicEvent musicEvent)
@@ -101,7 +101,7 @@ namespace Components.Audio.Scripts
 
         private void OnAudioSettingsChanged(AudioSettingsChangedEvent settingsEvent)
         {
-            UserSettings.ApplyToSources(musicSource, sfxSource);
+            UserSettings.ApplyToSources(_musicSource, _sfxSource);
         }
 
 
@@ -113,11 +113,11 @@ namespace Components.Audio.Scripts
             if (!IsMusicEnabled) return;
 
             // Check for exact scene match
-            if (audioConfig.SceneMusicMap.TryGetValue(sceneName, out AudioClip musicClip))
+            if (AudioConfig.SceneMusicMap.TryGetValue(sceneName, out AudioClip musicClip))
             {
-                if (musicSource.clip != musicClip)
+                if (_musicSource.clip != musicClip)
                 {
-                    StartCoroutine(FadeTo(musicSource, musicClip, .5f));
+                    StartCoroutine(FadeTo(_musicSource, musicClip, .5f));
                 }
             }
             // No music assigned for this scene
@@ -135,10 +135,10 @@ namespace Components.Audio.Scripts
         {
             if (!IsSfxEnabled) return;
 
-            if (audioConfig.SfxSoundsMap.TryGetValue(soundName, out AudioClip clip))
+            if (AudioConfig.SfxSoundsMap.TryGetValue(soundName, out AudioClip clip))
             {
-                sfxSource.PlayOneShot(clip, volume);
-                sfxSource.volume = MaxVolume;
+                _sfxSource.PlayOneShot(clip, volume);
+                _sfxSource.volume = MaxVolume;
             }
             else
             {
@@ -148,26 +148,26 @@ namespace Components.Audio.Scripts
 
         public void StopMusic()
         {
-            if (musicSource != null)
+            if (_musicSource != null)
             {
-                musicSource.Stop();
-                musicSource.clip = null;
+                _musicSource.Stop();
+                _musicSource.clip = null;
             }
         }
 
         public void SetMusicVolume(float volume)
         {
-            if (musicSource != null)
+            if (_musicSource != null)
             {
-                musicSource.volume = IsMusicEnabled ? volume : 0f;
+                _musicSource.volume = IsMusicEnabled ? volume : 0f;
             }
         }
 
         public void SetSfxVolume(float volume)
         {
-            if (sfxSource != null)
+            if (_sfxSource != null)
             {
-                sfxSource.volume = IsSfxEnabled ? volume : 0f;
+                _sfxSource.volume = IsSfxEnabled ? volume : 0f;
             }
         }
 
@@ -181,7 +181,7 @@ namespace Components.Audio.Scripts
         private IEnumerator FadeIn(AudioSource audioSource, float fadeTime)
         {
             StopCoroutine("FadeOut");
-            isFading = true;
+            _isFading = true;
             audioSource.volume = 0;
             audioSource.Play();
             while (audioSource && audioSource.volume < MaxVolume)
@@ -189,7 +189,7 @@ namespace Components.Audio.Scripts
                 audioSource.volume += Time.deltaTime / fadeTime;
                 yield return null;
             }
-            isFading = false;
+            _isFading = false;
         }
 
 
@@ -201,11 +201,11 @@ namespace Components.Audio.Scripts
             if (audioSource.clip == null)
             {
                 audioSource.Stop();
-                isFading = false;
+                _isFading = false;
                 yield break;
             }
             StopCoroutine("FadeIn");
-            isFading = true;
+            _isFading = true;
             while (audioSource && audioSource.volume > 0)
             {
                 audioSource.volume -= Time.deltaTime / fadeTime;
@@ -215,7 +215,7 @@ namespace Components.Audio.Scripts
             {
                 audioSource.Stop();
             }
-            isFading = false;
+            _isFading = false;
         }
 
 
@@ -224,9 +224,9 @@ namespace Components.Audio.Scripts
         /// </summary>
         private IEnumerator FadeTo(AudioSource audioSource, AudioClip clip, float fadeTime)
         {
-            isFading = true;
+            _isFading = true;
             StartCoroutine(FadeOut(audioSource, fadeTime));
-            yield return new WaitUntil(() => !isFading);
+            yield return new WaitUntil(() => !_isFading);
             audioSource.clip = clip;
             StartCoroutine(FadeIn(audioSource, fadeTime));
         }

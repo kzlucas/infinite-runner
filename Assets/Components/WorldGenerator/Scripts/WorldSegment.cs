@@ -12,12 +12,12 @@ namespace WorldGenerator.Scripts
     [System.Serializable]
     public class WorldSegment
     {
-        public string name;
+        public string Name;
         public GameObject GameObject;
         [HideInInspector] public SO_BiomeData BiomeData { get; set; }
-        [HideInInspector] public Vector3 position;
-        [HideInInspector] public int sizeZ;
-        [HideInInspector] public (int, int) rangeZ;
+        [HideInInspector] public Vector3 Position;
+        [HideInInspector] public int SizeZ;
+        [HideInInspector] public (int, int) RangeZ;
 
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace WorldGenerator.Scripts
             segmentInstance.transform.parent = parent;
             var worldSegment = new WorldSegment()
             {
-                position = new Vector3(0f, 0f, zTarget)
+                Position = new Vector3(0f, 0f, zTarget)
                 ,
                 GameObject = segmentInstance
                 ,
@@ -64,8 +64,8 @@ namespace WorldGenerator.Scripts
                 var startZ = (int)markers.Find("Start Marker").transform.position.z;
                 var endZ = (int)markers.Find("End Marker").transform.position.z;
 
-                sizeZ = (int)Mathf.Abs(endZ - startZ);
-                rangeZ = (startZ, endZ);
+                SizeZ = (int)Mathf.Abs(endZ - startZ);
+                RangeZ = (startZ, endZ);
             }
             else
             {
@@ -81,7 +81,7 @@ namespace WorldGenerator.Scripts
         /// <returns></returns>
         public bool IsPositionInsideSegment(float zPos)
         {
-            return (zPos >= rangeZ.Item1 && zPos <= rangeZ.Item2);
+            return (zPos >= RangeZ.Item1 && zPos <= RangeZ.Item2);
         }
 
 

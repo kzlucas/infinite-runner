@@ -64,7 +64,7 @@ namespace WorldGenerator.Scripts
         {
             instances.RemoveAll(s =>
             {
-                if (s.position.z < z) // 10 offset to avoid removing too early
+                if (s.Position.z < z) // 10 offset to avoid removing too early
                 {
                     if (Application.isEditor && !Application.isPlaying)
                         GameObject.DestroyImmediate(s.GameObject);
@@ -87,7 +87,7 @@ namespace WorldGenerator.Scripts
         {
             instances.RemoveAll(s =>
             {
-                if (s.position.z > z)
+                if (s.Position.z > z)
                 {
                     if (Application.isEditor && !Application.isPlaying)
                          GameObject.DestroyImmediate(s.GameObject);

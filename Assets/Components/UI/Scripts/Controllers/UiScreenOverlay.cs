@@ -10,7 +10,7 @@ namespace Components.UI.Scripts.Controllers
     [RequireComponent(typeof(UIDocument))]
     public class UiScreenOverlay : BaseClasses.UiController, IOpenable
     {
-        public string colorString = "black";
+        public string ColorString = "black";
         public bool IsOpen { get; set; } = true;
 
 
@@ -26,9 +26,9 @@ namespace Components.UI.Scripts.Controllers
 
         private IEnumerator OnSceneLoaded()
         {
-            yield return new WaitUntil(() => docReady);
+            yield return new WaitUntil(() => DocReady);
             var screen = root.Q<VisualElement>("screen");
-            screen.AddToClassList(colorString);
+            screen.AddToClassList(ColorString);
             screen.RemoveFromClassList("white");
             screen.RemoveFromClassList("fade-out");
             screen.RemoveFromClassList("fade-in");
@@ -40,7 +40,7 @@ namespace Components.UI.Scripts.Controllers
         public void Open()
         {
             var screen = root.Q<VisualElement>("screen");
-            screen.AddToClassList(colorString);
+            screen.AddToClassList(ColorString);
             screen.AddToClassList("fade-in");
             screen.RemoveFromClassList("fade-out");
             IsOpen = true;
@@ -49,7 +49,7 @@ namespace Components.UI.Scripts.Controllers
         public void Close()
         {
             var screen = root.Q<VisualElement>("screen");
-            screen.AddToClassList(colorString);
+            screen.AddToClassList(ColorString);
             screen.AddToClassList("fade-out");
             screen.RemoveFromClassList("fade-in");
             IsOpen = false;
@@ -62,8 +62,9 @@ namespace Components.UI.Scripts.Controllers
         }
         private IEnumerator _Flash(string color, float fadesDuration = .1f, float pauseDuration = 0f)
         {
+            yield return new WaitUntil(() => DocReady);
             var screen = root.Q<VisualElement>("screen");
-            screen.RemoveFromClassList(colorString);
+            screen.RemoveFromClassList(ColorString);
             screen.AddToClassList(color);
             screen.AddToClassList("fade-in-fast");
             screen.RemoveFromClassList("fade-out-fast");
@@ -72,7 +73,7 @@ namespace Components.UI.Scripts.Controllers
             screen.RemoveFromClassList("fade-in-fast");
             yield return new WaitForSecondsRealtime(fadesDuration);
             screen.RemoveFromClassList(color);
-            screen.AddToClassList(colorString);
+            screen.AddToClassList(ColorString);
         }
     }
 }

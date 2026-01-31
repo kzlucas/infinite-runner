@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class AnimationEvent__Destroy : MonoBehaviour
 {
-    public GameObject toDestroyGo;
+    public GameObject ToDestroyGo;
 
     /// <summary>
     ///   Destroys the GameObject assigned to toDestroyGo.
     /// </summary>
     public void DestroySettedGameObject()
     {
-        Destroy(toDestroyGo);
+        Destroy(ToDestroyGo);
     }
 }

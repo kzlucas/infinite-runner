@@ -10,8 +10,8 @@ public class SceneLoader : Singleton.Model<SceneLoader>
 {
 
     [Header("Scene Loader Settings")]
-    private bool isTriggered = false;
-    public string currentSceneName => SceneManager.GetActiveScene().name;
+    private bool _isTriggered = false;
+    public string CurrentSceneName => SceneManager.GetActiveScene().name;
 
 
     /// <summary>
@@ -21,7 +21,7 @@ public class SceneLoader : Singleton.Model<SceneLoader>
     {
         // Make sur other components have put their OnSceneLoaded subscriptions before first invocation
         yield return new WaitForEndOfFrame();
-        EventBus.Publish(new SceneLoadedEvent(currentSceneName));
+        EventBus.Publish(new SceneLoadedEvent(CurrentSceneName));
     }
     
     /// <summary>
@@ -39,8 +39,8 @@ public class SceneLoader : Singleton.Model<SceneLoader>
     /// </summary>
     public void Load(string name)
     {
-        if (isTriggered)  return;// prevent multiple clicks
-        isTriggered = true;
+        if (_isTriggered)  return;// prevent multiple clicks
+        _isTriggered = true;
         StartCoroutine(LoadSceneAsync(name));
     }
 
@@ -78,7 +78,7 @@ public class SceneLoader : Singleton.Model<SceneLoader>
         }
 
         EventBus.Publish(new SceneLoadedEvent(name));
-        isTriggered = false;
+        _isTriggered = false;
     }
 
     public IEnumerator FadeToBlack()
@@ -97,6 +97,6 @@ public class SceneLoader : Singleton.Model<SceneLoader>
 
     public bool IsGameScene()
     {
-        return currentSceneName == "Game";
+        return CurrentSceneName == "Game";
     }
 }

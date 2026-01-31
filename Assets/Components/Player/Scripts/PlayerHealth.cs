@@ -11,36 +11,36 @@ namespace Components.Player
     {
 
         [Header("Health Settings")]
-        public int currentHealth { get; set; }
-        public int maxHealth { get; set; } = 1;
-        public bool isInvincible = false;
-        public bool isDie = false;
+        public int CurrentHealth { get; set; }
+        public int MaxHealth { get; set; } = 10;
+        public bool IsInvincible = false;
+        public bool IsDie = false;
 
 
         void Start()
         {
-            currentHealth = maxHealth;
+            CurrentHealth = MaxHealth;
         }
 
         public void TakeDamage(int damage)
         {
-            if (isInvincible || isDie) return;
+            if (IsInvincible || IsDie) return;
 
             // Play crash sound
             AudioManager.Instance.PlaySound("crash");
 
-            currentHealth -= damage;
-            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+            CurrentHealth -= damage;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
             
             // brief invincibility after taking damage to prevent multiple hits
             // as multiple colliders can hit at same frame
             InvincibleForSeconds(.2f); 
 
-            UiRegistry.Instance.Hud.UpdateHp((float)currentHealth / maxHealth);
+            UiRegistry.Instance.Hud.UpdateHp((float)CurrentHealth / MaxHealth);
             UiRegistry.Instance.ScreenOverlay.Flash("red");
 
             
-            if (currentHealth <= 0)
+            if (CurrentHealth <= 0)
             {
                 Die();
             }
@@ -53,14 +53,14 @@ namespace Components.Player
 
         public void Heal(int amount)
         {
-            currentHealth += amount;
-            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-            UiRegistry.Instance.Hud.UpdateHp((float)currentHealth / maxHealth);
+            CurrentHealth += amount;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+            UiRegistry.Instance.Hud.UpdateHp((float)CurrentHealth / MaxHealth);
         }
 
         public void Die()
         {
-            isDie = true;
+            IsDie = true;
             Debug.Log("[PlayerHealth] Player has died.");
             Utils.PlayerController.sm.TransitionTo<CrashState>();
         }
@@ -72,9 +72,9 @@ namespace Components.Player
 
         private IEnumerator InvincibleCoroutine(float seconds)
         {
-            isInvincible = true;
+            IsInvincible = true;
             yield return new WaitForSecondsRealtime(seconds);
-            isInvincible = false;
+            IsInvincible = false;
         }
 
     }

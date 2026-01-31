@@ -9,7 +9,7 @@ namespace WorldGenerator.Scripts
     /// </summary>
     public class WorldStartOverlay : MonoBehaviour
     {
-        public GameObject overlayObject;
+        public GameObject OverlayObject;
 
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace WorldGenerator.Scripts
         /// <param name="color"></param>
         public void Set(Vector3 position, Color color)
         {
-            overlayObject.GetComponent<MeshRenderer>().sharedMaterial.color = color;
+            OverlayObject.GetComponent<MeshRenderer>().sharedMaterial.color = color;
             transform.position = position;
             StartCoroutine(LerpAlpha());
         }
@@ -31,7 +31,7 @@ namespace WorldGenerator.Scripts
         /// <returns></returns>
         private IEnumerator LerpAlpha()
         {
-            Material mat = overlayObject.GetComponent<MeshRenderer>().sharedMaterial;
+            Material mat = OverlayObject.GetComponent<MeshRenderer>().sharedMaterial;
             Color color = mat.color;
             float duration = .5f;
             float elapsed = 0f;

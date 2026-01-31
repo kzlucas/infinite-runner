@@ -28,7 +28,7 @@ namespace Player.States
             this.player = player;
 
             // store original body collider size (will update when sliding)
-            bCollider = player.CollisionHandler.bodyCollider.GetComponent<BoxCollider>();
+            bCollider = player.CollisionHandler.BodyCollider.GetComponent<BoxCollider>();
             originalColliderHeight = bCollider.size.y;
             originalColliderCenterY = bCollider.center.y;
         }

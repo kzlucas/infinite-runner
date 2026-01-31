@@ -15,18 +15,18 @@ MonoBehaviour:
   _biomeName: World 1 - Gray
   _crystalsNeeded: 20
   _segments:
-  - name: Straight Segment
+  - Name: Straight Segment
     GameObject: {fileID: 5740427710291029939, guid: 8a203937f790bf9dd8d19a680e1a2f4f, type: 3}
-    position: {x: 0, y: 0, z: 0}
-    sizeZ: 0
-  - name: Random Obstacles
+    Position: {x: 0, y: 0, z: 0}
+    SizeZ: 0
+  - Name: Random Obstacle
     GameObject: {fileID: 5740427710291029939, guid: 91ca558998faa53008028742c70c25eb, type: 3}
-    position: {x: 0, y: 0, z: 0}
-    sizeZ: 0
-  - name: Random Obstacles
+    Position: {x: 0, y: 0, z: 0}
+    SizeZ: 0
+  - Name: Random Obstacle
     GameObject: {fileID: 5740427710291029939, guid: a9116786cd0f5d35ea17cab53a4a8f73, type: 3}
-    position: {x: 0, y: 0, z: 0}
-    sizeZ: 0
+    Position: {x: 0, y: 0, z: 0}
+    SizeZ: 0
   _crystalColor: {r: 1, g: 0, b: 0, a: 1}
   _colorSky: {r: 1, g: 1, b: 1, a: 1}
   _colorSkyHorizon: {r: 0.77977395, g: 0.77977395, b: 0.77977395, a: 1}

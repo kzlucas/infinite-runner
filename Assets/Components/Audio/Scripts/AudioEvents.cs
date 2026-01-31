@@ -4,35 +4,35 @@ namespace Components.Audio.Scripts
 {
     public struct PlaySoundEvent : IGameEvent
     {
-        public string soundName;
-        public float volume;
+        public string SoundName;
+        public float Volume;
         
         public PlaySoundEvent(string name, float vol = 1f)
         {
-            soundName = name;
-            volume = vol;
+            SoundName = name;
+            Volume = vol;
         }
     }
 
     public struct PlayMusicEvent : IGameEvent
     {
-        public string sceneName;
+        public string SceneName;
         
         public PlayMusicEvent(string scene)
         {
-            sceneName = scene;
+            SceneName = scene;
         }
     }
 
     public struct AudioSettingsChangedEvent : IGameEvent
     {
-        public bool musicEnabled;
-        public bool sfxEnabled;
+        public bool MusicEnabled;
+        public bool SfxEnabled;
         
         public AudioSettingsChangedEvent(bool music, bool sfx)
         {
-            musicEnabled = music;
-            sfxEnabled = sfx;
+            MusicEnabled = music;
+            SfxEnabled = sfx;
         }
     }
 }
