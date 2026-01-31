@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Interfaces;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -44,6 +45,7 @@ namespace Components.UI.Scripts
             {
                 initializationTasks.Add(uiController.InitializeAsync());
             }
+
             await Task.WhenAll(initializationTasks);
             isReady = true;
         }

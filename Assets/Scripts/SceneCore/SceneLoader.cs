@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Components.Events;
+using Components.Scenes;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using UnityEngine;
@@ -107,6 +109,7 @@ public class SceneLoader : Singleton<SceneLoader>
         }
 
         OnSceneLoaded?.Invoke();
+        EventBus.Publish(new SceneLoadedEvent(name));
         isTriggered = false;
     }
 

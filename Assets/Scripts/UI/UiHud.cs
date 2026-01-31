@@ -59,6 +59,7 @@ public class UiHud : UiController
     /// <param name="fillPct"></param>
     public void UpdateCrystalsBucket(float fillPct)
     {
+        if (this == null) return;
         StartCoroutine(_UpdateCrystalsBucket(fillPct));
     }
 
@@ -82,6 +83,7 @@ public class UiHud : UiController
 
     private void CrystalsBucketColor(Color color, Sprite gaugeImage)
     {
+        if (this == null) return;
         StartCoroutine(_CrystalsBucketColor(color, gaugeImage));
     }
     private IEnumerator _CrystalsBucketColor(Color color, Sprite gaugeImage)

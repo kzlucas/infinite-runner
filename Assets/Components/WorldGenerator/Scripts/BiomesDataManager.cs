@@ -20,7 +20,6 @@ namespace WorldGenerator.Scripts
 
         [Header("Dependencies")]
         private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-        private TutorialManager TutorialManager => ServiceLocator.Get<TutorialManager>();
 
 
         [Header("References")]
@@ -32,7 +31,6 @@ namespace WorldGenerator.Scripts
         public System.Type[] initDependencies => new System.Type[]
         {
             typeof(UiRegistry),
-            typeof(TutorialManager),
         };
 
 
@@ -74,8 +72,9 @@ namespace WorldGenerator.Scripts
         private void SetBiome(int index)
         {
             Debug.Log("[BiomesData] Setting biome at index: " + index);
-            Debug.Log("[BiomesData]TutorialManager.tutorialsCompleted: " + TutorialManager.tutorialsCompleted);
-            if (!TutorialManager.tutorialsCompleted)
+            
+            var tutorialManager = ServiceLocator.Get<TutorialManager>();
+            if (!tutorialManager.tutorialsCompleted)
                 index = 0;
 
             if (index < 0 || index >= items.Count)
@@ -131,6 +130,7 @@ namespace WorldGenerator.Scripts
 
         private IEnumerator RegenWorld()
         {
+            yield return new WaitUntil(() => UiRegistry.screenOverlay != null);
             if (Application.isPlaying) UiRegistry.screenOverlay.Flash("white");
             yield return new WaitForSeconds(0.1f);
             var playerTransform = FindFirstObjectByType<Player.Controller>()?.transform;
