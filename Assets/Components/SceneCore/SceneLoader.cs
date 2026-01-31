@@ -117,8 +117,8 @@ public class SceneLoader : Singleton.Model<SceneLoader>
 
     public IEnumerator FadeToBlack()
     {
-        yield return new WaitUntil(() => UiRegistry.IsReady);
-        UiRegistry.ScreenOverlay.Open();
+        yield return new WaitUntil(() => UiRegistry.Instance.IsReady);
+        UiRegistry.Instance.ScreenOverlay.Open();
         yield return new WaitForSecondsRealtime(.15f);
     }
     

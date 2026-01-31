@@ -151,12 +151,12 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
             else if (actionName == "resume")
             {
                 Debug.Log("[UiController] resume button clicked.");
-                UiRegistry.PauseMenu.Close();
+                UiRegistry.Instance.PauseMenu.Close();
             }
             else if (actionName == "pause")
             {
                 Debug.Log("[UiController] pause button clicked.");
-                UiRegistry.PauseMenu.Open();
+                UiRegistry.Instance.PauseMenu.Open();
             }
             else
             {

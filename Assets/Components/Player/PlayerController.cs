@@ -130,13 +130,14 @@ namespace Components.Player
         private IEnumerator Start()
         {
             OnCountdownStarted(null);
+
             yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized);
             
             Debug.Log("[PlayerController] Initializing Player Controller");
             Components.Events.EventBus.Subscribe<Landed>(evt => sm.TransitionTo<LandState>());
             Components.Events.EventBus.Subscribe<CountdownStarted>(OnCountdownStarted);
             Components.Events.EventBus.Subscribe<CountdownFinished>(OnCountdownFinished);
-            UiRegistry.Countdown.Run();
+            UiRegistry.Instance.Countdown.Run();
 
             /*
              *

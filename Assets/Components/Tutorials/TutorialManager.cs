@@ -122,7 +122,7 @@ namespace Components.Tutorials
             var tutorial = tutorials.Tutorials.Find(t => t.tutorialKey == tutorialKey);
             if (tutorial != null && tutorial.completed == false)
             {
-                UiRegistry.PauseMenu.Close();
+                UiRegistry.Instance.PauseMenu.Close();
                 var ui = Instantiate(tutorial.uiGo);
                 ui.transform.SetParent(transform, false);
                 IInitializable item = ui.GetComponent<IInitializable>();

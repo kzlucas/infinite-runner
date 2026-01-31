@@ -106,7 +106,7 @@ namespace WorldGenerator.Scripts
             if (playerTransform == null) yield break;
 
             // Generate new segments if needed
-            int cursor = (int)playerTransform.position.z;
+            int cursor = (int)playerTransform.position.z - 10; // generate slightly behind player to avoid display empty world in camera
             int maxZ = cursor + frontGenerationWindowSize;
             while (cursor < maxZ)
             {

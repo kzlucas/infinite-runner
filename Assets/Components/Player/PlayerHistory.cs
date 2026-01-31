@@ -157,8 +157,8 @@ namespace Components.Player
                 yield return null;
             }
 
-            UiRegistry.Countdown.Run();
-            yield return new WaitUntil(() => UiRegistry.Countdown.animationFinished == true);
+            UiRegistry.Instance.Countdown.Run();
+            yield return new WaitUntil(() => UiRegistry.Instance.Countdown.animationFinished == true);
 
             TimeScaleManager.Instance.ResumeGame();
             player.Animator.speed = 1f;

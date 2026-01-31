@@ -54,7 +54,7 @@ namespace Components.Collectible
             }
 
             // Update HUD
-            UiRegistry.Hud.UpdateCrystalsBucket(bucketFillPct);
+            UiRegistry.Instance.Hud.UpdateCrystalsBucket(bucketFillPct);
             crystalsCollected += amount;
             StatsRecorder.SetMaxCoinsCollected(crystalsCollected);
         }
@@ -67,7 +67,7 @@ namespace Components.Collectible
         {
             bucketFillPct = 0f;
             amountInBucket = 0;
-            UiRegistry.Hud.UpdateCrystalsBucket(bucketFillPct);
+            UiRegistry.Instance.Hud.UpdateCrystalsBucket(bucketFillPct);
         }
 
 

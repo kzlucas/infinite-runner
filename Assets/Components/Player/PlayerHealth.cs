@@ -41,8 +41,8 @@ namespace Components.Player
             // as multiple colliders can hit at same frame
             InvincibleForSeconds(.2f); 
 
-            UiRegistry.Hud.UpdateHp((float)currentHealth / maxHealth);
-            UiRegistry.ScreenOverlay.Flash("red");
+            UiRegistry.Instance.Hud.UpdateHp((float)currentHealth / maxHealth);
+            UiRegistry.Instance.ScreenOverlay.Flash("red");
 
             
             if (currentHealth <= 0)
@@ -59,7 +59,7 @@ namespace Components.Player
         {
             currentHealth += amount;
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-            UiRegistry.Hud.UpdateHp((float)currentHealth / maxHealth);
+            UiRegistry.Instance.Hud.UpdateHp((float)currentHealth / maxHealth);
         }
 
         public void Die()
