@@ -1,6 +1,4 @@
 using Components.DataServices;
-using Components.EndGame.Scripts;
-using Components.Events;
 using Components.Player.Events;
 using UnityEngine;
 
@@ -14,10 +12,6 @@ namespace Components.Stats
     public static class StatsRecorder
     {
 
-        [Header("Dependencies")]
-        private static EndGameManager EndGameManager => ServiceLocator.Scripts.ServiceLocator.Get<EndGameManager>();
-
-
         [Header("Player Stats")]
         private static SaveData saveData;
         public static string LastBiomeReached = "None";
@@ -27,16 +21,9 @@ namespace Components.Stats
         static StatsRecorder()
         {
             GetSaveData();
-            EventBus.Subscribe<OnRunStart>(OnRunStart);
-            EventBus.Subscribe<Dead>(OnGameEnd);
         }
 
-        private static void OnRunStart(OnRunStart evt)
-        {
-            IncrementRunsCount();
-        }
-
-        private static void OnGameEnd(Dead deadEvent)
+        public static void OnGameEnd()
         {
             SaveService.Save(saveData);
         }
@@ -50,7 +37,7 @@ namespace Components.Stats
             }
         }
 
-        private static void IncrementRunsCount()
+        public static void IncrementRunsCount()
         {
             saveData.RunsCount += 1;
         }

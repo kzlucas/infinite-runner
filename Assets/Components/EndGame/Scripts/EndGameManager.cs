@@ -1,6 +1,7 @@
 using System.Collections;
 using Components.Events;
 using Components.Player.Events;
+using Components.Stats;
 using Components.UI.Scripts;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Components.EndGame.Scripts
         public void TriggerEndGame(Dead deadEvent)
         {
             StartCoroutine(DelayScreenOpening());
+            StatsRecorder.OnGameEnd();
         }
 
         private IEnumerator DelayScreenOpening(float delay = .75f)

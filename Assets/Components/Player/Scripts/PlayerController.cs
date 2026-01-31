@@ -21,9 +21,7 @@ namespace Components.Player
 
         
         [Header("Dependencies")]
-        private EndGameManager EndGameManager => ServiceLocator.Scripts.ServiceLocator.Get<EndGameManager>();
         private InputHandlersManager InputHandlersManager => ServiceLocator.Scripts.ServiceLocator.Get<InputHandlersManager>();
-        private PlayerHistory History => ServiceLocator.Scripts.ServiceLocator.Get<PlayerHistory>();
 
 
         [Header("References")]
@@ -133,6 +131,7 @@ namespace Components.Player
             Components.Events.EventBus.Subscribe<CountdownStarted>(OnCountdownStarted);
             Components.Events.EventBus.Subscribe<CountdownFinished>(OnCountdownFinished);
             UiRegistry.Instance.Countdown.Run();
+            StatsRecorder.IncrementRunsCount();
 
             /*
              *

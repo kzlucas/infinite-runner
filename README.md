@@ -1,9 +1,14 @@
 
-# Pour jouer au jeu
+# Pour jouer
 
 
 Le jeu est disponible en ligne ici (Build WebGL et Linux) :
 [Itch.io - ChromAdventure](https://kzlucas.itch.io/chromadventure)
+
+<img src="Documentation/splash-screen.png" alt="ChromAdventure Splash Screen" width="400"/>
+<img src="Documentation/game-screenshot-1.png" alt="ChromAdventure InGame Screen" width="400"/>
+<img src="Documentation/game-screenshot-2.png" alt="ChromAdventure InGame Screen" width="400"/>
+<img src="Documentation/game-screenshot-3.png" alt="ChromAdventure InGame Screen" width="400"/>
 
 
 # Introduction

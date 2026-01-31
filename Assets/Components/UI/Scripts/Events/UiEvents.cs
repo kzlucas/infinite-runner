@@ -1,6 +1,4 @@
-using System;
 using Components.Events;
-using Unity.VisualScripting;
 
 namespace Components.UI.Scripts.Events
 {

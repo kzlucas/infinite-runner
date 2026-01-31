@@ -68,6 +68,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b596f157fd2fa7653a8d21e89288f6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiTutorial
-  uiDoc: {fileID: 5006582937556671362}
-  docReady: 0
-  openOnSceneLoad: 0
+  UiDoc: {fileID: 5006582937556671362}
+  DocReady: 0
+  OpenOnSceneLoad: 0

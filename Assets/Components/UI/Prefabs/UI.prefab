@@ -814,6 +814,7 @@ MonoBehaviour:
   UiDoc: {fileID: 1069559468318583381}
   DocReady: 0
   HpFillSprites:
+  - {fileID: 21300000, guid: cbab646b17af10bbd95b061bbc3c4000, type: 3}
   - {fileID: 21300000, guid: d2a04138c4ab27732ab2c03839ab035a, type: 3}
   - {fileID: 21300000, guid: fbb0c04dbcf82c753ae26bdae5113f15, type: 3}
   - {fileID: 21300000, guid: c29b615e29ec9e6aa9b223ab3a4a2837, type: 3}
