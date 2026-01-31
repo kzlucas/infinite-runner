@@ -71,8 +71,6 @@ namespace WorldGenerator.Scripts
         /// <param name="index"></param>
         private void SetBiome(int index)
         {
-            Debug.Log("[BiomesData] Setting biome at index: " + index);
-            
             var tutorialManager = ServiceLocator.Get<TutorialManager>();
             if (!tutorialManager.tutorialsCompleted)
                 index = 0;
@@ -133,7 +131,7 @@ namespace WorldGenerator.Scripts
             yield return new WaitUntil(() => UiRegistry.ScreenOverlay != null);
             if (Application.isPlaying) UiRegistry.ScreenOverlay.Flash("white");
             yield return new WaitForSeconds(0.1f);
-            var playerTransform = Player.Utils.Locate().transform;
+            var playerTransform = Components.Player.Utils.PlayerController.transform;
             InstancesRegistry.ClearSegmentsInFront((int)(playerTransform.position.z + 30)); // force regen
             CrystalsManager.Reset();
         }

@@ -2,23 +2,29 @@ using System.Collections.Generic;
 using Assets.Components.SquareColliders.Scripts;
 using UnityEngine;
 
-namespace Player
+namespace Components.Player
 {
     public class Utils
     {
-        private static Controller _playerController;
 
-        /// <summary>
-        ///  Cached ref for the Player Controller instance
-        /// </summary>
-        public static Controller Locate()
+        private static Controller _playerController;
+        public static Controller PlayerController
         {
-            if (_playerController == null)
+            get
             {
-                _playerController = GameObject.FindFirstObjectByType<Player.Controller>();
+                if (_playerController == null)
+                {
+                    _playerController = GameObject.FindFirstObjectByType<Player.Controller>();
+                }
+                return _playerController;  
             }
-            return _playerController;
+            set
+            {
+                _playerController = value;
+            }
         }
+
+
 
         /// <summary>
         ///  Check if there is an obstacle in front of the player

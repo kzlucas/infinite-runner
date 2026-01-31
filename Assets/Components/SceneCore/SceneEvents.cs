@@ -17,4 +17,14 @@ namespace Components.Scenes
             SceneName = sceneName;
         }
     }
+
+    /// <summary>
+    /// Event published when a scene is about to exit.
+    /// </summary>
+    public class SceneExitEvent : IGameEvent
+    {
+        public SceneExitEvent()
+        {
+        }
+    }
 }

@@ -1,5 +1,5 @@
 
-namespace Player
+namespace Components.Player
 {
 
     public interface IDamageable

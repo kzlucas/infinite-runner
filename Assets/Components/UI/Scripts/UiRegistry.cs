@@ -51,6 +51,10 @@ namespace Components.UI.Scripts
             }
 
             await Task.WhenAll(initializationTasks);
+
+            EndGameScreen.Close();
+            PauseMenu.Close();
+
             IsReady = true;
         }
 

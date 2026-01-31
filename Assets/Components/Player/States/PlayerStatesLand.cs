@@ -1,6 +1,7 @@
 using UnityEngine;
 using StateMachine;
 using Components.Audio.Scripts;
+using Components.Player;
 
 namespace Player.States
 {

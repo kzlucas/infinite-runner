@@ -95,6 +95,8 @@ public class SceneLoader : Singleton.Model<SceneLoader>
 
         SceneInitializer.Instance.isInitialized = false;
         OnSceneExit?.Invoke();
+        EventBus.Publish(new SceneExitEvent());
+
 
         // Run scene exit animation and wait for it to finish
         yield return FadeToBlack();

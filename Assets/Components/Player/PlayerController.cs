@@ -1,10 +1,15 @@
 using System.Collections;
 using Components.EndGame.Scripts;
+using Components.Events;
+using Components.Player.Events;
+using Components.Scenes;
 using Components.ServiceLocator.Scripts;
 using Components.Stats;
 using Components.UI.Scripts;
+using Components.UI.Scripts.Events;
 using InputsHandler;
 using Player.States;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +17,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 ///  Controller for the player character
 /// </summary>
-namespace Player
+namespace Components.Player
 {
     public class Controller : StateMachine.Behaviour
     {
@@ -20,15 +25,15 @@ namespace Player
 
         
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
-        private EndGameManager EndGameManager => ServiceLocator.Get<EndGameManager>();
-        private InputHandlersManager InputHandlersManager => ServiceLocator.Get<InputHandlersManager>();
+        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
+        private EndGameManager EndGameManager => ServiceLocator.Scripts.ServiceLocator.Get<EndGameManager>();
+        private InputHandlersManager InputHandlersManager => ServiceLocator.Scripts.ServiceLocator.Get<InputHandlersManager>();
+        private PlayerHistory History => ServiceLocator.Scripts.ServiceLocator.Get<PlayerHistory>();
 
 
         [Header("References")]
         public readonly StateMachine.StateMachine sm = new();
         public Health Health;
-        public PlayerHistory History;
         public Animator Animator;
 
 
@@ -119,12 +124,20 @@ namespace Player
         #endregion
 
 
-
         /// <summary>
         ///   Init component and Subscribe to input events
         /// </summary>
         private IEnumerator Start()
         {
+            yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized);
+            
+            Debug.Log("[PlayerController] Initializing Player Controller");
+            Components.Events.EventBus.Subscribe<Landed>(evt => sm.TransitionTo<LandState>());
+            Components.Events.EventBus.Subscribe<CountdownStarted>(OnCountdownStarted);
+            Components.Events.EventBus.Subscribe<CountdownFinished>(OnCountdownFinished);
+            transform.position = transform.position + (Vector3.forward * 2);
+            UiRegistry.Countdown.Run();
+
             /*
              *
              * Build States Machine 
@@ -169,40 +182,29 @@ namespace Player
                 , OnRelease: () => { sm.GetState<SlideState>().OnRelease(); }
             );
 
+        }
 
 
-            /*
-             *
-             * Initialize component references and variables 
-             */
+        public override void OnStateMachineDestroyDelegate()
+        {
+            Components.Events.EventBus.Unsubscribe<Landed>(evt => sm.TransitionTo<LandState>());
+            Components.Events.EventBus.Unsubscribe<CountdownStarted>(OnCountdownStarted);
+            Components.Events.EventBus.Unsubscribe<CountdownFinished>(OnCountdownFinished);
+            Utils.PlayerController = null;
+        }
 
-
-            // do not play particles at start
+        private void OnCountdownStarted(CountdownStarted e)
+        {
+            Animator.speed = 0f;
+            ControlReleased = true;
             StopParticles();
-
-            // Subscribe/unsub to landing event
-            CollisionHandler.OnLanded += sm.TransitionTo<LandState>;
-            SceneLoader.Instance.OnSceneExit += () => CollisionHandler.OnLanded -= sm.TransitionTo<LandState>;
-
-            // Set z position slightly forward at begining
-            transform.position = transform.position + Vector3.forward;
-
-            // freeze position during scene initialization then unfreeze
             Rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
-            yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized == true);
-
-            // Initial position adjust to avoid clipping with ground
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
-
-            // Start game countdown
-            UiRegistry.Countdown.Run();
-            yield return new WaitUntil(() => UiRegistry.Countdown.animationFinished == true);
-
-            // Let's play
+        }
+        private void OnCountdownFinished(CountdownFinished e)
+        {
+            Animator.speed = 1f;
+            ControlReleased = false;
             Rb.constraints = RigidbodyConstraints.FreezeRotation;
-
-            // Initial record
-            History.Record();
         }
 
 

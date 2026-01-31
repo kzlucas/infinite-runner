@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Components.ServiceLocator.Scripts;
 using Components.TimeScale;
 using Components.UI.Scripts;
 using Player.States;
@@ -9,7 +8,7 @@ using UnityEngine;
 using WorldGenerator.Scripts;
 
 
-namespace Player
+namespace Components.Player
 {
     /// <summary>
     /// Represents a single record of the player's position 
@@ -31,11 +30,11 @@ namespace Player
     /// <summary>
     ///   Records and restores player position history for respawning
     /// </summary>
-    public class PlayerHistory : MonoBehaviour
+    public class PlayerHistory : MonoBehaviour, IGameService
     {
         
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
 
 
         [Header("History Settings")]
@@ -46,6 +45,7 @@ namespace Player
         private float lastRecordTime;
         private Vector3 lastRecordPosition;
 
+        private void Start() => Record();
 
         private bool IsSafeZoneToRespawn
         {

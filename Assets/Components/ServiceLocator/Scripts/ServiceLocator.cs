@@ -78,13 +78,15 @@ namespace Components.ServiceLocator.Scripts
         /// <returns>Service instance</returns>
         public static T Get<T>()
         {
-
             var type = typeof(T);
 
             // Check if service is already registered
             if (Instance._services.TryGetValue(type, out var service))
-            {
-                return (T)service;
+            {   
+                if(service != null)
+                {
+                    return (T)service;
+                }
             }
 
             // Check if factory is available

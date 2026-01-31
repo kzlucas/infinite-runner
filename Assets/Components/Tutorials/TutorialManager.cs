@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Components.DataServices;
 using Components.Events;
-using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using Components.UI.Scripts.Controllers.BaseClasses;
 using UnityEngine;
@@ -81,32 +80,32 @@ namespace Components.Tutorials
             }
 
             if (
-                Player.Utils.Locate()
-                && Player.Utils.Locate().transform.position.z > 10f
+                Components.Player.Utils.PlayerController
+                && Components.Player.Utils.PlayerController.transform.position.z > 10f
                 && !TutorialCompleted("ChangeLane"))
             {
                 Play("ChangeLane");
             }
 
             if (
-                Player.Utils.Locate()
-                && Player.Utils.Locate().transform.position.z > 160f
+                Components.Player.Utils.PlayerController
+                && Components.Player.Utils.PlayerController.transform.position.z > 160f
                 && !TutorialCompleted("Jump"))
             {
                 Play("Jump");
             }
 
             if (
-                Player.Utils.Locate()
-                && Player.Utils.Locate().transform.position.z > 260f
+                Components.Player.Utils.PlayerController
+                && Components.Player.Utils.PlayerController.transform.position.z > 260f
                 && !TutorialCompleted("Slide"))
             {
                 Play("Slide");
             }
 
             if (
-                Player.Utils.Locate()
-                && Player.Utils.Locate().transform.position.z > 400f
+                Components.Player.Utils.PlayerController
+                && Components.Player.Utils.PlayerController.transform.position.z > 400f
                 && !TutorialCompleted("Crystal"))
             {
                 Play("Crystal");

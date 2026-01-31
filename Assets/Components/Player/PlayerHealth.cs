@@ -4,14 +4,15 @@ using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using UnityEngine;
 
-namespace Player
+namespace Components.Player
 {
     [RequireComponent(typeof(Controller))]
     public class Health : MonoBehaviour, IDamageable
     {
 
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
+        private PlayerHistory History => ServiceLocator.Scripts.ServiceLocator.Get<PlayerHistory>();
 
 
         [Header("Health Settings")]
@@ -40,7 +41,6 @@ namespace Player
             // as multiple colliders can hit at same frame
             InvincibleForSeconds(.2f); 
 
-
             UiRegistry.Hud.UpdateHp((float)currentHealth / maxHealth);
             UiRegistry.ScreenOverlay.Flash("red");
 
@@ -52,7 +52,7 @@ namespace Player
             else
             {
                 var player = GetComponent<Controller>();
-                player.History.Load();
+                History.Load();
             }
         }
 

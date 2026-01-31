@@ -2,6 +2,7 @@ using System.Collections;
 using Components.Audio.Scripts;
 using StateMachine;
 using UnityEngine;
+using Components.Player;
 
 namespace Player.States
 {

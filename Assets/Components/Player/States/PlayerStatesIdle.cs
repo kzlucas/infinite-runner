@@ -1,4 +1,5 @@
 using StateMachine;
+using Components.Player;
 
 namespace Player.States
 {

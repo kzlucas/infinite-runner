@@ -12,7 +12,7 @@ namespace Components.Collectible
             IsCollected = true;
 
             Debug.Log("[CollectibleHeart] Heart collected");
-            Player.Utils.Locate().GetComponent<Player.Health>().Heal(1);
+            Components.Player.Utils.PlayerController.GetComponent<Player.Health>().Heal(1);
         }
     }
 }

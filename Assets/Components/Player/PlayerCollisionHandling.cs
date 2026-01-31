@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Assets.Components.SquareColliders.Scripts;
 using Components.Audio.Scripts;
-using Components.Collectible;
+using Components.Events;
 using Components.Stats;
 using UnityEngine;
 using WorldGenerator.Scripts;
 
-namespace Player
+namespace Components.Player
 {
     public class CollisionHandling : MonoBehaviour
     {
@@ -16,10 +14,6 @@ namespace Player
         [Header("Flags")]
         private bool previouslyGrounded = true;
         
-
-        [Header("Events")]
-        public Action OnLanded;
-
 
         [Header("References")]
         public Controller player;
@@ -83,7 +77,7 @@ namespace Player
                     if (position == ColliderPosition.Body)
                     {
                         Debug.Log("[PlayerCollisionHandling] Collectible collided: " + other.name);
-                        other.GetComponent<Collectible>().TriggerCollision();
+                        other.GetComponent<Components.Collectible.Collectible>().TriggerCollision();
                     }
                     break;
 
@@ -147,7 +141,7 @@ namespace Player
             // If just landed, invoke the OnLanded event
             if (!previouslyGrounded && player.IsGrounded)
             {
-                OnLanded?.Invoke();
+                EventBus.Publish(new Events.Landed());
             }
             previouslyGrounded = player.IsGrounded;
         }

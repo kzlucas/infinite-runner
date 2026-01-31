@@ -23,8 +23,6 @@ namespace Components.Events
                 _handlers[eventType] = new List<object>();
                 
             _handlers[eventType].Add(handler);
-            
-            Debug.Log($"[EventBus] Subscribed to {eventType.Name}");
         }
 
         /// <summary>
@@ -97,8 +95,6 @@ namespace Components.Events
                     }
                 }
             }
-
-            Debug.Log($"[EventBus] Published {eventType.Name}");
         }
 
         /// <summary>

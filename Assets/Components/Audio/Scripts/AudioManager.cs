@@ -52,8 +52,6 @@ namespace Components.Audio.Scripts
             // Load and apply user settings
             UserSettings.LoadSettings();
             UserSettings.ApplyToSources(musicSource, sfxSource);
-
-            Debug.Log("[AudioManager] Audio system initialized and registered as service");
         }
 
         private async Task SetupAudioSystem()

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using StateMachine;
 using UnityEngine;
+using Components.Player;
 
 namespace Player.States
 {

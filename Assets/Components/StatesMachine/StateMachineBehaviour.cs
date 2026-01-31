@@ -21,6 +21,13 @@ namespace StateMachine
         /// Whether to show debug information in the console
         /// </summary>
         [SerializeField] private bool debugMode = false;
+
+
+        /// <summary>
+        /// Override this method to add custom cleanup logic when the state machine is destroyed
+        /// </summary>
+        public virtual void OnStateMachineDestroyDelegate(){}
+
         
         /// <summary>
         /// Access to the internal state machine
@@ -69,6 +76,7 @@ namespace StateMachine
                 stateMachine.OnStateTransition -= OnStateTransitionDebug;
                 stateMachine.Stop();
             }
+            OnStateMachineDestroyDelegate();
         }
         
         /// <summary>

@@ -1,5 +1,6 @@
 using UnityEngine;
 using StateMachine;
+using Components.Player;
 
 namespace Player.States
 {
