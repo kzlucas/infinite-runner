@@ -126,7 +126,7 @@ namespace WorldGenerator.Scripts
                     InstantiateNewSegment(ref lastSegment, ref segmentInstance, zTarget);
 
                     // Special case: Remove crystals in tutorial biome segments until certain index
-                    if ((BiomesDataManager.Instance.current.BiomeName == "Tutorial")
+                    if ((BiomesDataManager.Instance.current.BiomeName == "World 0 - Tuto")
                     && (generatedIndex <= 24)) segmentInstance.RemoveCrystals();
 
                     // no need to block frame, each segment can be created in its own frame 

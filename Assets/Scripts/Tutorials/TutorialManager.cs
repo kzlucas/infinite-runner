@@ -28,9 +28,33 @@ namespace Tutorials
         public GameObject playerGo;
 
 
+        private void Start()
+        {
+            EventBus.Subscribe<BiomeChangedEvent>(OnBiomeChanged);
+            EventBus.Subscribe<BiomeChangedEvent>(OnBiomeChanged);
+        }
+
+        private void OnDestroy()
+        {
+            EventBus.Unsubscribe<BiomeChangedEvent>(OnBiomeChanged);
+        }
+
+        private void OnBiomeChanged(BiomeChangedEvent evt)
+        {
+            // Play "Tutorial Completed" when leaving tutorial biome
+            if (evt.NewBiomeData.BiomeName != "World 0 - Tuto" && (PlayerPrefService.Load("SkipTutorials") == null))
+            {
+                Debug.Log("[TutorialManager] OnBiomeChanged! > " + evt.NewBiomeData.name );
+                Play("Completed");
+                PlayerPrefService.Save("SkipTutorials", "1");
+                tutorialsCompleted = true;
+            }
+        }
 
         public Task InitializeAsync()
         {
+            tutorialsCompleted = false;
+
             if (PlayerPrefService.Load("SkipTutorials") == "1")
             {
                 tutorialsCompleted = true;
@@ -51,24 +75,6 @@ namespace Tutorials
             }
         }
 
-
-        private void Start()
-        {
-            EventBus.Subscribe<BiomeChangedEvent>(OnBiomeChanged);
-        }
-
-        private void OnBiomeChanged(BiomeChangedEvent evt)
-        {
-            // Play "Tutorial Completed"  when leaving tutorial biome
-            if(evt.NewBiomeData.name != "Tutorial" && (PlayerPrefService.Load("SkipTutorials") == null))
-            {
-                Play("Completed");
-                PlayerPrefService.Save("SkipTutorials", "1");
-                tutorialsCompleted = true;
-            }
-        }
-
-
         private void Update()
         {
             if (tutorialsCompleted)
@@ -86,7 +92,7 @@ namespace Tutorials
 
             if (
                 playerGo
-                && playerGo.transform.position.z > 170f
+                && playerGo.transform.position.z > 160f
                 && !TutorialCompleted("Jump"))
             {
                 Play("Jump");
@@ -94,7 +100,7 @@ namespace Tutorials
 
             if (
                 playerGo
-                && playerGo.transform.position.z > 270f
+                && playerGo.transform.position.z > 260f
                 && !TutorialCompleted("Slide"))
             {
                 Play("Slide");
@@ -102,7 +108,7 @@ namespace Tutorials
 
             if (
                 playerGo
-                && playerGo.transform.position.z > 410f
+                && playerGo.transform.position.z > 400f
                 && !TutorialCompleted("Crystal"))
             {
                 Play("Crystal");
@@ -171,7 +177,6 @@ namespace Tutorials
         {
             var saveData = SaveService.Load();
             var tutorialsCompleted = new List<string>(saveData.TutorialsCompleted);
-            Debug.Log("[TutorialManager] Loaded completed tutorials: " + string.Join(", ", tutorialsCompleted));
             foreach (var tutorial in tutorials.Tutorials)
             {
                 tutorial.completed = false;

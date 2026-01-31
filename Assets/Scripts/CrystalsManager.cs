@@ -3,6 +3,7 @@
 using Components.Audio.Scripts;
 using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
+using Tutorials;
 using UnityEngine;
 using WorldGenerator.Scripts;
 
@@ -11,6 +12,7 @@ public static class CrystalsManager
         
     [Header("Dependencies")]
     private static UiRegistry UiRegistry => ServiceLocator.Get<UiRegistry>();
+    private static TutorialManager TutorialManager => ServiceLocator.Get<TutorialManager>();
 
 
     [Header("Crystals Data")]
@@ -42,6 +44,7 @@ public static class CrystalsManager
         if(bucketFillPct >= 1f)
         {   
             // Change to next biome
+            TutorialManager.tutorialsCompleted = true;
             BiomesDataManager.Instance.CycleToNextBiome();
             AudioManager.Instance.PlaySound("biome-change");
             ClearBucket();

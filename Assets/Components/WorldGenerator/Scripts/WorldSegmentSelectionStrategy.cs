@@ -21,7 +21,7 @@ namespace WorldGenerator.Scripts
         {
             switch (BiomesDataManager.Instance.current.BiomeName)
             {
-                case "Tutorial":
+                case "World 0 - Tuto":
 
                     if (generatedIndex <= 3)
                         return _biomeData.Segments.Find(s => s.name == "Straight Segment");

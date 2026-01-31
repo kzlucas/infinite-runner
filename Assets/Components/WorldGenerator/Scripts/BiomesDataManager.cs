@@ -25,12 +25,15 @@ namespace WorldGenerator.Scripts
 
         [Header("References")]
         private IEnumerator lerpBiomeColorCoroutineInstance;
-        public WorldGenerationManager worldGenerationManager;
 
 
         [Header("Initialization")]
         public int initPriority => 1;
-        public System.Type[] initDependencies => null;
+        public System.Type[] initDependencies => new System.Type[]
+        {
+            typeof(UiRegistry),
+            typeof(TutorialManager),
+        };
 
 
         [Header("Biome Data")]
@@ -45,7 +48,7 @@ namespace WorldGenerator.Scripts
         /// <returns></returns>
         public Task InitializeAsync()
         {
-            CycleToNextBiome(); // set initial biome
+            SetBiome(1); // set initial biome
             return Task.CompletedTask;
         }
 
@@ -62,20 +65,19 @@ namespace WorldGenerator.Scripts
                 return nextIndex;
             }
 
-            if (!TutorialManager.tutorialsCompleted)
-                SetBiome(0); // tutorial
-            else
-                SetBiome(CycleBiomesIndex()); // real biomes
-
+            SetBiome(CycleBiomesIndex());
         }
 
-
-        /// <summary>
         ///   Apply biome data at given index.
         /// </summary>
         /// <param name="index"></param>
         private void SetBiome(int index)
         {
+            Debug.Log("[BiomesData] Setting biome at index: " + index);
+            Debug.Log("[BiomesData]TutorialManager.tutorialsCompleted: " + TutorialManager.tutorialsCompleted);
+            if (!TutorialManager.tutorialsCompleted)
+                index = 0;
+
             if (index < 0 || index >= items.Count)
             {
                 Debug.LogError("[BiomesData] Index out of range when applying biome data!");
@@ -85,7 +87,7 @@ namespace WorldGenerator.Scripts
             current = items[index];
             EventBus.Publish(new BiomeChangedEvent(current));
 
-            Debug.Log("[BiomesData] Changing to biome: " + current.name);
+            Debug.Log("[BiomesData] Changing to biome: " + current.BiomeName);
 
             // Update Sky color and Regenerate world
             float lerpDuration = .5f;
