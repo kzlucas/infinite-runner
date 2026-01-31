@@ -1,15 +1,11 @@
 using System.Collections;
 using Components.EndGame.Scripts;
-using Components.Events;
 using Components.Player.Events;
-using Components.Scenes;
-using Components.ServiceLocator.Scripts;
 using Components.Stats;
 using Components.UI.Scripts;
 using Components.UI.Scripts.Events;
 using InputsHandler;
 using Player.States;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
