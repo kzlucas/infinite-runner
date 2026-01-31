@@ -11,7 +11,6 @@ namespace Components.Player
     {
 
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
         private PlayerHistory History => ServiceLocator.Scripts.ServiceLocator.Get<PlayerHistory>();
 
 

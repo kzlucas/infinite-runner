@@ -34,7 +34,6 @@ namespace Components.Player
     {
         
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
 
 
         [Header("History Settings")]

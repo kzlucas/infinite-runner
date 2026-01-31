@@ -13,7 +13,6 @@ namespace Components.UI.Scripts.Controllers
     {
 
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
         private InputHandlersManager InputHandlersManager => ServiceLocator.Scripts.ServiceLocator.Get<InputHandlersManager>();
 
 

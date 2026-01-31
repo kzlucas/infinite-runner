@@ -25,7 +25,6 @@ namespace Components.Player
 
         
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
         private EndGameManager EndGameManager => ServiceLocator.Scripts.ServiceLocator.Get<EndGameManager>();
         private InputHandlersManager InputHandlersManager => ServiceLocator.Scripts.ServiceLocator.Get<InputHandlersManager>();
         private PlayerHistory History => ServiceLocator.Scripts.ServiceLocator.Get<PlayerHistory>();

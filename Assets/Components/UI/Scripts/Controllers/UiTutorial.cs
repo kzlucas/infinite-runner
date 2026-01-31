@@ -8,11 +8,6 @@ namespace Components.UI.Scripts.Controllers
     [RequireComponent(typeof(UIDocument))]
     public class UiTutorial : BaseClasses.UiPopin
     {
-
-        [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
-
-
         public IEnumerator Start()
         {
             yield return new WaitUntil(() => docReady == true);

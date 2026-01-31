@@ -12,7 +12,6 @@ namespace Components.Tutorials
     {
 
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
 
 
 

@@ -13,7 +13,6 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
     {
 
         [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
 
 
         [Header("Initialization")]

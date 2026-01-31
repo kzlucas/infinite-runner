@@ -8,11 +8,6 @@ namespace Components.EndGame.Scripts
 {
     public class EndGameManager : MonoBehaviour, IGameService
     {
-
-        [Header("Dependencies")]
-        private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
-
-
         private void OnDestroy() => EventBus.Unsubscribe<Dead>(TriggerEndGame);
         private void Start() => EventBus.Subscribe<Dead>(TriggerEndGame);
 

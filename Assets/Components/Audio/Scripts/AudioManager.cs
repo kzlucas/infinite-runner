@@ -42,13 +42,7 @@ namespace Components.Audio.Scripts
 
         public async Task InitializeAsync()
         {
-            // Setup configuration and hardware
             await SetupAudioSystem();
-
-            
-            // Load and apply user settings
-            UserSettings.LoadSettings();
-            UserSettings.ApplyToSources(musicSource, sfxSource);
             PlayMusicForScene(SceneLoader.Instance.GetSceneName());
         }
 
@@ -59,6 +53,10 @@ namespace Components.Audio.Scripts
 
             // Hardware setup
             (musicSource, sfxSource) = _hardwareValidation.AttachAudioSources(UnityEngine.Camera.main);
+
+            // Load and apply user settings
+            UserSettings.LoadSettings();
+            UserSettings.ApplyToSources(musicSource, sfxSource);
 
             await Task.CompletedTask;
         }
@@ -83,18 +81,21 @@ namespace Components.Audio.Scripts
 
 
         // Event handlers
-        private void OnPlaySoundEvent(PlaySoundEvent soundEvent)
+        private async void OnPlaySoundEvent(PlaySoundEvent soundEvent)
         {
+            await SetupAudioSystem();
             PlaySound(soundEvent.soundName, soundEvent.volume);
         }
 
-        private void OnPlayMusicEvent(PlayMusicEvent musicEvent)
+        private async void OnPlayMusicEvent(PlayMusicEvent musicEvent)
         {
-            PlayMusicForScene(musicEvent.sceneName);
+            await SetupAudioSystem();
+            PlayMusicForScene(SceneLoader.Instance.GetSceneName());
         }
 
-        private void OnSceneLoadedEvent(SceneLoadedEvent sceneEvent)
+        private async void OnSceneLoadedEvent(SceneLoadedEvent sceneEvent)
         {
+            await SetupAudioSystem();
             PlayMusicForScene(sceneEvent.SceneName);
         }
 
@@ -107,7 +108,7 @@ namespace Components.Audio.Scripts
         /// <summary>
         /// Play music for a specific scene.
         /// </summary>
-        public void PlayMusicForScene(string sceneName)
+        public async void PlayMusicForScene(string sceneName)
         {
             if (!IsMusicEnabled) return;
 
