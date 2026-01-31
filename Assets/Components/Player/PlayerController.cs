@@ -129,13 +129,13 @@ namespace Components.Player
         /// </summary>
         private IEnumerator Start()
         {
+            OnCountdownStarted(null);
             yield return new WaitUntil(() => SceneInitializer.Instance.isInitialized);
             
             Debug.Log("[PlayerController] Initializing Player Controller");
             Components.Events.EventBus.Subscribe<Landed>(evt => sm.TransitionTo<LandState>());
             Components.Events.EventBus.Subscribe<CountdownStarted>(OnCountdownStarted);
             Components.Events.EventBus.Subscribe<CountdownFinished>(OnCountdownFinished);
-            transform.position = transform.position + (Vector3.forward * 2);
             UiRegistry.Countdown.Run();
 
             /*
@@ -280,18 +280,6 @@ namespace Components.Player
             Rb.linearVelocity = new Vector3(Rb.linearVelocity.x, gravityModifier, ZMoveSpeed);
 
             StatsRecorder.SetMaxDistanceReached((int)transform.position.z);
-        }
-
-
-        /// <summary>
-        /// Trigger crash event and transition to crash state
-        /// </summary>
-        public void TriggerCrashEvent()
-        {
-            if (this == null) return;
-            if (ControlReleased) return;
-            sm.TransitionTo<CrashState>();
-            EndGameManager.TriggerEndGame();
         }
 
 

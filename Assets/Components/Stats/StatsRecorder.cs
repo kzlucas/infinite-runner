@@ -1,6 +1,7 @@
 using Components.DataServices;
 using Components.EndGame.Scripts;
 using Components.Events;
+using Components.Player.Events;
 using UnityEngine;
 
 
@@ -27,7 +28,7 @@ namespace Components.Stats
         {
             GetSaveData();
             EventBus.Subscribe<OnRunStart>(OnRunStart);
-            EndGameManager.OnEndGame += OnGameEnd;
+            EventBus.Subscribe<Dead>(OnGameEnd);
         }
 
         private static void OnRunStart(OnRunStart evt)
@@ -35,7 +36,7 @@ namespace Components.Stats
             IncrementRunsCount();
         }
 
-        private static void OnGameEnd()
+        private static void OnGameEnd(Dead deadEvent)
         {
             SaveService.Save(saveData);
         }

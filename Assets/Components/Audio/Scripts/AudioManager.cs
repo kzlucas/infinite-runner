@@ -40,18 +40,16 @@ namespace Components.Audio.Scripts
         public bool IsSfxEnabled => UserSettings.SfxEnabled;
 
 
-
         public async Task InitializeAsync()
         {
             // Setup configuration and hardware
             await SetupAudioSystem();
 
-            // Subscribe to events
-            SubscribeToEvents();
-
+            
             // Load and apply user settings
             UserSettings.LoadSettings();
             UserSettings.ApplyToSources(musicSource, sfxSource);
+            PlayMusicForScene(SceneLoader.Instance.GetSceneName());
         }
 
         private async Task SetupAudioSystem()
@@ -65,7 +63,7 @@ namespace Components.Audio.Scripts
             await Task.CompletedTask;
         }
 
-        private void SubscribeToEvents()
+        private void Start()
         {
             EventBus.Subscribe<PlaySoundEvent>(OnPlaySoundEvent);
             EventBus.Subscribe<PlayMusicEvent>(OnPlayMusicEvent);
@@ -73,6 +71,14 @@ namespace Components.Audio.Scripts
             EventBus.Subscribe<AudioSettingsChangedEvent>(OnAudioSettingsChanged);
         }
 
+        private void OnDestroy()
+        {
+            // Cleanup event subscriptions
+            EventBus.Unsubscribe<PlaySoundEvent>(OnPlaySoundEvent);
+            EventBus.Unsubscribe<PlayMusicEvent>(OnPlayMusicEvent);
+            EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
+            EventBus.Unsubscribe<AudioSettingsChangedEvent>(OnAudioSettingsChanged);
+        }
 
 
 
@@ -224,13 +230,5 @@ namespace Components.Audio.Scripts
             StartCoroutine(FadeIn(audioSource, fadeTime));
         }
 
-        private void OnDestroy()
-        {
-            // Cleanup event subscriptions
-            EventBus.Unsubscribe<PlaySoundEvent>(OnPlaySoundEvent);
-            EventBus.Unsubscribe<PlayMusicEvent>(OnPlayMusicEvent);
-            EventBus.Unsubscribe<SceneLoadedEvent>(OnSceneLoadedEvent);
-            EventBus.Unsubscribe<AudioSettingsChangedEvent>(OnAudioSettingsChanged);
-        }
     }
 }

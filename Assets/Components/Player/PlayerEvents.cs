@@ -9,6 +9,13 @@ namespace Components.Player.Events
     {
         public Landed()
         {
-        }       
+        }
+    }
+
+    public class Dead : IGameEvent
+    {
+        public Dead()
+        {
+        }
     }
 }

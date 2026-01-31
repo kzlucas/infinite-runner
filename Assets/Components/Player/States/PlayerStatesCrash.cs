@@ -1,6 +1,9 @@
 using UnityEngine;
 using StateMachine;
 using Components.Player;
+using UnityEngine.UIElements;
+using Components.Events;
+using Components.Player.Events;
 
 namespace Player.States
 {
@@ -42,6 +45,9 @@ namespace Player.States
 
             // Stop animations
             player.transform.Find("Renderer").GetComponent<Animator>().enabled = false;
+
+            // Trigger end game
+            EventBus.Publish(new Dead());
         }
     }
     

@@ -1,7 +1,7 @@
 using System.Collections;
 using Components.Audio.Scripts;
-using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
+using Player.States;
 using UnityEngine;
 
 namespace Components.Player
@@ -51,7 +51,6 @@ namespace Components.Player
             }
             else
             {
-                var player = GetComponent<Controller>();
                 History.Load();
             }
         }
@@ -67,7 +66,7 @@ namespace Components.Player
         {
             isDie = true;
             Debug.Log("[PlayerHealth] Player has died.");
-            GetComponent<Controller>().TriggerCrashEvent();
+            Utils.PlayerController.sm.TransitionTo<CrashState>();
         }
 
         private void InvincibleForSeconds(float seconds)

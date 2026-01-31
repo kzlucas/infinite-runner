@@ -36,6 +36,7 @@ namespace Components.UI.Scripts.Controllers
 
         public override void OnOpen()
         {
+            Debug.Log("[UiPauseMenu] Pausing Game " + GetInstanceID().ToString());
             TimeScaleManager.Instance.PauseGame();
         }
 

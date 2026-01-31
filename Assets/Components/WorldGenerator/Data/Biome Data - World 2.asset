@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Biome Data - World 2
   m_EditorClassIdentifier: Assembly-CSharp::SO_BiomeData
   _biomeName: World 2 - Red
-  _crystalsNeeded: 50
+  _crystalsNeeded: 1
   _segments:
   - name: Straight Segment
     GameObject: {fileID: 5740427710291029939, guid: 27477a886e4ece9a5a3db30b7973ff8e, type: 3}

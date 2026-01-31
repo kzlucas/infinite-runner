@@ -152,12 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139c22514b56db82e95aec21826a948f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiRegistry
-  screenOverlay: {fileID: 0}
-  pauseMenu: {fileID: 0}
-  hud: {fileID: 0}
-  endGameScreen: {fileID: 0}
-  splashScreen: {fileID: 0}
-  countdown: {fileID: 0}
+  ScreenOverlay: {fileID: 305152737884134109}
+  PauseMenu: {fileID: 373469299362876412}
+  Hud: {fileID: 5553805068521365319}
+  EndGameScreen: {fileID: 2153477056879373406}
+  SplashScreen: {fileID: 1490795097295229770}
+  Countdown: {fileID: 5050001594014464281}
 --- !u!1 &1706448398009972234
 GameObject:
   m_ObjectHideFlags: 0

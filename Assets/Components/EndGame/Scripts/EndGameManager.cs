@@ -1,5 +1,6 @@
-using System;
 using System.Collections;
+using Components.Events;
+using Components.Player.Events;
 using Components.UI.Scripts;
 using UnityEngine;
 
@@ -12,18 +13,13 @@ namespace Components.EndGame.Scripts
         private UiRegistry UiRegistry => ServiceLocator.Scripts.ServiceLocator.Get<UiRegistry>();
 
 
-        [Header("End Game Events")]
-        public Action OnEndGame;
-        private void OnDestroy() => OnEndGame = null;
-        private void Start() => SceneLoader.Instance.OnSceneLoaded += () => StopAllCoroutines();
+        private void OnDestroy() => EventBus.Unsubscribe<Dead>(TriggerEndGame);
+        private void Start() => EventBus.Subscribe<Dead>(TriggerEndGame);
 
-
-        public void TriggerEndGame()
+        public void TriggerEndGame(Dead deadEvent)
         {
-            OnEndGame?.Invoke();
             StartCoroutine(DelayScreenOpening());
         }
-
 
         private IEnumerator DelayScreenOpening(float delay = .75f)
         {
