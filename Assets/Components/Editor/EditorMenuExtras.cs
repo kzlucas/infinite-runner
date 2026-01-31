@@ -54,5 +54,12 @@ namespace Components.Editor.EditorExtra
             EventBus.LogActiveSubscriptions();
         }
 
+
+        [MenuItem("Tools/Reload Current Scene %&r")] // Ctrl + Alt + R
+        private static void ReloadCurrentScene()
+        {
+            SceneLoader.Instance?.ReloadCurrentScene();
+        }
+
     }
 }
