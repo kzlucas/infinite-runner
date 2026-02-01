@@ -31,7 +31,7 @@ Les spécifications principales du jeu sont les suivantes :
 
 ## Organisation du travail
 
-Le projet a été réalisé par un seul développeur, Lucas Tesseron ([@kzlucas](https://github.com/kzlucas) sur GitHub), en tant que projet de fin de cours de développement de jeux vidéo. Le développement a duré environ 6 semaines, avec une moyenne de 15 à 20 heures par semaine consacrées au projet.
+Le projet a été réalisé par Lucas Tesseron ([@kzlucas](https://github.com/kzlucas) sur GitHub), en tant que projet de fin de cours de développement de jeux vidéo. Le développement a duré environ 6 semaines, avec une moyenne de 15 à 20 heures par semaine consacrées au projet.
 
 Le développement de ce prototype du jeu a démarré mi décembre 2025 et s'achève début février 2026.
 
