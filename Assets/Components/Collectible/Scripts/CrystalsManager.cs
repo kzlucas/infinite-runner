@@ -13,9 +13,6 @@ namespace Components.Collectible
     public static class CrystalsManager
     {
 
-        [Header("Dependencies")]
-        private static TutorialManager TutorialManager => ServiceLocator.Scripts.ServiceLocator.Get<TutorialManager>();
-
 
         [Header("Crystals Data")]
         public static int CrystalsCollected = 0;
@@ -46,7 +43,7 @@ namespace Components.Collectible
             if (BucketFillPct >= 1f)
             {
                 // Change to next biome
-                TutorialManager.AllTutorialsCompleted = true;
+                TutorialManager.Instance.AllTutorialsCompleted = true;
                 BiomesDataManager.Instance.CycleToNextBiome();
                 AudioManager.Instance.PlaySound("biome-change");
                 ClearBucket();

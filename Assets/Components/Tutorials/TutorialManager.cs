@@ -8,12 +8,8 @@ using UnityEngine;
 
 namespace Components.Tutorials
 {
-    public class TutorialManager : MonoBehaviour, IInitializable, IGameService
+    public class TutorialManager : Singleton.Model<TutorialManager>, IInitializable, IGameService
     {
-
-        [Header("Dependencies")]
-
-
 
         [Header("Initialisation")]
         public int InitPriority => 0;
@@ -28,7 +24,6 @@ namespace Components.Tutorials
 
         private void Start()
         {
-            EventBus.Subscribe<BiomeChangedEvent>(OnBiomeChanged);
             EventBus.Subscribe<BiomeChangedEvent>(OnBiomeChanged);
         }
 
@@ -89,7 +84,7 @@ namespace Components.Tutorials
 
             if (
                 Components.Player.Utils.PlayerController
-                && Components.Player.Utils.PlayerController.transform.position.z > 150f
+                && Components.Player.Utils.PlayerController.transform.position.z > 140f
                 && !TutorialCompleted("Jump"))
             {
                 Play("Jump");
@@ -97,7 +92,7 @@ namespace Components.Tutorials
 
             if (
                 Components.Player.Utils.PlayerController
-                && Components.Player.Utils.PlayerController.transform.position.z > 250f
+                && Components.Player.Utils.PlayerController.transform.position.z > 240f
                 && !TutorialCompleted("Slide"))
             {
                 Play("Slide");
@@ -105,7 +100,7 @@ namespace Components.Tutorials
 
             if (
                 Components.Player.Utils.PlayerController
-                && Components.Player.Utils.PlayerController.transform.position.z > 350f
+                && Components.Player.Utils.PlayerController.transform.position.z > 340f
                 && !TutorialCompleted("Crystal"))
             {
                 Play("Crystal");

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Components.Events;
-using Components.ServiceLocator.Scripts;
 using Components.UI.Scripts;
 using Components.Collectible;
 using Components.Tutorials;
@@ -71,8 +70,7 @@ namespace WorldGenerator.Scripts
         /// <param name="index"></param>
         private void SetBiome(int index)
         {
-            var tutorialManager = ServiceLocator.Get<TutorialManager>();
-            if (!tutorialManager.AllTutorialsCompleted)
+            if (!TutorialManager.Instance.AllTutorialsCompleted)
                 index = 0;
 
             if (index < 0 || index >= Items.Count)

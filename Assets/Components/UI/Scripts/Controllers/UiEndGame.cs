@@ -53,7 +53,15 @@ namespace Components.UI.Scripts.Controllers
 
             Label_bestCrystalsCollectedCount.text = StatsRecorder.GetMaxCoinsCollected().ToString();
             Label_bestDistanceReached.text = StatsRecorder.GetMaxDistanceReached().ToString();
-        }
 
+            var restartButton = root.Q<Button>("btn--restart");
+            restartButton.Focus();
+        }
+        
+        public override void OnClose()
+        {
+            var restartButton = root.Q<Button>("btn--restart");
+            restartButton.Blur();
+        }
     }
 }

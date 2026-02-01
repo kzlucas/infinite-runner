@@ -19,12 +19,18 @@ namespace Components.UI.Scripts.Controllers
         {
             TimeScaleManager.Instance.PauseGame();
             UiRegistry.Instance.PauseMenu.IsLocked = true;
+
+            var resumeButton = root.Q<Button>("btn--close-tuto");
+            resumeButton.Focus();
         }
 
         public override void OnClose()
         {
             TimeScaleManager.Instance.ResumeGame();
             UiRegistry.Instance.PauseMenu.IsLocked = false;
+
+            var resumeButton = root.Q<Button>("btn--close-tuto");
+            resumeButton.Blur();
         }
 
     }
