@@ -81,6 +81,25 @@
     padding-bottom: 15px;
 }
 
+.popin-inner .unity-button:hover,
+.popin-inner .unity-button:focus {
+    color: var(--color-primary);
+    background-color: white;
+    text-shadow: 0 0 0 rgb(255, 255, 255);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-left-color: var(--color-primary);
+    border-right-color: var(--color-primary);
+    border-top-color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
 .popin.animate.open .popin-inner {
     transition-timing-function: ease-in-out;
     transition-property: scale;
@@ -178,6 +197,7 @@
     margin-top: 10px;
     display: flex;
     background-image: url("project://database/Assets/Graphics/buttons-bg.psd?fileID=2800000&guid=949e16fe2da18c988af484d9b1ea6c94&type=3#buttons-bg");
+    -unity-background-image-tint-color: rgb(208, 223, 229);
     height: 114px;
     font-size: 40px;
     color: rgb(248, 252, 255);
@@ -192,8 +212,9 @@
     -unity-slice-scale: 0.2px;
 }
 
-.unity-button:hover {
-    -unity-background-image-tint-color: rgb(208, 223, 229);
+.unity-button:hover,
+.unity-button:focus {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
     color: rgb(224, 235, 234);
 }
 
@@ -212,7 +233,6 @@
 }
 
 .unity-base-field__label {
-    color: var(--color-primary);
 }
 
 .unity-toggle__checkmark {
@@ -221,6 +241,11 @@
     border-radius: 3px;
     width: 30px;
     height: 30px;
+}
+
+.unity-toggle:focus .unity-toggle__checkmark {
+    background-color: white;
+    -unity-background-image-tint-color: var(--color-primary);
 }
 
 .unity-scroller__low-button {

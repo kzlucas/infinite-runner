@@ -12,9 +12,6 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
     public class UiController : MonoBehaviour, IInitializable
     {
 
-        [Header("Dependencies")]
-
-
         [Header("Initialization")]
         public int InitPriority => 1;
         public System.Type[] InitDependencies => null;
@@ -119,6 +116,7 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
 
         private void OnButtonClicked(Button button)
         {
+
             // Assumes button names are in the format "btn--ActionName"
             if (!button.name.Contains("--"))
             {

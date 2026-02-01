@@ -7,7 +7,7 @@ namespace Components.Audio.Scripts
         public string SoundName;
         public float Volume;
         
-        public PlaySoundEvent(string name, float vol = 1f)
+        public PlaySoundEvent(string name, float vol = -1f)
         {
             SoundName = name;
             Volume = vol;

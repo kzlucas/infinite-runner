@@ -39,11 +39,17 @@ namespace Components.UI.Scripts.Controllers
         {
             Debug.Log("[UiPauseMenu] Pausing Game " + GetInstanceID().ToString());
             TimeScaleManager.Instance.PauseGame();
+
+            var resumeButton = root.Q<Button>("btn--resume");
+            resumeButton.Focus();
         }
 
         public override void OnClose()
         {
             TimeScaleManager.Instance.ResumeGame();
+
+            var resumeButton = root.Q<Button>("btn--resume");
+            resumeButton.Blur();
         }
 
     }

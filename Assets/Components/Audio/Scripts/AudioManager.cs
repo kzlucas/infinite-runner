@@ -31,7 +31,7 @@ namespace Components.Audio.Scripts
 
         [Header("State")]
         private bool _isFading = false;
-        public float MaxVolume = .3f;
+        public float MaxVolume = .5f;
 
 
         
@@ -56,7 +56,7 @@ namespace Components.Audio.Scripts
 
             // Load and apply user settings
             UserSettings.LoadSettings();
-            UserSettings.ApplyToSources(_musicSource, _sfxSource);
+            UserSettings.ApplyToSources(_musicSource, _sfxSource, MaxVolume);
 
             await Task.CompletedTask;
         }
@@ -101,7 +101,12 @@ namespace Components.Audio.Scripts
 
         private void OnAudioSettingsChanged(AudioSettingsChangedEvent settingsEvent)
         {
-            UserSettings.ApplyToSources(_musicSource, _sfxSource);
+            UserSettings.ApplyToSources(_musicSource, _sfxSource, MaxVolume);
+
+            if(settingsEvent.MusicEnabled)
+                PlayMusicForScene(SceneLoader.Instance.GetSceneName());
+            else
+                StopMusic();
         }
 
 
@@ -115,10 +120,7 @@ namespace Components.Audio.Scripts
             // Check for exact scene match
             if (AudioConfig.SceneMusicMap.TryGetValue(sceneName, out AudioClip musicClip))
             {
-                if (_musicSource.clip != musicClip)
-                {
-                    StartCoroutine(FadeTo(_musicSource, musicClip, .5f));
-                }
+                StartCoroutine(FadeToMusic(_musicSource, musicClip, .5f));
             }
             // No music assigned for this scene
             else
@@ -131,14 +133,14 @@ namespace Components.Audio.Scripts
         /// <summary>
         ///   Play a sound effect by its label.
         /// </summary>
-        public void PlaySound(string soundName, float volume = 1f)
+        public void PlaySound(string soundName, float volume = -1f)
         {
+            if(volume == -1f) volume = MaxVolume;
             if (!IsSfxEnabled) return;
 
             if (AudioConfig.SfxSoundsMap.TryGetValue(soundName, out AudioClip clip))
             {
                 _sfxSource.PlayOneShot(clip, volume);
-                _sfxSource.volume = MaxVolume;
             }
             else
             {
@@ -155,22 +157,6 @@ namespace Components.Audio.Scripts
             }
         }
 
-        public void SetMusicVolume(float volume)
-        {
-            if (_musicSource != null)
-            {
-                _musicSource.volume = IsMusicEnabled ? volume : 0f;
-            }
-        }
-
-        public void SetSfxVolume(float volume)
-        {
-            if (_sfxSource != null)
-            {
-                _sfxSource.volume = IsSfxEnabled ? volume : 0f;
-            }
-        }
-
 
         /// <summary>
         ///  Fade in an audio source.
@@ -178,7 +164,7 @@ namespace Components.Audio.Scripts
         /// <param name="audioSource"></param>
         /// <param name="fadeTime"></param>
         /// <returns></returns>
-        private IEnumerator FadeIn(AudioSource audioSource, float fadeTime)
+        private IEnumerator FadeInMusic(AudioSource audioSource, float fadeTime)
         {
             StopCoroutine("FadeOut");
             _isFading = true;
@@ -186,9 +172,10 @@ namespace Components.Audio.Scripts
             audioSource.Play();
             while (audioSource && audioSource.volume < MaxVolume)
             {
-                audioSource.volume += Time.deltaTime / fadeTime;
+                audioSource.volume += Time.unscaledDeltaTime / fadeTime;
                 yield return null;
             }
+            audioSource.volume = MaxVolume;
             _isFading = false;
         }
 
@@ -196,7 +183,7 @@ namespace Components.Audio.Scripts
         /// <summary>
         ///  Fade out an audio source.
         /// </summary>
-        private IEnumerator FadeOut(AudioSource audioSource, float fadeTime)
+        private IEnumerator FadeOutMusic(AudioSource audioSource, float fadeTime)
         {
             if (audioSource.clip == null)
             {
@@ -208,13 +195,14 @@ namespace Components.Audio.Scripts
             _isFading = true;
             while (audioSource && audioSource.volume > 0)
             {
-                audioSource.volume -= Time.deltaTime / fadeTime;
+                audioSource.volume -= Time.unscaledDeltaTime / fadeTime;
                 yield return null;
             }
             if (audioSource)
             {
                 audioSource.Stop();
             }
+            audioSource.volume = 0; 
             _isFading = false;
         }
 
@@ -222,13 +210,15 @@ namespace Components.Audio.Scripts
         /// <summary>
         ///  Fade to a new audio clip.
         /// </summary>
-        private IEnumerator FadeTo(AudioSource audioSource, AudioClip clip, float fadeTime)
+        private IEnumerator FadeToMusic(AudioSource audioSource, AudioClip clip, float fadeTime)
         {
             _isFading = true;
-            StartCoroutine(FadeOut(audioSource, fadeTime));
+            StartCoroutine(FadeOutMusic(audioSource, fadeTime));
             yield return new WaitUntil(() => !_isFading);
+            if(!this) yield break;
             audioSource.clip = clip;
-            StartCoroutine(FadeIn(audioSource, fadeTime));
+            StartCoroutine(FadeInMusic(audioSource, fadeTime));
+            audioSource.volume = MaxVolume;
         }
 
     }

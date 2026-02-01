@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,6 +13,8 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
         public bool IsOpen { get; set; } = false;
         public bool OpenOnSceneLoad = false;
         [HideInInspector] public VisualElement Popin;
+        private List<Button> _buttons = new List<Button>();
+        private List<Toggle> _toggles = new List<Toggle>();
 
 
         public override void OnDocReady()
@@ -25,7 +28,9 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
 
             // Wait until doc is ready and get ref
             Popin = root.Q<VisualElement>("popin");
-
+            root.Query<Button>(className: "action-button").ToList(_buttons);
+            root.Query<Toggle>(className: "action-toggle").ToList(_toggles);
+            
             // don't animate open/close on scene load
             Popin.RemoveFromClassList("animate");
             yield return new WaitForEndOfFrame();
@@ -59,6 +64,8 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
             Popin.RemoveFromClassList("close");
             Popin.pickingMode = PickingMode.Position;
             IsOpen = true;
+            foreach (var btn in _buttons) btn.focusable = true;
+            foreach (var tgl in _toggles) tgl.focusable = true;
             OnOpen();
         }
 
@@ -77,6 +84,8 @@ namespace Components.UI.Scripts.Controllers.BaseClasses
             Popin.RemoveFromClassList("open");
             Popin.pickingMode = PickingMode.Ignore;
             IsOpen = false;
+            foreach (var btn in _buttons) btn.focusable = false;
+            foreach (var tgl in _toggles) tgl.focusable = false;
             OnClose();
         }
 

@@ -164,7 +164,7 @@ Ce prototype de jeu implémente les fonctionnalités de base du gameplay décrit
 
 ## Contrôles du jeu
 
-- **Naviguer dans les menus** : Utilisez la souris pour cliquer sur les boutons du menu.
+- **Naviguer dans les menus** : Utilisez le clavier ou la souris pour cliquer sur les boutons du menu. Au clavier, utilisez les touches fléchées pour naviguer et la touche Entrée pour sélectionner.
 - **Déplacement Latéral** : Utilisez les flèches gauche et droite ou les touches A et D pour déplacer le personnage latéralement entre trois voies.
 - **Saut** : Appuyez sur la barre d'espace pour faire sauter le personnage.
 - **Glissade** : Appuyez sur la fleche haut pour faire glisser le personnage sous les obstacles.

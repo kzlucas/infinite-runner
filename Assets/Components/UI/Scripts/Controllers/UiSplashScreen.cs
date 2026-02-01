@@ -23,6 +23,10 @@ namespace Components.UI.Scripts.Controllers
             root.style.display = SceneLoader.Instance.GetSceneName() == "Splash Screen"
                     ? DisplayStyle.Flex
                     : DisplayStyle.None;
+
+
+            var startButton = root.Q<Button>("btn--start");
+            startButton.Focus();
         }
 
     }

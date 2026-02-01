@@ -35,18 +35,18 @@ namespace Components.Audio.Scripts
             EventBus.Publish(new AudioSettingsChangedEvent(MusicEnabled, enabled));
         }
 
-        public void ApplyToSources(AudioSource musicSource, AudioSource sfxSource)
+        public void ApplyToSources(AudioSource musicSource, AudioSource sfxSource, float volume)
         {
             if (musicSource != null)
             {
                 musicSource.mute = !MusicEnabled;
-                musicSource.volume = MusicEnabled ? 0.7f : 0f;
+                musicSource.volume = MusicEnabled ? volume : 0f;
             }
 
             if (sfxSource != null)
             {
                 sfxSource.mute = !SfxEnabled;
-                sfxSource.volume = SfxEnabled ? 1f : 0f;
+                sfxSource.volume = SfxEnabled ? volume : 0f;
             }
         }
 

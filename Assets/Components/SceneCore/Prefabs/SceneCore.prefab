@@ -78,7 +78,7 @@ MonoBehaviour:
   _musicSource: {fileID: 0}
   _sfxSource: {fileID: 0}
   AudioConfig: {fileID: 11400000, guid: 8ec149006c6f6a385ad4d8ab5a9d1719, type: 2}
-  MaxVolume: 0.1
+  MaxVolume: 0.5
 --- !u!114 &1528715817263589116
 MonoBehaviour:
   m_ObjectHideFlags: 0
